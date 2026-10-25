@@ -98,14 +98,19 @@ Every interactive component MUST implement and visually handle the complete stat
 
 ### Phase 4: Foundational Component Library (The 9-State Matrix)
 - [x] **Batch 1 (Core Action & Surface Primitives)**:
-  - `Button` (`src/components/ui/button.tsx`): All variants (`default`, `secondary`, `destructive`, `outline`, `ghost`, `link`), sizes (`sm`, `default`, `lg`, `icon` with 44px touch targets), tactile spring press on `pointerdown` (`scale(0.975)`), zero-dimension-shift loading states, explicit `type="button"`.
+  - `Button` (`src/components/ui/button.tsx`): All variants (`default`, `secondary`, `destructive`, `outline`, `ghost`, `link`), sizes (`sm`, `default`, `lg`, `icon` with 44px touch targets), tactile spring press on `pointerdown` (`scale(0.975)`), zero-dimension-shift loading states, animated compositor underline on links, dual `iconTrigger` (`hover` vs `press`), explicit `type="button"`.
   - `Badge` (`src/components/ui/badge.tsx`): All variants (`default`, `secondary`, `destructive`, `outline`, `success`), optical baseline centering, tabular numerals, live pulsing status dot.
-  - `Card` (`src/components/ui/card.tsx`): Compound slots (`Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`, `CardInner`), concentric corner radii math ($R_{\text{inner}} = \max(0, R_{\text{outer}} - P)$), 1px specular top rim highlight, multi-layer physical elevation.
-- [ ] **Batch 2 (Form & Input Primitives)**:
-  - `Input` & `Textarea` with Base UI `<Field.Root>` accessible coordination.
-  - `Switch` with physical toggle resistance.
-  - `Checkbox` with spring checkmark drawing.
-  - `Slider` with tabular readout.
+  - `Card` (`src/components/ui/card.tsx`): Compound slots (`Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`, `CardInner`), concentric corner radii math ($R_{\text{inner}} = \max(0, R_{\text{outer}} - P)$), 1px specular top rim highlight, multi-layer physical elevation, container query context (`@container`).
+  - `Stepper` (`src/components/ui/stepper.tsx`): Compound plug-and-play stepper with press-and-hold momentum acceleration (`useHoldToStep`), boundary clamping, and tabular digit odometer.
+  - `NumberTicker` (`src/components/ui/number-ticker.tsx`): Exact unit-height (`1em`) rolling odometer number ticker with tabular figures.
+  - `SegmentedControl` (`src/components/ui/segmented-control.tsx`): Zero-layout-shift multi-segment toggle with Apple spring sliding pill (`layoutId`), locked `font-medium`, and isolated GPU text layers.
+  - `Icons` (`src/components/icons/`): 470 animated icons from `pqoqubbw/icons` governed by Directive #8 (Reversible Mechanical Affordance Doctrine).
+- [x] **Batch 2 (Form & Input Primitives)**:
+  - `Input` & `Textarea` (`src/components/ui/input.tsx`, `src/components/ui/textarea.tsx`): Built on Base UI `@base-ui/react/input` and native HTML textarea, with prefix/suffix addons, left/right icons, 16px iOS font-zoom prevention (`text-base sm:text-sm`), 1px specular lighting, and vertical-only resize.
+  - `Field` (`src/components/ui/field.tsx`): Headless compound field anatomy (`Field`, `FieldLabel`, `FieldDescription`, `FieldError`, `FieldControl`) wrapping `@base-ui/react/field` for automatic ARIA error/description linkage.
+  - `Switch` (`src/components/ui/switch.tsx`): Built on `@base-ui/react/switch` with Apple HIG fluid spring easing (`cubic-bezier(0.16,1,0.3,1)`), 44px touch target expansion (`after:-inset-2`), and active press squish.
+  - `Checkbox` (`src/components/ui/checkbox.tsx`): Built on `@base-ui/react/checkbox` with concentric radii (`rounded-[5px]`), 44px touch target, physical yield on pointerdown (`active:scale-90`), with checked (`CheckIcon`) and indeterminate (`MinusIcon`) states.
+  - `Slider` (`src/components/ui/slider.tsx`): Built on `@base-ui/react/slider` with continuous thumb tracking (`active:scale-115`), 44px touch target, and tabular numeral readout (`tabular-nums`).
 - [ ] **Batch 3 (Overlays & Floating Surfaces)**:
   - `Dialog` & `AlertDialog` with spring physics and Escape parity.
   - `Sheet` / Drawer with directional slide.
