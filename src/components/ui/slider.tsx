@@ -88,23 +88,24 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         )}
 
         <BaseSlider.Control className="group/control relative flex items-center w-full py-3 touch-none cursor-pointer select-none">
-          {/* Interactive track with dynamic bloom on hover/drag */}
+          {/* Static track with constant geometric height to guarantee zero layout shift on surrounding elements */}
           <BaseSlider.Track
             className={cn(
-              "relative grow select-none rounded-full",
-              "h-1.5 group-hover/control:h-2 group-data-[dragging]/slider:h-2",
-              "transition-[height] duration-200 ease-out",
+              "relative grow select-none rounded-full h-1.5",
               "before:absolute before:inset-0 before:rounded-full before:bg-muted/80 dark:before:bg-muted/40",
               "before:[box-shadow:inset_0_1px_1px_rgba(0,0,0,0.12)]"
             )}
           >
-            {/* Active range indicator */}
+            {/* Active range indicator with smooth spring glide on click / preset change, and zero lag when dragging */}
             <BaseSlider.Indicator
               className={cn(
                 "select-none rounded-full bg-primary",
                 "bg-gradient-to-r from-primary/90 to-primary",
-                "transition-[height] duration-200 ease-out",
-                "shadow-xs"
+                "shadow-xs",
+                // Smooth glide when clicking track or preset buttons:
+                "[transition:width_300ms_cubic-bezier(0.16,1,0.3,1),inset-inline-start_300ms_cubic-bezier(0.16,1,0.3,1),left_300ms_cubic-bezier(0.16,1,0.3,1),bottom_300ms_cubic-bezier(0.16,1,0.3,1),height_300ms_cubic-bezier(0.16,1,0.3,1)]",
+                // 1:1 direct manipulation when actively scrubbing with pointer/finger:
+                "group-data-[dragging]/slider:[transition:none]"
               )}
             />
 
@@ -116,8 +117,10 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                 className={cn(
                   "group/thumb block size-5 shrink-0 select-none rounded-full border border-border/80 bg-background",
                   "shadow-md outline-none",
-                  // Tactile spring physics:
-                  "transition-[transform,box-shadow,border-color] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                  // Smooth glide on position changes (click on track or preset button):
+                  "[transition:inset-inline-start_300ms_cubic-bezier(0.16,1,0.3,1),left_300ms_cubic-bezier(0.16,1,0.3,1),bottom_300ms_cubic-bezier(0.16,1,0.3,1),transform_150ms_ease-out,box-shadow_150ms_ease-out,border-color_150ms_ease-out]",
+                  // When actively dragging, eliminate position transition for instant pointer tracking:
+                  "data-[dragging]:[transition:transform_150ms_ease-out,box-shadow_150ms_ease-out,border-color_150ms_ease-out]",
                   "hover:scale-115 hover:border-foreground/30",
                   "data-[dragging]:scale-125 data-[dragging]:shadow-lg data-[dragging]:border-primary",
                   // Refined focus ring without loud offset:
