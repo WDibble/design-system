@@ -17,6 +17,7 @@ import {
   CopyIcon,
   SearchIcon,
   BadgeAlertIcon,
+  VolumeIcon,
 } from "@/components/icons";
 import { Button, type ButtonState, type IconAnimationTrigger } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -49,6 +50,7 @@ export default function App() {
   const [quantity, setQuantity] = React.useState(3);
   const [iconTriggerMode, setIconTriggerMode] = React.useState<IconAnimationTrigger>("hover");
   const [sliderValue, setSliderValue] = React.useState(68);
+  const [rangeValues, setRangeValues] = React.useState<number[]>([25, 75]);
   const [switchNotifications, setSwitchNotifications] = React.useState(true);
   const [switchLayoutShift, setSwitchLayoutShift] = React.useState(true);
   const [checkbox1, setCheckbox1] = React.useState(true);
@@ -748,28 +750,84 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Fluid Slider */}
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      Continuous Fluid Slider
-                    </span>
-                    <span className="text-xs font-mono tabular-nums text-foreground font-semibold">
-                      {sliderValue}%
-                    </span>
+                {/* Fluid Sliders Spectrum */}
+                <div className="flex flex-col gap-5 pt-1">
+                  {/* Single Fluid Slider with Presets & Live Tooltip */}
+                  <div className="flex flex-col gap-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <VolumeIcon size={15} className="text-muted-foreground" />
+                        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          Haptic Volume
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {/* Interactive Presets */}
+                        <div className="flex items-center gap-1">
+                          {[0, 25, 50, 75, 100].map((preset) => (
+                            <button
+                              key={preset}
+                              type="button"
+                              onClick={() => setSliderValue(preset)}
+                              className={cn(
+                                "text-[10px] font-mono tabular-nums px-1.5 py-0.5 rounded-md transition-colors border select-none cursor-pointer",
+                                sliderValue === preset
+                                  ? "bg-primary text-primary-foreground border-primary"
+                                  : "border-border/60 hover:bg-muted text-muted-foreground hover:text-foreground"
+                              )}
+                            >
+                              {preset}%
+                            </button>
+                          ))}
+                        </div>
+                        <span className="text-xs font-mono tabular-nums text-foreground font-semibold min-w-8 text-right">
+                          {sliderValue}%
+                        </span>
+                      </div>
+                    </div>
+
+                    <Slider
+                      value={sliderValue}
+                      onValueChange={(val) => setSliderValue(val as number)}
+                      min={0}
+                      max={100}
+                      step={1}
+                      valueSuffix="%"
+                      showTooltip
+                      aria-label="Haptic sensitivity"
+                    />
+                    <div className="flex items-center justify-between text-[11px] text-muted-foreground font-mono">
+                      <span>0% (Silent)</span>
+                      <span className="text-muted-foreground/60">Hover or scrub thumb for animated pill</span>
+                      <span>100% (Maximum)</span>
+                    </div>
                   </div>
 
-                  <Slider
-                    value={sliderValue}
-                    onValueChange={(val) => setSliderValue(val as number)}
-                    min={0}
-                    max={100}
-                    step={1}
-                    aria-label="Haptic sensitivity"
-                  />
-                  <div className="flex items-center justify-between text-[11px] text-muted-foreground font-mono">
-                    <span>0% (Quiet)</span>
-                    <span>100% (Maximum Haptic)</span>
+                  {/* Dual Thumb Range Slider */}
+                  <div className="flex flex-col gap-2.5 pt-2 border-t border-border/40">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        Frequency Bandwidth Range
+                      </span>
+                      <span className="text-xs font-mono tabular-nums text-foreground font-semibold">
+                        {rangeValues[0]}Hz – {rangeValues[1]}Hz
+                      </span>
+                    </div>
+
+                    <Slider
+                      value={rangeValues}
+                      onValueChange={(val) => setRangeValues(val as number[])}
+                      min={0}
+                      max={100}
+                      step={1}
+                      valueSuffix="Hz"
+                      showTooltip
+                      aria-label="Frequency bandwidth range"
+                    />
+                    <div className="flex items-center justify-between text-[11px] text-muted-foreground font-mono">
+                      <span>0Hz (Sub-bass)</span>
+                      <span>100Hz (Upper treble)</span>
+                    </div>
                   </div>
                 </div>
               </CardContent>

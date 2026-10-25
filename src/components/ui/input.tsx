@@ -9,11 +9,12 @@ export const inputVariants = cva(
     "border-border/80 transition-[border-color,box-shadow,background-color] duration-150 ease-out",
     "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08)]",
     "placeholder:text-muted-foreground/60",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    // Refined Quiet Chrome focus: seamless 1px accent hugging the border, zero loud offset gap:
+    "focus-visible:outline-none focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/40",
     "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted/40",
     // Data attributes driven by Base UI Field context:
-    "data-[invalid]:border-destructive data-[invalid]:focus-visible:ring-destructive",
-    "aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:ring-destructive",
+    "data-[invalid]:border-destructive data-[invalid]:focus-visible:border-destructive data-[invalid]:focus-visible:ring-destructive/30",
+    "aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:border-destructive aria-[invalid=true]:focus-visible:ring-destructive/30",
     // iOS font-zoom prevention invariant: minimum 16px on mobile viewports (<640px), 14px on desktop:
     "text-base sm:text-sm",
     "[-webkit-tap-highlight-color:transparent]",
@@ -78,8 +79,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           "relative flex items-center w-full rounded-lg border border-border/80 bg-card text-foreground shadow-xs",
           "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08)]",
           "transition-[border-color,box-shadow,background-color] duration-150 ease-out",
-          "focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background",
-          error && "border-destructive focus-within:ring-destructive",
+          // Refined focus ring without offset:
+          "focus-within:border-ring focus-within:ring-1 focus-within:ring-ring/40",
+          error && "border-destructive focus-within:border-destructive focus-within:ring-destructive/30",
           disabled && "pointer-events-none opacity-50 bg-muted/40",
           inputSize === "sm" && "h-8 rounded-md",
           inputSize === "default" && "h-9",

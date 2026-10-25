@@ -20,10 +20,11 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08)]",
           "placeholder:text-muted-foreground/60 resize-y",
           "transition-[border-color,box-shadow,background-color] duration-150 ease-out",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          // Refined focus ring without offset:
+          "focus-visible:outline-none focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/40",
           "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted/40",
-          "data-[invalid]:border-destructive data-[invalid]:focus-visible:ring-destructive",
-          "aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:ring-destructive",
+          "data-[invalid]:border-destructive data-[invalid]:focus-visible:border-destructive data-[invalid]:focus-visible:ring-destructive/30",
+          "aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:border-destructive aria-[invalid=true]:focus-visible:ring-destructive/30",
           // iOS font-zoom prevention invariant:
           "text-base sm:text-sm",
           "[-webkit-tap-highlight-color:transparent]",

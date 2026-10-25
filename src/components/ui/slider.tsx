@@ -3,8 +3,12 @@ import { Slider as BaseSlider } from "@base-ui/react/slider";
 import { cn } from "@/lib/utils";
 
 export interface SliderProps
-  extends React.ComponentProps<typeof BaseSlider.Root> {
+  extends Omit<React.ComponentProps<typeof BaseSlider.Root>, "value" | "defaultValue"> {
+  value?: number | number[];
+  defaultValue?: number | number[];
+  label?: React.ReactNode;
   showValue?: boolean;
+  showTooltip?: boolean;
   valuePrefix?: string;
   valueSuffix?: string;
 }
@@ -14,47 +18,158 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     {
       className,
       disabled,
+      label,
       showValue = false,
+      showTooltip = true,
       valuePrefix = "",
       valueSuffix = "",
+      value,
+      defaultValue,
+      min = 0,
+      max = 100,
+      thumbAlignment = "edge",
       ...props
     },
     ref
   ) => {
+    const _values = React.useMemo(() => {
+      if (value !== undefined) {
+        return Array.isArray(value) ? value : [value];
+      }
+      if (defaultValue !== undefined) {
+        return Array.isArray(defaultValue) ? defaultValue : [defaultValue];
+      }
+      return [min];
+    }, [value, defaultValue, min]);
+
     return (
       <BaseSlider.Root
         ref={ref}
         disabled={disabled}
-        className={cn("flex flex-col gap-2 w-full select-none", className)}
+        value={value}
+        defaultValue={defaultValue}
+        min={min}
+        max={max}
+        thumbAlignment={thumbAlignment}
+        className={cn(
+          "group/slider flex flex-col gap-2 w-full select-none",
+          disabled && "opacity-50 pointer-events-none",
+          className
+        )}
         {...props}
       >
-        <div className="flex items-center justify-between text-xs font-medium">
-          <BaseSlider.Label className="text-foreground font-medium select-none" />
-          {showValue && (
-            <span className="font-mono tabular-nums text-muted-foreground select-none">
-              {valuePrefix}
-              <BaseSlider.Value />
-              {valueSuffix}
-            </span>
-          )}
-        </div>
-
-        <BaseSlider.Control className="relative flex items-center w-full h-5 touch-none cursor-pointer">
-          <BaseSlider.Track className="relative h-1.5 w-full grow rounded-full bg-input overflow-hidden">
-            <BaseSlider.Indicator className="absolute h-full bg-primary rounded-full" />
-          </BaseSlider.Track>
-
-          <BaseSlider.Thumb
-            className={cn(
-              "block size-4.5 rounded-full border border-border/80 bg-background shadow-xs",
-              "transition-transform duration-100 ease-out",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              "hover:scale-105 active:scale-115",
-              "disabled:pointer-events-none disabled:opacity-50",
-              // 44px touch target expansion:
-              "after:absolute after:-inset-3 after:content-['']"
+        {(label || showValue) && (
+          <div className="flex items-center justify-between text-xs font-medium">
+            {label ? (
+              typeof label === "string" ? (
+                <BaseSlider.Label className="text-foreground font-medium select-none">
+                  {label}
+                </BaseSlider.Label>
+              ) : (
+                label
+              )
+            ) : (
+              <BaseSlider.Label className="text-foreground font-medium select-none" />
             )}
-          />
+            {showValue && (
+              <span className="font-mono tabular-nums text-muted-foreground select-none">
+                <BaseSlider.Value>
+                  {(formattedValues) => (
+                    <span>
+                      {valuePrefix}
+                      {formattedValues.join(" - ")}
+                      {valueSuffix}
+                    </span>
+                  )}
+                </BaseSlider.Value>
+              </span>
+            )}
+          </div>
+        )}
+
+        <BaseSlider.Control className="group/control relative flex items-center w-full py-3 touch-none cursor-pointer select-none">
+          {/* Interactive track with dynamic bloom on hover/drag */}
+          <BaseSlider.Track
+            className={cn(
+              "relative grow select-none rounded-full",
+              "h-1.5 group-hover/control:h-2 group-data-[dragging]/slider:h-2",
+              "transition-[height] duration-200 ease-out",
+              "before:absolute before:inset-0 before:rounded-full before:bg-muted/80 dark:before:bg-muted/40",
+              "before:[box-shadow:inset_0_1px_1px_rgba(0,0,0,0.12)]"
+            )}
+          >
+            {/* Active range indicator */}
+            <BaseSlider.Indicator
+              className={cn(
+                "select-none rounded-full bg-primary",
+                "bg-gradient-to-r from-primary/90 to-primary",
+                "transition-[height] duration-200 ease-out",
+                "shadow-xs"
+              )}
+            />
+
+            {/* Thumbs with Apple HIG fluid spring physics and dynamic value pill */}
+            {Array.from({ length: _values.length }, (_, index) => (
+              <BaseSlider.Thumb
+                key={index}
+                index={index}
+                className={cn(
+                  "group/thumb block size-5 shrink-0 select-none rounded-full border border-border/80 bg-background",
+                  "shadow-md outline-none",
+                  // Tactile spring physics:
+                  "transition-[transform,box-shadow,border-color] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                  "hover:scale-115 hover:border-foreground/30",
+                  "data-[dragging]:scale-125 data-[dragging]:shadow-lg data-[dragging]:border-primary",
+                  // Refined focus ring without loud offset:
+                  "focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+                  // 44px accessible touch target expansion:
+                  "after:absolute after:-inset-3 after:content-['']",
+                  "cursor-grab active:cursor-grabbing flex items-center justify-center"
+                )}
+              >
+                {/* Center tactile pip */}
+                <div
+                  className={cn(
+                    "size-1.5 rounded-full bg-muted-foreground/30",
+                    "transition-colors duration-150 pointer-events-none",
+                    "group-hover/thumb:bg-primary/70",
+                    "group-data-[dragging]/slider:bg-primary"
+                  )}
+                />
+
+                {/* Animated floating value bubble */}
+                {showTooltip && (
+                  <div
+                    className={cn(
+                      "absolute -top-8.5 left-1/2 -translate-x-1/2 pointer-events-none select-none z-30",
+                      "flex items-center justify-center rounded-md bg-foreground text-background px-1.5 py-0.5",
+                      "text-[10px] font-semibold font-mono tabular-nums shadow-md whitespace-nowrap",
+                      // Apple HIG fluid transition:
+                      "transition-[opacity,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                      // Resting state: tucked away
+                      "opacity-0 scale-75 translate-y-1",
+                      // Visible on thumb hover, thumb focus, or while scrubbing:
+                      "group-hover/thumb:opacity-100 group-hover/thumb:scale-100 group-hover/thumb:translate-y-0",
+                      "group-focus-visible/thumb:opacity-100 group-focus-visible/thumb:scale-100 group-focus-visible/thumb:translate-y-0",
+                      "group-data-[dragging]/slider:opacity-100 group-data-[dragging]/slider:scale-100 group-data-[dragging]/slider:translate-y-0",
+                      // Downward caret:
+                      "after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[3.5px] after:border-transparent after:border-t-foreground"
+                    )}
+                  >
+                    <BaseSlider.Value>
+                      {(formattedValues) => (
+                        <span>
+                          {valuePrefix}
+                          {formattedValues[index] ?? formattedValues[0]}
+                          {valueSuffix}
+                        </span>
+                      )}
+                    </BaseSlider.Value>
+                  </div>
+                )}
+              </BaseSlider.Thumb>
+            ))}
+          </BaseSlider.Track>
         </BaseSlider.Control>
       </BaseSlider.Root>
     );
