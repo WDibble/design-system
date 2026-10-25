@@ -70,7 +70,7 @@ Each component folder will include:
 
 - **Language**: TypeScript
 - **Framework**: React 19 / 18 + Vite
-- **Primitives**: Base UI (`@base-ui-components/react`) for accessible, unstyled headless primitives
+- **Primitives**: Base UI (`@base-ui/react`) for accessible, unstyled headless primitives
 - **Styling**: Tailwind CSS v4 (`@theme inline`) + `tweakcn` semantic token schema
 - **Motion Engine**: `motion` (`motion/react`) with Apple HIG calibrated spring physics
 - **Documentation & Sandbox**: Interactive tweakcn-style workbench with live theme customization

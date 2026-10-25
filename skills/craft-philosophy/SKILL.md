@@ -81,7 +81,7 @@ Every interactive component MUST implement and visually handle the complete stat
 6. **Disabled (`disabled`)**: Reduced opacity (`opacity-50`), `pointer-events-none`, `aria-disabled="true"`.
 7. **Selected / Checked (`selected`)**: Fluid animated transition (e.g. sliding background indicator via `layoutId`).
 8. **Invalid / Error (`error`)**: Destructive border (`border-destructive`), contextual aria message (`aria-describedby`), subtle alert vibration.
-9. **Success / Feedback (`success`)**: Affirmative spring checkmark or affirmative subtle state change.
+9. **Success / Feedback (`success`)**: Complete kinetic feedback narrative (e.g. Idle ➔ Loading ➔ Affirmative spring checkmark with label confirmation ➔ gentle restoration to Idle after 1.5s). Eliminates ambiguity without disruptive toasts.
 
 ---
 
@@ -289,6 +289,34 @@ When implementing collapsible disclosures, tree branches, or accordion panels wi
 
 ---
 
+### 14. Numeric Kinetic Continuity (The Rolling Odometer Invariant)
+When dynamic numeric metrics (counters, balances, cart totals, prices, APY rates) update:
+- **Never snap integers abruptly**: Instant string replacement feels synthetic and makes changes hard for the eye to track.
+- **Vertical Rolling Digits**: Digits must glide vertically along the Y-axis using `springs.snappy` like an airplane altimeter or Swiss mechanical movement.
+- **Dimensional Lock Invariant**: Digits must strictly enforce `tabular-nums font-mono` and be wrapped inside an `overflow-hidden` container with locked height (`leading-none`). This guarantees zero horizontal or vertical layout shift while numbers cycle.
+
+---
+
+### 15. The Button State Dimension Locking Law (The CSS Grid Stack)
+When an interactive button cycles between states (e.g. `Idle` ➔ `Loading` ➔ `Success`), text labels vary in character count (e.g. *"Deploy"* ➔ *"Deploying..."* ➔ *"Deployed!"*).
+If a button changes width unconstrained, surrounding buttons, cancel links, and sibling elements twitch horizontally—a severe violation of **Directive 2 (Zero Layout Shifts)**.
+
+#### The Canonical Solutions:
+1. **The CSS Grid Stack (Automatic Widest Footprint)**:
+   Place all three state layers (`idle`, `loading`, `success`) inside the **exact same CSS grid cell** (`col-start-1 row-start-1`).
+   - The browser's layout engine measures all three layers and automatically locks the button container to the **widest variant** (`max-content`).
+   - Inactive layers are set to `opacity-0 pointer-events-none select-none invisible`.
+   - The button's footprint remains **100% stationary** throughout the entire async cycle; sibling elements never shift by a single subpixel.
+2. **The Fluid Spring Morph (`layout` Projection)**:
+   For standalone hero CTAs or floating buttons where size changes are an intentional visual delight, never allow standard CSS layout popping. Attach `layout` from `motion/react` (`transition={springs.snappy}`) so the container morphs via GPU transforms, gliding sibling elements with physical momentum.
+3. **The Symmetrical Verb Invariant**:
+   Action copy should be authored with matching morphological measure:
+   - *"Save"* ➔ *"Saving..."* ➔ *"Saved!"*
+   - *"Deploy"* ➔ *"Deploying..."* ➔ *"Deployed!"*
+   - *"Copy"* ➔ *"Copying..."* ➔ *"Copied!"*
+
+---
+
 ## 📐 The Airtight Component Construction Checklist
 
 When creating any new component from scratch or auditing an existing one, run through this rigorous 7-point checklist:
@@ -367,6 +395,7 @@ When reviewing code against this craft standard, **always** output your findings
 | `h-screen` | `h-dvh` | Prevents mobile browser navigation bar jumps and layout shifts. |
 | Small 28px button without touch target | `relative after:absolute after:-inset-2` | Meets Apple HIG & WCAG 2.5.5 minimum 44x44px touch target without visual bloat. |
 | Font weight changes on hover or active | Keep `font-medium`, use background luminance or border shadow lift | Eliminates layout shifts, glyph width jumps, and text jitter. |
+| Border added on hover/state (e.g. `border` on success) | Base class declares `border border-transparent`; states only change color | Adding a border changes box model by 2px, physically displacing surrounding layout. |
 | Accordion animates `max-height: 500px` | `grid-rows-[0fr]` to `grid-rows-[1fr]` with `min-h-0` | Eliminates timing lag and broken easing caused by arbitrary max heights. |
 | Nested card: outer `rounded-2xl` (16px), inner `rounded-2xl` with `p-3` (12px) | Inner card: `rounded-xs` or `rounded-[4px]` ($16 - 12 = 4\text{px}$) | Non-concentric radii cause lumpy, bulging corners where padding visibly pinches. |
 | Circular `rounded-3xl` on hero card / dialog | Figma 60% squircle (`corner-shape: squircle` / SVG superellipse) | Eliminates harsh $G^1$ tangent kinks, producing organic Apple-grade continuous curvature. |

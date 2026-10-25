@@ -11,7 +11,7 @@ Before writing, modifying, or reviewing any user interface code, you MUST adhere
 1. **[PHILOSOPHY.md](PHILOSOPHY.md)**: The human sensory manifesto, quiet chrome doctrine, and anti-slop mandate.
 2. **[skills/craft-philosophy/SKILL.md](skills/craft-philosophy/SKILL.md)**: Negative bans on AI tropes (no 3-card grids, no section eyebrows, no fake glassmorphism) and the mandatory 9-state interactive matrix.
 3. **[skills/motion-physics/SKILL.md](skills/motion-physics/SKILL.md)**: Apple HIG fluid interface rules, spring physics (`motion/react`), `pointerdown` active feedback, and velocity inheritance.
-4. **[skills/base-ui-primitives/SKILL.md](skills/base-ui-primitives/SKILL.md)**: Headless compound component composition using Base UI (`@base-ui-components/react`) and WCAG 2.2 accessibility invariants.
+4. **[skills/base-ui-primitives/SKILL.md](skills/base-ui-primitives/SKILL.md)**: Headless compound component composition using Base UI (`@base-ui/react`) and WCAG 2.2 accessibility invariants.
 5. **[skills/tweakcn-theming/SKILL.md](skills/tweakcn-theming/SKILL.md)**: Semantic token architecture interoperable with `tweakcn.com` and Tailwind CSS v4 `@theme inline`.
 
 ---
@@ -19,7 +19,7 @@ Before writing, modifying, or reviewing any user interface code, you MUST adhere
 ## ⚡ The Six Non-Negotiable Directives
 
 1. **Physical Yield on `pointerdown`**: Interactive controls must compress (`scale(0.97)` to `0.98`) the millisecond touch or mouse down occurs. Never wait for `click` (pointer release).
-2. **Zero Layout Shifts**: Never change `border-width`, `font-weight`, `letter-spacing`, `margin`, or `padding` across ANY dynamic state (`hover`, `focus`, `active`, `selected`, `pressed`). Animate exclusively compositor properties (`transform`, `opacity`). Signal selection via color contrast, background pills, or indicators—never by switching font weight or tracking, which alters glyph widths and causes horizontal layout twitching.
+2. **Zero Layout Shifts**: Never change `border-width`, `font-weight`, `letter-spacing`, `margin`, or `padding` across ANY dynamic state (`hover`, `focus`, `active`, `selected`, `pressed`). Always declare `border border-transparent` on base controls so outline or feedback states only alter color, never geometry. Animate exclusively compositor properties (`transform`, `opacity`). Signal selection via color contrast, background pills, or indicators—never by switching font weight or tracking, which alters glyph widths and causes horizontal layout twitching.
 3. **Tabular Numerals**: All counters, prices, metrics, and data table columns must specify `font-variant-numeric: tabular-nums` (`tabular-nums`) to prevent horizontal jitter.
 4. **Accessible Invariants**: Every icon-only button must have an explicit `aria-label`. Dialogs must trap focus and dismiss on `Escape`.
 5. **Quiet Chrome**: Avoid the lazy reflex of putting everything in a bordered card. Rely first on spatial rhythm, typographic hierarchy, and baseline alignment.

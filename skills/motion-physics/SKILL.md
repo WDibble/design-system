@@ -104,6 +104,17 @@ export const springs = {
     stiffness: 700,
     damping: 40,
   },
+
+  /**
+   * Squishy Fluid Morph (Expanding/Collapsing Action Buttons, Dynamic Island)
+   * Moderate stiffness, slight underdamping for organic rubbery micro-rebound.
+   */
+  squishy: {
+    type: "spring",
+    stiffness: 420,
+    damping: 24,
+    mass: 0.8,
+  },
 } as const;
 ```
 
@@ -152,6 +163,47 @@ export function SegmentedTabs({ tabs, activeTab, onTabChange }) {
   );
 }
 ```
+
+---
+
+## 🎬 The 5 State Transition Mechanics (Kinetic Storytelling)
+
+Interfaces must not abruptly snap between states; they must maintain kinetic continuity so the human brain preserves spatial orientation.
+
+### 1. The Morphing Feedback Loop (Idle ➔ Loading ➔ Success ➔ Idle)
+When executing an async trigger (e.g. Save, Deploy, Copy, Submit), do not leave the user wondering if the request resolved. Complete the kinetic narrative within the button:
+- **Idle**: Regular label and icon.
+- **Loading**: Intrinsic width locked, label cross-fades to centered spinning loader.
+- **Success**: Button surface tints affirmative green (`bg-emerald-500/15 border-emerald-500/30`), an SVG checkmark springs in with elastic overshoot (`scale: [0, 1.2, 1]`), and label confirms *"Saved!"* or *"Copied!"*.
+- **Auto-Restoration**: Holds the success state for $1.5\text{--}2.0\text{s}$, then gently glides back to Idle.
+- **Cohesive Parallel Staging & Invariant Opacity**: Writing, coloring, and sizing must always animate in unified lockstep:
+  1. **Zero Disabled Brightness Strobe**: An active async button (`aria-busy="true"`) must NEVER have `disabled:opacity-50` applied while loading. Dimming to 50% and then removing `disabled` on success causes an instantaneous 0ms snap from 50% to 100% brightness, which strobes the original dark idle appearance right before the color finishes interpolating. Always preserve 100% surface opacity during operational async states (`[&:disabled:not([aria-busy='true'])]:opacity-50`).
+  2. **Synchronized State Transitions (`mode="popLayout"`)**: Never make the user stare at an empty button with a blank delay (the `mode="wait"` anti-pattern). Instead, animate exiting and entering content in parallel (`mode="popLayout"` paired with an invisible ghost footprint sizer).
+  3. **Root Stem Isolation & Checkmark Spring**: When transitioning between states sharing a common morphological prefix (e.g. *"Deploy"* in *"Deploying"* and *"Deployed"*), use subtle scale-fading (`initial: scale: 0.95, opacity: 0; animate: scale: 1, opacity: 1; exit: scale: 0.95, opacity: 0`) and spring the checkmark (`scale: [0.5, 1.0]`) into place alongside a crisp `duration-150` background tint transition so the user's eye immediately registers the affirmative green confirmation without any prefix ghosting or lingering idle impressions.
+- **Minimum State Dwell Time**: Async loading states must remain active for a minimum of $400\text{--}500\text{ms}$. Instantaneous network responses that flash a spinner for $<100\text{ms}$ look like broken visual flickers.
+
+### 2. The Rolling Odometer Number Ticker (Spring Digit Flip)
+When numeric metrics, prices, countdowns, or counter badges update:
+- Never let numbers pop abruptly from one integer to another.
+- Use a vertical **rolling digit ticker** where each individual numeric column translates vertically (`translateY`) using `springs.snappy`.
+- **Invariants**: Must enforce `tabular-nums font-mono` and wrap digits in `overflow-hidden` with a fixed line height (`leading-none`) so the width of the number remains strictly invariant during rolling.
+
+### 3. Directional Micro-Kinetic Icon Intent
+Interactive controls that lead to a destination or trigger an action must communicate intent on hover:
+- Forward actions (e.g. "Continue", "Explore"): Icon translates $2\text{--}4\text{px}$ in the direction of action (`group-hover:translate-x-1`) with spring recoil.
+- Download / Save actions: Icon dips downward ($2\text{px}$) on hover and rebounds.
+- Dismiss / Close actions: Icon rotates slightly (e.g. $90^\circ$) on hover.
+
+### 4. Specular Pointer Tracking (Ambient Surface Illumination)
+High-craft cards and primary action buttons can track cursor coordinates on mousemove:
+- Computes relative mouse position $(x, y)$ inside the container.
+- Renders an ultra-subtle ambient radial highlight (`radial-gradient(circle at ${x}px ${y}px, oklch(1 0 0 / 0.08), transparent 60%)`).
+- Grounds the surface with physical, directional light without artificial neon glow.
+
+### 5. Shared Layout Indicators (`layoutId`)
+When toggling between segmented buttons, tabs, or radio options, never fade the active indicator in and out:
+- Attach `layoutId="active-indicator"` to the selection pill.
+- The indicator physically slides, squishes slightly during flight, and settles into the new position via `springs.snappy`.
 
 ---
 

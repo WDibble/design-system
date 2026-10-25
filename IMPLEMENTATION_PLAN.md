@@ -17,7 +17,7 @@
 ## 🎯 Architectural Invariants & Tech Stack
 
 - **Styling**: Tailwind CSS v4 (`@import "tailwindcss";`, `@theme inline`, OKLCH variables).
-- **Headless Primitives**: Base UI (`@base-ui-components/react`) replacing Radix UI.
+- **Headless Primitives**: Base UI (`@base-ui/react`) replacing Radix UI.
 - **Motion Engine**: `motion` (`motion/react`) for Apple HIG springs, layout transitions, and tactile feedback.
 - **Semantic Theming**: 100% two-way interoperable with `tweakcn` (`jnsahaj/tweakcn`) CSS variable schema.
 - **Component Model**: shadcn-compatible modular structure (`components/ui/*`), copy-paste friendly.
@@ -76,16 +76,20 @@ Every interactive component MUST implement and visually handle the complete stat
   - Semantic token schema, light/dark/OLED OKLCH variables, two-way import/export specifications for tweakcn.com, and mandatory `color-mix(in oklch, ...)`.
 - [x] Stress-tested against complex real-world components (`ExpandableTabs`, `Web3Bento`, `BranchedMenu`) and patched all uncovered edge cases.
 
-### Phase 2: Workspace & Tooling Setup
-- [ ] Initialize workspace structure (`apps/demo`, `packages/ui` or unified root architecture).
-- [ ] Install dependencies:
-  - React 19 / 18 + TypeScript + Vite
-  - Tailwind CSS v4 (`@tailwindcss/vite`, `tailwindcss@latest`)
-  - `@base-ui-components/react`
-  - `motion` (`motion/react`)
-  - `clsx` & `tailwind-merge` (`cn` utility)
-  - `lucide-react`
-- [ ] Configure Tailwind v4 `@theme inline` and root tweakcn semantic CSS variables (Light, Dark, OLED).
+### Phase 2: Workspace & Tooling Setup (Completed)
+- [x] Initialize clean unified workspace structure (`src/`, `src/components/ui/`, `src/tokens/`, `src/lib/`).
+- [x] Install latest production dependencies:
+  - React 19 (`19.3.1`) + TypeScript 5.7 + Vite 8 (`8.3.5`)
+  - Tailwind CSS v4 (`4.3.3`) + `@tailwindcss/vite` (`4.3.3`)
+  - `@base-ui/react` (`1.9.0`)
+  - `motion` (`14.6.0`, `motion/react`)
+  - `clsx` (`2.1.1`) & `tailwind-merge` v3 (`3.7.0`) (`cn` utility)
+  - `lucide-react` (`1.61.0`)
+  - `zod` (`4.6.7`)
+- [x] Configure Tailwind v4 `@theme inline` and root tweakcn semantic CSS variables (Light, Dark, OLED) in `src/index.css`.
+- [x] Configure strict TypeScript path aliasing (`@/*` -> `./src/*`).
+- [x] Implement core utilities: `src/lib/utils.ts` (`cn`), `src/tokens/motion.ts` (Apple springs), and `src/lib/theme.ts` (Zod validation & runtime theme applier).
+- [x] Verified 100% clean production build (`npm run build` in 1.51s, 0 errors, 0 warnings).
 
 ### Phase 3: Core Design Tokens & Motion Physics Engine
 - [ ] Define motion springs (`tokens/motion.ts`).
@@ -93,13 +97,24 @@ Every interactive component MUST implement and visually handle the complete stat
 - [ ] Configure typographic tracking & scale.
 
 ### Phase 4: Foundational Component Library (The 9-State Matrix)
-- [ ] Implement `Button` across all variants (primary, secondary, destructive, outline, ghost) with tactile spring press.
-- [ ] Implement `Input` & `Textarea` with zero-shift error states and focus rings.
-- [ ] Implement `Dialog` & `Sheet` using Base UI with spring entry/exit physics.
-- [ ] Implement `DropdownMenu` & `Popover` with trigger-anchored origins.
-- [ ] Implement `Tabs` with sliding layout indicator via `motion/react`.
-- [ ] Implement `Switch` & `Checkbox` with physical toggle resistance.
-- [ ] Implement `Slider`, `Card`, `Badge`, and `Tooltip`.
+- [x] **Batch 1 (Core Action & Surface Primitives)**:
+  - `Button` (`src/components/ui/button.tsx`): All variants (`default`, `secondary`, `destructive`, `outline`, `ghost`, `link`), sizes (`sm`, `default`, `lg`, `icon` with 44px touch targets), tactile spring press on `pointerdown` (`scale(0.975)`), zero-dimension-shift loading states, explicit `type="button"`.
+  - `Badge` (`src/components/ui/badge.tsx`): All variants (`default`, `secondary`, `destructive`, `outline`, `success`), optical baseline centering, tabular numerals, live pulsing status dot.
+  - `Card` (`src/components/ui/card.tsx`): Compound slots (`Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`, `CardInner`), concentric corner radii math ($R_{\text{inner}} = \max(0, R_{\text{outer}} - P)$), 1px specular top rim highlight, multi-layer physical elevation.
+- [ ] **Batch 2 (Form & Input Primitives)**:
+  - `Input` & `Textarea` with Base UI `<Field.Root>` accessible coordination.
+  - `Switch` with physical toggle resistance.
+  - `Checkbox` with spring checkmark drawing.
+  - `Slider` with tabular readout.
+- [ ] **Batch 3 (Overlays & Floating Surfaces)**:
+  - `Dialog` & `AlertDialog` with spring physics and Escape parity.
+  - `Sheet` / Drawer with directional slide.
+  - `DropdownMenu` & `Popover` with trigger-anchored origins.
+  - `Tooltip` with micro spring.
+- [ ] **Batch 4 (Navigation, Tabs & Data Display)**:
+  - `Tabs` with sliding layout indicator via `motion/react`.
+  - `Accordion` with CSS Grid `0fr ➔ 1fr` standard and `inert`.
+  - `Table` with tabular numerals.
 
 ### Phase 5: tweakcn-Style Interactive Demo Workbench
 - [ ] Scaffold `apps/demo` with live component playground.

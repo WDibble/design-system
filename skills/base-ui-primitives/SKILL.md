@@ -1,11 +1,11 @@
 ---
 name: base-ui-primitives
-description: Architecture, compound slot composition, and accessibility standards for headless UI primitives using Base UI (@base-ui-components/react). Governs ARIA state machines, keyboard navigation contracts, focus traps, form controls, and WCAG 2.2 invariants. Use when wrapping, creating, or auditing headless primitives.
+description: Architecture, compound slot composition, and accessibility standards for headless UI primitives using Base UI (@base-ui/react). Governs ARIA state machines, keyboard navigation contracts, focus traps, form controls, and WCAG 2.2 invariants. Use when wrapping, creating, or auditing headless primitives.
 ---
 
 # Base UI Primitives: Accessible Headless Architecture
 
-This repository adopts **Base UI (`@base-ui-components/react`)** as the headless unstyled foundation for all interactive components, replacing Radix UI. Base UI provides cleaner DOM output, zero redundant wrappers, and native alignment with modern CSS transitions (`@starting-style`) while delivering 100% WCAG 2.2-compliant accessible state machines.
+This repository adopts **Base UI (`@base-ui/react`)** as the headless unstyled foundation for all interactive components, replacing Radix UI. Base UI provides cleaner DOM output, zero redundant wrappers, and native alignment with modern CSS transitions (`@starting-style`) while delivering 100% WCAG 2.2-compliant accessible state machines.
 
 ---
 
@@ -17,7 +17,7 @@ Every interactive component is authored using compound slot composition. Never h
 
 ```tsx
 import * as React from "react";
-import { Dialog } from "@base-ui-components/react/dialog";
+import { Dialog } from "@base-ui/react/dialog";
 import { XIcon } from "lucide-react";
 
 export interface DialogProps {
@@ -78,7 +78,7 @@ Base UI's `<Field.Root>` automatically coordinates `htmlFor`, `id`, `aria-descri
 
 ```tsx
 import * as React from "react";
-import { Field } from "@base-ui-components/react/field";
+import { Field } from "@base-ui/react/field";
 import { cn } from "@/lib/utils";
 
 export interface FormInputProps extends React.ComponentPropsWithoutRef<"input"> {
@@ -132,7 +132,7 @@ A switch that yields physically on press, snaps smoothly into position via sprin
 
 ```tsx
 import * as React from "react";
-import { Switch } from "@base-ui-components/react/switch";
+import { Switch } from "@base-ui/react/switch";
 
 export function TactileSwitch({ checked, onCheckedChange, disabled, "aria-label": ariaLabel }) {
   return (
@@ -155,7 +155,7 @@ export function TactileSwitch({ checked, onCheckedChange, disabled, "aria-label"
 
 ```tsx
 import * as React from "react";
-import { Menu } from "@base-ui-components/react/menu";
+import { Menu } from "@base-ui/react/menu";
 
 export function DropdownMenu({ trigger, children }) {
   return (
