@@ -198,6 +198,24 @@ Numeric counters and steppers must be entirely self-contained so consumers do no
   - Encapsulates `useHoldToStep` within `Stepper.Increment` and `Stepper.Decrement` for kinetic press-and-hold acceleration.
   - Formats digits with `NumberTicker` using tabular numerals.
 
+### 6. The Segmented Control & Switch Pattern (`SegmentedControl`)
+
+Multi-option segmented toggles must never alter font weights across states:
+
+```tsx
+import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
+
+<SegmentedControl value={mode} onValueChange={setMode}>
+  <SegmentedControlItem value="preview">Preview</SegmentedControlItem>
+  <SegmentedControlItem value="code">Code</SegmentedControlItem>
+</SegmentedControl>
+```
+
+- **Invariants**:
+  - **Zero Glyphic Shift**: Both active and inactive buttons share identical `font-medium text-xs` so character bounding boxes are 100% frozen.
+  - **Spring Selection Pill**: Uses `motion.span` with `layoutId` and `springs.snappy` to smoothly slide the active indicator under the selected tab.
+  - **Accessibility**: Emits WAI-ARIA `role="tablist"` on the container and `role="tab"` with `aria-selected` on items.
+
 ---
 
 ## ⌨️ Keyboard Navigation Contracts

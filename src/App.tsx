@@ -28,6 +28,7 @@ import {
   CardInner,
 } from "@/components/ui/card";
 import { Stepper } from "@/components/ui/stepper";
+import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
 import { springs } from "@/tokens/motion";
 import { disableTransitionsTemporarily } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -380,33 +381,19 @@ export default function App() {
                   </CardDescription>
                 </div>
 
-                {/* Interactive Icon Trigger Selector */}
-                <div className="flex items-center gap-1 p-1 bg-muted rounded-lg text-xs font-medium shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => setIconTriggerMode("hover")}
-                    className={cn(
-                      "px-3 py-1 rounded-md transition-all",
-                      iconTriggerMode === "hover"
-                        ? "bg-background text-foreground shadow-xs font-semibold"
-                        : "text-muted-foreground hover:text-foreground"
-                    )}
-                  >
+                {/* Interactive Icon Trigger Selector (Zero-Layout-Shift Segmented Switch) */}
+                <SegmentedControl
+                  value={iconTriggerMode}
+                  onValueChange={(val) => setIconTriggerMode(val as IconAnimationTrigger)}
+                  className="shrink-0"
+                >
+                  <SegmentedControlItem value="hover">
                     Hover Trigger
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIconTriggerMode("press")}
-                    className={cn(
-                      "px-3 py-1 rounded-md transition-all",
-                      iconTriggerMode === "press"
-                        ? "bg-background text-foreground shadow-xs font-semibold"
-                        : "text-muted-foreground hover:text-foreground"
-                    )}
-                  >
+                  </SegmentedControlItem>
+                  <SegmentedControlItem value="press">
                     Press Trigger (Pointerdown)
-                  </button>
-                </div>
+                  </SegmentedControlItem>
+                </SegmentedControl>
               </div>
             </CardHeader>
 

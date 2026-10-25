@@ -336,6 +336,18 @@ $$W_{\text{column}} = \frac{W_{\text{container}} - (N - 1) \times \text{Gap}}{N}
 4. **Ghost Sizer Containment**: Sizing footprints inside buttons must declare `max-w-full overflow-hidden truncate` and must be skipped entirely on icon-only buttons (`size="icon"`).
 5. **Responsive Compound Controls**: Steppers and metric groups must wrap gracefully (`flex-wrap gap-2` or stacked values) when allocated space drops below $220\text{px}$.
 
+### 17. Segmented Controls & Multi-Option Switches (Zero Glyphic Expansion Invariant)
+When authoring segmented switches, tabs, or multi-option toggles, **never change `font-weight` (e.g. from `font-normal`/`font-medium` to `font-semibold`/`font-bold`) on the active segment**.
+
+- **Why It Is Banned**: Bolding text alters glyph advance widths and kerning metrics. In a multi-segment switch, increasing the active label's width expands the active button's bounding box, which physically displaces all neighboring buttons outward, causing horizontal jitter and layout shifting on every click.
+- **The Golden Invariant**:
+  - `font-weight`, `letter-spacing`, `padding`, and `border-width` must remain **100% frozen and identical** across both active and inactive segments.
+  - Signal the active state **exclusively** through:
+    1. **Color Contrast**: Active item is `text-foreground`; inactive items are `text-muted-foreground hover:text-foreground`.
+    2. **Spring-Animated Sliding Pill**: Use `motion.span` with `layoutId` and `springs.snappy` to smoothly slide the background pill under the selected item.
+    3. **Subtle Elevation**: The sliding pill carries `bg-background shadow-xs` over the `bg-muted` track.
+- **Reference Primitive**: Always use the zero-shift compound [`SegmentedControl`](src/components/ui/segmented-control.tsx) (`<SegmentedControl>` / `<SegmentedControlItem>`).
+
 ---
 
 When creating any new component from scratch or auditing an existing one, run through this rigorous 7-point checklist:
