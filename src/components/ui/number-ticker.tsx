@@ -11,15 +11,18 @@ function DigitColumn({ digit }: DigitColumnProps) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <span className="relative inline-flex h-[1em] w-[0.62em] overflow-hidden leading-none select-none">
+    <span className="relative inline-flex h-[1em] w-[0.6em] overflow-hidden leading-none select-none">
       <motion.span
         className="flex flex-col items-center"
         initial={false}
-        animate={{ y: `-${digit * 10}%` }}
+        animate={{ y: `-${digit}em` }}
         transition={shouldReduceMotion ? { duration: 0 } : springs.snappy}
       >
         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
-          <span key={n} className="flex h-[1em] items-center justify-center">
+          <span
+            key={n}
+            className="flex h-[1em] w-full shrink-0 items-center justify-center leading-none"
+          >
             {n}
           </span>
         ))}

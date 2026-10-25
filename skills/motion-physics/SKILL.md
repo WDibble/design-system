@@ -186,7 +186,9 @@ When executing an async trigger (e.g. Save, Deploy, Copy, Submit), do not leave 
 When numeric metrics, prices, countdowns, or counter badges update:
 - Never let numbers pop abruptly from one integer to another.
 - Use a vertical **rolling digit ticker** where each individual numeric column translates vertically (`translateY`) using `springs.snappy`.
-- **Invariants**: Must enforce `tabular-nums font-mono` and wrap digits in `overflow-hidden` with a fixed line height (`leading-none`) so the width of the number remains strictly invariant during rolling.
+- **Invariants**:
+  - Must enforce `tabular-nums font-mono` and wrap digits in `overflow-hidden` with a fixed line height (`leading-none`) so the width of the number remains strictly invariant during rolling.
+  - **Exact Unit-Height Step Invariant**: Never use percentage translation (`y: -${digit * 10}%`) for digit columns. In CSS Flexbox, flex items stretch or shrink to match parent container constraints, causing percentage transforms to evaluate against the parent's `1em` height rather than the 10-digit stack (translating by $1/10\text{th}$ of a digit and leaving numbers visually sliced and stuck halfway). Always enforce `shrink-0 h-[1em] w-full leading-none` on every digit child and translate the column via `y: -${digit}em`, guaranteeing mathematically exact 1-to-1 digit baseline indexing.
 
 ### 3. Directional Micro-Kinetic Icon Intent
 Interactive controls that lead to a destination or trigger an action must communicate intent on hover:
@@ -204,6 +206,14 @@ High-craft cards and primary action buttons can track cursor coordinates on mous
 When toggling between segmented buttons, tabs, or radio options, never fade the active indicator in and out:
 - Attach `layoutId="active-indicator"` to the selection pill.
 - The indicator physically slides, squishes slightly during flight, and settles into the new position via `springs.snappy`.
+
+### 6. Kinetic Stepper Hold-to-Repeat (The Momentum Ramp)
+When designing numeric steppers, counters, or quantity controls, clicking dozens of times causes interaction fatigue. Wrap stepping logic into self-contained primitives adhering to the **4 Laws of Press-and-Hold**:
+1. **Immediate Initial Tick (`0ms`)**: The first increment/decrement executes synchronously on `pointerdown` (Directive #1: instant physical yield).
+2. **Dwell Threshold ($400\text{ms}$)**: Single clicks never trigger auto-repeat; continuous stepping only initiates after holding for a $400\text{ms}$ dwell period.
+3. **Kinetic Acceleration Ramp**: The repeat loop begins with a deliberate, precision cadence ($140\text{ms}$) and smoothly accelerates down to peak speed ($35\text{ms}$) via an exponential decay factor ($\approx 0.88$ per tick).
+4. **Window-Level Pointer Cleanup**: Release listeners (`pointerup`, `pointercancel`) must attach to `window`. If the user drags their finger or mouse outside the control boundary, the stepping loop cancels immediately, preventing runaway counts.
+5. **Self-Contained Encapsulation**: Expose the stepper as a plug-and-play compound component (`<Stepper>`) that packages state management, boundary clamping (`min`/`max`), rolling odometer physics, and hold-to-repeat buttons natively.
 
 ---
 

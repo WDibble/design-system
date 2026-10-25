@@ -28,7 +28,7 @@ export const buttonVariants = cva(
         ghost:
           "text-muted-foreground hover:bg-muted hover:text-foreground",
         link:
-          "border-transparent text-primary underline-offset-4 hover:underline p-0 h-auto",
+          "border-transparent text-primary p-0 h-auto",
         success:
           "border-emerald-500/40 bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 shadow-xs",
       },
@@ -85,8 +85,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const isDisabled = disabled || activeState === "loading";
     const isSuccess = activeState === "success";
 
+    const isIconButton = size === "icon";
+    const isLink = variant === "link";
     const hasStateTransitions =
-      state !== "idle" || isLoading || !!successText || !!loadingText;
+      !isIconButton &&
+      !isLink &&
+      (state !== "idle" || isLoading || Boolean(loadingText));
 
     // Determine the widest label to lock the ghost footprint
     const labels = [
@@ -116,13 +120,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {hasStateTransitions ? (
           <>
-            {/* 1. Ghost Footprint Sizer: Locks button width to the widest variant */}
+            {/* 1. Ghost Footprint Sizer: Locks button width to the widest variant without container bleed */}
             <span
-              className="invisible pointer-events-none select-none h-0 overflow-hidden inline-flex items-center gap-2 opacity-0"
+              className="invisible pointer-events-none select-none h-0 max-w-full overflow-hidden inline-flex items-center gap-2 opacity-0 truncate"
               aria-hidden="true"
             >
               <Loader2 className="size-4 shrink-0" />
-              <span>{widestLabel}</span>
+              <span className="truncate">{widestLabel}</span>
               <span className="size-4 shrink-0" />
             </span>
 
@@ -190,19 +194,25 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           </>
         ) : (
           /* Standard direct render for non-async buttons */
-          <span className="inline-flex items-center gap-2">
+          <>
             {leftIcon && (
-              <span className="shrink-0 transition-transform duration-150 ease-out group-hover:scale-105">
+              <span className="shrink-0 transition-transform duration-150 ease-out group-hover:scale-105 inline-flex items-center">
                 {leftIcon}
               </span>
             )}
-            {children}
+            {variant === "link" ? (
+              <span className="relative inline-flex items-center after:content-[''] after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-full after:bg-current after:origin-left after:scale-x-0 group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100 after:transition-transform after:duration-200 after:ease-[cubic-bezier(0.16,1,0.3,1)]">
+                {children}
+              </span>
+            ) : (
+              children
+            )}
             {rightIcon && (
-              <span className="shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5">
+              <span className="shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5 inline-flex items-center">
                 {rightIcon}
               </span>
             )}
-          </span>
+          </>
         )}
       </motion.button>
     );

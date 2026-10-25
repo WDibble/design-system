@@ -317,7 +317,25 @@ If a button changes width unconstrained, surrounding buttons, cancel links, and 
 
 ---
 
-## 📐 The Airtight Component Construction Checklist
+### 16. Anti-Crush Page Architecture & Minimum Viable Column Invariant
+Components do not exist in a vacuum—they live inside full-page grids, cards, and dynamic containers. When page-level grids force cards into narrow slots, compound components suffer **micro-compression failure** (text wrapping awkwardly, action buttons hanging off cards, and badges colliding with titles).
+
+#### The Minimum Viable Column Formula
+Before declaring multi-column grids, compute the available column width:
+
+$$W_{\text{column}} = \frac{W_{\text{container}} - (N - 1) \times \text{Gap}}{N} \ge 340\text{px}$$
+
+- ❌ **The 3-Card Trap**: Setting `lg:grid-cols-3` inside a `max-w-4xl` (896px) container yields $(896 - 48) / 3 = \mathbf{282px}$. After subtracting card padding ($48\text{px}$) and inner card padding ($32\text{px}$), only **202px** remains. Data tables, steppers, and currency tickers will inevitably blow out or crush.
+- ✅ **The Rule**: For containers $\le 1024\text{px}$ (`max-w-4xl`, `max-w-5xl`), use **2 columns maximum** (`grid-cols-1 md:grid-cols-2`). Reserve 3 columns (`grid-cols-1 md:grid-cols-2 xl:grid-cols-3`) strictly for wide layouts ($\ge 1150\text{px}$, `max-w-6xl` or `max-w-7xl`).
+
+#### The Five Anti-Crush Rules
+1. **Responsive Card Padding Budget**: Use fluid padding (`p-4 sm:p-6` for cards, `p-3 sm:p-4` for inner cards) so small screens and compact columns retain maximum usable real estate.
+2. **The `min-w-0` Flex Child Rule**: Any flex child containing text, IDs, or monospace keys (e.g. `production-edge-01`) placed next to a badge or button MUST specify `min-w-0` and `truncate`. Flex items default to `min-width: auto`, which refuses to shrink below text width and pushes sibling badges off-screen.
+3. **Adaptive Header Stacking**: Card headers pairing title badges with status sequences (e.g. `Idle ➔ Load ➔ Success`) must declare `flex-wrap gap-2` or responsive stack (`flex-col sm:flex-row sm:items-center sm:justify-between`). Never let technical metadata wrap onto clumsy orphaned lines.
+4. **Ghost Sizer Containment**: Sizing footprints inside buttons must declare `max-w-full overflow-hidden truncate` and must be skipped entirely on icon-only buttons (`size="icon"`).
+5. **Responsive Compound Controls**: Steppers and metric groups must wrap gracefully (`flex-wrap gap-2` or stacked values) when allocated space drops below $220\text{px}$.
+
+---
 
 When creating any new component from scratch or auditing an existing one, run through this rigorous 7-point checklist:
 

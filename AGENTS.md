@@ -16,7 +16,7 @@ Before writing, modifying, or reviewing any user interface code, you MUST adhere
 
 ---
 
-## ⚡ The Six Non-Negotiable Directives
+## ⚡ The Seven Non-Negotiable Directives
 
 1. **Physical Yield on `pointerdown`**: Interactive controls must compress (`scale(0.97)` to `0.98`) the millisecond touch or mouse down occurs. Never wait for `click` (pointer release).
 2. **Zero Layout Shifts**: Never change `border-width`, `font-weight`, `letter-spacing`, `margin`, or `padding` across ANY dynamic state (`hover`, `focus`, `active`, `selected`, `pressed`). Always declare `border border-transparent` on base controls so outline or feedback states only alter color, never geometry. Animate exclusively compositor properties (`transform`, `opacity`). Signal selection via color contrast, background pills, or indicators—never by switching font weight or tracking, which alters glyph widths and causes horizontal layout twitching.
@@ -24,3 +24,4 @@ Before writing, modifying, or reviewing any user interface code, you MUST adhere
 4. **Accessible Invariants**: Every icon-only button must have an explicit `aria-label`. Dialogs must trap focus and dismiss on `Escape`.
 5. **Quiet Chrome**: Avoid the lazy reflex of putting everything in a bordered card. Rely first on spatial rhythm, typographic hierarchy, and baseline alignment.
 6. **Concentric Corner Radii**: When nesting rounded elements, compute the inner radius using $R_{\text{inner}} = \max(0, R_{\text{outer}} - \text{Padding})$ to prevent lumpy, bulging corners.
+7. **Anti-Crush Responsive Page Architecture**: Full-page layouts must guarantee minimum viable column widths ($W_{\text{col}} \ge 340\text{px}$). Never force 3-column grids into narrow containers (<1080px). Cards and surfaces must establish container queries (`@container`), flex child containers must specify `min-w-0` to allow truncation, and layout footprint sizers must enforce `max-w-full` with zero bleed on icon controls.

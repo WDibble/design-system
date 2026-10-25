@@ -8,8 +8,6 @@ import {
   Trash2,
   Check,
   Send,
-  Plus,
-  Minus,
   SlidersHorizontal,
   Layers,
   ShieldCheck,
@@ -29,7 +27,7 @@ import {
   CardFooter,
   CardInner,
 } from "@/components/ui/card";
-import { NumberTicker } from "@/components/ui/number-ticker";
+import { Stepper } from "@/components/ui/stepper";
 import { springs } from "@/tokens/motion";
 import { disableTransitionsTemporarily } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -39,6 +37,7 @@ export default function App() {
   const [asyncBtnState, setAsyncBtnState] = React.useState<ButtonState>("idle");
   const [isCopied, setIsCopied] = React.useState(false);
   const [metric, setMetric] = React.useState(14820.75);
+  const [quantity, setQuantity] = React.useState(3);
 
   const toggleTheme = () => {
     const restore = disableTransitionsTemporarily();
@@ -77,27 +76,27 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8 selection:bg-primary selection:text-primary-foreground">
-      <div className="w-full max-w-4xl flex flex-col gap-10">
+      <div className="w-full max-w-6xl flex flex-col gap-10">
         {/* Top Navigation / Header */}
-        <header className="flex items-center justify-between border-b border-border/80 pb-6">
-          <div className="flex items-center gap-3">
-            <div className="size-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-xs">
+        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border/80 pb-6">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="size-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-xs shrink-0">
               <Sparkles className="size-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-xl font-bold tracking-tight">Design System</h1>
                 <Badge variant="outline" size="sm" dot>
                   Kinetic Transitions
                 </Badge>
               </div>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-xs text-muted-foreground mt-0.5 truncate sm:text-clip">
                 Living State Narratives · Apple HIG Motion Physics · OKLCH Semantic Tokens
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <Button
               variant="outline"
               size="icon"
@@ -121,16 +120,16 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {/* Spotlight 1: Full Async Feedback Loop */}
             <Card>
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <Badge variant="outline" size="sm">
                     State Morph 01
                   </Badge>
                   <span className="text-xs text-muted-foreground font-mono">
-                    Idle ➔ Load ➔ Success ➔ Restore
+                    Idle ➔ Load ➔ Success
                   </span>
                 </div>
                 <CardTitle className="mt-2">The Async Feedback Loop</CardTitle>
@@ -141,12 +140,12 @@ export default function App() {
 
               <CardContent className="flex flex-col gap-4">
                 <CardInner className="flex flex-col gap-3">
-                  <div className="flex items-center justify-between">
-                    <div>
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="min-w-0 flex-1">
                       <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                         Pipeline Status
                       </p>
-                      <p className="text-sm font-semibold font-mono mt-0.5">
+                      <p className="text-sm font-semibold font-mono mt-0.5 truncate">
                         production-edge-01
                       </p>
                     </div>
@@ -161,6 +160,7 @@ export default function App() {
                       }
                       size="sm"
                       dot
+                      className="shrink-0"
                     >
                       {asyncBtnState === "idle"
                         ? "Ready"
@@ -195,7 +195,7 @@ export default function App() {
             {/* Spotlight 2: The Rolling Odometer Number Ticker */}
             <Card>
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <Badge variant="outline" size="sm">
                     State Morph 02
                   </Badge>
@@ -210,42 +210,55 @@ export default function App() {
               </CardHeader>
 
               <CardContent className="flex flex-col gap-4">
-                <CardInner className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
-                      <Activity className="size-3.5 text-primary" />
-                      Live Balance Ticker
-                    </p>
-                    <div className="text-3xl font-bold font-mono tracking-tight mt-1">
-                      <NumberTicker value={metric} prefix="$" decimalPlaces={2} />
+                {/* 1. Compound Stepper with Balance Ticker */}
+                <CardInner className="flex items-center justify-between gap-3">
+                  <Stepper
+                    value={metric}
+                    onValueChange={setMetric}
+                    step={150.25}
+                    min={0}
+                    prefix="$"
+                    decimalPlaces={2}
+                    className="w-full flex-wrap sm:flex-nowrap justify-between gap-3"
+                  >
+                    <div className="min-w-0">
+                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                        <Activity className="size-3.5 text-primary" />
+                        Live Balance Ticker
+                      </p>
+                      <Stepper.Value className="text-2xl sm:text-3xl font-bold font-mono tracking-tight mt-1" />
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-1.5">
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="size-8"
-                      onClick={() => setMetric((m) => +(m + 150.25).toFixed(2))}
-                      aria-label="Increment balance"
-                    >
-                      <Plus className="size-3.5" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="size-8"
-                      onClick={() => setMetric((m) => Math.max(0, +(m - 150.25).toFixed(2)))}
-                      aria-label="Decrement balance"
-                    >
-                      <Minus className="size-3.5" />
-                    </Button>
+                    <Stepper.Controls>
+                      <Stepper.Increment aria-label="Increment balance" />
+                      <Stepper.Decrement aria-label="Decrement balance" />
+                    </Stepper.Controls>
+                  </Stepper>
+                </CardInner>
+
+                {/* 2. Plug & Play Stepper */}
+                <CardInner className="flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                      Plug & Play Stepper
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      Hold to accelerate · Auto boundary lock
+                    </p>
                   </div>
+                  <Stepper
+                    value={quantity}
+                    onValueChange={setQuantity}
+                    min={1}
+                    max={20}
+                    step={1}
+                    className="shrink-0"
+                  />
                 </CardInner>
               </CardContent>
 
               <CardFooter className="justify-between text-xs text-muted-foreground border-t border-border/40 pt-4">
-                <span>Tabular-nums: stable width guaranteed</span>
+                <span>Hold +/− to accelerate smoothly</span>
                 <span className="font-mono text-primary font-medium">
                   springs.snappy
                 </span>
@@ -253,9 +266,9 @@ export default function App() {
             </Card>
 
             {/* Spotlight 3: The Squishy Fluid Morph */}
-            <Card>
+            <Card className="md:col-span-2 xl:col-span-1">
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <Badge variant="outline" size="sm">
                     State Morph 03
                   </Badge>
@@ -271,16 +284,16 @@ export default function App() {
 
               <CardContent className="flex flex-col gap-4">
                 <CardInner className="flex flex-col gap-3">
-                  <div className="flex items-center justify-between">
-                    <div>
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="min-w-0 flex-1">
                       <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                         Live API Secret
                       </p>
-                      <p className="text-xs font-mono text-muted-foreground mt-0.5">
+                      <p className="text-xs font-mono text-muted-foreground mt-0.5 truncate">
                         sk_live_98a…210f
                       </p>
                     </div>
-                    <Badge variant="outline" size="sm">
+                    <Badge variant="outline" size="sm" className="shrink-0">
                       Read Only
                     </Badge>
                   </div>
@@ -386,7 +399,7 @@ export default function App() {
                   Large CTA (40px)
                 </Button>
 
-                <div className="h-6 w-px bg-border/60 mx-1" aria-hidden="true" />
+                <div className="hidden sm:block h-6 w-px bg-border/60 mx-1" aria-hidden="true" />
 
                 <Button size="icon" variant="default" aria-label="Confirm item">
                   <Check className="size-4" />
@@ -446,7 +459,7 @@ export default function App() {
 
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <Badge variant="outline" size="sm">
                   Directive #6
                 </Badge>
@@ -461,8 +474,8 @@ export default function App() {
             </CardHeader>
 
             <CardContent>
-              <CardInner className="flex items-center justify-between">
-                <div>
+              <CardInner className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-3">
+                <div className="min-w-0">
                   <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Concentric Nested Card
                   </p>
@@ -470,7 +483,7 @@ export default function App() {
                     Smooth uniform optical padding across all four quadrants.
                   </p>
                 </div>
-                <Badge variant="outline" size="sm">
+                <Badge variant="outline" size="sm" className="shrink-0">
                   100% Parallel
                 </Badge>
               </CardInner>

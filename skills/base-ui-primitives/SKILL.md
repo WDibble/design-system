@@ -175,6 +175,31 @@ export function DropdownMenu({ trigger, children }) {
 
 ---
 
+### 5. Stepper & Counter Pattern (`Stepper`)
+
+Numeric counters and steppers must be entirely self-contained so consumers do not need to orchestrate timers or button listeners.
+
+```tsx
+// 1. Zero-config Plug & Play
+<Stepper value={count} onValueChange={setCount} step={1} min={0} max={100} />
+
+// 2. Compound Composition
+<Stepper value={balance} onValueChange={setBalance} step={25} min={0} prefix="$" decimalPlaces={2}>
+  <Stepper.Value className="text-3xl font-bold font-mono" />
+  <Stepper.Controls>
+    <Stepper.Increment aria-label="Increase balance" />
+    <Stepper.Decrement aria-label="Decrease balance" />
+  </Stepper.Controls>
+</Stepper>
+```
+
+- **Invariants**:
+  - Automatically locks boundary states (`disabled={value >= max}` / `disabled={value <= min}`).
+  - Encapsulates `useHoldToStep` within `Stepper.Increment` and `Stepper.Decrement` for kinetic press-and-hold acceleration.
+  - Formats digits with `NumberTicker` using tabular numerals.
+
+---
+
 ## ⌨️ Keyboard Navigation Contracts
 
 Every headless primitive must adhere strictly to the WAI-ARIA keyboard interaction specification:
