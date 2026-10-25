@@ -66,6 +66,7 @@ When evaluating or generating UI, **strictly refuse** the following AI cliches:
 | **Fake Glassmorphism** | Blurs added as decoration without optical boundaries. | Translucent surfaces must carry an optical border (`border-white/10`) and serve clear spatial hierarchy. |
 | **Unconstrained Text Overflow** | Breaking layout when a string is longer than mock copy. | Enforce `truncate`, `line-clamp`, and `min-w-0` on text containers with tooltip fallback. |
 | **Default Button `type` in Forms** | Missing `type="button"` causes unintentional form submissions on click. | Always explicitly set `type="button"` unless intended as `type="submit"`. |
+| **Gimmick Icon Animations** | Spinning plus signs in circles, checkmarks disappearing and redrawing from nothing, twitching/shriveling arrow shafts. Breaks glyph legibility and feels like cheap AI motion slop. | Enforce the **Reversible Mechanical Affordance Doctrine**: operational and numerical icons (`+`, `-`, `✓`, `→`) must remain rock-solid and static. Only animate icons with reversible mechanical motion (sliding rails, lifting lids, gliding paper planes, separating sheets) that glide back to their resting origin. |
 
 ---
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion, AnimatePresence, type HTMLMotionProps } from "motion/react";
-import { Loader2, Check } from "lucide-react";
+import { LoaderCircleIcon, CheckIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { springs } from "@/tokens/motion";
 
@@ -47,6 +47,7 @@ export const buttonVariants = cva(
 );
 
 export type ButtonState = "idle" | "loading" | "success" | "error";
+export type IconAnimationTrigger = "hover" | "press" | "both" | "none";
 
 export interface ButtonProps
   extends Omit<HTMLMotionProps<"button">, "children">,
@@ -59,6 +60,7 @@ export interface ButtonProps
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   fluidMorph?: boolean;
+  iconTrigger?: IconAnimationTrigger;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -74,9 +76,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       leftIcon,
       rightIcon,
       fluidMorph = false,
+      iconTrigger = "hover",
       children,
       disabled,
       type = "button",
+      onMouseEnter,
+      onMouseLeave,
+      onPointerDown,
+      onPointerUp,
+      onPointerCancel,
+      onFocus,
+      onBlur,
       ...props
     },
     ref
@@ -92,6 +102,67 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       !isLink &&
       (state !== "idle" || isLoading || Boolean(loadingText));
 
+    // Imperative handles for animated icons
+    const leftIconRef = React.useRef<{ startAnimation: () => void; stopAnimation: () => void } | null>(null);
+    const rightIconRef = React.useRef<{ startAnimation: () => void; stopAnimation: () => void } | null>(null);
+    const childIconRef = React.useRef<{ startAnimation: () => void; stopAnimation: () => void } | null>(null);
+
+    const triggerIcon = React.useCallback((action: "start" | "stop") => {
+      const method = action === "start" ? "startAnimation" : "stopAnimation";
+      leftIconRef.current?.[method]?.();
+      rightIconRef.current?.[method]?.();
+      childIconRef.current?.[method]?.();
+    }, []);
+
+    const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (iconTrigger === "hover" || iconTrigger === "both") {
+        triggerIcon("start");
+      }
+      onMouseEnter?.(e);
+    };
+
+    const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (iconTrigger === "hover" || iconTrigger === "both") {
+        triggerIcon("stop");
+      }
+      onMouseLeave?.(e);
+    };
+
+    const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+      if (iconTrigger === "press" || iconTrigger === "both") {
+        triggerIcon("start");
+      }
+      onPointerDown?.(e);
+    };
+
+    const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+      if (iconTrigger === "press" || iconTrigger === "both") {
+        triggerIcon("stop");
+      }
+      onPointerUp?.(e);
+    };
+
+    const handlePointerCancel = (e: React.PointerEvent<HTMLButtonElement>) => {
+      if (iconTrigger === "press" || iconTrigger === "both") {
+        triggerIcon("stop");
+      }
+      onPointerCancel?.(e);
+    };
+
+    const handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+      if (iconTrigger === "hover" || iconTrigger === "both") {
+        triggerIcon("start");
+      }
+      onFocus?.(e);
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
+      if (iconTrigger === "hover" || iconTrigger === "both") {
+        triggerIcon("stop");
+      }
+      onBlur?.(e);
+    };
+
     // Determine the widest label to lock the ghost footprint
     const labels = [
       typeof children === "string" ? children : "",
@@ -99,6 +170,38 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       successText || "",
     ];
     const widestLabel = labels.reduce((a, b) => (a.length >= b.length ? a : b), labels[0]);
+
+    // Icon size inheritance and ref-binding
+    const defaultIconSize = size === "sm" ? 14 : size === "lg" ? 18 : 16;
+
+    const enhanceIcon = (
+      icon: React.ReactNode,
+      targetRef: React.MutableRefObject<{ startAnimation: () => void; stopAnimation: () => void } | null>
+    ): React.ReactNode => {
+      if (!React.isValidElement(icon)) return icon;
+      const iconProps = icon.props as any;
+      const existingRef = (icon as any).ref;
+
+      return React.cloneElement(icon as React.ReactElement<any>, {
+        ref: (node: any) => {
+          targetRef.current = node;
+          if (typeof existingRef === "function") {
+            existingRef(node);
+          } else if (existingRef && typeof existingRef === "object") {
+            existingRef.current = node;
+          }
+        },
+        size: iconProps.size ?? defaultIconSize,
+        className: cn(
+          "inline-flex items-center justify-center shrink-0 [&>svg]:size-full",
+          iconProps.className
+        ),
+      });
+    };
+
+    const renderedLeftIcon = enhanceIcon(leftIcon, leftIconRef);
+    const renderedRightIcon = enhanceIcon(rightIcon, rightIconRef);
+    const renderedChildIcon = isIconButton ? enhanceIcon(children, childIconRef) : children;
 
     return (
       <motion.button
@@ -109,6 +212,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         whileTap={isDisabled ? undefined : { scale: 0.975 }}
         layout={fluidMorph ? true : undefined}
         transition={springs.tactile}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         className={cn(
           buttonVariants({
             variant: isSuccess ? "success" : variant,
@@ -125,7 +235,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               className="invisible pointer-events-none select-none h-0 max-w-full overflow-hidden inline-flex items-center gap-2 opacity-0 truncate"
               aria-hidden="true"
             >
-              <Loader2 className="size-4 shrink-0" />
+              <LoaderCircleIcon size={16} className="shrink-0" />
               <span className="truncate">{widestLabel}</span>
               <span className="size-4 shrink-0" />
             </span>
@@ -142,7 +252,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                     transition={springs.snappy}
                     className="inline-flex items-center gap-2 text-current"
                   >
-                    <Loader2 className="size-4 animate-spin shrink-0 text-current" />
+                    <LoaderCircleIcon
+                      size={16}
+                      className="shrink-0 text-current"
+                      ref={(node) => {
+                        node?.startAnimation?.();
+                      }}
+                    />
                     <span>
                       {loadingText ||
                         (typeof children === "string" ? children : "Processing...")}
@@ -163,7 +279,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                       transition={springs.tactile}
                       className="shrink-0 flex items-center justify-center"
                     >
-                      <Check className="size-4 stroke-[2.5]" />
+                      <CheckIcon
+                        size={16}
+                        ref={(node) => {
+                          node?.startAnimation?.();
+                        }}
+                      />
                     </motion.span>
                     <span>{successText}</span>
                   </motion.span>
@@ -176,15 +297,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                     transition={springs.snappy}
                     className="inline-flex items-center gap-2"
                   >
-                    {leftIcon && (
+                    {renderedLeftIcon && (
                       <span className="shrink-0 transition-transform duration-150 ease-out group-hover:scale-105">
-                        {leftIcon}
+                        {renderedLeftIcon}
                       </span>
                     )}
                     {children}
-                    {rightIcon && (
+                    {renderedRightIcon && (
                       <span className="shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5">
-                        {rightIcon}
+                        {renderedRightIcon}
                       </span>
                     )}
                   </motion.span>
@@ -195,9 +316,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           /* Standard direct render for non-async buttons */
           <>
-            {leftIcon && (
+            {renderedLeftIcon && (
               <span className="shrink-0 transition-transform duration-150 ease-out group-hover:scale-105 inline-flex items-center">
-                {leftIcon}
+                {renderedLeftIcon}
               </span>
             )}
             {variant === "link" ? (
@@ -205,11 +326,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {children}
               </span>
             ) : (
-              children
+              renderedChildIcon
             )}
-            {rightIcon && (
+            {renderedRightIcon && (
               <span className="shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5 inline-flex items-center">
-                {rightIcon}
+                {renderedRightIcon}
               </span>
             )}
           </>

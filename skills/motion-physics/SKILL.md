@@ -215,6 +215,27 @@ When designing numeric steppers, counters, or quantity controls, clicking dozens
 4. **Window-Level Pointer Cleanup**: Release listeners (`pointerup`, `pointercancel`) must attach to `window`. If the user drags their finger or mouse outside the control boundary, the stepping loop cancels immediately, preventing runaway counts.
 5. **Self-Contained Encapsulation**: Expose the stepper as a plug-and-play compound component (`<Stepper>`) that packages state management, boundary clamping (`min`/`max`), rolling odometer physics, and hold-to-repeat buttons natively.
 
+### 7. Kinetic Icon Invariants: The Reversible Mechanical Affordance Doctrine
+Never animate an icon simply because it is technically possible. Most animated icons in the wild feel like cheap gimmicks. Enforce high-taste kinetic selection:
+
+1. **The Reversible Mechanical Test**:
+   - An icon is permitted to be kinetic **only if** it exhibits a physical, mechanical affordance that glides along an axis or hinges open, and **smoothly returns to its exact resting position** upon pointer leave (`onMouseLeave`) or release (`onPointerUp`).
+   - ✅ **Permitted Kinetic Affordances**:
+     - *Sliders / Filter (`SlidersHorizontalIcon`)*: Knobs physically slide along rails on spring dynamics, then glide back.
+     - *Vehicle / Delivery (`SendIcon`)*: Paper plane banks up-right on trajectory, then returns smoothly to resting position.
+     - *Physical Lids / Hinges (`Trash2Icon` / `DeleteIcon`)*: Can lid pops open on hover/press and snaps shut on release.
+     - *Depth / Separation (`CopyIcon`)*: Foreground sheet lifts away with tactile depth and springs back into place.
+2. **Strict Negative Bans on Gimmick Icon Motion**:
+   - 🚫 **No Vanishing / Path Redrawing from Nothing**: Never animate `opacity: [0, 1]` or `pathLength: [0, 1]` on steady-state or interactive icons (e.g. checkmarks disappearing into thin air and redrawing themselves). This looks like a visual glitch, not high craft.
+   - 🚫 **No Symmetrical Spinning in Circles**: Never rotate symmetrical operational glyphs (e.g. spinning a plus icon `+` $180^\circ$ or $360^\circ$). Spinning a crosshair or plus sign flips its arms pointlessly and creates visual noise.
+   - 🚫 **No Path Shriveling / Twitching**: Never morph or shrink geometry stems (e.g. arrow shafts shortening or compressing backwards on forward CTAs).
+3. **Static Default for Operational & Numerical Glyphs**:
+   - Operational, arithmetic, confirmation, and decorative badge icons (`Check`, `Plus`, `Minus`, `ArrowRight`, `Sun`, `Moon`, `Zap`, `Sparkles`) **must be rock-solid and static**.
+   - Tactile feedback on these controls must come strictly from the button's physical yield (`whileTap={{ scale: 0.975 }}`) and typography motion (rolling odometer), never from glyph gymnastics.
+4. **Choice of Trigger (`hover` vs `press`)**:
+   - On interactive buttons, support explicit choice via `iconTrigger?: "hover" | "press" | "both"`.
+   - When set to `"press"`, the mechanical animation executes on `pointerdown` synchronously with the button yield (Directive #1), providing instant physical feedback under the fingertip.
+
 ---
 
 ## 🌐 Modern CSS Spring Approximation (CSS-Only Fallback)
@@ -314,3 +335,4 @@ When auditing animations in code:
 - [ ] Are tabs or segment controls animating via `layoutId`?
 - [ ] Does theme switching trigger unintended color transitions? *(Suppress transitions during theme toggle).*
 - [ ] Does it respect `prefers-reduced-motion`?
+- [ ] Does any animated icon violate the Reversible Mechanical Affordance Doctrine? *(Reject spinning plus signs, disappearing checkmarks, and path-shriveling arrows; ensure static operational glyphs).*

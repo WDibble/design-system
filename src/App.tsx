@@ -1,22 +1,22 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
-  Sparkles,
-  Moon,
-  Sun,
-  ArrowRight,
-  Trash2,
-  Check,
-  Send,
-  SlidersHorizontal,
-  Layers,
-  ShieldCheck,
-  Eye,
-  Activity,
-  Zap,
-  Copy,
-} from "lucide-react";
-import { Button, type ButtonState } from "@/components/ui/button";
+  SparklesIcon,
+  MoonIcon,
+  SunIcon,
+  ArrowRightIcon,
+  Trash2Icon,
+  CheckIcon,
+  SendIcon,
+  SlidersHorizontalIcon,
+  LayersIcon,
+  ShieldCheckIcon,
+  EyeIcon,
+  ActivityIcon,
+  ZapIcon,
+  CopyIcon,
+} from "@/components/icons";
+import { Button, type ButtonState, type IconAnimationTrigger } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -38,6 +38,7 @@ export default function App() {
   const [isCopied, setIsCopied] = React.useState(false);
   const [metric, setMetric] = React.useState(14820.75);
   const [quantity, setQuantity] = React.useState(3);
+  const [iconTriggerMode, setIconTriggerMode] = React.useState<IconAnimationTrigger>("hover");
 
   const toggleTheme = () => {
     const restore = disableTransitionsTemporarily();
@@ -81,7 +82,7 @@ export default function App() {
         <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border/80 pb-6">
           <div className="flex items-center gap-3 min-w-0">
             <div className="size-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-xs shrink-0">
-              <Sparkles className="size-5" />
+              <SparklesIcon size={20} />
             </div>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
@@ -100,10 +101,11 @@ export default function App() {
             <Button
               variant="outline"
               size="icon"
+              iconTrigger="press"
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
             >
-              {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
+              {isDark ? <SunIcon size={16} /> : <MoonIcon size={16} />}
             </Button>
           </div>
         </header>
@@ -112,7 +114,7 @@ export default function App() {
         <section className="flex flex-col gap-4">
           <div>
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-              <Zap className="size-4 text-amber-500" />
+              <ZapIcon size={16} className="text-amber-500" />
               Kinetic Storytelling (Living State Transitions)
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5">
@@ -177,7 +179,7 @@ export default function App() {
                     onClick={handleDeployFlow}
                     loadingText="Deploying to Edge..."
                     successText="Deployed to Edge!"
-                    rightIcon={<ArrowRight className="size-4" />}
+                    rightIcon={<ArrowRightIcon size={16} />}
                   >
                     Deploy to Edge
                   </Button>
@@ -223,7 +225,7 @@ export default function App() {
                   >
                     <div className="min-w-0">
                       <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
-                        <Activity className="size-3.5 text-primary" />
+                        <ActivityIcon size={14} className="text-primary inline-flex items-center" />
                         Live Balance Ticker
                       </p>
                       <Stepper.Value className="text-2xl sm:text-3xl font-bold font-mono tracking-tight mt-1" />
@@ -323,7 +325,7 @@ export default function App() {
                             transition={springs.micro}
                             className="inline-flex items-center gap-1.5"
                           >
-                            <Check className="size-4 stroke-[2.5]" />
+                            <CheckIcon size={16} />
                             <span>Copied!</span>
                           </motion.span>
                         ) : (
@@ -336,7 +338,7 @@ export default function App() {
                             transition={springs.micro}
                             className="inline-flex items-center gap-2"
                           >
-                            <Copy className="size-4" />
+                            <CopyIcon size={16} />
                             <span>Copy API Token</span>
                           </motion.span>
                         )}
@@ -360,31 +362,71 @@ export default function App() {
         <section className="flex flex-col gap-4">
           <div>
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-              <Layers className="size-4" />
+              <LayersIcon size={16} />
               Button Variants & Kinetic Icon Intent
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Directional action icons glide 2px forward on hover with spring rebound.
+              Directional action icons powered by pqoqubbw animated icons with hover or press physics.
             </p>
           </div>
 
           <Card>
             <CardHeader>
-              <CardTitle>Variant & Sizing Hierarchy</CardTitle>
-              <CardDescription>
-                Asymmetric horizontal padding, specular rim highlights, and 44px touch targets on icon buttons.
-              </CardDescription>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <CardTitle>Variant & Sizing Hierarchy</CardTitle>
+                  <CardDescription className="mt-0.5">
+                    Toggle trigger mode below to switch animated icon physics between mouse hover and pointerdown press.
+                  </CardDescription>
+                </div>
+
+                {/* Interactive Icon Trigger Selector */}
+                <div className="flex items-center gap-1 p-1 bg-muted rounded-lg text-xs font-medium shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setIconTriggerMode("hover")}
+                    className={cn(
+                      "px-3 py-1 rounded-md transition-all",
+                      iconTriggerMode === "hover"
+                        ? "bg-background text-foreground shadow-xs font-semibold"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Hover Trigger
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIconTriggerMode("press")}
+                    className={cn(
+                      "px-3 py-1 rounded-md transition-all",
+                      iconTriggerMode === "press"
+                        ? "bg-background text-foreground shadow-xs font-semibold"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Press Trigger (Pointerdown)
+                  </button>
+                </div>
+              </div>
             </CardHeader>
 
             <CardContent className="flex flex-col gap-6">
               {/* Row 1: All Variants */}
               <div className="flex flex-wrap items-center gap-3">
-                <Button variant="default" rightIcon={<ArrowRight className="size-4" />}>
+                <Button
+                  variant="default"
+                  iconTrigger={iconTriggerMode}
+                  rightIcon={<ArrowRightIcon size={16} />}
+                >
                   Primary CTA
                 </Button>
                 <Button variant="secondary">Secondary Action</Button>
                 <Button variant="outline">Outline Specular</Button>
-                <Button variant="destructive" leftIcon={<Trash2 className="size-4" />}>
+                <Button
+                  variant="destructive"
+                  iconTrigger={iconTriggerMode}
+                  leftIcon={<Trash2Icon size={16} />}
+                >
                   Destructive
                 </Button>
                 <Button variant="ghost">Ghost Trigger</Button>
@@ -395,20 +437,39 @@ export default function App() {
               <div className="flex flex-wrap items-center gap-3">
                 <Button size="sm">Small (32px)</Button>
                 <Button size="default">Default (36px)</Button>
-                <Button size="lg" rightIcon={<ArrowRight className="size-4" />}>
+                <Button
+                  size="lg"
+                  iconTrigger={iconTriggerMode}
+                  rightIcon={<ArrowRightIcon size={18} />}
+                >
                   Large CTA (40px)
                 </Button>
 
                 <div className="hidden sm:block h-6 w-px bg-border/60 mx-1" aria-hidden="true" />
 
-                <Button size="icon" variant="default" aria-label="Confirm item">
-                  <Check className="size-4" />
+                <Button
+                  size="icon"
+                  variant="default"
+                  iconTrigger={iconTriggerMode}
+                  aria-label="Confirm item"
+                >
+                  <CheckIcon size={16} />
                 </Button>
-                <Button size="icon" variant="outline" aria-label="Send message">
-                  <Send className="size-4" />
+                <Button
+                  size="icon"
+                  variant="outline"
+                  iconTrigger={iconTriggerMode}
+                  aria-label="Send message"
+                >
+                  <SendIcon size={16} />
                 </Button>
-                <Button size="icon" variant="secondary" aria-label="Adjust settings">
-                  <SlidersHorizontal className="size-4" />
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  iconTrigger={iconTriggerMode}
+                  aria-label="Adjust settings"
+                >
+                  <SlidersHorizontalIcon size={16} />
                 </Button>
               </div>
             </CardContent>
@@ -419,7 +480,7 @@ export default function App() {
         <section className="flex flex-col gap-4">
           <div>
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-              <ShieldCheck className="size-4" />
+              <ShieldCheckIcon size={16} />
               Badge Spectrum & Status Indicators
             </h2>
           </div>
@@ -449,7 +510,7 @@ export default function App() {
         <section className="flex flex-col gap-4">
           <div>
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-              <Eye className="size-4" />
+              <EyeIcon size={16} />
               Concentric Corner Radii Invariant
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5">

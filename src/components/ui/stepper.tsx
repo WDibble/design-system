@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Plus, Minus } from "lucide-react";
+import { PlusIcon, MinusIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { NumberTicker } from "@/components/ui/number-ticker";
@@ -207,11 +207,12 @@ export function StepperIncrement({
       variant={variant}
       disabled={!canIncrement}
       aria-label={ariaLabel}
+      iconTrigger="press"
       className={cn("size-8", className)}
       {...holdProps}
       {...props}
     >
-      {children ?? <Plus className="size-3.5" />}
+      {children ?? <PlusIcon size={14} />}
     </Button>
   );
 }
@@ -237,11 +238,12 @@ export function StepperDecrement({
       variant={variant}
       disabled={!canDecrement}
       aria-label={ariaLabel}
+      iconTrigger="press"
       className={cn("size-8", className)}
       {...holdProps}
       {...props}
     >
-      {children ?? <Minus className="size-3.5" />}
+      {children ?? <MinusIcon size={14} />}
     </Button>
   );
 }
