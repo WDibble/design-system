@@ -66,14 +66,14 @@ Each component folder will include:
 
 ---
 
-## 🛠️ Tech Stack & Tooling (Recommended)
+## 🛠️ Tech Stack & Tooling
 
 - **Language**: TypeScript
-- **Framework**: React / Web Components / Modern HTML
-- **Primitives**: Radix UI / React Aria (for rock-solid accessible primitives)
-- **Styling**: Tailwind CSS + CSS Custom Properties
-- **Motion**: Framer Motion / Motion One / CSS Springs
-- **Documentation & Sandbox**: Storybook / Vite / Next.js
+- **Framework**: React 19 / 18 + Vite
+- **Primitives**: Base UI (`@base-ui-components/react`) for accessible, unstyled headless primitives
+- **Styling**: Tailwind CSS v4 (`@theme inline`) + `tweakcn` semantic token schema
+- **Motion Engine**: `motion` (`motion/react`) with Apple HIG calibrated spring physics
+- **Documentation & Sandbox**: Interactive tweakcn-style workbench with live theme customization
 
 ---
 
