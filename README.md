@@ -81,13 +81,27 @@ All components live in [`src/components/ui/`](src/components/ui/) and are self-c
 | **`Tooltip`** | [`src/components/ui/tooltip.tsx`](src/components/ui/tooltip.tsx) | Micro tooltip with `TooltipProvider` warm-up delay (`150ms`) and trigger-anchored origin. |
 | **`DropdownMenu`** | [`src/components/ui/dropdown-menu.tsx`](src/components/ui/dropdown-menu.tsx) | Full keyboard navigation (arrow keys), submenus, radio groups, checkboxes, and zero-shift shortcut indicators. |
 
-### 4. Surfaces & Layout
+### 4. Navigation, Structure & Data Display
 | Component | Path | Description |
 | :--- | :--- | :--- |
-| **`Card`** | [`src/components/ui/card.tsx`](src/components/ui/card.tsx) | Quiet surface with `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`. |
+| **`Tabs`** | [`src/components/ui/tabs.tsx`](src/components/ui/tabs.tsx) | Base UI Tabs with Apple HIG spring indicator glide across 3 variants (`default`, `pills`, `line`) and locked font geometry (zero layout shift). |
+| **`Accordion`** | [`src/components/ui/accordion.tsx`](src/components/ui/accordion.tsx) | Base UI Accordion with CSS height transitions (`--accordion-panel-height`), reversible rotating chevrons, and concealed focus (`inert`). |
+| **`Table`** | [`src/components/ui/table.tsx`](src/components/ui/table.tsx) | Responsive high-density data display with quiet chrome borders, hover states, and strict `tabular-nums` formatting. |
+
+### 5. Spatial Materials, Feedback & Command
+| Component | Path | Description |
+| :--- | :--- | :--- |
+| **`Toast`** | [`src/components/ui/toast.tsx`](src/components/ui/toast.tsx) | Floating liquid glass notification with `role="status"`, auto-countdown timer, and 5-second reversible `Undo` affordance. |
+| **`Command`** | [`src/components/ui/command.tsx`](src/components/ui/command.tsx) | Global command palette dialog (`⌘K` / `Ctrl+K`) with keyboard search, action shortcuts, and focus protection. |
+| **`Skeleton`** | [`src/components/ui/skeleton.tsx`](src/components/ui/skeleton.tsx) | Dimension-stable skeleton placeholder with `role="status"`, `aria-label`, and zero cumulative layout shift (CLS). |
+
+### 6. Surfaces & Layout
+| Component | Path | Description |
+| :--- | :--- | :--- |
+| **`Card`** | [`src/components/ui/card.tsx`](src/components/ui/card.tsx) | Quiet surface with `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`, and optional specular lighting. |
 | **`CardInner`** | [`src/components/ui/card.tsx`](src/components/ui/card.tsx) | Mathematically concentric nested surface guaranteeing zero bulging or lumpy corners. |
 
-### 5. Animated Micro-Interaction Icons
+### 7. Animated Micro-Interaction Icons
 Over **470+ animated Lucide icons** located in [`src/components/icons/`](src/components/icons/) featuring imperative handles (`startAnimation`, `stopAnimation`) and hover/press triggers.
 
 ---

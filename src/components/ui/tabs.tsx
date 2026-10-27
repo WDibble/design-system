@@ -55,7 +55,7 @@ export const TabsIndicator = React.forwardRef<
         variant === "pills" && [
           "inset-y-0 left-0 w-[var(--active-tab-width)]",
           "translate-x-[var(--active-tab-left)]",
-          "rounded-full bg-primary",
+          "rounded-full bg-primary [box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.25),0_2px_8px_-1px_oklch(0_0_0_/_0.12)]",
         ],
         variant === "line" && [
           "bottom-0 left-0 h-0.5 w-[var(--active-tab-width)]",

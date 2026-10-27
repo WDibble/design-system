@@ -70,6 +70,17 @@ export interface ButtonProps
   disableTapScale?: boolean;
 }
 
+// Extract layout classes (width, margins, flex bounds) for outer <button> wrapper
+const extractLayoutClasses = (classNames?: string): string => {
+  if (!classNames) return "";
+  const layoutPatterns =
+    /^(?:[a-z0-9_-]+:)?(?:w-|min-w-|max-w-|flex-|grow|shrink|self-|col-span-|row-span-|m-|mx-|my-|mt-|mb-|ml-|mr-|order-|hidden|block|inline-block)/;
+  return classNames
+    .split(/\s+/)
+    .filter((cls) => layoutPatterns.test(cls))
+    .join(" ");
+};
+
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -229,8 +240,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onBlur={handleBlur}
         className={cn(
           "group relative inline-flex items-center justify-center p-0 border-0 bg-transparent outline-none cursor-pointer disabled:pointer-events-none select-none shrink-0",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg",
-          className
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          size === "sm" ? "rounded-md" : size === "lg" ? "rounded-xl" : "rounded-lg",
+          extractLayoutClasses(className)
         )}
         {...(props as any)}
       >
@@ -242,8 +254,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             buttonVariants({
               variant: isSuccess ? "success" : variant,
               size,
+              className,
             }),
-            "size-full"
+            (className?.includes("w-full") || className?.includes("flex-1")) && "w-full"
           )}
         >
           {hasStateTransitions ? (

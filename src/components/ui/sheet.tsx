@@ -45,8 +45,7 @@ export const SheetContent = React.forwardRef<
       <SheetPrimitive.Popup
         ref={ref}
         className={cn(
-          "fixed z-50 flex flex-col bg-card text-card-foreground shadow-2xl outline-none select-auto",
-          "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08),0_25px_50px_-12px_rgba(0,0,0,0.25)]",
+          "fixed z-50 flex flex-col glass-thick specular-rim text-card-foreground shadow-2xl outline-none select-auto",
           "transition-[translate] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
           // Directional anchor and slide variants:
           side === "right" && [
@@ -58,11 +57,11 @@ export const SheetContent = React.forwardRef<
             "data-[starting-style]:-translate-x-full data-[ending-style]:-translate-x-full",
           ],
           side === "bottom" && [
-            "inset-x-0 bottom-0 w-full max-h-[85vh] rounded-t-2xl border-t border-border/80",
+            "inset-x-0 bottom-0 w-full max-h-[85vh] rounded-t-3xl border-t border-border/80 pb-[env(safe-area-inset-bottom,16px)]",
             "data-[starting-style]:translate-y-full data-[ending-style]:translate-y-full",
           ],
           side === "top" && [
-            "inset-x-0 top-0 w-full max-h-[85vh] rounded-b-2xl border-b border-border/80",
+            "inset-x-0 top-0 w-full max-h-[85vh] rounded-b-3xl border-b border-border/80 pt-[env(safe-area-inset-top,16px)]",
             "data-[starting-style]:-translate-y-full data-[ending-style]:-translate-y-full",
           ],
           className

@@ -58,8 +58,13 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
     /* Apple Materials & Vibrancy Extensions */
-    --material-glass: oklch(1 0 0 / 0.72);
-    --material-glass-border: oklch(1 0 0 / 0.12);
+    --material-ultra-thin: oklch(1 0 0 / 0.55);
+    --material-thin: oklch(1 0 0 / 0.70);
+    --material-regular: oklch(1 0 0 / 0.82);
+    --material-thick: oklch(1 0 0 / 0.92);
+    --material-glass: oklch(1 0 0 / 0.80);
+    --material-glass-border: oklch(0 0 0 / 0.08);
+    --specular-rim: inset 0 1px 0 0 oklch(1 0 0 / 0.16), 0 4px 16px -2px oklch(0 0 0 / 0.06);
   }
 
   .dark {
@@ -97,8 +102,13 @@
     --sidebar-border: oklch(0.269 0 0);
     --sidebar-ring: oklch(0.439 0 0);
 
-    --material-glass: oklch(0.145 0 0 / 0.75);
-    --material-glass-border: oklch(1 0 0 / 0.08);
+    --material-ultra-thin: oklch(0.145 0 0 / 0.55);
+    --material-thin: oklch(0.145 0 0 / 0.70);
+    --material-regular: oklch(0.17 0 0 / 0.82);
+    --material-thick: oklch(0.17 0 0 / 0.92);
+    --material-glass: oklch(0.17 0 0 / 0.80);
+    --material-glass-border: oklch(1 0 0 / 0.12);
+    --specular-rim: inset 0 1px 0 0 oklch(1 0 0 / 0.12), 0 4px 16px -2px oklch(0 0 0 / 0.28);
   }
 }
 
@@ -190,5 +200,45 @@
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .glass-ultra-thin {
+    background-color: var(--material-ultra-thin);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid var(--material-glass-border);
+  }
+
+  .glass-thin {
+    background-color: var(--material-thin);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--material-glass-border);
+  }
+
+  .glass-regular {
+    background-color: var(--material-regular);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid var(--material-glass-border);
+  }
+
+  .glass-thick {
+    background-color: var(--material-thick);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border: 1px solid var(--material-glass-border);
+  }
+
+  .specular-rim {
+    box-shadow: var(--specular-rim);
+  }
+}
+
+@supports (corner-shape: squircle) {
+  .squircle {
+    corner-shape: squircle;
   }
 }

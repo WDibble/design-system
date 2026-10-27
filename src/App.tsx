@@ -20,6 +20,7 @@ import {
   ServerIcon,
   CpuIcon,
   TerminalIcon,
+  RotateCCWIcon,
 } from "@/components/icons";
 import { Button, type ButtonState, type IconAnimationTrigger } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -124,10 +125,28 @@ import {
   TableCell,
   TableCaption,
 } from "@/components/ui/table";
+import { ToastProvider, useToast } from "@/components/ui/toast";
+import {
+  CommandDialog,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandShortcut,
+  CommandSeparator,
+} from "@/components/ui/command";
+import { Skeleton } from "@/components/ui/skeleton";
 import { disableTransitionsTemporarily } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
-export default function App() {
+function AppContent() {
+  const { toast } = useToast();
+  const [commandOpen, setCommandOpen] = React.useState(false);
+  const [previewMaterial, setPreviewMaterial] = React.useState<"ultra-thin" | "thin" | "regular" | "thick">("regular");
+  const [isSimulatingLoading, setIsSimulatingLoading] = React.useState(false);
+  const [activeToken, setActiveToken] = React.useState<string | null>("tok_live_981aef83c27d");
+
   const [isDark, setIsDark] = React.useState(false);
   const [asyncBtnState, setAsyncBtnState] = React.useState<ButtonState>("idle");
   const [isCopied, setIsCopied] = React.useState(false);
@@ -233,8 +252,8 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8 selection:bg-primary selection:text-primary-foreground">
       <div className="w-full max-w-6xl flex flex-col gap-10">
-        {/* Top Navigation / Header */}
-        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border/80 pb-6">
+        {/* Sticky Floating Liquid Glass Header */}
+        <header className="sticky top-4 z-40 flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl glass-regular specular-rim shadow-lg transition-all duration-200">
           <div className="flex items-center gap-3 min-w-0">
             <div className="size-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-xs shrink-0">
               <SparklesIcon size={20} />
@@ -243,22 +262,37 @@ export default function App() {
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-xl font-bold tracking-tight">Design System</h1>
                 <Badge variant="outline" size="sm" dot>
-                  Kinetic Transitions
+                  v0.1.0 · Spatial Engine
                 </Badge>
               </div>
               <p className="text-xs text-muted-foreground mt-0.5 truncate sm:text-clip">
-                Living State Narratives · Apple HIG Motion Physics · OKLCH Semantic Tokens
+                Apple Spatial Materials · Liquid Glass Navigation · Headless Base UI
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
+            {/* Quick Command Palette Trigger (Detail #3 & #4) */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCommandOpen(true)}
+              className="gap-2 h-9 px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70"
+            >
+              <SearchIcon size={14} className="opacity-70" />
+              <span className="hidden sm:inline text-xs text-muted-foreground font-normal">Command</span>
+              <kbd className="hidden sm:inline-flex items-center gap-0.5 text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
+                ⌘K
+              </kbd>
+            </Button>
+
             <Button
               variant="outline"
               size="icon"
               iconTrigger="press"
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
+              className="rounded-xl border-border/60"
             >
               {isDark ? <SunIcon size={16} /> : <MoonIcon size={16} />}
             </Button>
@@ -1518,6 +1552,243 @@ export default function App() {
           </Card>
         </section>
 
+        {/* Section 8: Spatial Materials, Liquid Glass & System Feedback (Batch 5) */}
+        <section className="flex flex-col gap-4">
+          <div>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+              <EyeIcon size={16} />
+              Spatial Materials & System Feedback (Batch 5)
+            </h2>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Apple HIG 4-tier liquid glass materials, Gmail-style 5s Undo toasts, global ⌘K Command palette, and zero-CLS skeleton loaders.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+            {/* 1. Spatial Liquid Glass Tiers */}
+            <Card className="h-full">
+              <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3">
+                <div>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <SparklesIcon size={16} />
+                    Optical Glass Materials & Ambient Lensing
+                  </CardTitle>
+                  <CardDescription>
+                    Context-aware liquid glass with G2 continuous curvature and specular rim reflection.
+                  </CardDescription>
+                </div>
+                <SegmentedControl
+                  value={previewMaterial}
+                  onValueChange={(v) => setPreviewMaterial(v as "ultra-thin" | "thin" | "regular" | "thick")}
+                  size="sm"
+                  className="w-full sm:w-auto"
+                >
+                  <SegmentedControlItem value="ultra-thin">Ultra-Thin</SegmentedControlItem>
+                  <SegmentedControlItem value="thin">Thin</SegmentedControlItem>
+                  <SegmentedControlItem value="regular">Regular</SegmentedControlItem>
+                  <SegmentedControlItem value="thick">Thick</SegmentedControlItem>
+                </SegmentedControl>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-4">
+                {/* Colorful ambient background canvas to demonstrate optical refraction */}
+                <div className="relative p-6 rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20 border border-border/40">
+                  <div className="absolute -top-12 -left-12 size-40 rounded-full bg-blue-500/30 blur-2xl pointer-events-none" />
+                  <div className="absolute -bottom-12 -right-12 size-40 rounded-full bg-rose-500/30 blur-2xl pointer-events-none" />
+
+                  {/* Dynamic Glass Surface */}
+                  <div
+                    className={cn(
+                      "relative p-5 rounded-xl specular-rim transition-all duration-300 flex flex-col gap-3",
+                      previewMaterial === "ultra-thin" && "glass-ultra-thin",
+                      previewMaterial === "thin" && "glass-thin",
+                      previewMaterial === "regular" && "glass-regular",
+                      previewMaterial === "thick" && "glass-thick"
+                    )}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold tracking-tight text-foreground capitalize">
+                        {previewMaterial} Material
+                      </span>
+                      <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                        {previewMaterial === "ultra-thin" && "55% Opacity · 28px Blur"}
+                        {previewMaterial === "thin" && "70% Opacity · 20px Blur"}
+                        {previewMaterial === "regular" && "82% Opacity · 16px Blur"}
+                        {previewMaterial === "thick" && "92% Opacity · 12px Blur"}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      Notice how the background colors softly bloom through the surface while typography preserves strict WCAG 2.2 contrast floors.
+                    </p>
+                    <div className="flex items-center gap-2 pt-1">
+                      <Button size="sm" variant="default">
+                        Active Surface
+                      </Button>
+                      <Button size="sm" variant="outline" className="bg-background/50 border-border/60">
+                        Dismiss
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* 2. Undo Toasts & Skeleton Previews */}
+            <Card className="h-full">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <RotateCCWIcon size={16} />
+                  Undo Toasts & Dimension Stability
+                </CardTitle>
+                <CardDescription>
+                  Reversible actions with 5s Undo timer (`role="status"`) and zero-CLS skeleton previews.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-5">
+                {/* Reversible Action Demo (Detail #5) */}
+                <div className="p-4 rounded-xl border border-border/40 bg-muted/20 flex flex-col gap-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-medium text-foreground">API Token Revocation</p>
+                      <p className="text-[11px] text-muted-foreground mt-0.5">
+                        {activeToken ? (
+                          <span className="font-mono text-emerald-600 dark:text-emerald-400">{activeToken} (Active)</span>
+                        ) : (
+                          <span className="text-rose-500 font-medium">Revoked (Pending Soft Delete...)</span>
+                        )}
+                      </p>
+                    </div>
+                    {activeToken ? (
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => {
+                          const prev = activeToken;
+                          setActiveToken(null);
+                          toast({
+                            title: "API Token Revoked",
+                            description: "Token marked for deletion. Reversible for 5 seconds.",
+                            type: "error",
+                            duration: 5000,
+                            undoLabel: "Undo",
+                            undoAction: () => {
+                              setActiveToken(prev);
+                              toast({
+                                title: "Token Restored",
+                                description: "The API token was restored to active status.",
+                                type: "success"
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <Trash2Icon size={12} className="mr-1" /> Revoke Token
+                      </Button>
+                    ) : (
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={() => setActiveToken("tok_live_981aef83c27d")}
+                      >
+                        Reset Demo
+                      </Button>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-muted-foreground">
+                    Reversible actions bypass confirmation modals with immediate execution and an accessible 5s Undo toast.
+                  </p>
+                </div>
+
+                {/* Skeleton Loader Demo (Detail #1) */}
+                <div className="p-4 rounded-xl border border-border/40 bg-muted/20 flex flex-col gap-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-foreground">Skeleton Footprint (Zero CLS)</span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        setIsSimulatingLoading(true);
+                        setTimeout(() => setIsSimulatingLoading(false), 1200);
+                      }}
+                    >
+                      Simulate Load (1.2s)
+                    </Button>
+                  </div>
+
+                  {isSimulatingLoading ? (
+                    <div className="flex items-center gap-3 p-3 rounded-lg border border-border/30 bg-card/50">
+                      <Skeleton className="size-10 rounded-full shrink-0" />
+                      <div className="flex-1 space-y-1.5">
+                        <Skeleton className="h-3 w-3/4 rounded" />
+                        <Skeleton className="h-2.5 w-1/2 rounded" />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-3 p-3 rounded-lg border border-border/30 bg-card/50">
+                      <div className="size-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-semibold text-xs shrink-0">
+                        DG
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-semibold text-foreground">DeepMind Design Engine</p>
+                        <p className="text-[11px] text-muted-foreground truncate">agent-native-design-system.edge.internal</p>
+                      </div>
+                      <Badge variant="outline" size="sm" className="text-emerald-500 border-emerald-500/30">
+                        Ready
+                      </Badge>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Global Command Dialog (⌘K / Ctrl+K) */}
+        <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
+          <CommandInput />
+          <CommandList>
+            <CommandEmpty />
+            <CommandGroup heading="Platform Navigation">
+              <CommandItem onSelect={() => { setCommandOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+                <SparklesIcon size={14} />
+                <span>Scroll to Top</span>
+                <CommandShortcut>⌘↑</CommandShortcut>
+              </CommandItem>
+              <CommandItem onSelect={() => { setCommandOpen(false); toggleTheme(); }}>
+                {isDark ? <SunIcon size={14} /> : <MoonIcon size={14} />}
+                <span>Toggle Color Theme</span>
+                <CommandShortcut>⌘T</CommandShortcut>
+              </CommandItem>
+              <CommandItem onSelect={() => {
+                setCommandOpen(false);
+                toast({
+                  title: "Instant Edge Deployment Triggered",
+                  description: "Synchronized across 5 global Anycast nodes.",
+                  type: "success"
+                });
+              }}>
+                <ZapIcon size={14} />
+                <span>Instant Edge Deploy</span>
+                <CommandShortcut>⌘D</CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="Components & Architecture">
+              <CommandItem onSelect={() => setCommandOpen(false)}>
+                <LayersIcon size={14} />
+                <span>Explore Button Spectrum</span>
+              </CommandItem>
+              <CommandItem onSelect={() => setCommandOpen(false)}>
+                <ServerIcon size={14} />
+                <span>Cluster Telemetry Table</span>
+              </CommandItem>
+              <CommandItem onSelect={() => setCommandOpen(false)}>
+                <ShieldCheckIcon size={14} />
+                <span>Architectural Invariants & Directives</span>
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </CommandDialog>
+
         {/* Micro Footer */}
         <footer className="border-t border-border/60 pt-6 pb-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>© Design System · Human-Centric & Agent-Native Standard</p>
@@ -1525,5 +1796,13 @@ export default function App() {
         </footer>
       </div>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ToastProvider>
+      <AppContent />
+    </ToastProvider>
   );
 }

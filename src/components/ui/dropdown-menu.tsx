@@ -59,8 +59,7 @@ export const DropdownMenuContent = React.forwardRef<
           <MenuPrimitive.Popup
             ref={ref}
             className={cn(
-              "relative min-w-48 overflow-hidden rounded-xl border border-border/80 bg-popover p-1 text-popover-foreground shadow-xl select-none outline-none",
-              "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08),0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)]",
+              "relative min-w-48 overflow-hidden rounded-2xl glass-regular specular-rim p-1 text-popover-foreground select-none outline-none",
               // Deterministic anchor origin:
               "data-[side=bottom]:origin-top data-[side=top]:origin-bottom data-[side=left]:origin-right data-[side=right]:origin-left",
               "data-[side=bottom]:data-[align=start]:origin-top-left data-[side=bottom]:data-[align=end]:origin-top-right",
@@ -211,8 +210,7 @@ export const DropdownMenuSubContent = React.forwardRef<
         <MenuPrimitive.Popup
           ref={ref}
           className={cn(
-            "relative min-w-40 overflow-hidden rounded-xl border border-border/80 bg-popover p-1 text-popover-foreground shadow-xl select-none outline-none",
-            "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08),0_10px_25px_-5px_rgba(0,0,0,0.1)]",
+            "relative min-w-40 overflow-hidden rounded-2xl glass-regular specular-rim p-1 text-popover-foreground select-none outline-none",
             // Deterministic anchor origin:
             "data-[side=right]:origin-left data-[side=left]:origin-right data-[side=bottom]:origin-top data-[side=top]:origin-bottom",
             "transition-[scale,opacity] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
