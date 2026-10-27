@@ -5,8 +5,48 @@ import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { CheckIcon, ChevronRightIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
-export const DropdownMenu = MenuPrimitive.Root;
-export const DropdownMenuTrigger = MenuPrimitive.Trigger;
+interface DropdownMenuContextValue {
+  triggerElement: HTMLElement | null;
+  setTriggerElement: (el: HTMLElement | null) => void;
+}
+
+const DropdownMenuContext = React.createContext<DropdownMenuContextValue | null>(null);
+
+export function DropdownMenu({
+  children,
+  ...props
+}: React.ComponentProps<typeof MenuPrimitive.Root>) {
+  const [triggerElement, setTriggerElement] = React.useState<HTMLElement | null>(null);
+
+  return (
+    <DropdownMenuContext.Provider value={{ triggerElement, setTriggerElement }}>
+      <MenuPrimitive.Root {...props}>{children}</MenuPrimitive.Root>
+    </DropdownMenuContext.Provider>
+  );
+}
+
+export const DropdownMenuTrigger = React.forwardRef<
+  HTMLElement,
+  React.ComponentProps<typeof MenuPrimitive.Trigger>
+>((props, forwardedRef) => {
+  const context = React.useContext(DropdownMenuContext);
+
+  const handleRef = React.useCallback(
+    (node: HTMLElement | null) => {
+      context?.setTriggerElement(node);
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node);
+      } else if (forwardedRef && typeof forwardedRef === "object") {
+        (forwardedRef as React.MutableRefObject<HTMLElement | null>).current = node;
+      }
+    },
+    [context, forwardedRef]
+  );
+
+  return <MenuPrimitive.Trigger ref={handleRef} {...props} />;
+});
+DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
+
 export const DropdownMenuPortal = MenuPrimitive.Portal;
 export const DropdownMenuGroup = MenuPrimitive.Group;
 export const DropdownMenuRadioGroup = MenuPrimitive.RadioGroup;
@@ -14,6 +54,7 @@ export const DropdownMenuSub = MenuPrimitive.SubmenuRoot;
 
 export interface DropdownMenuContentProps
   extends React.ComponentProps<typeof MenuPrimitive.Popup> {
+  anchor?: MenuPrimitive.Positioner.Props["anchor"];
   side?: MenuPrimitive.Positioner.Props["side"];
   align?: MenuPrimitive.Positioner.Props["align"];
   sideOffset?: MenuPrimitive.Positioner.Props["sideOffset"];
@@ -31,6 +72,7 @@ export const DropdownMenuContent = React.forwardRef<
     {
       className,
       children,
+      anchor,
       side = "bottom",
       align = "start",
       sideOffset = 4,
@@ -42,9 +84,31 @@ export const DropdownMenuContent = React.forwardRef<
     },
     ref
   ) => {
+    const context = React.useContext(DropdownMenuContext);
+    const triggerElement = context?.triggerElement;
+
+    const invariantAnchor = React.useMemo(() => {
+      if (!triggerElement) return undefined;
+      return {
+        contextElement: triggerElement,
+        getBoundingClientRect() {
+          const r = triggerElement.getBoundingClientRect();
+          const W = triggerElement.offsetWidth;
+          const H = triggerElement.offsetHeight;
+          if (!W || !H) return r;
+
+          const unscaledTop = r.top - (H - r.height) / 2;
+          const unscaledLeft = r.left - (W - r.width) / 2;
+
+          return new DOMRect(unscaledLeft, unscaledTop, W, H);
+        },
+      };
+    }, [triggerElement]);
+
     return (
       <DropdownMenuPortal {...portalProps}>
         <MenuPrimitive.Positioner
+          anchor={anchor ?? invariantAnchor}
           side={side}
           align={align}
           sideOffset={sideOffset}

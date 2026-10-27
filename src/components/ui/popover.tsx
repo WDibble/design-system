@@ -4,13 +4,54 @@ import * as React from "react";
 import { Popover as PopoverPrimitive } from "@base-ui/react/popover";
 import { cn } from "@/lib/utils";
 
-export const Popover = PopoverPrimitive.Root;
-export const PopoverTrigger = PopoverPrimitive.Trigger;
+export interface PopoverContextValue {
+  triggerElement: HTMLElement | null;
+  setTriggerElement: (el: HTMLElement | null) => void;
+}
+
+export const PopoverContext = React.createContext<PopoverContextValue | null>(null);
+
+export function Popover({
+  children,
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Root>) {
+  const [triggerElement, setTriggerElement] = React.useState<HTMLElement | null>(null);
+
+  return (
+    <PopoverContext.Provider value={{ triggerElement, setTriggerElement }}>
+      <PopoverPrimitive.Root {...props}>{children}</PopoverPrimitive.Root>
+    </PopoverContext.Provider>
+  );
+}
+
+export const PopoverTrigger = React.forwardRef<
+  HTMLElement,
+  React.ComponentProps<typeof PopoverPrimitive.Trigger>
+>((props, forwardedRef) => {
+  const context = React.useContext(PopoverContext);
+
+  const handleRef = React.useCallback(
+    (node: HTMLElement | null) => {
+      context?.setTriggerElement(node);
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node);
+      } else if (forwardedRef && typeof forwardedRef === "object") {
+        (forwardedRef as React.MutableRefObject<HTMLElement | null>).current = node;
+      }
+    },
+    [context, forwardedRef]
+  );
+
+  return <PopoverPrimitive.Trigger ref={handleRef} {...props} />;
+});
+PopoverTrigger.displayName = "PopoverTrigger";
+
 export const PopoverPortal = PopoverPrimitive.Portal;
 export const PopoverClose = PopoverPrimitive.Close;
 
 export interface PopoverContentProps
   extends React.ComponentProps<typeof PopoverPrimitive.Popup> {
+  anchor?: PopoverPrimitive.Positioner.Props["anchor"];
   side?: PopoverPrimitive.Positioner.Props["side"];
   align?: PopoverPrimitive.Positioner.Props["align"];
   sideOffset?: PopoverPrimitive.Positioner.Props["sideOffset"];
@@ -28,6 +69,7 @@ export const PopoverContent = React.forwardRef<
     {
       className,
       children,
+      anchor,
       side = "bottom",
       align = "center",
       sideOffset = 6,
@@ -39,9 +81,37 @@ export const PopoverContent = React.forwardRef<
     },
     ref
   ) => {
+    const context = React.useContext(PopoverContext);
+    const triggerElement = context?.triggerElement;
+
+    // Virtual Invariant Anchor:
+    // Floating-UI tracks getBoundingClientRect() during animations. When a trigger button
+    // physically yields on pointerdown via scale(0.975) and rebounds, its bounding box expands,
+    // which normally causes attached floating surfaces to wiggle. This invariant virtual anchor
+    // computes the untransformed layout rectangle from offset dimensions, delivering a rock-solid
+    // positioning reference with zero wiggle while preserving 100% of the button's tactile spring feel.
+    const invariantAnchor = React.useMemo(() => {
+      if (!triggerElement) return undefined;
+      return {
+        contextElement: triggerElement,
+        getBoundingClientRect() {
+          const r = triggerElement.getBoundingClientRect();
+          const W = triggerElement.offsetWidth;
+          const H = triggerElement.offsetHeight;
+          if (!W || !H) return r;
+
+          const unscaledTop = r.top - (H - r.height) / 2;
+          const unscaledLeft = r.left - (W - r.width) / 2;
+
+          return new DOMRect(unscaledLeft, unscaledTop, W, H);
+        },
+      };
+    }, [triggerElement]);
+
     return (
       <PopoverPortal {...portalProps}>
         <PopoverPrimitive.Positioner
+          anchor={anchor ?? invariantAnchor}
           side={side}
           align={align}
           sideOffset={sideOffset}

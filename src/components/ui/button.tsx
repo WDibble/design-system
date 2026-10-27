@@ -211,16 +211,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const renderedRightIcon = enhanceIcon(rightIcon, rightIconRef);
     const renderedChildIcon = isIconButton ? enhanceIcon(children, childIconRef) : children;
 
-    // Floating overlays (Popover, Menu, etc.) measure the trigger's getBoundingClientRect().
-    // If the button scales down on tap and rebounds, the floating positioner recalculates coordinates
-    // on every spring frame, causing the overlay to visibly wiggle or bounce.
-    // Suppressing tap scale on popup triggers guarantees an invariant, rock-solid reference box.
-    const isPopupTrigger =
-      Boolean((props as any)["aria-haspopup"]) ||
-      Boolean((props as any)["data-popup-open"]) ||
-      Boolean((props as any)["aria-expanded"]);
-
-    const shouldTapScale = !isDisabled && !(disableTapScale ?? isPopupTrigger);
+    // Physical yield on pointerdown (Directive #1): Interactive controls compress on touch/pointer down.
+    const shouldTapScale = !isDisabled && !disableTapScale;
 
     return (
       <motion.button
