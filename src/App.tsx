@@ -121,6 +121,13 @@ export default function App() {
   const [menuShowStatus, setMenuShowStatus] = React.useState(true);
   const [menuShowActivity, setMenuShowActivity] = React.useState(false);
   const [menuFrequency, setMenuFrequency] = React.useState("realtime");
+  const [isApiKeyCopied, setIsApiKeyCopied] = React.useState(false);
+
+  const handleCopyApiKey = () => {
+    if (isApiKeyCopied) return;
+    setIsApiKeyCopied(true);
+    setTimeout(() => setIsApiKeyCopied(false), 1600);
+  };
 
   const toggleTheme = () => {
     const restore = disableTransitionsTemporarily();
@@ -1138,10 +1145,17 @@ export default function App() {
                         <Button
                           size="sm"
                           variant="ghost"
-                          className="shrink-0 h-7 px-2"
-                          onClick={() => alert("Copied to clipboard")}
+                          className="shrink-0 h-7 px-2 text-xs"
+                          onClick={handleCopyApiKey}
                         >
-                          Copy
+                          {isApiKeyCopied ? (
+                            <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
+                              <CheckIcon size={12} />
+                              Copied
+                            </span>
+                          ) : (
+                            "Copy"
+                          )}
                         </Button>
                       </div>
                       <p className="text-[11px] text-muted-foreground">
