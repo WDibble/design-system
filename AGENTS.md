@@ -13,6 +13,7 @@ Before writing, modifying, or reviewing any user interface code, you MUST adhere
 3. **[skills/motion-physics/SKILL.md](skills/motion-physics/SKILL.md)**: Apple HIG fluid interface rules, spring physics (`motion/react`), `pointerdown` active feedback, and velocity inheritance.
 4. **[skills/base-ui-primitives/SKILL.md](skills/base-ui-primitives/SKILL.md)**: Headless compound component composition using Base UI (`@base-ui/react`) and WCAG 2.2 accessibility invariants.
 5. **[skills/tweakcn-theming/SKILL.md](skills/tweakcn-theming/SKILL.md)**: Semantic token architecture interoperable with `tweakcn.com` and Tailwind CSS v4 `@theme inline`.
+6. **[skills/production-deployment/SKILL.md](skills/production-deployment/SKILL.md)**: Production deployment architecture, Speculation Rules, View Transitions, safe-area insets, and zero-CLS hydration.
 
 ---
 

@@ -13,6 +13,7 @@ export * from "./number-ticker";
 export * from "./popover";
 export * from "./segmented-control";
 export * from "./sheet";
+export * from "./skeleton";
 export * from "./slider";
 export * from "./stepper";
 export * from "./switch";
