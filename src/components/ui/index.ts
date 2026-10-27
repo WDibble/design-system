@@ -1,3 +1,4 @@
+export * from "./accordion";
 export * from "./alert-dialog";
 export * from "./badge";
 export * from "./button";
@@ -15,5 +16,7 @@ export * from "./sheet";
 export * from "./slider";
 export * from "./stepper";
 export * from "./switch";
+export * from "./table";
+export * from "./tabs";
 export * from "./textarea";
 export * from "./tooltip";

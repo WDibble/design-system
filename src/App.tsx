@@ -17,6 +17,9 @@ import {
   SearchIcon,
   BadgeAlertIcon,
   VolumeIcon,
+  ServerIcon,
+  CpuIcon,
+  TerminalIcon,
 } from "@/components/icons";
 import { Button, type ButtonState, type IconAnimationTrigger } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -98,6 +101,29 @@ import {
   DropdownMenuLabel,
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tabs,
+  TabsList,
+  TabsIndicator,
+  TabsTrigger,
+  TabsContent,
+} from "@/components/ui/tabs";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from "@/components/ui/table";
 import { disableTransitionsTemporarily } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
@@ -120,6 +146,60 @@ export default function App() {
   const [menuShowStatus, setMenuShowStatus] = React.useState(true);
   const [menuShowActivity, setMenuShowActivity] = React.useState(false);
   const [menuFrequency, setMenuFrequency] = React.useState("realtime");
+  const [tabsVariant, setTabsVariant] = React.useState<"default" | "pills" | "line">("default");
+
+  const clusterNodes = React.useMemo(() => [
+    {
+      id: "edge-us-east-01",
+      region: "us-east (N. Virginia)",
+      status: "healthy",
+      statusVariant: "outline" as const,
+      cpu: 24.8,
+      memory: "3.2 / 16 GB",
+      latency: 18.4,
+      qps: 4210,
+    },
+    {
+      id: "edge-us-west-02",
+      region: "us-west (Oregon)",
+      status: "healthy",
+      statusVariant: "outline" as const,
+      cpu: 38.2,
+      memory: "5.7 / 16 GB",
+      latency: 29.1,
+      qps: 3890,
+    },
+    {
+      id: "edge-eu-central-01",
+      region: "eu-central (Frankfurt)",
+      status: "syncing",
+      statusVariant: "secondary" as const,
+      cpu: 72.4,
+      memory: "11.8 / 16 GB",
+      latency: 58.7,
+      qps: 6140,
+    },
+    {
+      id: "edge-ap-southeast-01",
+      region: "ap-southeast (Singapore)",
+      status: "healthy",
+      statusVariant: "outline" as const,
+      cpu: 19.5,
+      memory: "2.8 / 16 GB",
+      latency: 89.2,
+      qps: 2750,
+    },
+    {
+      id: "edge-sa-east-01",
+      region: "sa-east (São Paulo)",
+      status: "degraded",
+      statusVariant: "destructive" as const,
+      cpu: 91.6,
+      memory: "14.9 / 16 GB",
+      latency: 172.5,
+      qps: 1205,
+    },
+  ], []);
 
   const toggleTheme = () => {
     const restore = disableTransitionsTemporarily();
@@ -1143,6 +1223,299 @@ export default function App() {
               </CardContent>
             </Card>
           </div>
+        </section>
+
+        {/* Section 7: Navigation, Structure & Data Display (Batch 4) */}
+        <section className="flex flex-col gap-4">
+          <div>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+              <ServerIcon size={16} />
+              Navigation, Structure & Data Display (Batch 4)
+            </h2>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Apple HIG fluid tabs with zero glyphic twitching, Base UI CSS height accordion with concealed focus, and quiet data tables with tabular numerals.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+            {/* 1. Fluid Tabs */}
+            <Card className="h-full">
+              <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3">
+                <div>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <TerminalIcon size={16} />
+                    Fluid Tabs & Morphing Indicator
+                  </CardTitle>
+                  <CardDescription>
+                    Base UI Tabs with spring indicator glide & locked font-medium (0px layout shift).
+                  </CardDescription>
+                </div>
+                <SegmentedControl
+                  value={tabsVariant}
+                  onValueChange={(v) => setTabsVariant(v as "default" | "pills" | "line")}
+                  size="sm"
+                  className="w-full sm:w-auto"
+                >
+                  <SegmentedControlItem value="default">Card</SegmentedControlItem>
+                  <SegmentedControlItem value="pills">Pills</SegmentedControlItem>
+                  <SegmentedControlItem value="line">Line</SegmentedControlItem>
+                </SegmentedControl>
+              </CardHeader>
+              <CardContent>
+                <Tabs defaultValue="overview" className="w-full">
+                  <TabsList variant={tabsVariant} className="w-full sm:w-auto">
+                    <TabsIndicator variant={tabsVariant} />
+                    <TabsTrigger value="overview" variant={tabsVariant}>Overview</TabsTrigger>
+                    <TabsTrigger value="logs" variant={tabsVariant}>Deploy Logs</TabsTrigger>
+                    <TabsTrigger value="telemetry" variant={tabsVariant}>Edge Routing</TabsTrigger>
+                  </TabsList>
+
+                  <div className="relative grid grid-cols-1 w-full mt-3">
+                    <TabsContent value="overview">
+                      <div className="p-4 rounded-xl border border-border/40 bg-muted/20 flex flex-col gap-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-medium text-muted-foreground">Cluster Health</span>
+                          <Badge variant="outline" className="border-emerald-500/40 text-emerald-500 bg-emerald-500/10">
+                            99.99% Uptime
+                          </Badge>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2 pt-1">
+                          <div className="p-2.5 rounded-lg border border-border/30 bg-card/60">
+                            <p className="text-[11px] text-muted-foreground">Avg Latency</p>
+                            <p className="text-base font-semibold font-mono tabular-nums text-foreground mt-0.5">24.2 ms</p>
+                          </div>
+                          <div className="p-2.5 rounded-lg border border-border/30 bg-card/60">
+                            <p className="text-[11px] text-muted-foreground">Edge QPS</p>
+                            <p className="text-base font-semibold font-mono tabular-nums text-foreground mt-0.5">18,195</p>
+                          </div>
+                          <div className="p-2.5 rounded-lg border border-border/30 bg-card/60">
+                            <p className="text-[11px] text-muted-foreground">Active Nodes</p>
+                            <p className="text-base font-semibold font-mono tabular-nums text-foreground mt-0.5">48 / 48</p>
+                          </div>
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed pt-1">
+                          Tab transitions lock glyph bounding boxes to ensure switching tabs causes zero reflow or horizontal jitter.
+                        </p>
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="logs">
+                      <div className="p-3.5 rounded-xl border border-border/40 bg-zinc-950 font-mono text-xs text-zinc-300 flex flex-col gap-2">
+                        <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                          <span className="text-[11px] text-zinc-500">release-v2.4.0 · edge-deployment.log</span>
+                          <CopyButton
+                            size="sm"
+                            variant="ghost"
+                            value="[2026-10-27T17:50:00Z] Worker initialized in 12ms. Cluster routes synced."
+                            idleText="Copy Log"
+                            copiedText="Copied"
+                            className="h-6 text-[10px] text-zinc-400 hover:text-white"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-1 text-[11px] leading-relaxed pt-1">
+                          <p className="text-emerald-400">[17:50:01] ✓ Verified cryptographic signatures (SHA-256)</p>
+                          <p className="text-zinc-400">[17:50:02] → Hydrating Edge workers across 5 regions</p>
+                          <p className="text-zinc-400">[17:50:03] → Routing table distributed (18.4ms avg propagation)</p>
+                          <p className="text-emerald-400 font-semibold">[17:50:04] ✓ Healthcheck green. 0 errors detected.</p>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="telemetry">
+                      <div className="p-4 rounded-xl border border-border/40 bg-muted/20 flex flex-col gap-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-medium text-foreground">Traffic Distribution</span>
+                          <span className="text-xs font-mono tabular-nums text-muted-foreground">Global Anycast</span>
+                        </div>
+                        <div className="space-y-2">
+                          <div>
+                            <div className="flex justify-between text-[11px] mb-1 text-muted-foreground">
+                              <span>North America (us-east/west)</span>
+                              <span className="font-mono tabular-nums font-medium text-foreground">58%</span>
+                            </div>
+                            <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                              <div className="h-full bg-primary rounded-full" style={{ width: "58%" }} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex justify-between text-[11px] mb-1 text-muted-foreground">
+                              <span>Europe & Middle East (eu-central)</span>
+                              <span className="font-mono tabular-nums font-medium text-foreground">27%</span>
+                            </div>
+                            <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                              <div className="h-full bg-primary/80 rounded-full" style={{ width: "27%" }} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex justify-between text-[11px] mb-1 text-muted-foreground">
+                              <span>Asia Pacific (ap-southeast)</span>
+                              <span className="font-mono tabular-nums font-medium text-foreground">15%</span>
+                            </div>
+                            <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                              <div className="h-full bg-primary/60 rounded-full" style={{ width: "15%" }} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+                  </div>
+                </Tabs>
+              </CardContent>
+            </Card>
+
+            {/* 2. Base UI Accordion */}
+            <Card className="h-full">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <ShieldCheckIcon size={16} />
+                  Collapsible Architectural Invariants
+                </CardTitle>
+                <CardDescription>
+                  Base UI Accordion with CSS height transition, concealed focus, & reversible rotating chevrons.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Accordion defaultValue={["invariant-1"]} className="w-full">
+                  <AccordionItem value="invariant-1">
+                    <AccordionTrigger>
+                      Directive 1: Physical Yield on pointerdown
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      Interactive controls must compress (<code className="text-xs bg-muted px-1 py-0.5 rounded">scale(0.97)</code>) the millisecond touch or mouse down occurs. We decouple the outer layout button from inner visual motion so floating positioners maintain absolute 0px stability.
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="invariant-2">
+                    <AccordionTrigger>
+                      Directive 2: Zero Layout Shifts
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      Never change <code className="text-xs bg-muted px-1 py-0.5 rounded">border-width</code>, <code className="text-xs bg-muted px-1 py-0.5 rounded">font-weight</code>, or margins across hover or active states. All tabs, segmented toggles, and buttons share constant glyph geometry to prevent micro-twitching.
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="invariant-3">
+                    <AccordionTrigger>
+                      Directive 6: Concentric Corner Radii Math
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      When nesting rounded elements, inner radius is strictly computed as <code className="text-xs bg-muted px-1 py-0.5 rounded font-mono">R_inner = max(0, R_outer - Padding)</code>. This completely eliminates the amateur bulging look of unmatched corners.
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="invariant-4">
+                    <AccordionTrigger>
+                      Directive 7: Concealed Interactive Focus (inert)
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      Collapsed panels, drawers, and accordions automatically exclude hidden elements from keyboard navigation sequence. Screen readers and tab keys never get trapped in invisible zero-height regions.
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* 3. Quiet Table Chrome & Tabular Data Display */}
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <CpuIcon size={16} />
+                    Global Edge Nodes & Infrastructure Telemetry
+                  </CardTitle>
+                  <CardDescription>
+                    High-density data table with strict tabular numerals (<code className="text-xs font-mono">tabular-nums</code>) and quiet border chrome.
+                  </CardDescription>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline" className="text-xs font-mono tabular-nums">
+                    5 Active Nodes
+                  </Badge>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              <Table>
+                <TableCaption>
+                  Synchronized across 5 edge clusters · High availability active-active multi-region topology
+                </TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[180px]">Node Identifier</TableHead>
+                    <TableHead>Region & Zone</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead numeric>CPU Load</TableHead>
+                    <TableHead numeric>Memory</TableHead>
+                    <TableHead numeric>Edge Latency</TableHead>
+                    <TableHead numeric>Throughput</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {clusterNodes.map((node) => (
+                    <TableRow key={node.id}>
+                      <TableCell className="font-mono text-xs font-semibold">
+                        {node.id}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-xs">
+                        {node.region}
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant={node.statusVariant}
+                          className={cn(
+                            "text-[11px] capitalize",
+                            node.status === "healthy" && "border-emerald-500/40 text-emerald-500 bg-emerald-500/10",
+                            node.status === "syncing" && "border-amber-500/40 text-amber-500 bg-amber-500/10",
+                            node.status === "degraded" && "border-rose-500/40 text-rose-500 bg-rose-500/10"
+                          )}
+                        >
+                          {node.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell numeric>
+                        <span className={cn(
+                          node.cpu > 80 ? "text-rose-500 font-semibold" : "text-foreground"
+                        )}>
+                          {node.cpu.toFixed(1)}%
+                        </span>
+                      </TableCell>
+                      <TableCell numeric className="text-muted-foreground">
+                        {node.memory}
+                      </TableCell>
+                      <TableCell numeric>
+                        <span className="font-medium text-foreground">{node.latency.toFixed(1)}</span>
+                        <span className="text-[10px] text-muted-foreground ml-0.5">ms</span>
+                      </TableCell>
+                      <TableCell numeric className="text-foreground">
+                        {node.qps.toLocaleString()} <span className="text-[10px] text-muted-foreground">qps</span>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TableCell colSpan={3} className="text-xs font-medium">
+                      Aggregate Telemetry (5 Nodes Online)
+                    </TableCell>
+                    <TableCell numeric className="text-xs font-mono font-medium">
+                      {(clusterNodes.reduce((acc, n) => acc + n.cpu, 0) / clusterNodes.length).toFixed(1)}% avg
+                    </TableCell>
+                    <TableCell numeric className="text-xs font-mono font-medium text-muted-foreground">
+                      37.7 / 80 GB
+                    </TableCell>
+                    <TableCell numeric className="text-xs font-mono font-medium">
+                      {(clusterNodes.reduce((acc, n) => acc + n.latency, 0) / clusterNodes.length).toFixed(1)} ms
+                    </TableCell>
+                    <TableCell numeric className="text-xs font-mono font-medium">
+                      {clusterNodes.reduce((acc, n) => acc + n.qps, 0).toLocaleString()} qps
+                    </TableCell>
+                  </TableRow>
+                </TableFooter>
+              </Table>
+            </CardContent>
+          </Card>
         </section>
 
         {/* Micro Footer */}
