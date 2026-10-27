@@ -18,6 +18,8 @@ export interface DropdownMenuContentProps
   align?: MenuPrimitive.Positioner.Props["align"];
   sideOffset?: MenuPrimitive.Positioner.Props["sideOffset"];
   alignOffset?: MenuPrimitive.Positioner.Props["alignOffset"];
+  collisionAvoidance?: MenuPrimitive.Positioner.Props["collisionAvoidance"];
+  disableAnchorTracking?: MenuPrimitive.Positioner.Props["disableAnchorTracking"];
   portalProps?: MenuPrimitive.Portal.Props;
 }
 
@@ -33,6 +35,8 @@ export const DropdownMenuContent = React.forwardRef<
       align = "start",
       sideOffset = 4,
       alignOffset = 0,
+      collisionAvoidance,
+      disableAnchorTracking,
       portalProps,
       ...props
     },
@@ -45,6 +49,8 @@ export const DropdownMenuContent = React.forwardRef<
           align={align}
           sideOffset={sideOffset}
           alignOffset={alignOffset}
+          collisionAvoidance={collisionAvoidance}
+          disableAnchorTracking={disableAnchorTracking}
           className="z-50 outline-none"
         >
           <MenuPrimitive.Popup

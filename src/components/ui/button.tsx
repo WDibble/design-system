@@ -13,6 +13,7 @@ export const buttonVariants = cva(
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     "disabled:pointer-events-none [&:disabled:not([aria-busy='true'])]:opacity-50", // Active async loading states retain full 100% opacity to prevent 50%->100% brightness strobe
     "[-webkit-tap-highlight-color:transparent]",
+    "data-[state=open]:bg-muted/70 data-[popup-open]:bg-muted/70",
   ].join(" "),
   {
     variants: {
@@ -61,6 +62,12 @@ export interface ButtonProps
   rightIcon?: React.ReactNode;
   fluidMorph?: boolean;
   iconTrigger?: IconAnimationTrigger;
+  /**
+   * When true, disables the tactile scale down on tap.
+   * By default, buttons used as popup or menu triggers automatically suppress tap scaling
+   * to guarantee the anchored surface has a zero-jitter, non-moving reference bounding box.
+   */
+  disableTapScale?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -77,6 +84,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       rightIcon,
       fluidMorph = false,
       iconTrigger = "hover",
+      disableTapScale,
       children,
       disabled,
       type = "button",
@@ -203,13 +211,24 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const renderedRightIcon = enhanceIcon(rightIcon, rightIconRef);
     const renderedChildIcon = isIconButton ? enhanceIcon(children, childIconRef) : children;
 
+    // Floating overlays (Popover, Menu, etc.) measure the trigger's getBoundingClientRect().
+    // If the button scales down on tap and rebounds, the floating positioner recalculates coordinates
+    // on every spring frame, causing the overlay to visibly wiggle or bounce.
+    // Suppressing tap scale on popup triggers guarantees an invariant, rock-solid reference box.
+    const isPopupTrigger =
+      Boolean((props as any)["aria-haspopup"]) ||
+      Boolean((props as any)["data-popup-open"]) ||
+      Boolean((props as any)["aria-expanded"]);
+
+    const shouldTapScale = !isDisabled && !(disableTapScale ?? isPopupTrigger);
+
     return (
       <motion.button
         ref={ref}
         type={type}
         disabled={isDisabled}
         aria-busy={activeState === "loading" || undefined}
-        whileTap={isDisabled ? undefined : { scale: 0.975 }}
+        whileTap={shouldTapScale ? { scale: 0.975 } : undefined}
         layout={fluidMorph ? true : undefined}
         transition={springs.tactile}
         onMouseEnter={handleMouseEnter}

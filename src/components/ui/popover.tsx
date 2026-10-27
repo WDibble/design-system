@@ -15,6 +15,8 @@ export interface PopoverContentProps
   align?: PopoverPrimitive.Positioner.Props["align"];
   sideOffset?: PopoverPrimitive.Positioner.Props["sideOffset"];
   alignOffset?: PopoverPrimitive.Positioner.Props["alignOffset"];
+  collisionAvoidance?: PopoverPrimitive.Positioner.Props["collisionAvoidance"];
+  disableAnchorTracking?: PopoverPrimitive.Positioner.Props["disableAnchorTracking"];
   portalProps?: PopoverPrimitive.Portal.Props;
 }
 
@@ -30,6 +32,8 @@ export const PopoverContent = React.forwardRef<
       align = "center",
       sideOffset = 6,
       alignOffset = 0,
+      collisionAvoidance,
+      disableAnchorTracking,
       portalProps,
       ...props
     },
@@ -42,6 +46,8 @@ export const PopoverContent = React.forwardRef<
           align={align}
           sideOffset={sideOffset}
           alignOffset={alignOffset}
+          collisionAvoidance={collisionAvoidance}
+          disableAnchorTracking={disableAnchorTracking}
           className="z-50 outline-none"
         >
           <PopoverPrimitive.Popup
