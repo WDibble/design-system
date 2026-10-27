@@ -1,5 +1,4 @@
 import * as React from "react";
-import { motion, AnimatePresence } from "motion/react";
 import {
   SparklesIcon,
   MoonIcon,
@@ -38,6 +37,7 @@ import { Field, FieldLabel, FieldDescription, FieldError } from "@/components/ui
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
+import { CopyButton } from "@/components/ui/copy-button";
 import {
   Dialog,
   DialogTrigger,
@@ -98,7 +98,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
-import { springs } from "@/tokens/motion";
 import { disableTransitionsTemporarily } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
@@ -121,13 +120,6 @@ export default function App() {
   const [menuShowStatus, setMenuShowStatus] = React.useState(true);
   const [menuShowActivity, setMenuShowActivity] = React.useState(false);
   const [menuFrequency, setMenuFrequency] = React.useState("realtime");
-  const [isApiKeyCopied, setIsApiKeyCopied] = React.useState(false);
-
-  const handleCopyApiKey = () => {
-    if (isApiKeyCopied) return;
-    setIsApiKeyCopied(true);
-    setTimeout(() => setIsApiKeyCopied(false), 1600);
-  };
 
   const toggleTheme = () => {
     const restore = disableTransitionsTemporarily();
@@ -141,12 +133,6 @@ export default function App() {
       return next;
     });
     restore();
-  };
-
-  const handleCopy = () => {
-    if (isCopied) return;
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 1800);
   };
 
   // Full kinetic narrative: Idle -> Loading -> Success -> Idle
@@ -390,49 +376,14 @@ export default function App() {
                   </div>
 
                   <div className="flex justify-center pt-1">
-                    <motion.button
-                      layout
-                      transition={springs.squishy}
-                      whileTap={{ scale: 0.96 }}
-                      onClick={handleCopy}
-                      type="button"
-                      className={cn(
-                        "relative inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition-colors duration-150 select-none shrink-0 shadow-xs",
-                        isCopied
-                          ? "border border-emerald-500/40 bg-emerald-500/15 text-emerald-700 dark:text-emerald-400"
-                          : "border border-border/80 bg-card text-foreground hover:bg-muted"
-                      )}
-                    >
-                      <AnimatePresence mode="popLayout" initial={false}>
-                        {isCopied ? (
-                          <motion.span
-                            key="copied"
-                            layout="position"
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            transition={springs.micro}
-                            className="inline-flex items-center gap-1.5"
-                          >
-                            <CheckIcon size={16} />
-                            <span>Copied!</span>
-                          </motion.span>
-                        ) : (
-                          <motion.span
-                            key="copy"
-                            layout="position"
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            transition={springs.micro}
-                            className="inline-flex items-center gap-2"
-                          >
-                            <CopyIcon size={16} />
-                            <span>Copy API Token</span>
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
-                    </motion.button>
+                    <CopyButton
+                      variant="pill"
+                      value="sk_live_98a44b91280f210f"
+                      idleText="Copy API Token"
+                      copiedText="Copied!"
+                      copied={isCopied}
+                      onCopiedChange={setIsCopied}
+                    />
                   </div>
                 </CardInner>
               </CardContent>
@@ -1138,25 +1089,18 @@ export default function App() {
                     </PopoverHeader>
 
                     <div className="flex flex-col gap-3">
-                      <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/40 border border-border/60">
+                      <div className="flex items-center justify-between gap-2 p-2 rounded-lg bg-muted/40 border border-border/60">
                         <span className="font-mono text-xs tabular-nums select-all truncate text-foreground">
                           pk_live_79a29fb4839...
                         </span>
-                        <Button
+                        <CopyButton
                           size="sm"
                           variant="ghost"
-                          className="shrink-0 h-7 px-2 text-xs"
-                          onClick={handleCopyApiKey}
-                        >
-                          {isApiKeyCopied ? (
-                            <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
-                              <CheckIcon size={12} />
-                              Copied
-                            </span>
-                          ) : (
-                            "Copy"
-                          )}
-                        </Button>
+                          value="pk_live_79a29fb4839c01824ef78"
+                          idleText="Copy"
+                          copiedText="Copied"
+                          className="shrink-0"
+                        />
                       </div>
                       <p className="text-[11px] text-muted-foreground">
                         Never expose secret keys on public client bundles.
