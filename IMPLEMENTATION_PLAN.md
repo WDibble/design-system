@@ -111,11 +111,12 @@ Every interactive component MUST implement and visually handle the complete stat
   - `Switch` (`src/components/ui/switch.tsx`): Built on `@base-ui/react/switch` with Apple HIG fluid spring easing (`cubic-bezier(0.16,1,0.3,1)`), 44px touch target expansion (`after:-inset-2`), and active press squish.
   - `Checkbox` (`src/components/ui/checkbox.tsx`): Built on `@base-ui/react/checkbox` with concentric radii (`rounded-[5px]`), 44px touch target, physical yield on pointerdown (`active:scale-90`), with checked (`CheckIcon`) and indeterminate (`MinusIcon`) states.
   - `Slider` (`src/components/ui/slider.tsx`): Built on `@base-ui/react/slider` with continuous thumb tracking (`active:scale-115`), 44px touch target, and tabular numeral readout (`tabular-nums`).
-- [ ] **Batch 3 (Overlays & Floating Surfaces)**:
-  - `Dialog` & `AlertDialog` with spring physics and Escape parity.
-  - `Sheet` / Drawer with directional slide.
-  - `DropdownMenu` & `Popover` with trigger-anchored origins.
-  - `Tooltip` with micro spring.
+- [x] **Batch 3 (Overlays & Floating Surfaces)**:
+  - `Dialog` & `AlertDialog` (`src/components/ui/dialog.tsx`, `src/components/ui/alert-dialog.tsx`): Built on `@base-ui/react/dialog` and `@base-ui/react/alert-dialog` with Apple HIG spring curves (`cubic-bezier(0.16,1,0.3,1)`), focus trapping, outside-click and Escape parity, 1px specular lighting, and safe default focus on Cancel for destructive alerts.
+  - `Sheet` (`src/components/ui/sheet.tsx`): Built on Base UI Dialog with 4-way directional slide physics (`side="right" | "left" | "top" | "bottom"`), trapped focus, and accessible close button.
+  - `Popover` (`src/components/ui/popover.tsx`): Built on `@base-ui/react/popover` with trigger-anchored origin (`origin-(--transform-origin)`), auto-collision positioning, and micro-spring entrance.
+  - `Tooltip` (`src/components/ui/tooltip.tsx`): Built on `@base-ui/react/tooltip` with `TooltipProvider` shared warm-up delay, micro-spring easing, and non-blocking layout.
+  - `DropdownMenu` (`src/components/ui/dropdown-menu.tsx`): Built on `@base-ui/react/menu` with trigger-anchored origin, keyboard arrow navigation, submenus, checkbox items, radio groups, and zero-shift shortcut indicators.
 - [ ] **Batch 4 (Navigation, Tabs & Data Display)**:
   - `Tabs` with sliding layout indicator via `motion/react`.
   - `Accordion` with CSS Grid `0fr ➔ 1fr` standard and `inert`.
