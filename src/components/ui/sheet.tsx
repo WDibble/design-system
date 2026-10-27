@@ -42,59 +42,49 @@ export const SheetContent = React.forwardRef<
   return (
     <SheetPortal>
       <SheetBackdrop />
-      <SheetPrimitive.Viewport
+      <SheetPrimitive.Popup
+        ref={ref}
         className={cn(
-          "fixed inset-0 z-50 flex overflow-hidden",
-          side === "right" && "justify-end",
-          side === "left" && "justify-start",
-          side === "bottom" && "items-end",
-          side === "top" && "items-start"
+          "fixed z-50 flex flex-col bg-card text-card-foreground shadow-2xl outline-none select-auto",
+          "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08),0_25px_50px_-12px_rgba(0,0,0,0.25)]",
+          "transition-[translate] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+          // Directional anchor and slide variants:
+          side === "right" && [
+            "inset-y-0 right-0 h-full w-full max-w-md border-l border-border/80",
+            "data-[starting-style]:translate-x-full data-[ending-style]:translate-x-full",
+          ],
+          side === "left" && [
+            "inset-y-0 left-0 h-full w-full max-w-md border-r border-border/80",
+            "data-[starting-style]:-translate-x-full data-[ending-style]:-translate-x-full",
+          ],
+          side === "bottom" && [
+            "inset-x-0 bottom-0 w-full max-h-[85vh] rounded-t-2xl border-t border-border/80",
+            "data-[starting-style]:translate-y-full data-[ending-style]:translate-y-full",
+          ],
+          side === "top" && [
+            "inset-x-0 top-0 w-full max-h-[85vh] rounded-b-2xl border-b border-border/80",
+            "data-[starting-style]:-translate-y-full data-[ending-style]:-translate-y-full",
+          ],
+          className
         )}
+        {...props}
       >
-        <SheetPrimitive.Popup
-          ref={ref}
-          className={cn(
-            "relative flex flex-col bg-card text-card-foreground shadow-2xl z-50 outline-none",
-            "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08),0_25px_50px_-12px_rgba(0,0,0,0.25)]",
-            "transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
-            // Directional slide variants:
-            side === "right" && [
-              "h-full w-full max-w-md border-l border-border/80",
-              "data-[starting-style]:translate-x-full data-[ending-style]:translate-x-full",
-            ],
-            side === "left" && [
-              "h-full w-full max-w-md border-r border-border/80",
-              "data-[starting-style]:-translate-x-full data-[ending-style]:-translate-x-full",
-            ],
-            side === "bottom" && [
-              "w-full max-h-[85vh] rounded-t-2xl border-t border-border/80",
-              "data-[starting-style]:translate-y-full data-[ending-style]:translate-y-full",
-            ],
-            side === "top" && [
-              "w-full max-h-[85vh] rounded-b-2xl border-b border-border/80",
-              "data-[starting-style]:-translate-y-full data-[ending-style]:-translate-y-full",
-            ],
-            className
-          )}
-          {...props}
-        >
-          {children}
+        {children}
 
-          {showCloseButton && (
-            <SheetPrimitive.Close
-              aria-label="Close sheet"
-              className={cn(
-                "absolute top-4 right-4 rounded-md p-1.5 text-muted-foreground transition-colors select-none",
-                "hover:bg-muted hover:text-foreground",
-                "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-ring",
-                "active:scale-95"
-              )}
-            >
-              <XIcon size={16} />
-            </SheetPrimitive.Close>
-          )}
-        </SheetPrimitive.Popup>
-      </SheetPrimitive.Viewport>
+        {showCloseButton && (
+          <SheetPrimitive.Close
+            aria-label="Close sheet"
+            className={cn(
+              "absolute top-4 right-4 rounded-md p-1.5 text-muted-foreground transition-colors select-none",
+              "hover:bg-muted hover:text-foreground",
+              "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-ring",
+              "active:scale-95"
+            )}
+          >
+            <XIcon size={16} />
+          </SheetPrimitive.Close>
+        )}
+      </SheetPrimitive.Popup>
     </SheetPortal>
   );
 });
