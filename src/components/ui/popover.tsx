@@ -49,11 +49,14 @@ export const PopoverContent = React.forwardRef<
             className={cn(
               "relative w-72 rounded-xl border border-border/80 bg-card p-4 text-card-foreground shadow-xl select-auto outline-none",
               "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08),0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)]",
-              "origin-(--transform-origin)",
-              // Apple HIG fluid spring transition:
-              "transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-              "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
-              "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
+              // Deterministic anchor origin locked to trigger edge (eliminates dynamic origin drift):
+              "data-[side=bottom]:origin-top data-[side=top]:origin-bottom data-[side=left]:origin-right data-[side=right]:origin-left",
+              "data-[side=bottom]:data-[align=start]:origin-top-left data-[side=bottom]:data-[align=end]:origin-top-right",
+              "data-[side=top]:data-[align=start]:origin-bottom-left data-[side=top]:data-[align=end]:origin-bottom-right",
+              // Apple HIG micro-spring transition (exclusively scale and opacity):
+              "transition-[scale,opacity] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
+              "data-[starting-style]:scale-98 data-[starting-style]:opacity-0",
+              "data-[ending-style]:scale-98 data-[ending-style]:opacity-0",
               className
             )}
             {...props}
