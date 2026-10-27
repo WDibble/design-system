@@ -215,14 +215,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const shouldTapScale = !isDisabled && !disableTapScale;
 
     return (
-      <motion.button
+      <button
         ref={ref}
         type={type}
         disabled={isDisabled}
         aria-busy={activeState === "loading" || undefined}
-        whileTap={shouldTapScale ? { scale: 0.975 } : undefined}
-        layout={fluidMorph ? true : undefined}
-        transition={springs.tactile}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onPointerDown={handlePointerDown}
@@ -231,15 +228,25 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onFocus={handleFocus}
         onBlur={handleBlur}
         className={cn(
-          buttonVariants({
-            variant: isSuccess ? "success" : variant,
-            size,
-            className,
-          })
+          "group relative inline-flex items-center justify-center p-0 border-0 bg-transparent outline-none cursor-pointer disabled:pointer-events-none select-none shrink-0",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg",
+          className
         )}
-        {...props}
+        {...(props as any)}
       >
-        {hasStateTransitions ? (
+        <motion.span
+          whileTap={shouldTapScale ? { scale: 0.975 } : undefined}
+          layout={fluidMorph ? true : undefined}
+          transition={springs.tactile}
+          className={cn(
+            buttonVariants({
+              variant: isSuccess ? "success" : variant,
+              size,
+            }),
+            "size-full"
+          )}
+        >
+          {hasStateTransitions ? (
           <>
             {/* 1. Ghost Footprint Sizer: Locks button width to the widest variant without container bleed */}
             <span
@@ -346,7 +353,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             )}
           </>
         )}
-      </motion.button>
+        </motion.span>
+      </button>
     );
   }
 );
