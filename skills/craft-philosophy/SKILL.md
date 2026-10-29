@@ -451,10 +451,11 @@ Ensure custom styling applies to surfaces that browsers render by default:
 - Caret color: `caret-color: var(--primary);`
 - Scrollbars: Thin, rounded, theme-tinted scrollbars (`scrollbar-thin scrollbar-thumb-muted`).
 
-### 7. Accessibility Invariants (WCAG 2.2 AAA/AA)
+### 7. Dual-Engine Accessibility Invariants (WCAG 2.2 AA + WCAG 3 APCA)
 - Explicit `aria-label` for all icon-only buttons.
 - Dialogs must trap focus, restore focus on close, and dismiss on `Escape`.
-- Contrast ratio $\ge 4.5:1$ for normal text, $\ge 3:1$ for large display text.
+- **Compliance Engine (WCAG 2.2)**: Contrast ratio $\ge 4.5:1$ for normal text, $\ge 3:1$ for large display text and UI controls (SC 1.4.11).
+- **Perceptual Engine (WCAG 3 APCA)**: APCA Lightness Contrast $|L_c| \ge 60$ for buttons/controls, $|L_c| \ge 75$ for body text. On high-luminance hues (amber/yellow/gold), enforce dark obsidian text to prevent optical halation.
 - Validation errors linked via `aria-describedby` and marked with `aria-invalid="true"`.
 
 ---

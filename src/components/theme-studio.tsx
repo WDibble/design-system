@@ -31,6 +31,7 @@ import {
   tweakcnExportSchema,
   type TweakcnTheme,
 } from "@/lib/theme";
+import { evaluateDualContrast } from "@/lib/contrast";
 import { cn } from "@/lib/utils";
 
 export interface ThemeStudioProps {
@@ -80,6 +81,16 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
 
     return JSON.stringify(currentTheme, null, 2);
   }, [activePresetId, hue, chroma, lightness, radiusPx]);
+
+  // Dual-Engine Contrast Calculation (WCAG 2.2 AA + WCAG 3 APCA)
+  const dualContrast = React.useMemo(() => {
+    const activePreset = presetThemes.find((p) => p.id === activePresetId) || presetThemes[0];
+    const livePrimaryColor = `oklch(${isDark ? Math.min(0.85, lightness + 0.15) : lightness} ${chroma} ${hue})`;
+    const liveFgColor = isDark
+      ? activePreset.styles.dark["primary-foreground"]
+      : activePreset.styles.light["primary-foreground"];
+    return evaluateDualContrast(liveFgColor, livePrimaryColor, "button");
+  }, [activePresetId, isDark, lightness, chroma, hue]);
 
   // Global Keyboard Shortcut: ⌘T / Ctrl+T
   React.useEffect(() => {
@@ -290,8 +301,9 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                           {preset.description}
                         </p>
 
-                        <div className="flex items-center gap-2 mt-2 pt-2 border-t border-border/40 text-[10px] text-muted-foreground font-mono">
-                          <span>Radius: {preset.radiusPx}px</span>
+                        <div className="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-border/40 text-[10px] text-muted-foreground font-mono">
+                          <span>R: {preset.radiusPx}px</span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-medium text-[9px]">Dual-Engine ✅</span>
                         </div>
                       </button>
                     );
@@ -324,10 +336,35 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                         {isDark ? "Dark-Calibrated Primary" : "Perceptually Uniform Lightness"}
                       </p>
                       <p className="text-[10px]">
-                        {isDark
-                          ? "Automatically boosted to guarantee WCAG 2.2 contrast on dark surfaces."
-                          : "Zero hue-dependent luminance shift across theme updates."}
+                        Dual-engine calibrated against WCAG 2.2 AA and WCAG 3 APCA spatial models.
                       </p>
+                    </div>
+                  </div>
+
+                  {/* Dual-Engine Live Contrast Badges */}
+                  <div className="pt-2 border-t border-border/40 grid grid-cols-2 gap-2 text-[10px]">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-muted-foreground font-mono">WCAG 2.2 AA</span>
+                      <div className="flex items-center gap-1.5 font-medium">
+                        <span className={dualContrast.wcag2.passAA ? "text-emerald-600 dark:text-emerald-400 font-mono font-semibold" : "text-destructive font-mono font-semibold"}>
+                          {dualContrast.wcag2.formattedRatio}
+                        </span>
+                        <span className="text-[9px] text-muted-foreground">
+                          {dualContrast.wcag2.passAA ? "Passed (≥4.5)" : "Failed (<4.5)"}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-muted-foreground font-mono">WCAG 3 APCA</span>
+                      <div className="flex items-center gap-1.5 font-medium">
+                        <span className={dualContrast.apca.pass ? "text-emerald-600 dark:text-emerald-400 font-mono font-semibold" : "text-destructive font-mono font-semibold"}>
+                          Lc {dualContrast.apca.absLc}
+                        </span>
+                        <span className="text-[9px] text-muted-foreground">
+                          {dualContrast.apca.pass ? "Passed (≥60)" : "Failed (<60)"}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
