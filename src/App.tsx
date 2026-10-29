@@ -497,62 +497,68 @@ function AppContent() {
       </a>
 
       <div className="w-full max-w-6xl flex flex-col gap-10">
-        {/* Sticky Floating Liquid Glass Header */}
-        <header role="banner" className="sticky top-4 z-40 flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl glass-regular specular-rim shadow-lg transition-all duration-200">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="size-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-xs shrink-0">
-              <SparklesIcon size={20} />
-            </div>
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-xl font-bold tracking-tight">Design System</h1>
-                <Badge variant="outline" size="sm" dot>
-                  v0.1.0 · Spatial Engine
-                </Badge>
+        {/* Sticky Floating Liquid Glass Header powered by <NavigationBar> */}
+        <NavigationBar
+          sticky
+          containerClassName="max-w-full px-2"
+          className="sticky top-4 z-40 rounded-2xl glass-regular specular-rim shadow-lg border-border/70 p-2 sm:px-4"
+          brand={
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="size-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-xs shrink-0">
+                <SparklesIcon size={20} />
               </div>
-              <p className="text-xs text-muted-foreground mt-0.5 truncate sm:text-clip">
-                Apple Spatial Materials · Liquid Glass Navigation · Headless Base UI
-              </p>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h1 className="text-base sm:text-lg font-bold tracking-tight text-foreground">
+                    Design System
+                  </h1>
+                  <Badge variant="outline" size="sm" dot className="hidden sm:inline-flex">
+                    v2.0
+                  </Badge>
+                </div>
+              </div>
             </div>
-          </div>
+          }
+          items={demoNavItems}
+          actions={
+            <>
+              {/* Theme Studio Drawer Trigger */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => window.dispatchEvent(new CustomEvent("open-theme-studio"))}
+                aria-label="Open Theme Studio (⌘T)"
+                className="gap-1.5 h-9 px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70 hidden md:inline-flex"
+              >
+                <PaletteIcon size={14} className="text-primary" />
+                <span className="hidden lg:inline text-xs font-medium">Themes</span>
+                <kbd className="hidden lg:inline-flex items-center text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
+                  ⌘T
+                </kbd>
+              </Button>
 
-          <div className="flex items-center gap-2 shrink-0">
-            {/* Theme Studio Drawer Trigger */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => window.dispatchEvent(new CustomEvent("open-theme-studio"))}
-              aria-label="Open Theme Studio (⌘T)"
-              className="gap-1.5 h-9 px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70"
-            >
-              <PaletteIcon size={14} className="text-primary" />
-              <span className="hidden sm:inline text-xs font-medium">Themes</span>
-              <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
-                ⌘T
-              </kbd>
-            </Button>
+              {/* Quick Command Palette Trigger (Detail #3 & #4) */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCommandOpen(true)}
+                className="gap-2 h-9 px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70"
+              >
+                <SearchIcon size={14} className="opacity-70" />
+                <span className="hidden sm:inline text-xs text-muted-foreground font-normal">Command</span>
+                <kbd className="hidden sm:inline-flex items-center gap-0.5 text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
+                  ⌘K
+                </kbd>
+              </Button>
 
-            {/* Quick Command Palette Trigger (Detail #3 & #4) */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCommandOpen(true)}
-              className="gap-2 h-9 px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70"
-            >
-              <SearchIcon size={14} className="opacity-70" />
-              <span className="hidden sm:inline text-xs text-muted-foreground font-normal">Command</span>
-              <kbd className="hidden sm:inline-flex items-center gap-0.5 text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
-                ⌘K
-              </kbd>
-            </Button>
-
-            <ThemeToggle
-              isDark={isDark}
-              onToggleDark={(next) => toggleTheme(next)}
-              className="rounded-xl border-border/60"
-            />
-          </div>
-        </header>
+              <ThemeToggle
+                isDark={isDark}
+                onToggleDark={(next) => toggleTheme(next)}
+                className="rounded-xl border-border/60 size-9"
+              />
+            </>
+          }
+        />
 
         {/* Main Content Landmark */}
         <main id="main-content" tabIndex={-1} className="flex flex-col gap-10 outline-none">

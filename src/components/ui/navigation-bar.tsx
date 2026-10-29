@@ -96,6 +96,7 @@ export interface NavigationBarProps extends React.ComponentProps<"nav"> {
   mobileBrand?: React.ReactNode;
   mobileFooter?: React.ReactNode;
   sticky?: boolean;
+  containerClassName?: string;
 }
 
 export function NavigationBar({
@@ -105,6 +106,7 @@ export function NavigationBar({
   mobileBrand,
   mobileFooter,
   sticky = true,
+  containerClassName,
   className,
   children,
   ...props
@@ -165,7 +167,7 @@ export function NavigationBar({
         )}
         {...props}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        <div className={cn("max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4", containerClassName)}>
           {/* Brand Slot */}
           <div className="flex items-center gap-6 min-w-0">
             {brand && <div className="shrink-0">{brand}</div>}
