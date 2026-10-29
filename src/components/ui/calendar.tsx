@@ -25,6 +25,21 @@ const MONTH_NAMES = [
 
 const DAY_NAMES = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
+const monthVariants = {
+  enter: (direction: number) => ({
+    x: direction === 0 ? 0 : direction > 0 ? 32 : -32,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction === 0 ? 0 : direction > 0 ? -32 : 32,
+    opacity: 0,
+  }),
+};
+
 function isSameDay(d1: Date, d2: Date): boolean {
   return (
     d1.getFullYear() === d2.getFullYear() &&
@@ -48,11 +63,13 @@ export function Calendar({
   const [slideDirection, setSlideDirection] = React.useState<number>(0);
 
   const navigateMonth = (targetYear: number, targetMonth: number) => {
-    const currentNorm = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getTime();
-    const targetNorm = new Date(targetYear, targetMonth, 1).getTime();
+    const target = new Date(targetYear, targetMonth, 1);
+    const targetNorm = target.getFullYear() * 12 + target.getMonth();
+    const currentNorm = currentMonth.getFullYear() * 12 + currentMonth.getMonth();
     if (targetNorm === currentNorm) return;
-    setSlideDirection(targetNorm > currentNorm ? 1 : -1);
-    setCurrentMonth(new Date(targetYear, targetMonth, 1));
+    const dir = targetNorm > currentNorm ? 1 : -1;
+    setSlideDirection(dir);
+    setCurrentMonth(target);
   };
 
   const prevMonth = () => {
@@ -232,13 +249,14 @@ export function Calendar({
 
       {/* Date Grid with AnimatePresence Month Slide */}
       <div className="relative overflow-hidden min-h-[216px]">
-        <AnimatePresence initial={false} custom={slideDirection} mode="wait">
+        <AnimatePresence initial={false} custom={slideDirection} mode="popLayout">
           <motion.div
             key={`${currentMonth.getFullYear()}-${currentMonth.getMonth()}`}
             custom={slideDirection}
-            initial={{ opacity: 0, x: slideDirection * 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: slideDirection * -20 }}
+            variants={monthVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
             transition={{
               type: "spring",
               stiffness: 450,
@@ -256,7 +274,12 @@ export function Calendar({
                   key={dateString}
                   type="button"
                   disabled={isDisabled}
-                  onClick={() => onSelect?.(date)}
+                  onClick={() => {
+                    if (!isCurrentMonth) {
+                      navigateMonth(date.getFullYear(), date.getMonth());
+                    }
+                    onSelect?.(date);
+                  }}
                   whileTap={!isDisabled ? { scale: 0.92 } : undefined}
                   transition={springs.tactile}
                   aria-label={`${date.toDateString()}${isSelected ? ", selected" : ""}${isToday ? ", today" : ""}`}
