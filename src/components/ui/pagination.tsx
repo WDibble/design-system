@@ -1,21 +1,43 @@
 "use client";
 
 import * as React from "react";
+import { motion, type HTMLMotionProps } from "motion/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
+import { springs } from "@/tokens/motion";
 import { cn } from "@/lib/utils";
 
-export const Pagination = ({
+interface PaginationContextValue {
+  layoutId: string;
+}
+
+const PaginationContext = React.createContext<PaginationContextValue | null>(null);
+
+export interface PaginationProps extends React.ComponentProps<"nav"> {
+  layoutId?: string;
+}
+
+export function Pagination({
   className,
+  layoutId: customLayoutId,
+  children,
   ...props
-}: React.ComponentProps<"nav">) => (
-  <nav
-    role="navigation"
-    aria-label="pagination"
-    className={cn("mx-auto flex w-full justify-center select-none", className)}
-    {...props}
-  />
-);
+}: PaginationProps) {
+  const uniqueId = React.useId();
+  const layoutId = customLayoutId ?? `pagination-active-pill-${uniqueId}`;
+
+  return (
+    <PaginationContext.Provider value={{ layoutId }}>
+      <nav
+        role="navigation"
+        aria-label="pagination"
+        className={cn("mx-auto flex w-full justify-center select-none", className)}
+        {...props}
+      >
+        {children}
+      </nav>
+    </PaginationContext.Provider>
+  );
+}
 Pagination.displayName = "Pagination";
 
 export const PaginationContent = React.forwardRef<
@@ -32,87 +54,137 @@ PaginationContent.displayName = "PaginationContent";
 
 export const PaginationItem = React.forwardRef<
   HTMLLIElement,
-  React.ComponentProps<"li">
+  HTMLMotionProps<"li">
 >(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("", className)} {...props} />
+  <motion.li
+    ref={ref}
+    layout
+    transition={springs.snappy}
+    className={cn("inline-flex items-center", className)}
+    {...props}
+  />
 ));
 PaginationItem.displayName = "PaginationItem";
 
-export type PaginationLinkProps = {
+export interface PaginationLinkProps
+  extends Omit<HTMLMotionProps<"button">, "ref" | "children"> {
   isActive?: boolean;
-} & React.ComponentProps<"a">;
+  children?: React.ReactNode;
+}
 
 export const PaginationLink = ({
   className,
   isActive,
   children,
+  onClick,
+  disabled,
   ...props
-}: PaginationLinkProps) => (
-  <a
-    aria-current={isActive ? "page" : undefined}
-    className={cn(
-      buttonVariants({
-        variant: isActive ? "default" : "ghost",
-        size: "icon-sm",
-      }),
-      "font-mono tabular-nums text-xs transition-transform active:scale-95 cursor-pointer",
-      isActive && "shadow-xs specular-rim pointer-events-none",
-      className
-    )}
-    {...props}
-  >
-    {children}
-  </a>
-);
+}: PaginationLinkProps) => {
+  const context = React.useContext(PaginationContext);
+  const layoutId = context?.layoutId ?? "pagination-default-indicator";
+
+  return (
+    <motion.button
+      type="button"
+      layout
+      whileTap={!isActive && !disabled ? { scale: 0.92 } : undefined}
+      transition={springs.tactile}
+      aria-current={isActive ? "page" : undefined}
+      disabled={disabled || isActive}
+      onClick={onClick}
+      className={cn(
+        "group relative size-8 rounded-md font-mono tabular-nums text-xs font-medium flex items-center justify-center border border-transparent select-none cursor-pointer outline-none transition-colors duration-150",
+        "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+        isActive
+          ? "text-primary-foreground pointer-events-none"
+          : "text-muted-foreground hover:text-foreground hover:bg-muted/70",
+        disabled && "opacity-40 cursor-not-allowed pointer-events-none",
+        className
+      )}
+      {...props}
+    >
+      {/* Sliding Active Pill Indicator */}
+      {isActive && (
+        <motion.span
+          layoutId={layoutId}
+          transition={springs.snappy}
+          className="absolute inset-0 rounded-md bg-primary shadow-xs specular-rim pointer-events-none"
+        />
+      )}
+
+      {/* Numerical Label */}
+      <span className="relative z-10 block pointer-events-none">
+        {children}
+      </span>
+    </motion.button>
+  );
+};
 PaginationLink.displayName = "PaginationLink";
+
+export interface PaginationButtonProps
+  extends Omit<HTMLMotionProps<"button">, "ref"> {
+  disabled?: boolean;
+}
 
 export const PaginationPrevious = ({
   className,
   disabled,
+  onClick,
   ...props
-}: React.ComponentProps<typeof PaginationLink> & { disabled?: boolean }) => (
-  <a
+}: PaginationButtonProps) => (
+  <motion.button
+    type="button"
     aria-label="Go to previous page"
-    aria-disabled={disabled}
+    disabled={disabled}
+    onClick={onClick}
+    whileTap={!disabled ? { scale: 0.96 } : undefined}
+    transition={springs.tactile}
     className={cn(
-      buttonVariants({
-        variant: "outline",
-        size: "sm",
-      }),
-      "gap-1.5 pl-2.5 pr-3 text-xs active:scale-95 cursor-pointer",
-      disabled && "opacity-40 pointer-events-none cursor-not-allowed",
+      "group inline-flex items-center justify-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-all duration-150",
+      "hover:bg-muted hover:border-foreground/30 hover:text-foreground active:scale-98",
+      "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+      disabled && "opacity-40 cursor-not-allowed pointer-events-none",
       className
     )}
     {...props}
   >
-    <ChevronLeftIcon size={14} className="shrink-0" />
+    <ChevronLeftIcon
+      size={14}
+      className="shrink-0 transition-transform duration-150 ease-out group-hover:-translate-x-0.5"
+    />
     <span className="hidden sm:inline">Previous</span>
-  </a>
+  </motion.button>
 );
 PaginationPrevious.displayName = "PaginationPrevious";
 
 export const PaginationNext = ({
   className,
   disabled,
+  onClick,
   ...props
-}: React.ComponentProps<typeof PaginationLink> & { disabled?: boolean }) => (
-  <a
+}: PaginationButtonProps) => (
+  <motion.button
+    type="button"
     aria-label="Go to next page"
-    aria-disabled={disabled}
+    disabled={disabled}
+    onClick={onClick}
+    whileTap={!disabled ? { scale: 0.96 } : undefined}
+    transition={springs.tactile}
     className={cn(
-      buttonVariants({
-        variant: "outline",
-        size: "sm",
-      }),
-      "gap-1.5 pl-3 pr-2.5 text-xs active:scale-95 cursor-pointer",
-      disabled && "opacity-40 pointer-events-none cursor-not-allowed",
+      "group inline-flex items-center justify-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-all duration-150",
+      "hover:bg-muted hover:border-foreground/30 hover:text-foreground active:scale-98",
+      "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+      disabled && "opacity-40 cursor-not-allowed pointer-events-none",
       className
     )}
     {...props}
   >
     <span className="hidden sm:inline">Next</span>
-    <ChevronRightIcon size={14} className="shrink-0" />
-  </a>
+    <ChevronRightIcon
+      size={14}
+      className="shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5"
+    />
+  </motion.button>
 );
 PaginationNext.displayName = "PaginationNext";
 
@@ -122,7 +194,7 @@ export const PaginationEllipsis = ({
 }: React.ComponentProps<"span">) => (
   <span
     aria-hidden
-    className={cn("flex size-8 items-center justify-center text-muted-foreground", className)}
+    className={cn("flex size-8 items-center justify-center text-muted-foreground select-none", className)}
     {...props}
   >
     <span className="font-mono text-xs tracking-widest">…</span>
