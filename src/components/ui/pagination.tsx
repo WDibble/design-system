@@ -17,6 +17,17 @@ export interface PaginationProps extends React.ComponentProps<"nav"> {
   currentPage?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
+  /**
+   * Display variant for Previous/Next buttons in turnkey mode:
+   * - "worded": Displays icon and text label ("Previous" / "Next").
+   * - "icon": Compact square icon-only buttons (size-8) matching numerical page pills.
+   * @default "worded"
+   */
+  buttonVariant?: "worded" | "icon";
+  /**
+   * Convenience boolean shorthand: setting false enables icon-only buttons.
+   */
+  showButtonLabels?: boolean;
 }
 
 export function Pagination({
@@ -25,6 +36,8 @@ export function Pagination({
   currentPage,
   totalPages,
   onPageChange,
+  buttonVariant = "worded",
+  showButtonLabels = true,
   children,
   ...props
 }: PaginationProps) {
@@ -39,6 +52,9 @@ export function Pagination({
     onPageChange !== undefined &&
     !children;
 
+  const resolvedButtonVariant: "worded" | "icon" =
+    showButtonLabels === false ? "icon" : buttonVariant;
+
   return (
     <PaginationContext.Provider value={{ layoutId }}>
       <nav
@@ -51,6 +67,7 @@ export function Pagination({
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
+                variant={resolvedButtonVariant}
                 disabled={currentPage <= 1}
                 onClick={() => onPageChange(Math.max(1, currentPage - 1))}
               />
@@ -78,6 +95,7 @@ export function Pagination({
 
             <PaginationItem>
               <PaginationNext
+                variant={resolvedButtonVariant}
                 disabled={currentPage >= totalPages}
                 onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
               />
@@ -186,101 +204,174 @@ export const PaginationLink = ({
 PaginationLink.displayName = "PaginationLink";
 
 export interface PaginationButtonProps
-  extends Omit<HTMLMotionProps<"button">, "ref"> {
+  extends Omit<HTMLMotionProps<"button">, "ref" | "children"> {
+  children?: React.ReactNode;
   disabled?: boolean;
+  /**
+   * Display mode for the button:
+   * - "worded": Displays icon and text label (e.g. "< Previous" or "Next >").
+   * - "icon": Compact square icon-only button (size-8) matching numerical page pills.
+   * @default "worded"
+   */
+  variant?: "worded" | "icon";
+  /**
+   * Convenience boolean shorthand for variant="icon".
+   */
+  iconOnly?: boolean;
+  /**
+   * Optional custom text label when rendered in worded mode.
+   * Defaults to "Previous" or "Next".
+   */
+  label?: React.ReactNode;
 }
 
-export const PaginationPrevious = ({
-  className,
-  disabled,
-  onClick,
-  onMouseDown,
-  ...props
-}: PaginationButtonProps) => (
-  <motion.button
-    type="button"
-    aria-label="Go to previous page"
-    aria-disabled={disabled}
-    onPointerDown={(e) => {
-      e.preventDefault();
-      props.onPointerDown?.(e);
-    }}
-    onMouseDown={(e) => {
-      e.preventDefault();
-      onMouseDown?.(e);
-    }}
-    onClick={(e) => {
-      if (disabled) {
-        e.preventDefault();
-        return;
-      }
-      onClick?.(e);
-    }}
-    whileTap={!disabled ? { scale: 0.96 } : undefined}
-    transition={springs.tactile}
-    className={cn(
-      "group inline-flex items-center justify-center gap-1.5 h-8 w-[84px] sm:w-[88px] shrink-0 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-colors duration-150",
-      "hover:bg-muted hover:border-foreground/30 hover:text-foreground",
-      "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
-      disabled && "opacity-40 cursor-not-allowed pointer-events-none",
-      className
-    )}
-    {...props}
-  >
-    <ChevronLeftIcon
-      size={14}
-      className="shrink-0 transition-transform duration-150 ease-out group-hover:-translate-x-0.5"
-    />
-    <span className="hidden sm:inline">Previous</span>
-  </motion.button>
+export const PaginationPrevious = React.forwardRef<
+  HTMLButtonElement,
+  PaginationButtonProps
+>(
+  (
+    {
+      className,
+      disabled,
+      variant = "worded",
+      iconOnly = false,
+      label,
+      children,
+      onClick,
+      onMouseDown,
+      ...props
+    },
+    ref
+  ) => {
+    const isIconOnly = iconOnly || variant === "icon";
+
+    return (
+      <motion.button
+        ref={ref}
+        type="button"
+        aria-label="Go to previous page"
+        aria-disabled={disabled}
+        onPointerDown={(e) => {
+          e.preventDefault();
+          props.onPointerDown?.(e);
+        }}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          onMouseDown?.(e);
+        }}
+        onClick={(e) => {
+          if (disabled) {
+            e.preventDefault();
+            return;
+          }
+          onClick?.(e);
+        }}
+        whileTap={!disabled ? { scale: 0.94 } : undefined}
+        transition={springs.tactile}
+        className={cn(
+          "group inline-flex items-center justify-center shrink-0 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-colors duration-150",
+          "hover:bg-muted hover:border-foreground/30 hover:text-foreground",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+          isIconOnly
+            ? "size-8 p-0"
+            : "h-8 w-[84px] sm:w-[88px] gap-1.5 px-2.5",
+          disabled && "opacity-40 cursor-not-allowed pointer-events-none",
+          className
+        )}
+        {...props}
+      >
+        <ChevronLeftIcon
+          size={14}
+          className="shrink-0 transition-transform duration-150 ease-out group-hover:-translate-x-0.5"
+        />
+        {!isIconOnly && (
+          <span className="truncate">{children ?? label ?? "Previous"}</span>
+        )}
+      </motion.button>
+    );
+  }
 );
 PaginationPrevious.displayName = "PaginationPrevious";
 
-export const PaginationNext = ({
-  className,
-  disabled,
-  onClick,
-  onMouseDown,
-  ...props
-}: PaginationButtonProps) => (
-  <motion.button
-    type="button"
-    aria-label="Go to next page"
-    aria-disabled={disabled}
-    onPointerDown={(e) => {
-      e.preventDefault();
-      props.onPointerDown?.(e);
-    }}
-    onMouseDown={(e) => {
-      e.preventDefault();
-      onMouseDown?.(e);
-    }}
-    onClick={(e) => {
-      if (disabled) {
-        e.preventDefault();
-        return;
-      }
-      onClick?.(e);
-    }}
-    whileTap={!disabled ? { scale: 0.96 } : undefined}
-    transition={springs.tactile}
-    className={cn(
-      "group inline-flex items-center justify-center gap-1.5 h-8 w-[84px] sm:w-[88px] shrink-0 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-colors duration-150",
-      "hover:bg-muted hover:border-foreground/30 hover:text-foreground",
-      "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
-      disabled && "opacity-40 cursor-not-allowed pointer-events-none",
-      className
-    )}
-    {...props}
-  >
-    <span className="hidden sm:inline">Next</span>
-    <ChevronRightIcon
-      size={14}
-      className="shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5"
-    />
-  </motion.button>
+export const PaginationNext = React.forwardRef<
+  HTMLButtonElement,
+  PaginationButtonProps
+>(
+  (
+    {
+      className,
+      disabled,
+      variant = "worded",
+      iconOnly = false,
+      label,
+      children,
+      onClick,
+      onMouseDown,
+      ...props
+    },
+    ref
+  ) => {
+    const isIconOnly = iconOnly || variant === "icon";
+
+    return (
+      <motion.button
+        ref={ref}
+        type="button"
+        aria-label="Go to next page"
+        aria-disabled={disabled}
+        onPointerDown={(e) => {
+          e.preventDefault();
+          props.onPointerDown?.(e);
+        }}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          onMouseDown?.(e);
+        }}
+        onClick={(e) => {
+          if (disabled) {
+            e.preventDefault();
+            return;
+          }
+          onClick?.(e);
+        }}
+        whileTap={!disabled ? { scale: 0.94 } : undefined}
+        transition={springs.tactile}
+        className={cn(
+          "group inline-flex items-center justify-center shrink-0 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-colors duration-150",
+          "hover:bg-muted hover:border-foreground/30 hover:text-foreground",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+          isIconOnly
+            ? "size-8 p-0"
+            : "h-8 w-[84px] sm:w-[88px] gap-1.5 px-2.5",
+          disabled && "opacity-40 cursor-not-allowed pointer-events-none",
+          className
+        )}
+        {...props}
+      >
+        {!isIconOnly && (
+          <span className="truncate">{children ?? label ?? "Next"}</span>
+        )}
+        <ChevronRightIcon
+          size={14}
+          className="shrink-0 transition-transform duration-150 ease-out group-hover:translate-x-0.5"
+        />
+      </motion.button>
+    );
+  }
 );
 PaginationNext.displayName = "PaginationNext";
+
+export const PaginationPreviousIcon = React.forwardRef<
+  HTMLButtonElement,
+  Omit<PaginationButtonProps, "variant" | "iconOnly">
+>((props, ref) => <PaginationPrevious ref={ref} variant="icon" {...props} />);
+PaginationPreviousIcon.displayName = "PaginationPreviousIcon";
+
+export const PaginationNextIcon = React.forwardRef<
+  HTMLButtonElement,
+  Omit<PaginationButtonProps, "variant" | "iconOnly">
+>((props, ref) => <PaginationNext ref={ref} variant="icon" {...props} />);
+PaginationNextIcon.displayName = "PaginationNextIcon";
 
 export const PaginationEllipsis = ({
   className,

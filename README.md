@@ -241,7 +241,7 @@ All components are located in [`src/components/ui/`](src/components/ui/) and exp
 | :--- | :--- | :--- |
 | **`Tabs`** | [`src/components/ui/tabs.tsx`](src/components/ui/tabs.tsx) | Sliding tabs across 3 variants (`default`, `pills`, `line`) with zero layout shift. |
 | **`Breadcrumb`** | [`src/components/ui/breadcrumb.tsx`](src/components/ui/breadcrumb.tsx) | Semantic hierarchical page path navigation with kinetic chevrons. |
-| **`Pagination`** | [`src/components/ui/pagination.tsx`](src/components/ui/pagination.tsx) | Mathematically locked 7-slot pagination with zero horizontal jumping and drop-in turnkey mode (`currentPage`, `totalPages`, `onPageChange`). |
+| **`Pagination`** | [`src/components/ui/pagination.tsx`](src/components/ui/pagination.tsx) | Mathematically locked 7-slot pagination with zero horizontal jumping, worded or icon-only Previous/Next buttons (`variant="worded" \| "icon"`), and turnkey auto-mode. |
 | **`Accordion`** | [`src/components/ui/accordion.tsx`](src/components/ui/accordion.tsx) | Smooth expanding disclosure panels with reversible chevron rotation and inert hidden focus. |
 | **`Table`** | [`src/components/ui/table.tsx`](src/components/ui/table.tsx) | Responsive tabular data table with quiet borders, captions, and `tabular-nums`. |
 | **`Resizable`** | [`src/components/ui/resizable.tsx`](src/components/ui/resizable.tsx) | Split-view workspace handles with tactile dragging and keyboard arrow resizing. |

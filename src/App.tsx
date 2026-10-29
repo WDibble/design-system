@@ -2665,19 +2665,36 @@ function AppContent() {
                 </div>
 
                 {/* Interactive Pagination */}
-                <div className="space-y-2 pt-2 border-t border-border/40">
+                <div className="space-y-3 pt-2 border-t border-border/40">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-medium text-foreground">Interactive Pagination</span>
                     <span className="font-mono text-muted-foreground text-[11px]">
                       Page <span className="font-semibold text-foreground">{currentPage}</span> of 10
                     </span>
                   </div>
-                  <div className="p-3 rounded-xl border border-border/60 bg-muted/20 flex flex-col gap-3">
-                    <Pagination
-                      currentPage={currentPage}
-                      totalPages={10}
-                      onPageChange={setCurrentPage}
-                    />
+                  <div className="p-3 rounded-xl border border-border/60 bg-muted/20 flex flex-col gap-4">
+                    <div className="space-y-1.5">
+                      <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground block">
+                        Worded Controls (Default)
+                      </span>
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={10}
+                        buttonVariant="worded"
+                        onPageChange={setCurrentPage}
+                      />
+                    </div>
+                    <div className="space-y-1.5 pt-2 border-t border-border/30">
+                      <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground block">
+                        Compact Icon Controls (size-8)
+                      </span>
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={10}
+                        buttonVariant="icon"
+                        onPageChange={setCurrentPage}
+                      />
+                    </div>
                   </div>
                 </div>
               </CardContent>
