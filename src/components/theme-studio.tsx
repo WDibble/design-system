@@ -29,7 +29,6 @@ import {
 import {
   applyTweakcnTheme,
   tweakcnExportSchema,
-  disableTransitionsTemporarily,
   type TweakcnTheme,
 } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -43,11 +42,11 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
   const [open, setOpen] = React.useState(false);
   const [activePresetId, setActivePresetId] = React.useState<string>("zinc-default");
 
-  // Custom Tuning State
-  const [hue, setHue] = React.useState(250);
-  const [chroma, setChroma] = React.useState(0.18);
-  const [lightness, setLightness] = React.useState(0.55);
-  const [radiusPx, setRadiusPx] = React.useState(10);
+  // Custom Tuning State (initialized from default preset)
+  const [hue, setHue] = React.useState(presetThemes[0].hue);
+  const [chroma, setChroma] = React.useState(presetThemes[0].chroma);
+  const [lightness, setLightness] = React.useState(presetThemes[0].lightness);
+  const [radiusPx, setRadiusPx] = React.useState(presetThemes[0].radiusPx);
   const [activeTab, setActiveTab] = React.useState<"presets" | "custom" | "tweakcn">("presets");
 
   // tweakcn JSON Import/Export State
@@ -122,32 +121,40 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
 
   // Live CSS Variable update when sliders change
   const applyLiveColor = (h: number, c: number, l: number, r: number) => {
-    const restore = disableTransitionsTemporarily();
-    const root = document.documentElement;
+    const activePreset = presetThemes.find((p) => p.id === activePresetId) || presetThemes[0];
     const rem = `${(r / 16).toFixed(3)}rem`;
 
-    try {
-      root.style.setProperty("--primary", `oklch(${l} ${c} ${h})`);
-      root.style.setProperty("--ring", `oklch(${Math.max(0.4, l - 0.05)} ${c} ${h})`);
-      root.style.setProperty("--radius", rem);
+    const updatedTheme: TweakcnTheme = {
+      name: `Custom (${activePreset.name})`,
+      styles: {
+        light: {
+          ...activePreset.styles.light,
+          primary: `oklch(${l} ${c} ${h})`,
+          ring: `oklch(${Math.max(0.4, l - 0.05)} ${c} ${h})`,
+          radius: rem,
+        },
+        dark: {
+          ...activePreset.styles.dark,
+          primary: `oklch(${Math.min(0.85, l + 0.15)} ${c} ${h})`,
+          ring: `oklch(${Math.min(0.8, l + 0.1)} ${c} ${h})`,
+          radius: rem,
+        },
+      },
+    };
 
-      // Dark stylesheet update
-      let darkStyleSheet = document.getElementById("tweakcn-dark-theme") as HTMLStyleElement | null;
-      if (!darkStyleSheet) {
-        darkStyleSheet = document.createElement("style");
-        darkStyleSheet.id = "tweakcn-dark-theme";
-        document.head.appendChild(darkStyleSheet);
-      }
-      darkStyleSheet.textContent = `.dark { --primary: oklch(${Math.min(0.85, l + 0.15)} ${c} ${h}); --ring: oklch(${Math.min(0.8, l + 0.1)} ${c} ${h}); --radius: ${rem}; }`;
-    } finally {
-      restore();
-    }
+    applyTweakcnTheme(updatedTheme);
   };
 
   // Handle Reset to Default
   const handleReset = () => {
     const defaultPreset = presetThemes[0];
-    handleSelectPreset(defaultPreset);
+    setActivePresetId(defaultPreset.id);
+    setHue(defaultPreset.hue);
+    setChroma(defaultPreset.chroma);
+    setLightness(defaultPreset.lightness);
+    setRadiusPx(defaultPreset.radiusPx);
+
+    applyTweakcnTheme(defaultPreset);
   };
 
   // Handle tweakcn JSON Import
@@ -301,18 +308,26 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-medium text-foreground">Live Primary Color</span>
                     <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-                      oklch({lightness} {chroma} {hue})
+                      oklch({(isDark ? Math.min(0.85, lightness + 0.15) : lightness).toFixed(2)} {chroma.toFixed(2)} {hue})
                     </Badge>
                   </div>
 
                   <div className="flex items-center gap-3">
                     <div
                       className="size-12 rounded-xl border border-white/20 shadow-md shrink-0 transition-colors duration-150"
-                      style={{ backgroundColor: `oklch(${lightness} ${chroma} ${hue})` }}
+                      style={{
+                        backgroundColor: `oklch(${isDark ? Math.min(0.85, lightness + 0.15) : lightness} ${chroma} ${hue})`,
+                      }}
                     />
                     <div className="flex-1 min-w-0 text-[11px] text-muted-foreground space-y-1">
-                      <p className="font-medium text-foreground">Perceptually Uniform Lightness</p>
-                      <p className="text-[10px]">Zero hue-dependent luminance shift across theme updates.</p>
+                      <p className="font-medium text-foreground">
+                        {isDark ? "Dark-Calibrated Primary" : "Perceptually Uniform Lightness"}
+                      </p>
+                      <p className="text-[10px]">
+                        {isDark
+                          ? "Automatically boosted to guarantee WCAG 2.2 contrast on dark surfaces."
+                          : "Zero hue-dependent luminance shift across theme updates."}
+                      </p>
                     </div>
                   </div>
                 </div>

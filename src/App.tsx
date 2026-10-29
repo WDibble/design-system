@@ -169,7 +169,7 @@ import {
   CircularProgress,
 } from "@/components/ui/progress";
 import { ProgressiveImage } from "@/components/ui/image";
-import { disableTransitionsTemporarily } from "@/lib/theme";
+import { disableTransitionsTemporarily, clearInlineThemeStyles } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { ambientGradients, type AmbientGradientKey } from "@/tokens/gradients";
 import { ThemeStudio } from "@/components/theme-studio";
@@ -190,7 +190,17 @@ function AppContent() {
   const [isIndeterminateProgress, setIsIndeterminateProgress] = React.useState(false);
   const [imageKey, setImageKey] = React.useState(0);
 
-  const [isDark, setIsDark] = React.useState(false);
+  const [isDark, setIsDark] = React.useState(() => {
+    if (typeof window !== "undefined") {
+      return document.documentElement.classList.contains("dark");
+    }
+    return false;
+  });
+
+  React.useEffect(() => {
+    // Purge any stale inline style properties on mount so stylesheets cleanly control :root and .dark
+    clearInlineThemeStyles();
+  }, []);
   const [asyncBtnState, setAsyncBtnState] = React.useState<ButtonState>("idle");
   const [isCopied, setIsCopied] = React.useState(false);
   const [metric, setMetric] = React.useState(14820.75);

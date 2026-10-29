@@ -84,33 +84,134 @@ export function disableTransitionsTemporarily(): () => void {
   };
 }
 
+const SEMANTIC_TOKEN_KEYS = [
+  "background",
+  "foreground",
+  "card",
+  "card-foreground",
+  "popover",
+  "popover-foreground",
+  "primary",
+  "primary-foreground",
+  "secondary",
+  "secondary-foreground",
+  "muted",
+  "muted-foreground",
+  "accent",
+  "accent-foreground",
+  "destructive",
+  "destructive-foreground",
+  "success",
+  "success-foreground",
+  "warning",
+  "warning-foreground",
+  "info",
+  "info-foreground",
+  "border",
+  "input",
+  "ring",
+  "radius",
+  "chart-1",
+  "chart-2",
+  "chart-3",
+  "chart-4",
+  "chart-5",
+  "sidebar",
+  "sidebar-foreground",
+  "sidebar-primary",
+  "sidebar-primary-foreground",
+  "sidebar-accent",
+  "sidebar-accent-foreground",
+  "sidebar-border",
+  "sidebar-ring",
+  "font-sans",
+  "font-serif",
+  "font-mono",
+];
+
+/**
+ * Clears any inline CSS variable styles on document.documentElement.
+ * Crucial to ensure inline styles never override stylesheet rules (:root / .dark).
+ */
+export function clearInlineThemeStyles(): void {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  SEMANTIC_TOKEN_KEYS.forEach((key) => {
+    root.style.removeProperty(`--${key}`);
+  });
+}
+
 /**
  * Dynamically applies a tweakcn theme to the active document.
+ * Compiles both light (:root) and dark (.dark) token sets into a dedicated
+ * stylesheet in document.head without setting inline styles on document.documentElement.
  */
-export function applyTweakcnTheme(theme: TweakcnTheme): void {
+export function applyTweakcnTheme(theme: TweakcnTheme | null): void {
+  if (typeof document === "undefined") return;
+
   const restore = disableTransitionsTemporarily();
-  const root = document.documentElement;
 
   try {
-    // Apply light properties to :root
-    Object.entries(theme.styles.light).forEach(([key, value]) => {
-      if (value) root.style.setProperty(`--${key}`, value);
-    });
+    // 1. Purge any residual inline styles on <html> so they never override .dark or :root in CSS
+    clearInlineThemeStyles();
 
-    // Dynamically update dark mode CSS rule in head
-    let darkStyleSheet = document.getElementById("tweakcn-dark-theme") as HTMLStyleElement | null;
-    if (!darkStyleSheet) {
-      darkStyleSheet = document.createElement("style");
-      darkStyleSheet.id = "tweakcn-dark-theme";
-      document.head.appendChild(darkStyleSheet);
+    let styleSheet = document.getElementById("tweakcn-custom-theme") as HTMLStyleElement | null;
+    const legacyDark = document.getElementById("tweakcn-dark-theme");
+    if (legacyDark) legacyDark.remove();
+
+    if (!theme) {
+      // Reset to native index.css defaults
+      if (styleSheet) styleSheet.remove();
+      return;
     }
+
+    if (!styleSheet) {
+      styleSheet = document.createElement("style");
+      styleSheet.id = "tweakcn-custom-theme";
+      document.head.appendChild(styleSheet);
+    }
+
+    const lightRules = Object.entries(theme.styles.light)
+      .filter(([_, value]) => !!value)
+      .map(([key, value]) => `  --${key}: ${value};`)
+      .join("\n");
 
     const darkRules = Object.entries(theme.styles.dark)
       .filter(([_, value]) => !!value)
-      .map(([key, value]) => `--${key}: ${value};`)
-      .join(" ");
+      .map(([key, value]) => `  --${key}: ${value};`)
+      .join("\n");
 
-    darkStyleSheet.textContent = `.dark { ${darkRules} }`;
+    // Dynamic material glass integration:
+    // Derives glass materials from active theme's card and border colors
+    const lightMaterials = [
+      "  --material-ultra-thin: color-mix(in oklch, var(--card) 55%, transparent);",
+      "  --material-thin: color-mix(in oklch, var(--card) 70%, transparent);",
+      "  --material-regular: color-mix(in oklch, var(--card) 82%, transparent);",
+      "  --material-thick: color-mix(in oklch, var(--card) 92%, transparent);",
+      "  --material-glass: color-mix(in oklch, var(--card) 80%, transparent);",
+      "  --material-glass-border: color-mix(in oklch, var(--border) 60%, transparent);",
+    ].join("\n");
+
+    const darkMaterials = [
+      "  --material-ultra-thin: color-mix(in oklch, var(--card) 55%, transparent);",
+      "  --material-thin: color-mix(in oklch, var(--card) 70%, transparent);",
+      "  --material-regular: color-mix(in oklch, var(--card) 82%, transparent);",
+      "  --material-thick: color-mix(in oklch, var(--card) 92%, transparent);",
+      "  --material-glass: color-mix(in oklch, var(--card) 80%, transparent);",
+      "  --material-glass-border: color-mix(in oklch, var(--border) 60%, transparent);",
+    ].join("\n");
+
+    styleSheet.textContent = `
+:root {
+${lightRules}
+${lightMaterials}
+}
+
+.dark {
+${darkRules}
+${darkMaterials}
+}
+`;
   } finally {
     restore();
   }
