@@ -1600,9 +1600,10 @@ function AppContent() {
             </CardHeader>
             <CardContent className="space-y-4 overflow-visible relative z-30">
               {/* Live Interactive Navigation Bar Preview */}
-              <div className="rounded-xl border border-border/80 bg-background/50 overflow-visible relative z-30 min-h-[72px]">
+              <div className="rounded-xl border border-border/80 bg-background/50 overflow-visible relative z-30">
                 <NavigationBar
                   sticky={false}
+                  containerClassName="max-w-full px-3 sm:px-4"
                   brand={
                     <div className="flex items-center gap-2">
                       <div className="size-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-semibold text-sm">
@@ -1637,7 +1638,7 @@ function AppContent() {
               </div>
 
               {/* Explanatory Pills for the 5 Menu Archetypes */}
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1 text-xs relative z-10">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs relative z-10">
                 <div className="p-2.5 rounded-lg border border-border/60 bg-muted/20">
                   <span className="font-semibold text-foreground block text-[11px]">1. Mega Menu</span>
                   <span className="text-[10px] text-muted-foreground">Hero promo card + 2-col link grid</span>
