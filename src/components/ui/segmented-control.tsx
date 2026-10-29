@@ -91,7 +91,7 @@ export function SegmentedControlItem({
         // across both active and inactive states to guarantee ZERO layout shifts.
         "relative rounded-md font-medium text-xs outline-none select-none cursor-pointer",
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-muted",
-        "disabled:opacity-50 disabled:pointer-events-none",
+        "disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] transition-transform",
         size === "sm" ? "px-2.5 py-0.5" : "px-3 py-1",
         isSelected
           ? "text-foreground"

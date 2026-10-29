@@ -726,7 +726,7 @@ export function NavColumnsMenu({ columns, className }: NavColumnsMenuProps) {
       )}
     >
       {columns.map((col, cIdx) => (
-        <div key={cIdx} className="space-y-2">
+        <div key={cIdx} className="space-y-2 min-w-56">
           <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground px-2.5 font-medium">
             {col.category}
           </div>

@@ -300,8 +300,8 @@ export function IconGallery() {
               className={cn(
                 "flex flex-wrap gap-1.5 p-3 rounded-xl border border-border/50 bg-muted/10 content-start select-none",
                 pageSize === "all"
-                  ? "max-h-[380px] overflow-y-auto"
-                  : "min-h-[160px] sm:min-h-[140px]"
+                  ? "max-h-96 overflow-y-auto"
+                  : "min-h-40 sm:min-h-36"
               )}
             >
               {displayedIcons.map((icon) => (

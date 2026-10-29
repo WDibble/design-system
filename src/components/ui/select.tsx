@@ -39,7 +39,7 @@ export const SelectTrigger = React.forwardRef<
       {...props}
     >
       <span className="truncate flex-1 text-left">{children}</span>
-      <SelectPrimitive.Icon className="shrink-0 text-muted-foreground transition-transform duration-200 ease-out group-data-[popup-open]:rotate-180">
+      <SelectPrimitive.Icon className="shrink-0 text-muted-foreground transition-transform duration-200 ease-out group-data-[popup-open]:rotate-180 pointer-events-none">
         <ChevronDownIcon size={16} />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
@@ -101,7 +101,7 @@ export const SelectItem = React.forwardRef<
       <SelectPrimitive.ItemIndicator className="absolute left-2 flex size-4 items-center justify-center text-primary">
         <CheckIcon size={14} />
       </SelectPrimitive.ItemIndicator>
-      <SelectPrimitive.ItemText className="truncate">
+      <SelectPrimitive.ItemText className="whitespace-nowrap">
         {children}
       </SelectPrimitive.ItemText>
     </SelectPrimitive.Item>

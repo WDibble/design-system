@@ -98,7 +98,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </span>
         )}
         {leftIcon && (
-          <span className="flex items-center pl-3 text-muted-foreground select-none shrink-0">
+          <span className="flex items-center pl-3 text-muted-foreground select-none shrink-0 pointer-events-none">
             {leftIcon}
           </span>
         )}
@@ -117,7 +117,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {rightIcon && (
-          <span className="flex items-center pr-3 text-muted-foreground select-none shrink-0">
+          <span className="flex items-center pr-3 text-muted-foreground select-none shrink-0 pointer-events-none">
             {rightIcon}
           </span>
         )}

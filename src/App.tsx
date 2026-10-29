@@ -1985,7 +1985,7 @@ function AppContent() {
               <CardContent className="flex flex-col gap-4">
                 {/* OKLCH Ambient background canvas to demonstrate optical refraction */}
                 <div
-                  className="relative p-6 rounded-2xl overflow-hidden border border-border/40 transition-all duration-500 min-h-[220px]"
+                  className="relative p-6 rounded-2xl overflow-hidden border border-border/40 transition-all duration-500 min-h-56"
                   style={{ background: ambientGradients[selectedGradient].subtleCss }}
                 >
                   <div

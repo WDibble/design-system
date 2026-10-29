@@ -94,7 +94,7 @@ export const DropdownMenuItem = React.forwardRef<
       ref={ref}
       className={cn(
         "relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium text-foreground outline-none",
-        "transition-colors duration-100 ease-out",
+        "transition-all duration-100 ease-out active:scale-[0.98]",
         "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         inset && "pl-8",
@@ -121,7 +121,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
       checked={checked}
       className={cn(
         "relative flex cursor-pointer select-none items-center gap-2 rounded-lg py-1.5 pl-8 pr-2.5 text-xs font-medium text-foreground outline-none",
-        "transition-colors duration-100 ease-out",
+        "transition-all duration-100 ease-out active:scale-[0.98]",
         "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         className
@@ -148,7 +148,7 @@ export const DropdownMenuRadioItem = React.forwardRef<
       ref={ref}
       className={cn(
         "relative flex cursor-pointer select-none items-center gap-2 rounded-lg py-1.5 pl-8 pr-2.5 text-xs font-medium text-foreground outline-none",
-        "transition-colors duration-100 ease-out",
+        "transition-all duration-100 ease-out active:scale-[0.98]",
         "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         className
@@ -177,7 +177,7 @@ export const DropdownMenuSubTrigger = React.forwardRef<
       ref={ref}
       className={cn(
         "flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium text-foreground outline-none",
-        "transition-colors duration-100 ease-out",
+        "transition-all duration-100 ease-out active:scale-[0.98]",
         "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
         "data-[popup-open]:bg-accent data-[popup-open]:text-accent-foreground",
         inset && "pl-8",
