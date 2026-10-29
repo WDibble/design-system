@@ -86,18 +86,20 @@ export const PaginationLink = ({
   return (
     <motion.button
       type="button"
-      layout
       whileTap={!isActive && !disabled ? { scale: 0.92 } : undefined}
       transition={springs.tactile}
       aria-current={isActive ? "page" : undefined}
-      disabled={disabled || isActive}
-      onClick={onClick}
+      disabled={disabled}
+      onClick={(e) => {
+        if (isActive || disabled) return;
+        onClick?.(e);
+      }}
       className={cn(
-        "group relative size-8 rounded-md font-mono tabular-nums text-xs font-medium flex items-center justify-center border border-transparent select-none cursor-pointer outline-none transition-colors duration-150",
+        "group relative size-8 rounded-md font-mono tabular-nums text-xs font-medium flex items-center justify-center border border-transparent select-none outline-none transition-colors duration-150",
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
         isActive
-          ? "text-primary-foreground pointer-events-none"
-          : "text-muted-foreground hover:text-foreground hover:bg-muted/70",
+          ? "text-primary-foreground cursor-default"
+          : "text-muted-foreground hover:text-foreground hover:bg-muted/70 cursor-pointer",
         disabled && "opacity-40 cursor-not-allowed pointer-events-none",
         className
       )}

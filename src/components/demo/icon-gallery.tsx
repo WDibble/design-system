@@ -98,27 +98,27 @@ function IconCardTile({ icon, isCopied, onCopy }: IconCardTileProps) {
         render={
           <motion.button
             type="button"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.94 }}
             transition={springs.tactile}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onClick={() => onCopy(icon)}
             className={cn(
-              "group relative flex flex-col items-center justify-center p-3 rounded-xl border border-border/60 bg-card hover:bg-muted/40 transition-colors cursor-pointer select-none aspect-square text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+              "group relative flex flex-col items-center justify-center p-1.5 rounded-lg border border-border/50 bg-card hover:bg-muted/50 hover:border-border transition-colors cursor-pointer select-none aspect-square text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
               isCopied && "border-primary bg-primary/5 ring-1 ring-primary/40"
             )}
             aria-label={`Copy ${icon.displayName} icon code`}
           />
         }
       >
-        {/* Dynamic Icon with Imperative Kinetic Affinity */}
-        <div className="flex size-7 items-center justify-center text-foreground group-hover:text-primary transition-colors">
-          <IconComponent ref={iconRef} size={24} />
+        {/* Compact Dynamic Icon with Imperative Kinetic Affinity */}
+        <div className="flex size-5 items-center justify-center text-foreground group-hover:text-primary transition-colors">
+          <IconComponent ref={iconRef} size={18} />
         </div>
 
-        {/* Icon Label */}
-        <span className="mt-2 text-[10px] font-mono font-medium text-muted-foreground group-hover:text-foreground truncate max-w-full text-center px-1">
+        {/* Compact Icon Label */}
+        <span className="mt-1 text-[9px] font-mono font-medium text-muted-foreground group-hover:text-foreground truncate max-w-full text-center px-0.5 leading-none">
           {icon.displayName}
         </span>
 
@@ -130,9 +130,9 @@ function IconCardTile({ icon, isCopied, onCopy }: IconCardTileProps) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={springs.snappy}
-              className="absolute inset-0 flex items-center justify-center rounded-xl bg-background/90 backdrop-blur-xs text-primary font-medium text-[11px] gap-1"
+              className="absolute inset-0 flex items-center justify-center rounded-lg bg-background/95 backdrop-blur-xs text-primary font-medium text-[10px] gap-1 z-10"
             >
-              <CheckIcon size={14} />
+              <CheckIcon size={12} />
               <span>Copied</span>
             </motion.div>
           )}
@@ -148,7 +148,7 @@ function IconCardTile({ icon, isCopied, onCopy }: IconCardTileProps) {
 export function IconGallery() {
   const [search, setSearch] = React.useState("");
   const [category, setCategory] = React.useState("All");
-  const [pageSize, setPageSize] = React.useState<number | "all">(48);
+  const [pageSize, setPageSize] = React.useState<number | "all">(60);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [copiedName, setCopiedName] = React.useState<string | null>(null);
   const { toast } = useToast();
@@ -192,45 +192,45 @@ export function IconGallery() {
   };
 
   return (
-    <Card className="flex flex-col gap-6 p-6 overflow-hidden">
-      <CardHeader className="p-0 flex flex-col gap-4">
+    <Card className="flex flex-col gap-5 p-5 sm:p-6 overflow-hidden">
+      <CardHeader className="p-0 flex flex-col gap-3.5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
-              <SparklesIcon size={18} className="text-primary" />
-              <CardTitle className="text-lg font-bold tracking-tight">
+              <SparklesIcon size={16} className="text-primary" />
+              <CardTitle className="text-base font-bold tracking-tight">
                 Kinetic Icon Directory
               </CardTitle>
-              <Badge variant="outline" className="font-mono text-xs tabular-nums font-semibold">
+              <Badge variant="outline" className="font-mono text-[11px] tabular-nums font-semibold">
                 {ALL_ICONS_LIST.length} Animated Primitives
               </Badge>
             </div>
-            <CardDescription className="text-xs mt-1 text-muted-foreground">
+            <CardDescription className="text-xs mt-0.5 text-muted-foreground">
               Every icon features mechanical spring physics on hover with zero stroke-erasure gimmicks. Click any icon to copy its import snippet.
             </CardDescription>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 self-start sm:self-auto">
             <Button
-              variant={pageSize === 48 ? "secondary" : "ghost"}
+              variant={pageSize === 60 ? "secondary" : "ghost"}
               size="sm"
-              className="text-xs h-8"
-              onClick={() => setPageSize(48)}
+              className="text-xs h-7 px-2.5"
+              onClick={() => setPageSize(60)}
             >
-              48 / page
+              60 / page
             </Button>
             <Button
-              variant={pageSize === 96 ? "secondary" : "ghost"}
+              variant={pageSize === 120 ? "secondary" : "ghost"}
               size="sm"
-              className="text-xs h-8"
-              onClick={() => setPageSize(96)}
+              className="text-xs h-7 px-2.5"
+              onClick={() => setPageSize(120)}
             >
-              96 / page
+              120 / page
             </Button>
             <Button
               variant={pageSize === "all" ? "secondary" : "ghost"}
               size="sm"
-              className="text-xs h-8"
+              className="text-xs h-7 px-2.5"
               onClick={() => setPageSize("all")}
             >
               Show All ({filteredIcons.length})
@@ -239,24 +239,24 @@ export function IconGallery() {
         </div>
 
         {/* Filter Controls Row */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
           {/* Search Input */}
           <div className="relative flex-1">
             <SearchIcon
-              size={15}
+              size={14}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
             />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by icon name (e.g. check, git, arrow, send)..."
-              className="pl-9 pr-9 text-xs h-9 bg-muted/20"
+              className="pl-8.5 pr-8 text-xs h-8.5 bg-muted/20"
             />
             {search && (
               <button
                 type="button"
                 onClick={() => setSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground p-0.5"
               >
                 ✕
               </button>
@@ -270,7 +270,7 @@ export function IconGallery() {
         </div>
 
         {/* Category Pills Bar */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
           {CATEGORIES.map((cat) => {
             const isSelected = category === cat.label;
             return (
@@ -279,7 +279,7 @@ export function IconGallery() {
                 type="button"
                 onClick={() => setCategory(cat.label)}
                 className={cn(
-                  "px-2.5 py-1 rounded-full text-xs font-medium transition-colors border select-none",
+                  "px-2.5 py-0.5 rounded-full text-[11px] font-medium transition-colors border select-none",
                   isSelected
                     ? "bg-primary text-primary-foreground border-primary shadow-xs"
                     : "bg-muted/30 text-muted-foreground border-border/50 hover:bg-muted hover:text-foreground"
@@ -293,16 +293,16 @@ export function IconGallery() {
       </CardHeader>
 
       <CardContent className="p-0">
-        {/* Responsive Icon Grid */}
+        {/* Compact Responsive Icon Grid with stable min-height */}
         {displayedIcons.length === 0 ? (
-          <div className="py-16 text-center text-muted-foreground flex flex-col items-center gap-2">
-            <SearchIcon size={28} className="opacity-40" />
+          <div className="py-16 text-center text-muted-foreground flex flex-col items-center gap-2 min-h-[260px] justify-center">
+            <SearchIcon size={24} className="opacity-40" />
             <p className="text-sm font-medium">No icons match &ldquo;{search}&rdquo;</p>
             <p className="text-xs">Try searching for a different keyword or category.</p>
           </div>
         ) : (
           <TooltipProvider>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-2">
+            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 2xl:grid-cols-14 gap-1.5 min-h-[300px] content-start">
               {displayedIcons.map((icon) => (
                 <IconCardTile
                   key={icon.name}
@@ -317,7 +317,7 @@ export function IconGallery() {
 
         {/* Dynamic Pagination Footer */}
         {pageSize !== "all" && totalPages > 1 && (
-          <div className="pt-6 mt-4 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="pt-4 mt-3 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-3">
             <span className="text-xs text-muted-foreground font-mono">
               Page <span className="font-semibold text-foreground tabular-nums">{currentPage}</span> of{" "}
               <span className="font-semibold text-foreground tabular-nums">{totalPages}</span> (
