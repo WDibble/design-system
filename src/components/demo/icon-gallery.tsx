@@ -7,16 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationPrevious,
-  PaginationNext,
-  PaginationEllipsis,
-  getPaginationItems,
-} from "@/components/ui/pagination";
+import { Pagination } from "@/components/ui/pagination";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { useToast } from "@/components/ui/toast";
 import { SearchIcon, SparklesIcon, CheckIcon } from "@/components/icons";
@@ -334,43 +325,12 @@ export function IconGallery() {
               {filteredIcons.length} items)
             </span>
 
-            <Pagination className="w-auto mx-0">
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    disabled={currentPage === 1}
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  />
-                </PaginationItem>
-
-                {getPaginationItems(currentPage, totalPages).map((item, idx) => {
-                  if (typeof item === "string") {
-                    return (
-                      <PaginationItem key={`${item}-${idx}`}>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                    );
-                  }
-                  return (
-                    <PaginationItem key={item}>
-                      <PaginationLink
-                        isActive={currentPage === item}
-                        onClick={() => setCurrentPage(item)}
-                      >
-                        {item}
-                      </PaginationLink>
-                    </PaginationItem>
-                  );
-                })}
-
-                <PaginationItem>
-                  <PaginationNext
-                    disabled={currentPage === totalPages}
-                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+            <Pagination
+              className="w-auto mx-0"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           </div>
         )}
       </CardContent>

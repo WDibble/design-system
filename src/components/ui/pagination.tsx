@@ -14,16 +14,30 @@ const PaginationContext = React.createContext<PaginationContextValue | null>(nul
 
 export interface PaginationProps extends React.ComponentProps<"nav"> {
   layoutId?: string;
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export function Pagination({
   className,
   layoutId: customLayoutId,
+  currentPage,
+  totalPages,
+  onPageChange,
   children,
   ...props
 }: PaginationProps) {
   const uniqueId = React.useId();
   const layoutId = customLayoutId ?? `pagination-active-pill-${uniqueId}`;
+
+  // Turnkey auto-composition mode: if page props are supplied and children are omitted,
+  // render the canonical zero-layout-shift 7-slot pagination bar automatically.
+  const isTurnkey =
+    currentPage !== undefined &&
+    totalPages !== undefined &&
+    onPageChange !== undefined &&
+    !children;
 
   return (
     <PaginationContext.Provider value={{ layoutId }}>
@@ -33,7 +47,45 @@ export function Pagination({
         className={cn("mx-auto flex w-full justify-center select-none", className)}
         {...props}
       >
-        {children}
+        {isTurnkey ? (
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                disabled={currentPage <= 1}
+                onClick={() => onPageChange(Math.max(1, currentPage - 1))}
+              />
+            </PaginationItem>
+
+            {getPaginationItems(currentPage, totalPages).map((item, idx) => {
+              if (typeof item === "string") {
+                return (
+                  <PaginationItem key={`${item}-${idx}`}>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                );
+              }
+              return (
+                <PaginationItem key={item}>
+                  <PaginationLink
+                    isActive={currentPage === item}
+                    onClick={() => onPageChange(item)}
+                  >
+                    {item}
+                  </PaginationLink>
+                </PaginationItem>
+              );
+            })}
+
+            <PaginationItem>
+              <PaginationNext
+                disabled={currentPage >= totalPages}
+                onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        ) : (
+          children
+        )}
       </nav>
     </PaginationContext.Provider>
   );

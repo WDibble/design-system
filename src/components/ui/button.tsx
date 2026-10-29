@@ -63,13 +63,16 @@ export type ButtonState = "idle" | "loading" | "success" | "error";
 export type IconAnimationTrigger = "hover" | "press" | "both" | "none";
 
 export interface ButtonProps
-  extends Omit<HTMLMotionProps<"button">, "children">,
+  extends Omit<HTMLMotionProps<"button">, "children" | "onClick">,
     VariantProps<typeof buttonVariants> {
   children?: React.ReactNode;
   state?: ButtonState;
   isLoading?: boolean;
   loadingText?: string;
   successText?: string;
+  errorText?: string;
+  successDuration?: number;
+  errorDuration?: number;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   fluidMorph?: boolean;
@@ -84,6 +87,11 @@ export interface ButtonProps
    * Responsive helper to stretch the button to 100% width of its parent container.
    */
   fullWidth?: boolean;
+  /**
+   * Standard click handler. If an async function or Promise is returned, the button
+   * automatically drives the 9-state kinetic feedback loop (Idle -> Loading -> Success -> Idle).
+   */
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => unknown;
 }
 
 // Extract layout classes (width, margins, flex bounds) for outer <button> wrapper
@@ -103,10 +111,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       variant,
       size,
-      state = "idle",
+      state,
       isLoading = false,
       loadingText,
       successText = "Success",
+      errorText = "Action Failed",
+      successDuration = 1800,
+      errorDuration = 2000,
       leftIcon,
       rightIcon,
       fluidMorph = false,
@@ -116,6 +127,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       disabled,
       type = "button",
+      onClick,
       onMouseEnter,
       onMouseLeave,
       onPointerDown,
@@ -127,16 +139,21 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const activeState: ButtonState = isLoading ? "loading" : state;
+    const [internalState, setInternalState] = React.useState<ButtonState>("idle");
+    const isControlled = state !== undefined || isLoading;
+    const activeState: ButtonState = isControlled
+      ? (isLoading ? "loading" : state ?? "idle")
+      : internalState;
     const isDisabled = disabled || activeState === "loading";
     const isSuccess = activeState === "success";
+    const isError = activeState === "error";
 
     const isIconButton = size === "icon";
     const isLink = variant === "link";
     const hasStateTransitions =
       !isIconButton &&
       !isLink &&
-      (state !== "idle" || isLoading || Boolean(loadingText));
+      (activeState !== "idle" || isLoading || Boolean(loadingText));
 
     // Component-Unified Kinetic Affinity (Directive #10):
     // Icons inside buttons are intrinsic organs of the component.
@@ -207,11 +224,38 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onBlur?.(e);
     };
 
+    const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (isDisabled) {
+        e.preventDefault();
+        return;
+      }
+
+      const result = onClick?.(e);
+
+      // Auto-drive 9-state kinetic narrative if onClick returns a Promise and state is uncontrolled
+      if (!isControlled && result && typeof (result as any).then === "function") {
+        setInternalState("loading");
+        try {
+          await result;
+          setInternalState("success");
+          setTimeout(() => {
+            setInternalState("idle");
+          }, successDuration);
+        } catch {
+          setInternalState("error");
+          setTimeout(() => {
+            setInternalState("idle");
+          }, errorDuration);
+        }
+      }
+    };
+
     // Determine the widest label to lock the ghost footprint
     const labels = [
       typeof children === "string" ? children : "",
       loadingText || "",
       successText || "",
+      errorText || "",
     ];
     const widestLabel = labels.reduce((a, b) => (a.length >= b.length ? a : b), labels[0]);
 
@@ -292,6 +336,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         disabled={isDisabled}
         aria-busy={activeState === "loading" || undefined}
+        onClick={handleClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onPointerDown={handlePointerDown}
@@ -315,7 +360,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           transition={springs.tactile}
           className={cn(
             buttonVariants({
-              variant: isSuccess ? "success" : variant,
+              variant: isSuccess ? "success" : isError ? "destructive" : variant,
               size,
               className,
             }),
@@ -381,6 +426,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                       />
                     </motion.span>
                     <span>{successText}</span>
+                  </motion.span>
+                ) : activeState === "error" ? (
+                  <motion.span
+                    key="error-state"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={springs.snappy}
+                    className="inline-flex items-center gap-1.5"
+                  >
+                    <span>{errorText}</span>
                   </motion.span>
                 ) : (
                   <motion.span

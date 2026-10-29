@@ -182,19 +182,13 @@ import {
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
   Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationPrevious,
-  PaginationNext,
-  PaginationEllipsis,
-  getPaginationItems,
   Sparkline,
   AreaChart,
   BarChart,
   ResizablePanelGroup,
   ResizablePanel,
   ResizableHandle,
+  ThemeToggle,
 } from "@/components/ui";
 import { disableTransitionsTemporarily, clearInlineThemeStyles } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -419,16 +413,11 @@ function AppContent() {
               </kbd>
             </Button>
 
-            <Button
-              variant="outline"
-              size="icon"
-              iconTrigger="press"
-              onClick={() => toggleTheme()}
-              aria-label="Toggle dark mode"
+            <ThemeToggle
+              isDark={isDark}
+              onToggleDark={(next) => toggleTheme(next)}
               className="rounded-xl border-border/60"
-            >
-              {isDark ? <SunIcon size={16} /> : <MoonIcon size={16} />}
-            </Button>
+            />
           </div>
         </header>
 
@@ -2684,41 +2673,11 @@ function AppContent() {
                     </span>
                   </div>
                   <div className="p-3 rounded-xl border border-border/60 bg-muted/20 flex flex-col gap-3">
-                    <Pagination>
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious
-                            disabled={currentPage === 1}
-                            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                          />
-                        </PaginationItem>
-                        {getPaginationItems(currentPage, 10).map((item, idx) => {
-                          if (typeof item === "string") {
-                            return (
-                              <PaginationItem key={`${item}-${idx}`}>
-                                <PaginationEllipsis />
-                              </PaginationItem>
-                            );
-                          }
-                          return (
-                            <PaginationItem key={item}>
-                              <PaginationLink
-                                isActive={currentPage === item}
-                                onClick={() => setCurrentPage(item)}
-                              >
-                                {item}
-                              </PaginationLink>
-                            </PaginationItem>
-                          );
-                        })}
-                        <PaginationItem>
-                          <PaginationNext
-                            disabled={currentPage === 10}
-                            onClick={() => setCurrentPage((p) => Math.min(10, p + 1))}
-                          />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={10}
+                      onPageChange={setCurrentPage}
+                    />
                   </div>
                 </div>
               </CardContent>

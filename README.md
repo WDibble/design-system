@@ -198,16 +198,17 @@ export function EmailForm() {
 
 ---
 
-## 🧩 Complete Component Catalog (All 35 Primitives)
+## 🧩 Complete Component Catalog (All 36 Primitives)
 
 All components are located in [`src/components/ui/`](src/components/ui/) and exported through [`src/components/ui/index.ts`](src/components/ui/index.ts):
 
 ### 1. Actions & Feedback
 | Component | Path | Description |
 | :--- | :--- | :--- |
-| **`Button`** | [`src/components/ui/button.tsx`](src/components/ui/button.tsx) | 9-state interactive matrix, loading spinner, success checkmark, 44px touch target, physical `pointerdown` yield. |
+| **`Button`** | [`src/components/ui/button.tsx`](src/components/ui/button.tsx) | 9-state interactive matrix, automatic async Promise lifecycle, loading spinner, success checkmark, 44px touch target, physical `pointerdown` yield. |
 | **`Badge`** | [`src/components/ui/badge.tsx`](src/components/ui/badge.tsx) | Status pills with live pulsing indicators (`shrink-0 whitespace-nowrap`). |
 | **`CopyButton`** | [`src/components/ui/copy-button.tsx`](src/components/ui/copy-button.tsx) | Clipboard copy button with spring state morph (`"Copy"` ➔ `"Copied!"`). |
+| **`ThemeToggle`** | [`src/components/ui/theme-toggle.tsx`](src/components/ui/theme-toggle.tsx) | Turnkey dark/light mode toggle with transition flash suppression and localStorage sync. |
 | **`Toast`** | [`src/components/ui/toast.tsx`](src/components/ui/toast.tsx) | Accessible notification toasts with undo action support and countdown dismissal. |
 
 ### 2. Forms & Inputs
@@ -240,7 +241,7 @@ All components are located in [`src/components/ui/`](src/components/ui/) and exp
 | :--- | :--- | :--- |
 | **`Tabs`** | [`src/components/ui/tabs.tsx`](src/components/ui/tabs.tsx) | Sliding tabs across 3 variants (`default`, `pills`, `line`) with zero layout shift. |
 | **`Breadcrumb`** | [`src/components/ui/breadcrumb.tsx`](src/components/ui/breadcrumb.tsx) | Semantic hierarchical page path navigation with kinetic chevrons. |
-| **`Pagination`** | [`src/components/ui/pagination.tsx`](src/components/ui/pagination.tsx) | Mathematically locked 7-slot pagination with zero horizontal button jumping. |
+| **`Pagination`** | [`src/components/ui/pagination.tsx`](src/components/ui/pagination.tsx) | Mathematically locked 7-slot pagination with zero horizontal jumping and drop-in turnkey mode (`currentPage`, `totalPages`, `onPageChange`). |
 | **`Accordion`** | [`src/components/ui/accordion.tsx`](src/components/ui/accordion.tsx) | Smooth expanding disclosure panels with reversible chevron rotation and inert hidden focus. |
 | **`Table`** | [`src/components/ui/table.tsx`](src/components/ui/table.tsx) | Responsive tabular data table with quiet borders, captions, and `tabular-nums`. |
 | **`Resizable`** | [`src/components/ui/resizable.tsx`](src/components/ui/resizable.tsx) | Split-view workspace handles with tactile dragging and keyboard arrow resizing. |
