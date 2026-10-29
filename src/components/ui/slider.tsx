@@ -115,8 +115,10 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                 key={index}
                 index={index}
                 className={cn(
-                  "group/thumb block size-5 shrink-0 select-none rounded-full border border-border/80 bg-background",
-                  "shadow-md outline-none",
+                  "group/thumb block size-5 shrink-0 select-none rounded-full outline-none",
+                  // High-craft tactile knob: Elevated pure white in both light and dark mode with specular rim & deep drop shadow:
+                  "bg-white border border-black/15 dark:border-white/40",
+                  "shadow-md dark:shadow-[0_2px_10px_rgba(0,0,0,0.85),0_0_0_1px_rgba(255,255,255,0.15)]",
                   // Smooth glide on position changes (click on track or preset button):
                   "[transition:inset-inline-start_300ms_cubic-bezier(0.16,1,0.3,1),left_300ms_cubic-bezier(0.16,1,0.3,1),bottom_300ms_cubic-bezier(0.16,1,0.3,1),transform_150ms_ease-out,box-shadow_150ms_ease-out,border-color_150ms_ease-out]",
                   // When actively dragging, eliminate position transition for instant pointer tracking:
@@ -133,9 +135,9 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                 {/* Center tactile pip */}
                 <div
                   className={cn(
-                    "size-1.5 rounded-full bg-muted-foreground/30",
+                    "size-1.5 rounded-full bg-zinc-400 dark:bg-zinc-600",
                     "transition-colors duration-150 pointer-events-none",
-                    "group-hover/thumb:bg-primary/70",
+                    "group-hover/thumb:bg-primary",
                     "group-data-[dragging]/slider:bg-primary"
                   )}
                 />

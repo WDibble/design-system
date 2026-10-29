@@ -22,7 +22,7 @@ export const SelectTrigger = React.forwardRef<
     <SelectPrimitive.Trigger
       ref={ref}
       className={cn(
-        "group relative flex w-full items-center justify-between gap-2 rounded-lg border border-border/80 bg-card px-3 text-sm font-medium text-foreground shadow-xs select-none outline-none",
+        "group relative flex w-full items-center justify-between gap-2 rounded-lg border border-border/80 bg-card px-3 text-sm font-medium text-foreground shadow-xs select-none outline-none cursor-pointer",
         "transition-[border-color,box-shadow,background-color,transform] duration-150 ease-out",
         "hover:border-foreground/30 hover:bg-card/90",
         "focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",

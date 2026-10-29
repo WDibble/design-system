@@ -87,7 +87,7 @@ export function SegmentedControlItem({
       className={cn(
         // INVARIANT: Font-weight (font-medium), tracking, padding, and border remain 100% frozen
         // across both active and inactive states to guarantee ZERO layout shifts.
-        "relative rounded-md font-medium text-xs outline-none select-none",
+        "relative rounded-md font-medium text-xs outline-none select-none cursor-pointer",
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-muted",
         "disabled:opacity-50 disabled:pointer-events-none",
         size === "sm" ? "px-2.5 py-0.5" : "px-3 py-1",
