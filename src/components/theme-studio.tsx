@@ -230,7 +230,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
           variant="glass"
           onClick={() => setOpen(true)}
           aria-label="Open Theme Studio & tweakcn Customizer (⌘T)"
-          className="rounded-full shadow-2xl gap-2 pl-3.5 pr-4 border border-border/80 glass-thick specular-rim active:scale-95"
+          className="rounded-full shadow-2xl gap-2 pl-3.5 pr-4 border border-border/80 glass-thick specular-rim"
         >
           <PaletteIcon size={16} className="text-primary" />
           <span className="font-semibold text-xs tracking-tight">Theme Studio</span>

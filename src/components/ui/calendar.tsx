@@ -185,7 +185,7 @@ export function Calendar({
             variant="ghost"
             onClick={prevYear}
             aria-label="Previous year"
-            className="size-6 rounded-md text-muted-foreground/70 hover:text-foreground active:scale-95"
+            className="size-6 rounded-md text-muted-foreground/70 hover:text-foreground"
             title="Previous year"
           >
             <ChevronsLeft size={13} />
@@ -195,7 +195,7 @@ export function Calendar({
             variant="ghost"
             onClick={prevMonth}
             aria-label="Previous month"
-            className="size-6 rounded-md text-muted-foreground hover:text-foreground active:scale-95"
+            className="size-6 rounded-md text-muted-foreground hover:text-foreground"
             title="Previous month"
           >
             <ChevronLeftIcon size={13} />
@@ -216,7 +216,7 @@ export function Calendar({
             variant="ghost"
             onClick={nextMonth}
             aria-label="Next month"
-            className="size-6 rounded-md text-muted-foreground hover:text-foreground active:scale-95"
+            className="size-6 rounded-md text-muted-foreground hover:text-foreground"
             title="Next month"
           >
             <ChevronRightIcon size={13} />
@@ -226,7 +226,7 @@ export function Calendar({
             variant="ghost"
             onClick={nextYear}
             aria-label="Next year"
-            className="size-6 rounded-md text-muted-foreground/70 hover:text-foreground active:scale-95"
+            className="size-6 rounded-md text-muted-foreground/70 hover:text-foreground"
             title="Next year"
           >
             <ChevronsRight size={13} />

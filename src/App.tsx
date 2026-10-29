@@ -1681,7 +1681,8 @@ function AppContent() {
                       </TableCell>
                       <TableCell numeric>
                         <span className={cn(
-                          node.cpu > 80 ? "text-rose-500 font-semibold" : "text-foreground"
+                          "font-medium",
+                          node.cpu > 80 ? "text-rose-500" : "text-foreground"
                         )}>
                           {node.cpu.toFixed(1)}%
                         </span>
@@ -2556,12 +2557,12 @@ function AppContent() {
             {/* 2. Calendar & Date Picker Hierarchy */}
             <Card className="flex flex-col justify-between">
               <CardHeader className="flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <CalendarDaysIcon size={16} className="text-primary" />
-                    <CardTitle className="text-base font-semibold">Calendar &amp; Date Picker</CardTitle>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <CalendarDaysIcon size={16} className="text-primary shrink-0" />
+                    <CardTitle className="text-base font-semibold truncate">Calendar &amp; Date Picker</CardTitle>
                   </div>
-                  <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                  <Badge variant="outline" size="sm" className="font-mono text-[10px] shrink-0 self-start sm:self-auto">
                     Spring Slide &bull; ARIA Grid
                   </Badge>
                 </div>
@@ -2619,12 +2620,12 @@ function AppContent() {
             {/* 3. Breadcrumb & Pagination Navigational Hierarchy */}
             <Card className="flex flex-col justify-between">
               <CardHeader className="flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <LayersIcon size={16} className="text-primary" />
-                    <CardTitle className="text-base font-semibold">Breadcrumb &amp; Pagination</CardTitle>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <LayersIcon size={16} className="text-primary shrink-0" />
+                    <CardTitle className="text-base font-semibold truncate">Breadcrumb &amp; Pagination</CardTitle>
                   </div>
-                  <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                  <Badge variant="outline" size="sm" className="font-mono text-[10px] shrink-0 self-start sm:self-auto">
                     Quiet Chrome &bull; ARIA Nav
                   </Badge>
                 </div>
@@ -2716,12 +2717,12 @@ function AppContent() {
             {/* 4. Resizable Panel / Split View Workspace */}
             <Card className="flex flex-col justify-between">
               <CardHeader className="flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <TerminalIcon size={16} className="text-primary" />
-                    <CardTitle className="text-base font-semibold">Resizable Split Viewport</CardTitle>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <TerminalIcon size={16} className="text-primary shrink-0" />
+                    <CardTitle className="text-base font-semibold truncate">Resizable Split Viewport</CardTitle>
                   </div>
-                  <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                  <Badge variant="outline" size="sm" className="font-mono text-[10px] shrink-0 self-start sm:self-auto">
                     Directive 7 Anti-Crush
                   </Badge>
                 </div>
