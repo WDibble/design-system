@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 interface IconMeta {
   name: string;
   displayName: string;
-  component: React.ComponentType<{ size?: number; className?: string; [key: string]: unknown }>;
+  component: React.ComponentType<{ size?: number; className?: string; ref?: React.Ref<unknown>; [key: string]: unknown }>;
 }
 
 const ALL_ICONS_LIST: IconMeta[] = Object.entries(AllIcons)
@@ -34,7 +34,7 @@ const ALL_ICONS_LIST: IconMeta[] = Object.entries(AllIcons)
   .map(([key, val]) => ({
     name: key,
     displayName: key.replace(/Icon$/, ""),
-    component: val as React.ComponentType<{ size?: number; className?: string; [key: string]: unknown }>,
+    component: val as React.ComponentType<{ size?: number; className?: string; ref?: React.Ref<unknown>; [key: string]: unknown }>,
   }))
   .sort((a, b) => a.displayName.localeCompare(b.displayName));
 
@@ -71,6 +71,79 @@ const CATEGORIES: { label: string; match: (name: string) => boolean }[] = [
     match: (n) => /mail|message|send|share|phone|chat|at-sign|bell|inbox/i.test(n),
   },
 ];
+
+interface IconCardTileProps {
+  icon: IconMeta;
+  isCopied: boolean;
+  onCopy: (icon: IconMeta) => void;
+}
+
+function IconCardTile({ icon, isCopied, onCopy }: IconCardTileProps) {
+  const iconRef = React.useRef<{ startAnimation?: () => void; stopAnimation?: () => void } | null>(null);
+  const IconComponent = icon.component;
+
+  const handleMouseEnter = React.useCallback(() => {
+    iconRef.current?.startAnimation?.();
+  }, []);
+
+  const handleMouseLeave = React.useCallback(() => {
+    iconRef.current?.stopAnimation?.();
+  }, []);
+
+  return (
+    <Tooltip>
+      <TooltipTrigger
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        render={
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.94 }}
+            transition={springs.tactile}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={() => onCopy(icon)}
+            className={cn(
+              "group relative flex flex-col items-center justify-center p-3 rounded-xl border border-border/60 bg-card hover:bg-muted/40 transition-colors cursor-pointer select-none aspect-square text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+              isCopied && "border-primary bg-primary/5 ring-1 ring-primary/40"
+            )}
+            aria-label={`Copy ${icon.displayName} icon code`}
+          />
+        }
+      >
+        {/* Dynamic Icon with Imperative Kinetic Affinity */}
+        <div className="flex size-7 items-center justify-center text-foreground group-hover:text-primary transition-colors">
+          <IconComponent ref={iconRef} size={24} />
+        </div>
+
+        {/* Icon Label */}
+        <span className="mt-2 text-[10px] font-mono font-medium text-muted-foreground group-hover:text-foreground truncate max-w-full text-center px-1">
+          {icon.displayName}
+        </span>
+
+        {/* Copied Flash Overlay */}
+        <AnimatePresence>
+          {isCopied && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={springs.snappy}
+              className="absolute inset-0 flex items-center justify-center rounded-xl bg-background/90 backdrop-blur-xs text-primary font-medium text-[11px] gap-1"
+            >
+              <CheckIcon size={14} />
+              <span>Copied</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </TooltipTrigger>
+      <TooltipContent side="top" className="text-xs font-mono">
+        &lt;{icon.name} /&gt; · Click to copy
+      </TooltipContent>
+    </Tooltip>
+  );
+}
 
 export function IconGallery() {
   const [search, setSearch] = React.useState("");
@@ -230,60 +303,14 @@ export function IconGallery() {
         ) : (
           <TooltipProvider>
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-2">
-              {displayedIcons.map((icon) => {
-                const IconComponent = icon.component;
-                const isCopied = copiedName === icon.name;
-
-                return (
-                  <Tooltip key={icon.name}>
-                    <TooltipTrigger
-                      render={
-                        <motion.button
-                          type="button"
-                          whileHover={{ scale: 1.04 }}
-                          whileTap={{ scale: 0.94 }}
-                          transition={springs.tactile}
-                          onClick={() => handleCopy(icon)}
-                          className={cn(
-                            "group relative flex flex-col items-center justify-center p-3 rounded-xl border border-border/60 bg-card hover:bg-muted/40 transition-colors cursor-pointer select-none aspect-square text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                            isCopied && "border-primary bg-primary/5 ring-1 ring-primary/40"
-                          )}
-                          aria-label={`Copy ${icon.displayName} icon code`}
-                        />
-                      }
-                    >
-                      {/* Dynamic Icon */}
-                      <div className="flex size-7 items-center justify-center text-foreground group-hover:text-primary transition-colors pointer-events-none">
-                        <IconComponent size={24} />
-                      </div>
-
-                      {/* Icon Label */}
-                      <span className="mt-2 text-[10px] font-mono font-medium text-muted-foreground group-hover:text-foreground truncate max-w-full text-center px-1">
-                        {icon.displayName}
-                      </span>
-
-                      {/* Copied Flash Overlay */}
-                      <AnimatePresence>
-                        {isCopied && (
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            transition={springs.snappy}
-                            className="absolute inset-0 flex items-center justify-center rounded-xl bg-background/90 backdrop-blur-xs text-primary font-medium text-[11px] gap-1"
-                          >
-                            <CheckIcon size={14} />
-                            <span>Copied</span>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </TooltipTrigger>
-                    <TooltipContent side="top" className="text-xs font-mono">
-                      &lt;{icon.name} /&gt; · Click to copy
-                    </TooltipContent>
-                  </Tooltip>
-                );
-              })}
+              {displayedIcons.map((icon) => (
+                <IconCardTile
+                  key={icon.name}
+                  icon={icon}
+                  isCopied={copiedName === icon.name}
+                  onCopy={handleCopy}
+                />
+              ))}
             </div>
           </TooltipProvider>
         )}
