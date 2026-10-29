@@ -89,6 +89,10 @@ export const PaginationLink = ({
       transition={springs.tactile}
       aria-current={isActive ? "page" : undefined}
       aria-disabled={disabled}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        props.onPointerDown?.(e);
+      }}
       onMouseDown={(e) => {
         e.preventDefault();
         onMouseDown?.(e);
@@ -145,6 +149,10 @@ export const PaginationPrevious = ({
     type="button"
     aria-label="Go to previous page"
     aria-disabled={disabled}
+    onPointerDown={(e) => {
+      e.preventDefault();
+      props.onPointerDown?.(e);
+    }}
     onMouseDown={(e) => {
       e.preventDefault();
       onMouseDown?.(e);
@@ -187,6 +195,10 @@ export const PaginationNext = ({
     type="button"
     aria-label="Go to next page"
     aria-disabled={disabled}
+    onPointerDown={(e) => {
+      e.preventDefault();
+      props.onPointerDown?.(e);
+    }}
     onMouseDown={(e) => {
       e.preventDefault();
       onMouseDown?.(e);

@@ -22,7 +22,7 @@ import { SearchIcon, SparklesIcon, CheckIcon } from "@/components/icons";
 import { springs } from "@/tokens/motion";
 import { cn } from "@/lib/utils";
 
-// Filter out non-component exports (interfaces/types erased at runtime, but guard against any non-component)
+// Filter out non-component exports (interfaces/types erased at runtime)
 interface IconMeta {
   name: string;
   displayName: string;
@@ -98,29 +98,26 @@ function IconCardTile({ icon, isCopied, onCopy }: IconCardTileProps) {
         render={
           <motion.button
             type="button"
-            whileHover={{ scale: 1.06 }}
-            whileTap={{ scale: 0.94 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.92 }}
             transition={springs.tactile}
+            onPointerDown={(e) => e.preventDefault()}
+            onMouseDown={(e) => e.preventDefault()}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onClick={() => onCopy(icon)}
             className={cn(
-              "group relative flex flex-col items-center justify-center p-1.5 rounded-lg border border-border/50 bg-card hover:bg-muted/50 hover:border-border transition-colors cursor-pointer select-none aspect-square text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
-              isCopied && "border-primary bg-primary/5 ring-1 ring-primary/40"
+              "group relative flex items-center justify-center size-9 sm:size-10 rounded-lg border border-border/50 bg-card hover:bg-muted/70 hover:border-foreground/20 transition-colors cursor-pointer select-none text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 shrink-0",
+              isCopied && "border-primary bg-primary/10 ring-1 ring-primary/40"
             )}
             aria-label={`Copy ${icon.displayName} icon code`}
           />
         }
       >
-        {/* Compact Dynamic Icon with Imperative Kinetic Affinity */}
-        <div className="flex size-5 items-center justify-center text-foreground group-hover:text-primary transition-colors">
+        {/* Dynamic Icon */}
+        <div className="flex size-5 items-center justify-center text-foreground group-hover:text-primary transition-colors pointer-events-none">
           <IconComponent ref={iconRef} size={18} />
         </div>
-
-        {/* Compact Icon Label */}
-        <span className="mt-1 text-[9px] font-mono font-medium text-muted-foreground group-hover:text-foreground truncate max-w-full text-center px-0.5 leading-none">
-          {icon.displayName}
-        </span>
 
         {/* Copied Flash Overlay */}
         <AnimatePresence>
@@ -130,10 +127,9 @@ function IconCardTile({ icon, isCopied, onCopy }: IconCardTileProps) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={springs.snappy}
-              className="absolute inset-0 flex items-center justify-center rounded-lg bg-background/95 backdrop-blur-xs text-primary font-medium text-[10px] gap-1 z-10"
+              className="absolute inset-0 flex items-center justify-center rounded-lg bg-background/95 backdrop-blur-xs text-primary font-medium z-10"
             >
-              <CheckIcon size={12} />
-              <span>Copied</span>
+              <CheckIcon size={13} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -192,8 +188,8 @@ export function IconGallery() {
   };
 
   return (
-    <Card className="flex flex-col gap-5 p-5 sm:p-6 overflow-hidden">
-      <CardHeader className="p-0 flex flex-col gap-3.5">
+    <Card className="flex flex-col gap-4 p-4 sm:p-5 overflow-hidden">
+      <CardHeader className="p-0 flex flex-col gap-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
@@ -279,7 +275,7 @@ export function IconGallery() {
                 type="button"
                 onClick={() => setCategory(cat.label)}
                 className={cn(
-                  "px-2.5 py-0.5 rounded-full text-[11px] font-medium transition-colors border select-none",
+                  "px-2.5 py-0.5 rounded-full text-[11px] font-medium transition-colors border select-none cursor-pointer",
                   isSelected
                     ? "bg-primary text-primary-foreground border-primary shadow-xs"
                     : "bg-muted/30 text-muted-foreground border-border/50 hover:bg-muted hover:text-foreground"
@@ -293,16 +289,23 @@ export function IconGallery() {
       </CardHeader>
 
       <CardContent className="p-0">
-        {/* Compact Responsive Icon Grid with stable min-height */}
+        {/* Compact Icon Grid: Fixed-height container to guarantee zero scroll jumps during pagination */}
         {displayedIcons.length === 0 ? (
-          <div className="py-16 text-center text-muted-foreground flex flex-col items-center gap-2 min-h-[260px] justify-center">
+          <div className="py-12 text-center text-muted-foreground flex flex-col items-center gap-2 h-[180px] justify-center border border-dashed border-border/60 rounded-xl bg-muted/10">
             <SearchIcon size={24} className="opacity-40" />
             <p className="text-sm font-medium">No icons match &ldquo;{search}&rdquo;</p>
             <p className="text-xs">Try searching for a different keyword or category.</p>
           </div>
         ) : (
           <TooltipProvider>
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 2xl:grid-cols-14 gap-1.5 min-h-[300px] content-start">
+            <div
+              className={cn(
+                "flex flex-wrap gap-1.5 p-3 rounded-xl border border-border/50 bg-muted/10 content-start select-none",
+                pageSize === "all"
+                  ? "max-h-[380px] overflow-y-auto"
+                  : "min-h-[160px] sm:min-h-[140px]"
+              )}
+            >
               {displayedIcons.map((icon) => (
                 <IconCardTile
                   key={icon.name}
@@ -317,7 +320,7 @@ export function IconGallery() {
 
         {/* Dynamic Pagination Footer */}
         {pageSize !== "all" && totalPages > 1 && (
-          <div className="pt-4 mt-3 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="pt-3 mt-2 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-3">
             <span className="text-xs text-muted-foreground font-mono">
               Page <span className="font-semibold text-foreground tabular-nums">{currentPage}</span> of{" "}
               <span className="font-semibold text-foreground tabular-nums">{totalPages}</span> (
