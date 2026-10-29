@@ -54,12 +54,10 @@ PaginationContent.displayName = "PaginationContent";
 
 export const PaginationItem = React.forwardRef<
   HTMLLIElement,
-  HTMLMotionProps<"li">
+  React.ComponentProps<"li">
 >(({ className, ...props }, ref) => (
-  <motion.li
+  <li
     ref={ref}
-    layout
-    transition={springs.snappy}
     className={cn("inline-flex items-center", className)}
     {...props}
   />
@@ -77,6 +75,7 @@ export const PaginationLink = ({
   isActive,
   children,
   onClick,
+  onMouseDown,
   disabled,
   ...props
 }: PaginationLinkProps) => {
@@ -89,9 +88,16 @@ export const PaginationLink = ({
       whileTap={!isActive && !disabled ? { scale: 0.92 } : undefined}
       transition={springs.tactile}
       aria-current={isActive ? "page" : undefined}
-      disabled={disabled}
+      aria-disabled={disabled}
+      onMouseDown={(e) => {
+        e.preventDefault();
+        onMouseDown?.(e);
+      }}
       onClick={(e) => {
-        if (isActive || disabled) return;
+        if (isActive || disabled) {
+          e.preventDefault();
+          return;
+        }
         onClick?.(e);
       }}
       className={cn(
@@ -132,13 +138,24 @@ export const PaginationPrevious = ({
   className,
   disabled,
   onClick,
+  onMouseDown,
   ...props
 }: PaginationButtonProps) => (
   <motion.button
     type="button"
     aria-label="Go to previous page"
-    disabled={disabled}
-    onClick={onClick}
+    aria-disabled={disabled}
+    onMouseDown={(e) => {
+      e.preventDefault();
+      onMouseDown?.(e);
+    }}
+    onClick={(e) => {
+      if (disabled) {
+        e.preventDefault();
+        return;
+      }
+      onClick?.(e);
+    }}
     whileTap={!disabled ? { scale: 0.96 } : undefined}
     transition={springs.tactile}
     className={cn(
@@ -163,13 +180,24 @@ export const PaginationNext = ({
   className,
   disabled,
   onClick,
+  onMouseDown,
   ...props
 }: PaginationButtonProps) => (
   <motion.button
     type="button"
     aria-label="Go to next page"
-    disabled={disabled}
-    onClick={onClick}
+    aria-disabled={disabled}
+    onMouseDown={(e) => {
+      e.preventDefault();
+      onMouseDown?.(e);
+    }}
+    onClick={(e) => {
+      if (disabled) {
+        e.preventDefault();
+        return;
+      }
+      onClick?.(e);
+    }}
     whileTap={!disabled ? { scale: 0.96 } : undefined}
     transition={springs.tactile}
     className={cn(
