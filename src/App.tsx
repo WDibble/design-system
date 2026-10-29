@@ -24,6 +24,7 @@ import {
   KeyIcon,
   GaugeIcon,
   UsersIcon,
+  PaletteIcon,
 } from "@/components/icons";
 import { Button, type ButtonState, type IconAnimationTrigger } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -171,6 +172,7 @@ import { ProgressiveImage } from "@/components/ui/image";
 import { disableTransitionsTemporarily } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { ambientGradients, type AmbientGradientKey } from "@/tokens/gradients";
+import { ThemeStudio } from "@/components/theme-studio";
 
 function AppContent() {
   const { toast } = useToast();
@@ -261,10 +263,10 @@ function AppContent() {
     },
   ], []);
 
-  const toggleTheme = () => {
+  const toggleTheme = (targetDark?: boolean) => {
     const restore = disableTransitionsTemporarily();
     setIsDark((prev) => {
-      const next = !prev;
+      const next = targetDark !== undefined ? targetDark : !prev;
       if (next) {
         document.documentElement.classList.add("dark");
       } else {
@@ -313,6 +315,21 @@ function AppContent() {
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
+            {/* Theme Studio Drawer Trigger */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.dispatchEvent(new CustomEvent("open-theme-studio"))}
+              aria-label="Open Theme Studio (⌘T)"
+              className="gap-1.5 h-9 px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70"
+            >
+              <PaletteIcon size={14} className="text-primary" />
+              <span className="hidden sm:inline text-xs font-medium">Themes</span>
+              <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
+                ⌘T
+              </kbd>
+            </Button>
+
             {/* Quick Command Palette Trigger (Detail #3 & #4) */}
             <Button
               variant="outline"
@@ -331,7 +348,7 @@ function AppContent() {
               variant="outline"
               size="icon"
               iconTrigger="press"
-              onClick={toggleTheme}
+              onClick={() => toggleTheme()}
               aria-label="Toggle dark mode"
               className="rounded-xl border-border/60"
             >
@@ -2428,6 +2445,9 @@ function AppContent() {
           <p>© Design System · Human-Centric & Agent-Native Standard</p>
           <p className="font-mono">React 19 · Base UI · Motion · Tailwind CSS v4</p>
         </footer>
+
+        {/* Live Theme Studio & tweakcn Customizer Drawer */}
+        <ThemeStudio isDark={isDark} onToggleDark={(nextDark) => toggleTheme(nextDark)} />
       </div>
     </div>
   );
