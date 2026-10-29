@@ -189,6 +189,8 @@ import {
   ResizablePanel,
   ResizableHandle,
   ThemeToggle,
+  NavigationBar,
+  type NavItemConfig,
 } from "@/components/ui";
 import { disableTransitionsTemporarily, clearInlineThemeStyles } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -323,6 +325,137 @@ function AppContent() {
       qps: 1205,
     },
   ], []);
+
+  const demoNavItems: NavItemConfig[] = React.useMemo(
+    () => [
+      {
+        label: "Platform",
+        type: "mega",
+        badge: "v2.0",
+        featured: {
+          title: "Liquid Glass Materials",
+          description: "Real-time physical shaders with chromatic lensing & specular rims.",
+          href: "#spatial-materials",
+          badge: "Highlight",
+        },
+        links: [
+          {
+            title: "UI Primitives",
+            description: "37 accessible compound components",
+            href: "#primitives",
+            icon: <LayersIcon size={16} />,
+            badge: "37 Primitives",
+          },
+          {
+            title: "Kinetic Icons",
+            description: "470+ icons with reversible physics",
+            href: "#icons-spectrum",
+            icon: <SparklesIcon size={16} />,
+            badge: "470+",
+          },
+          {
+            title: "Motion Physics",
+            description: "Apple HIG spring dynamics with pointerdown yield",
+            href: "#buttons",
+            icon: <ActivityIcon size={16} />,
+          },
+          {
+            title: "Theme Studio",
+            description: "OKLCH dual-engine WCAG 2.2 color tokens",
+            href: "#theme-studio",
+            icon: <PaletteIcon size={16} />,
+          },
+        ],
+      },
+      {
+        label: "Resources",
+        type: "columns",
+        columns: [
+          {
+            category: "Developers",
+            links: [
+              {
+                title: "CLI & Registry",
+                description: "Copy-paste primitives into any project",
+                href: "#cli",
+                icon: <TerminalIcon size={16} />,
+              },
+              {
+                title: "Compound Patterns",
+                description: "Headless Base UI composition",
+                href: "#docs",
+                icon: <CpuIcon size={16} />,
+              },
+              {
+                title: "Fluid Layouts",
+                description: "Anti-crush container queries & safe bounds",
+                href: "#layout",
+                icon: <SlidersHorizontalIcon size={16} />,
+              },
+            ],
+          },
+          {
+            category: "Manifesto & Safety",
+            links: [
+              {
+                title: "Quiet Chrome",
+                description: "Human-centric spatial typography",
+                href: "#philosophy",
+                icon: <EyeIcon size={16} />,
+              },
+              {
+                title: "Accessibility Matrix",
+                description: "WCAG 2.2 AA & APCA contrast invariants",
+                href: "#a11y",
+                icon: <ShieldCheckIcon size={16} />,
+              },
+              {
+                title: "System Telemetry",
+                description: "Real-time performance & zero CLS",
+                href: "#telemetry",
+                icon: <ServerIcon size={16} />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Ecosystem",
+        type: "simple",
+        links: [
+          {
+            title: "Design Principles",
+            description: "Anti-slop design engineering manifesto",
+            href: "#manifesto",
+            icon: <ZapIcon size={16} />,
+          },
+          {
+            title: "Team Permissions",
+            description: "Role-based access & telemetry controls",
+            href: "#teams",
+            icon: <UsersIcon size={16} />,
+          },
+          {
+            title: "Changelog",
+            description: "Release v0.9.4 with turnkey navbars",
+            href: "#changelog",
+            icon: <RotateCCWIcon size={16} />,
+            badge: "v0.9.4",
+          },
+        ],
+      },
+      {
+        label: "Docs",
+        href: "#documentation",
+      },
+      {
+        label: "Pricing",
+        href: "#pricing",
+        badge: "Open Source",
+      },
+    ],
+    []
+  );
 
   const toggleTheme = (targetDark?: boolean) => {
     const restore = disableTransitionsTemporarily();
@@ -1440,6 +1573,88 @@ function AppContent() {
               Apple HIG fluid tabs with zero glyphic twitching, Base UI CSS height accordion with concealed focus, and quiet data tables with tabular numerals.
             </p>
           </div>
+
+          {/* 0. Top Navigation Bar Spectrum */}
+          <Card className="w-full overflow-visible">
+            <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3">
+              <div>
+                <CardTitle className="text-base flex items-center gap-2">
+                  <LayersIcon size={16} />
+                  Adaptive Top Navigation Bar Architecture
+                </CardTitle>
+                <CardDescription>
+                  Production navigation header featuring 5 menu archetypes: Mega Menu, Categorized Columns, Simple Flyouts, Direct Links, and an Adaptive Mobile Sheet Drawer.
+                </CardDescription>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                  Turnkey &bull; 5 Archetypes
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Live Interactive Navigation Bar Preview */}
+              <div className="rounded-xl border border-border/80 bg-background/50 overflow-visible relative min-h-[72px]">
+                <NavigationBar
+                  sticky={false}
+                  brand={
+                    <div className="flex items-center gap-2">
+                      <div className="size-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-semibold text-sm">
+                        <SparklesIcon size={16} />
+                      </div>
+                      <span className="font-semibold text-sm tracking-tight text-foreground">
+                        Antigravity<span className="text-primary font-normal text-xs ml-1">UI</span>
+                      </span>
+                    </div>
+                  }
+                  items={demoNavItems}
+                  actions={
+                    <>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setCommandOpen(true)}
+                        className="h-8 gap-1.5 text-xs text-muted-foreground hidden xl:inline-flex rounded-lg"
+                      >
+                        <SearchIcon size={13} />
+                        <span>Search</span>
+                        <kbd className="text-[10px] font-mono px-1 py-0.5 rounded bg-muted/80 border border-border/50">⌘K</kbd>
+                      </Button>
+                      <ThemeToggle isDark={isDark} onToggleDark={toggleTheme} className="size-8 rounded-lg" />
+                      <Button size="sm" className="h-8 text-xs font-medium rounded-lg">
+                        Get Started
+                      </Button>
+                    </>
+                  }
+                  className="rounded-xl border-none shadow-none static"
+                />
+              </div>
+
+              {/* Explanatory Pills for the 5 Menu Archetypes */}
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1 text-xs">
+                <div className="p-2.5 rounded-lg border border-border/60 bg-muted/20">
+                  <span className="font-semibold text-foreground block text-[11px]">1. Mega Menu</span>
+                  <span className="text-[10px] text-muted-foreground">Hero promo card + 2-col link grid</span>
+                </div>
+                <div className="p-2.5 rounded-lg border border-border/60 bg-muted/20">
+                  <span className="font-semibold text-foreground block text-[11px]">2. Directory Columns</span>
+                  <span className="text-[10px] text-muted-foreground">Categorized vertical lists with headers</span>
+                </div>
+                <div className="p-2.5 rounded-lg border border-border/60 bg-muted/20">
+                  <span className="font-semibold text-foreground block text-[11px]">3. Simple Flyout</span>
+                  <span className="text-[10px] text-muted-foreground">Compact single-column list with icons</span>
+                </div>
+                <div className="p-2.5 rounded-lg border border-border/60 bg-muted/20">
+                  <span className="font-semibold text-foreground block text-[11px]">4. Direct Links</span>
+                  <span className="text-[10px] text-muted-foreground">Hoverable direct navigation anchors</span>
+                </div>
+                <div className="p-2.5 rounded-lg border border-border/60 bg-muted/20 col-span-2 sm:col-span-1">
+                  <span className="font-semibold text-foreground block text-[11px]">5. Mobile Sheet</span>
+                  <span className="text-[10px] text-muted-foreground">Auto-collapsing accordion drawer</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
             {/* 1. Fluid Tabs */}

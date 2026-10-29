@@ -16,6 +16,7 @@ export * from "./field";
 export * from "./image";
 export * from "./input";
 export * from "./input-otp";
+export * from "./navigation-bar";
 export * from "./number-ticker";
 export * from "./pagination";
 export * from "./popover";

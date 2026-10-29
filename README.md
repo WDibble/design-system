@@ -198,7 +198,7 @@ export function EmailForm() {
 
 ---
 
-## 🧩 Complete Component Catalog (All 36 Primitives)
+## 🧩 Complete Component Catalog (All 37 Primitives)
 
 All components are located in [`src/components/ui/`](src/components/ui/) and exported through [`src/components/ui/index.ts`](src/components/ui/index.ts):
 
@@ -239,6 +239,7 @@ All components are located in [`src/components/ui/`](src/components/ui/) and exp
 ### 4. Navigation & Data Layout
 | Component | Path | Description |
 | :--- | :--- | :--- |
+| **`NavigationBar`** | [`src/components/ui/navigation-bar.tsx`](src/components/ui/navigation-bar.tsx) | Adaptive top navigation bar featuring 5 menu archetypes (Mega Menu, Categorized Directory Columns, Simple Flyout, Direct Links, Mobile Sheet Drawer) with liquid glass surfaces. |
 | **`Tabs`** | [`src/components/ui/tabs.tsx`](src/components/ui/tabs.tsx) | Sliding tabs across 3 variants (`default`, `pills`, `line`) with zero layout shift. |
 | **`Breadcrumb`** | [`src/components/ui/breadcrumb.tsx`](src/components/ui/breadcrumb.tsx) | Semantic hierarchical page path navigation with kinetic chevrons. |
 | **`Pagination`** | [`src/components/ui/pagination.tsx`](src/components/ui/pagination.tsx) | Mathematically locked 7-slot pagination with zero horizontal jumping, worded or icon-only Previous/Next buttons (`variant="worded" \| "icon"`), and turnkey auto-mode. |
