@@ -478,7 +478,7 @@ export function BarChart({
         {data.map((item, idx) => (
           <div
             key={idx}
-            className="flex-1 text-center font-mono text-[10px] text-muted-foreground truncate"
+            className="flex-1 text-center font-mono tabular-nums text-[10px] text-muted-foreground truncate"
           >
             {item.label}
           </div>

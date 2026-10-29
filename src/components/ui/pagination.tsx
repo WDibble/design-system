@@ -56,7 +56,7 @@ export const PaginationLink = ({
         size: "icon-sm",
       }),
       "font-mono tabular-nums text-xs transition-transform active:scale-95 cursor-pointer",
-      isActive && "font-semibold shadow-xs specular-rim pointer-events-none",
+      isActive && "shadow-xs specular-rim pointer-events-none",
       className
     )}
     {...props}

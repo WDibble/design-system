@@ -223,17 +223,17 @@ export function Calendar({
                   aria-label={`${date.toDateString()}${isSelected ? ", selected" : ""}${isToday ? ", today" : ""}`}
                   aria-pressed={isSelected}
                   className={cn(
-                    "relative size-8 text-xs font-mono tabular-nums rounded-lg flex items-center justify-center transition-all duration-150 border border-transparent cursor-pointer",
+                    "relative size-8 text-xs font-mono font-medium tabular-nums rounded-lg flex items-center justify-center transition-all duration-150 border border-transparent cursor-pointer",
                     // Current month vs outside month
                     isCurrentMonth ? "text-foreground" : "text-muted-foreground/40",
                     // Hover & Focus (zero layout shift)
                     !isSelected && !isDisabled && "hover:bg-muted/70 hover:text-foreground active:scale-95",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
                     // Today outline indicator
-                    isToday && !isSelected && "border-primary/40 font-semibold text-primary",
+                    isToday && !isSelected && "border-primary/40 text-primary",
                     // Selected state
                     isSelected &&
-                      "bg-primary text-primary-foreground font-semibold shadow-xs specular-rim hover:bg-primary/95",
+                      "bg-primary text-primary-foreground shadow-xs specular-rim hover:bg-primary/95",
                     // Disabled
                     isDisabled && "opacity-25 cursor-not-allowed pointer-events-none"
                   )}

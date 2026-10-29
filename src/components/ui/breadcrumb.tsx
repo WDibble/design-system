@@ -53,7 +53,7 @@ export const BreadcrumbLink = React.forwardRef<
     <a
       ref={ref}
       className={cn(
-        "transition-colors duration-150 hover:text-foreground cursor-pointer underline-offset-4 hover:underline",
+        "transition-colors duration-150 hover:text-foreground cursor-pointer underline-offset-4 hover:underline active:opacity-75",
         className
       )}
       {...props}
