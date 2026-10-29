@@ -361,9 +361,17 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8 selection:bg-primary selection:text-primary-foreground">
+      {/* Skip to Main Content Link (WCAG 2.2 Level AA Landmark Invariant) */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring"
+      >
+        Skip to main content
+      </a>
+
       <div className="w-full max-w-6xl flex flex-col gap-10">
         {/* Sticky Floating Liquid Glass Header */}
-        <header className="sticky top-4 z-40 flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl glass-regular specular-rim shadow-lg transition-all duration-200">
+        <header role="banner" className="sticky top-4 z-40 flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl glass-regular specular-rim shadow-lg transition-all duration-200">
           <div className="flex items-center gap-3 min-w-0">
             <div className="size-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-xs shrink-0">
               <SparklesIcon size={20} />
@@ -424,8 +432,10 @@ function AppContent() {
           </div>
         </header>
 
-        {/* Feature Spotlight: The 5 Kinetic State Mechanics */}
-        <section className="flex flex-col gap-4">
+        {/* Main Content Landmark */}
+        <main id="main-content" tabIndex={-1} className="flex flex-col gap-10 outline-none">
+          {/* Feature Spotlight: The 5 Kinetic State Mechanics */}
+          <section className="flex flex-col gap-4">
           <div>
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
               <ZapIcon size={16} className="text-amber-500" />
@@ -2796,8 +2806,9 @@ function AppContent() {
 
           <IconGallery />
         </section>
+      </main>
 
-        {/* Global Command Dialog (⌘K / Ctrl+K) */}
+      {/* Global Command Dialog (⌘K / Ctrl+K) */}
         <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
           <CommandInput />
           <CommandList>
@@ -2853,7 +2864,7 @@ function AppContent() {
         </CommandDialog>
 
         {/* Micro Footer */}
-        <footer className="border-t border-border/60 pt-6 pb-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+        <footer role="contentinfo" className="border-t border-border/60 pt-6 pb-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>© Design System · Human-Centric & Agent-Native Standard</p>
           <p className="font-mono">React 19 · Base UI · Motion · Tailwind CSS v4</p>
         </footer>
