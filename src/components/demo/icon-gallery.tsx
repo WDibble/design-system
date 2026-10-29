@@ -207,11 +207,12 @@ export function IconGallery() {
             </CardDescription>
           </div>
 
-          <div className="flex items-center gap-1.5 self-start sm:self-auto">
+          <div className="flex items-center gap-1.5 self-start sm:self-auto" role="group" aria-label="Page density selector">
             <Button
               variant={pageSize === 60 ? "secondary" : "ghost"}
               size="sm"
               className="text-xs h-7 px-2.5"
+              aria-pressed={pageSize === 60}
               onClick={() => setPageSize(60)}
             >
               60 / page
@@ -220,6 +221,7 @@ export function IconGallery() {
               variant={pageSize === 120 ? "secondary" : "ghost"}
               size="sm"
               className="text-xs h-7 px-2.5"
+              aria-pressed={pageSize === 120}
               onClick={() => setPageSize(120)}
             >
               120 / page
@@ -228,6 +230,7 @@ export function IconGallery() {
               variant={pageSize === "all" ? "secondary" : "ghost"}
               size="sm"
               className="text-xs h-7 px-2.5"
+              aria-pressed={pageSize === "all"}
               onClick={() => setPageSize("all")}
             >
               Show All ({filteredIcons.length})
@@ -247,6 +250,7 @@ export function IconGallery() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by icon name (e.g. check, git, arrow, send)..."
+              aria-label="Search icons by name"
               className="pl-8.5 pr-8 text-xs h-8.5 bg-muted/20"
             />
             {search && (
@@ -268,7 +272,7 @@ export function IconGallery() {
         </div>
 
         {/* Category Pills Bar */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+        <div className="flex flex-wrap items-center gap-1.5 pt-0.5" role="group" aria-label="Icon categories">
           {CATEGORIES.map((cat) => {
             const isSelected = category === cat.label;
             return (
@@ -276,6 +280,7 @@ export function IconGallery() {
                 key={cat.label}
                 type="button"
                 onClick={() => setCategory(cat.label)}
+                aria-pressed={isSelected}
                 className={cn(
                   "px-2.5 py-0.5 rounded-full text-[11px] font-medium transition-colors border select-none cursor-pointer",
                   isSelected

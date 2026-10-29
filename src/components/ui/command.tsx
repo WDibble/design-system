@@ -104,6 +104,7 @@ export const CommandInput = React.forwardRef<
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Type a command or search..."
+        aria-label={props["aria-label"] || "Search commands"}
         className={cn(
           "flex h-12 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground text-foreground",
           "disabled:cursor-not-allowed disabled:opacity-50",

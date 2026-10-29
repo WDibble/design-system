@@ -7,7 +7,7 @@ import { springs } from "@/tokens/motion";
 
 export const buttonVariants = cva(
   [
-    "group relative inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium select-none shrink-0 overflow-hidden",
+    "group relative inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium select-none shrink-0",
     "border border-transparent", // Always present to guarantee zero border-width layout shift
     "transition-[background-color,border-color,color,box-shadow] duration-150 ease-out",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",

@@ -437,13 +437,14 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs font-medium">
                     <span>Hue Angle</span>
-                    <span className="font-mono text-muted-foreground">{hue}°</span>
+                    <span className="font-mono tabular-nums text-muted-foreground">{hue}°</span>
                   </div>
                   <Slider
                     min={0}
                     max={360}
                     step={1}
                     value={hue}
+                    aria-label="Hue Angle"
                     onValueChange={(val) => {
                       const h = Array.isArray(val) ? val[0] : val;
                       setHue(h);
@@ -465,13 +466,14 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs font-medium">
                     <span>Chroma (Vibrancy)</span>
-                    <span className="font-mono text-muted-foreground">{chroma.toFixed(2)}</span>
+                    <span className="font-mono tabular-nums text-muted-foreground">{chroma.toFixed(2)}</span>
                   </div>
                   <Slider
                     min={0}
                     max={0.28}
                     step={0.01}
                     value={chroma}
+                    aria-label="Chroma (Vibrancy)"
                     onValueChange={(val) => {
                       const c = Array.isArray(val) ? val[0] : val;
                       setChroma(c);
@@ -486,10 +488,10 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                   <div className="flex items-center justify-between text-xs font-medium">
                     <span>Perceptual Lightness</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-muted-foreground font-mono">
+                      <span className="text-[10px] text-muted-foreground font-mono tabular-nums">
                         Safe Zone: [{lightnessBounds.minL.toFixed(2)} – {lightnessBounds.maxL.toFixed(2)}]
                       </span>
-                      <span className="font-mono text-muted-foreground">{lightness.toFixed(2)}</span>
+                      <span className="font-mono tabular-nums text-muted-foreground">{lightness.toFixed(2)}</span>
                     </div>
                   </div>
                   <Slider
@@ -497,6 +499,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                     max={lightnessBounds.maxL}
                     step={0.01}
                     value={lightness}
+                    aria-label="Perceptual Lightness"
                     onValueChange={(val) => {
                       const l = Array.isArray(val) ? val[0] : val;
                       setLightness(l);
@@ -513,7 +516,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                       <p className="text-xs font-medium text-foreground">Corner Radius Scale</p>
                       <p className="text-[10px] text-muted-foreground">Governs Directive 6 (Concentric Radii)</p>
                     </div>
-                    <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                    <Badge variant="outline" size="sm" className="font-mono tabular-nums text-[10px]">
                       {radiusPx}px ({(radiusPx / 16).toFixed(3)}rem)
                     </Badge>
                   </div>
@@ -523,6 +526,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                     max={20}
                     step={1}
                     value={radiusPx}
+                    aria-label="Corner Radius Scale"
                     onValueChange={(val) => {
                       const r = Array.isArray(val) ? val[0] : val;
                       setRadiusPx(r);
@@ -573,6 +577,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                     readOnly
                     rows={8}
                     value={activeThemeJson}
+                    aria-label="Exported tweakcn theme JSON"
                     className="font-mono text-[11px] leading-relaxed bg-muted/40 select-all"
                   />
                 </div>
@@ -590,6 +595,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                     placeholder='Paste {"name": "My Theme", "styles": { "light": {...}, "dark": {...} }}'
                     value={importJson}
                     onChange={(e) => setImportJson(e.target.value)}
+                    aria-label="Import tweakcn theme JSON payload"
                     className="font-mono text-[11px] leading-relaxed"
                   />
 
