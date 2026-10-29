@@ -1,4 +1,5 @@
 import * as React from "react";
+import { IconGallery } from "@/components/demo/icon-gallery";
 import {
   SparklesIcon,
   MoonIcon,
@@ -2792,6 +2793,21 @@ function AppContent() {
           </div>
         </section>
 
+        {/* Section 11: Complete Kinetic Icon Spectrum & Directory (470 Primitives) */}
+        <section id="icon-directory" className="flex flex-col gap-6">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground flex items-center gap-2.5">
+              <span className="flex size-7 items-center justify-center rounded-lg bg-primary/10 text-primary text-xs font-mono font-bold">11</span>
+              <span>Complete Kinetic Icon Spectrum &amp; Directory</span>
+            </h2>
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-3xl leading-relaxed">
+              Explore all 470 animated icons with mechanical spring physics, instant search, category filtering, dynamic sliding pagination, and one-click import snippet copying.
+            </p>
+          </div>
+
+          <IconGallery />
+        </section>
+
         {/* Global Command Dialog (⌘K / Ctrl+K) */}
         <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
           <CommandInput />
@@ -2823,6 +2839,14 @@ function AppContent() {
             </CommandGroup>
             <CommandSeparator />
             <CommandGroup heading="Components & Architecture">
+              <CommandItem onSelect={() => {
+                setCommandOpen(false);
+                document.getElementById("icon-directory")?.scrollIntoView({ behavior: "smooth" });
+              }}>
+                <SparklesIcon size={14} />
+                <span>Browse Kinetic Icon Directory (470 Icons)</span>
+                <CommandShortcut>⌘I</CommandShortcut>
+              </CommandItem>
               <CommandItem onSelect={() => setCommandOpen(false)}>
                 <LayersIcon size={14} />
                 <span>Explore Button Spectrum</span>
