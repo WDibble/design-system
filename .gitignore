@@ -20,6 +20,9 @@ logs/
 # Scratch & temporary test scripts
 scratch/
 
+# Local research and reference material
+inspiration/
+
 # Environment files
 .env
 .env*.local
