@@ -320,16 +320,16 @@ export function NavigationBar({
                                         </span>
                                       )}
                                       <div className="min-w-0 flex-1">
-                                        <div className="text-xs font-medium text-foreground flex items-center gap-1.5">
+                                        <div className="text-xs font-medium text-foreground flex items-center gap-1.5 flex-wrap">
                                           <span>{link.title}</span>
                                           {link.badge && (
-                                            <Badge variant="secondary" size="sm" className="text-[9px] py-0 px-1">
+                                            <Badge variant="secondary" size="sm" className="text-[9px] py-0 px-1 shrink-0 whitespace-nowrap">
                                               {link.badge}
                                             </Badge>
                                           )}
                                         </div>
                                         {link.description && (
-                                          <div className="text-[11px] text-muted-foreground truncate">
+                                          <div className="text-[11px] text-muted-foreground line-clamp-2">
                                             {link.description}
                                           </div>
                                         )}
@@ -623,8 +623,8 @@ export function NavMenuLink({
         </div>
       )}
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-1.5 min-w-0">
-          <span className="text-xs font-semibold text-foreground truncate group-hover:text-primary transition-colors">
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-xs font-semibold text-foreground whitespace-nowrap group-hover:text-primary transition-colors">
             {title}
           </span>
           {badge && (
@@ -660,7 +660,7 @@ export function NavMegaMenu({ featured, links, className }: NavMegaMenuProps) {
   const { closeMenu } = useNavigation();
 
   return (
-    <div className={cn("w-[580px] sm:w-[620px] max-w-[calc(100vw-2.5rem)] grid grid-cols-12 gap-5", className)}>
+    <div className={cn("w-[660px] sm:w-[720px] max-w-[calc(100vw-2.5rem)] grid grid-cols-12 gap-5", className)}>
       {/* Featured Promo Card (Directive #6 Concentric Radii) */}
       {featured && (
         <div className="col-span-5 flex flex-col justify-between p-4 rounded-xl bg-gradient-to-b from-muted/60 via-muted/30 to-muted/10 border border-border/80 shadow-xs">
@@ -720,8 +720,8 @@ export function NavColumnsMenu({ columns, className }: NavColumnsMenuProps) {
     <div
       className={cn(
         "grid gap-6 max-w-[calc(100vw-2.5rem)]",
-        columns.length === 2 && "w-[500px] grid-cols-2",
-        columns.length >= 3 && "w-[680px] grid-cols-3",
+        columns.length === 2 && "w-[540px] sm:w-[600px] grid-cols-2",
+        columns.length >= 3 && "w-[720px] sm:w-[780px] grid-cols-3",
         className
       )}
     >
@@ -754,7 +754,7 @@ export function NavSimpleMenu({ links, className }: NavSimpleMenuProps) {
   if (!links || links.length === 0) return null;
 
   return (
-    <div className={cn("w-[260px] max-w-[calc(100vw-2.5rem)] space-y-1", className)}>
+    <div className={cn("w-[280px] sm:w-[320px] max-w-[calc(100vw-2.5rem)] space-y-1", className)}>
       {links.map((link, idx) => (
         <NavMenuLink key={idx} {...link} />
       ))}

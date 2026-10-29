@@ -344,7 +344,7 @@ function AppContent() {
             description: "37 accessible compound components",
             href: "#primitives",
             icon: <LayersIcon size={16} />,
-            badge: "37 Primitives",
+            badge: "v2.0",
           },
           {
             title: "Kinetic Icons",
