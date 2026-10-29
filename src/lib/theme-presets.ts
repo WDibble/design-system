@@ -153,9 +153,9 @@ export const presetThemes: PresetTheme[] = [
     description: "Industrial warmth. High-contrast golden amber inspired by analog synthesizers and Tokyo street signs.",
     hue: 65,
     chroma: 0.18,
-    lightness: 0.68,
+    lightness: 0.55,
     radiusPx: 8,
-    colorSwatch: "oklch(0.72 0.18 65)",
+    colorSwatch: "oklch(0.55 0.18 65)",
     styles: {
       light: {
         background: "oklch(0.99 0.005 65)",
@@ -164,8 +164,8 @@ export const presetThemes: PresetTheme[] = [
         "card-foreground": "oklch(0.16 0.015 65)",
         popover: "oklch(1 0 0)",
         "popover-foreground": "oklch(0.16 0.015 65)",
-        primary: "oklch(0.68 0.18 65)",
-        "primary-foreground": "oklch(0.15 0 0)",
+        primary: "oklch(0.55 0.18 65)",
+        "primary-foreground": "oklch(0.985 0 0)",
         secondary: "oklch(0.95 0.02 65)",
         "secondary-foreground": "oklch(0.20 0.02 65)",
         muted: "oklch(0.95 0.015 65)",
@@ -182,7 +182,7 @@ export const presetThemes: PresetTheme[] = [
         "info-foreground": "oklch(0.985 0 0)",
         border: "oklch(0.90 0.015 65)",
         input: "oklch(0.90 0.015 65)",
-        ring: "oklch(0.68 0.18 65)",
+        ring: "oklch(0.55 0.18 65)",
         radius: "0.5rem",
       },
       dark: {
