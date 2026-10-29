@@ -396,7 +396,7 @@ export function NavBrand({ className, children, href = "/", ...props }: NavBrand
     <a
       href={href}
       className={cn(
-        "flex items-center gap-2.5 font-semibold text-sm tracking-tight text-foreground transition-opacity hover:opacity-80 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg px-1",
+        "flex items-center gap-2.5 font-semibold text-sm tracking-tight text-foreground border border-transparent transition-all duration-150 active:scale-[0.98] hover:opacity-80 outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg px-1 select-none",
         className
       )}
       {...props}
@@ -447,6 +447,8 @@ export function NavItem({
 }: NavItemProps) {
   const { activeItem, setActiveItem } = useNavigation();
   const isOpen = activeItem === id;
+  const uniqueId = React.useId();
+  const dropdownId = `nav-dropdown-${uniqueId}`;
 
   const handleMouseEnter = () => {
     setActiveItem(id);
@@ -475,10 +477,11 @@ export function NavItem({
         type="button"
         aria-expanded={isOpen}
         aria-haspopup="menu"
+        aria-controls={isOpen ? dropdownId : undefined}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         className={cn(
-          "group inline-flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-medium transition-colors duration-150 outline-none",
+          "group inline-flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-medium border border-transparent transition-all duration-150 active:scale-[0.98] outline-none select-none",
           "hover:bg-muted/70 hover:text-foreground",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
           isOpen
@@ -488,14 +491,18 @@ export function NavItem({
       >
         <span>{label}</span>
         {badge && (
-          <Badge variant="outline" size="sm" className="font-mono text-[9px] py-0 px-1 border-border/80">
+          <Badge
+            variant="outline"
+            size="sm"
+            className="font-mono text-[9px] py-0 px-1 border-border/80 shrink-0 whitespace-nowrap"
+          >
             {badge}
           </Badge>
         )}
         <ChevronDownIcon
           size={12}
           className={cn(
-            "shrink-0 opacity-60 transition-transform duration-200 ease-out group-hover:opacity-100",
+            "shrink-0 opacity-60 pointer-events-none transition-transform duration-200 ease-out group-hover:opacity-100",
             isOpen && "rotate-180 opacity-100 text-foreground"
           )}
         />
@@ -505,6 +512,9 @@ export function NavItem({
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id={dropdownId}
+            role="region"
+            aria-label={`${label} navigation menu`}
             initial={{ opacity: 0, y: 6, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.98 }}
@@ -546,7 +556,7 @@ export function NavItemLink({
         href={href}
         onMouseEnter={() => closeMenu()}
         className={cn(
-          "inline-flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-medium transition-colors duration-150 outline-none",
+          "inline-flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-medium border border-transparent transition-all duration-150 active:scale-[0.98] outline-none select-none",
           "hover:bg-muted/70 hover:text-foreground",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
           isActive
@@ -558,7 +568,11 @@ export function NavItemLink({
       >
         <span>{children}</span>
         {badge && (
-          <Badge variant="outline" size="sm" className="font-mono text-[9px] py-0 px-1 border-border/80">
+          <Badge
+            variant="outline"
+            size="sm"
+            className="font-mono text-[9px] py-0 px-1 border-border/80 shrink-0 whitespace-nowrap"
+          >
             {badge}
           </Badge>
         )}
@@ -596,7 +610,7 @@ export function NavMenuLink({
       href={href}
       onClick={() => closeMenu()}
       className={cn(
-        "group flex items-start gap-3 p-2.5 rounded-xl transition-all duration-150 border border-transparent outline-none",
+        "group flex items-start gap-3 p-2.5 rounded-xl transition-all duration-150 border border-transparent active:scale-[0.99] outline-none select-none",
         "hover:bg-muted/70 hover:border-border/40",
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
         className
@@ -604,22 +618,22 @@ export function NavMenuLink({
       {...props}
     >
       {icon && (
-        <div className="size-9 rounded-lg bg-muted/80 border border-border/50 flex items-center justify-center shrink-0 text-foreground transition-all duration-150 group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/20">
+        <div className="size-9 rounded-lg bg-muted/80 border border-border/50 flex items-center justify-center shrink-0 text-foreground transition-all duration-150 group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/20 pointer-events-none">
           {icon}
         </div>
       )}
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-1.5">
-          <span className="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">
+        <div className="flex items-center gap-1.5 min-w-0">
+          <span className="text-xs font-semibold text-foreground truncate group-hover:text-primary transition-colors">
             {title}
           </span>
           {badge && (
-            <Badge variant="secondary" size="sm" className="text-[9px] py-0 px-1 font-mono">
+            <Badge variant="secondary" size="sm" className="text-[9px] py-0 px-1 font-mono shrink-0 whitespace-nowrap">
               {badge}
             </Badge>
           )}
           {isExternal && (
-            <ChevronRightIcon size={12} className="opacity-40 group-hover:opacity-100 transition-opacity" />
+            <ChevronRightIcon size={12} className="opacity-40 group-hover:opacity-100 transition-opacity shrink-0 pointer-events-none" />
           )}
         </div>
         {description && (
