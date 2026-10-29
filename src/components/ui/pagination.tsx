@@ -46,7 +46,7 @@ export const PaginationContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ul
     ref={ref}
-    className={cn("flex flex-row items-center gap-1 sm:gap-1.5", className)}
+    className={cn("flex flex-row items-center gap-1 sm:gap-1.5 shrink-0", className)}
     {...props}
   />
 ));
@@ -58,7 +58,7 @@ export const PaginationItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <li
     ref={ref}
-    className={cn("inline-flex items-center", className)}
+    className={cn("inline-flex items-center shrink-0", className)}
     {...props}
   />
 ));
@@ -105,7 +105,7 @@ export const PaginationLink = ({
         onClick?.(e);
       }}
       className={cn(
-        "group relative size-8 rounded-md font-mono tabular-nums text-xs font-medium flex items-center justify-center border border-transparent select-none outline-none transition-colors duration-150",
+        "group relative size-8 shrink-0 rounded-md font-mono tabular-nums text-xs font-medium flex items-center justify-center border border-transparent select-none outline-none transition-colors duration-150",
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
         isActive
           ? "text-primary-foreground cursor-default"
@@ -167,8 +167,8 @@ export const PaginationPrevious = ({
     whileTap={!disabled ? { scale: 0.96 } : undefined}
     transition={springs.tactile}
     className={cn(
-      "group inline-flex items-center justify-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-all duration-150",
-      "hover:bg-muted hover:border-foreground/30 hover:text-foreground active:scale-98",
+      "group inline-flex items-center justify-center gap-1.5 h-8 w-[84px] sm:w-[88px] shrink-0 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-colors duration-150",
+      "hover:bg-muted hover:border-foreground/30 hover:text-foreground",
       "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
       disabled && "opacity-40 cursor-not-allowed pointer-events-none",
       className
@@ -213,8 +213,8 @@ export const PaginationNext = ({
     whileTap={!disabled ? { scale: 0.96 } : undefined}
     transition={springs.tactile}
     className={cn(
-      "group inline-flex items-center justify-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-all duration-150",
-      "hover:bg-muted hover:border-foreground/30 hover:text-foreground active:scale-98",
+      "group inline-flex items-center justify-center gap-1.5 h-8 w-[84px] sm:w-[88px] shrink-0 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-colors duration-150",
+      "hover:bg-muted hover:border-foreground/30 hover:text-foreground",
       "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
       disabled && "opacity-40 cursor-not-allowed pointer-events-none",
       className
@@ -236,7 +236,7 @@ export const PaginationEllipsis = ({
 }: React.ComponentProps<"span">) => (
   <span
     aria-hidden
-    className={cn("flex size-8 items-center justify-center text-muted-foreground select-none", className)}
+    className={cn("flex size-8 shrink-0 items-center justify-center text-muted-foreground select-none", className)}
     {...props}
   >
     <span className="font-mono text-xs tracking-widest">…</span>
@@ -244,3 +244,48 @@ export const PaginationEllipsis = ({
   </span>
 );
 PaginationEllipsis.displayName = "PaginationEllipsis";
+
+export type PaginationItemType = number | "ellipsis-start" | "ellipsis-end";
+
+/**
+ * Returns a strictly length-stabilized array of pagination items.
+ * When totalPages > 7, this function ALWAYS returns exactly 7 items, guaranteeing
+ * zero layout shift or width flickering as the active page changes.
+ */
+export function getPaginationItems(
+  currentPage: number,
+  totalPages: number
+): PaginationItemType[] {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
+  // Left boundary: pages 1 to 4 -> [1, 2, 3, 4, 5, 'ellipsis-end', totalPages] (length 7)
+  if (currentPage <= 4) {
+    return [1, 2, 3, 4, 5, "ellipsis-end", totalPages];
+  }
+
+  // Right boundary: pages (totalPages-3) to totalPages -> [1, 'ellipsis-start', totalPages-4, totalPages-3, totalPages-2, totalPages-1, totalPages] (length 7)
+  if (currentPage >= totalPages - 3) {
+    return [
+      1,
+      "ellipsis-start",
+      totalPages - 4,
+      totalPages - 3,
+      totalPages - 2,
+      totalPages - 1,
+      totalPages,
+    ];
+  }
+
+  // Center window: [1, 'ellipsis-start', curr-1, curr, curr+1, 'ellipsis-end', totalPages] (length 7)
+  return [
+    1,
+    "ellipsis-start",
+    currentPage - 1,
+    currentPage,
+    currentPage + 1,
+    "ellipsis-end",
+    totalPages,
+  ];
+}

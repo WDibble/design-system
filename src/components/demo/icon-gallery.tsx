@@ -15,6 +15,7 @@ import {
   PaginationPrevious,
   PaginationNext,
   PaginationEllipsis,
+  getPaginationItems,
 } from "@/components/ui/pagination";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { useToast } from "@/components/ui/toast";
@@ -336,38 +337,25 @@ export function IconGallery() {
                   />
                 </PaginationItem>
 
-                {(() => {
-                  const items: (number | "ellipsis-start" | "ellipsis-end")[] = [];
-                  if (totalPages <= 5) {
-                    for (let i = 1; i <= totalPages; i++) items.push(i);
-                  } else if (currentPage <= 3) {
-                    items.push(1, 2, 3, 4, "ellipsis-end", totalPages);
-                  } else if (currentPage >= totalPages - 2) {
-                    items.push(1, "ellipsis-start", totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
-                  } else {
-                    items.push(1, "ellipsis-start", currentPage - 1, currentPage, currentPage + 1, "ellipsis-end", totalPages);
-                  }
-
-                  return items.map((item, idx) => {
-                    if (typeof item === "string") {
-                      return (
-                        <PaginationItem key={`${item}-${idx}`}>
-                          <PaginationEllipsis />
-                        </PaginationItem>
-                      );
-                    }
+                {getPaginationItems(currentPage, totalPages).map((item, idx) => {
+                  if (typeof item === "string") {
                     return (
-                      <PaginationItem key={item}>
-                        <PaginationLink
-                          isActive={currentPage === item}
-                          onClick={() => setCurrentPage(item)}
-                        >
-                          {item}
-                        </PaginationLink>
+                      <PaginationItem key={`${item}-${idx}`}>
+                        <PaginationEllipsis />
                       </PaginationItem>
                     );
-                  });
-                })()}
+                  }
+                  return (
+                    <PaginationItem key={item}>
+                      <PaginationLink
+                        isActive={currentPage === item}
+                        onClick={() => setCurrentPage(item)}
+                      >
+                        {item}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
 
                 <PaginationItem>
                   <PaginationNext

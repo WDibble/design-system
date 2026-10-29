@@ -188,6 +188,7 @@ import {
   PaginationPrevious,
   PaginationNext,
   PaginationEllipsis,
+  getPaginationItems,
   Sparkline,
   AreaChart,
   BarChart,
@@ -2680,38 +2681,25 @@ function AppContent() {
                             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                           />
                         </PaginationItem>
-                        {(() => {
-                          const total = 10;
-                          const items: (number | "ellipsis-start" | "ellipsis-end")[] = [];
-
-                          if (currentPage <= 3) {
-                            items.push(1, 2, 3, 4, "ellipsis-end", total);
-                          } else if (currentPage >= total - 2) {
-                            items.push(1, "ellipsis-start", total - 3, total - 2, total - 1, total);
-                          } else {
-                            items.push(1, "ellipsis-start", currentPage - 1, currentPage, currentPage + 1, "ellipsis-end", total);
-                          }
-
-                          return items.map((item, idx) => {
-                            if (typeof item === "string") {
-                              return (
-                                <PaginationItem key={`${item}-${idx}`}>
-                                  <PaginationEllipsis />
-                                </PaginationItem>
-                              );
-                            }
+                        {getPaginationItems(currentPage, 10).map((item, idx) => {
+                          if (typeof item === "string") {
                             return (
-                              <PaginationItem key={item}>
-                                <PaginationLink
-                                  isActive={currentPage === item}
-                                  onClick={() => setCurrentPage(item)}
-                                >
-                                  {item}
-                                </PaginationLink>
+                              <PaginationItem key={`${item}-${idx}`}>
+                                <PaginationEllipsis />
                               </PaginationItem>
                             );
-                          });
-                        })()}
+                          }
+                          return (
+                            <PaginationItem key={item}>
+                              <PaginationLink
+                                isActive={currentPage === item}
+                                onClick={() => setCurrentPage(item)}
+                              >
+                                {item}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        })}
                         <PaginationItem>
                           <PaginationNext
                             disabled={currentPage === 10}
