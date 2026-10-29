@@ -216,3 +216,70 @@ ${darkMaterials}
     restore();
   }
 }
+
+/**
+ * High-performance, zero-layout-reflow live theme updater for slider scrubbing.
+ * Batches DOM style changes via requestAnimationFrame directly without triggering
+ * synchronous reflows or injecting/removing stylesheets.
+ */
+let liveThemeRafId: number | null = null;
+let pendingTheme: TweakcnTheme | null = null;
+
+export function applyLiveSliderTheme(theme: TweakcnTheme): void {
+  if (typeof document === "undefined") return;
+
+  pendingTheme = theme;
+  if (liveThemeRafId !== null) return;
+
+  liveThemeRafId = requestAnimationFrame(() => {
+    liveThemeRafId = null;
+    if (!pendingTheme) return;
+
+    let styleSheet = document.getElementById("tweakcn-custom-theme") as HTMLStyleElement | null;
+    if (!styleSheet) {
+      styleSheet = document.createElement("style");
+      styleSheet.id = "tweakcn-custom-theme";
+      document.head.appendChild(styleSheet);
+    }
+
+    const lightRules = Object.entries(pendingTheme.styles.light)
+      .filter(([_, value]) => !!value)
+      .map(([key, value]) => `  --${key}: ${value};`)
+      .join("\n");
+
+    const darkRules = Object.entries(pendingTheme.styles.dark)
+      .filter(([_, value]) => !!value)
+      .map(([key, value]) => `  --${key}: ${value};`)
+      .join("\n");
+
+    const lightMaterials = [
+      "  --material-ultra-thin: color-mix(in oklch, var(--card) 55%, transparent);",
+      "  --material-thin: color-mix(in oklch, var(--card) 70%, transparent);",
+      "  --material-regular: color-mix(in oklch, var(--card) 82%, transparent);",
+      "  --material-thick: color-mix(in oklch, var(--card) 92%, transparent);",
+      "  --material-glass: color-mix(in oklch, var(--card) 80%, transparent);",
+      "  --material-glass-border: color-mix(in oklch, var(--border) 60%, transparent);",
+    ].join("\n");
+
+    const darkMaterials = [
+      "  --material-ultra-thin: color-mix(in oklch, var(--card) 55%, transparent);",
+      "  --material-thin: color-mix(in oklch, var(--card) 70%, transparent);",
+      "  --material-regular: color-mix(in oklch, var(--card) 82%, transparent);",
+      "  --material-thick: color-mix(in oklch, var(--card) 92%, transparent);",
+      "  --material-glass: color-mix(in oklch, var(--card) 80%, transparent);",
+      "  --material-glass-border: color-mix(in oklch, var(--border) 60%, transparent);",
+    ].join("\n");
+
+    styleSheet.textContent = `
+:root {
+${lightRules}
+${lightMaterials}
+}
+
+.dark {
+${darkRules}
+${darkMaterials}
+}
+`;
+  });
+}

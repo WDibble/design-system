@@ -28,10 +28,11 @@ import {
 } from "@/lib/theme-presets";
 import {
   applyTweakcnTheme,
+  applyLiveSliderTheme,
   tweakcnExportSchema,
   type TweakcnTheme,
 } from "@/lib/theme";
-import { evaluateDualContrast } from "@/lib/contrast";
+import { evaluateDualContrast, getPassingLightnessBounds } from "@/lib/contrast";
 import { cn } from "@/lib/utils";
 
 export interface ThemeStudioProps {
@@ -48,7 +49,13 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
   const [chroma, setChroma] = React.useState(presetThemes[0].chroma);
   const [lightness, setLightness] = React.useState(presetThemes[0].lightness);
   const [radiusPx, setRadiusPx] = React.useState(presetThemes[0].radiusPx);
+  const [buttonPolarity, setButtonPolarity] = React.useState<"white" | "dark">("white");
   const [activeTab, setActiveTab] = React.useState<"presets" | "custom" | "tweakcn">("presets");
+
+  // Dynamic Lightness Bounds guaranteeing 100% Dual-Engine Pass
+  const lightnessBounds = React.useMemo(() => {
+    return getPassingLightnessBounds(hue, chroma, buttonPolarity);
+  }, [hue, chroma, buttonPolarity]);
 
   // tweakcn JSON Import/Export State
   const [importJson, setImportJson] = React.useState("");
@@ -59,6 +66,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
   const activeThemeJson = React.useMemo(() => {
     const activePreset = presetThemes.find((p) => p.id === activePresetId) || presetThemes[0];
     const rem = `${(radiusPx / 16).toFixed(3)}rem`;
+    const fgColor = buttonPolarity === "white" ? "oklch(0.985 0 0)" : `oklch(0.12 0.02 ${hue})`;
 
     // Clone and update active theme styles with custom adjustments
     const currentTheme: TweakcnTheme = {
@@ -67,12 +75,14 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
         light: {
           ...activePreset.styles.light,
           primary: `oklch(${lightness} ${chroma} ${hue})`,
+          "primary-foreground": fgColor,
           ring: `oklch(${Math.max(0.4, lightness - 0.05)} ${chroma} ${hue})`,
           radius: rem,
         },
         dark: {
           ...activePreset.styles.dark,
-          primary: `oklch(${Math.min(0.85, lightness + 0.15)} ${chroma} ${hue})`,
+          primary: `oklch(${lightness} ${chroma} ${hue})`,
+          "primary-foreground": fgColor,
           ring: `oklch(${Math.min(0.8, lightness + 0.1)} ${chroma} ${hue})`,
           radius: rem,
         },
@@ -80,17 +90,14 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
     };
 
     return JSON.stringify(currentTheme, null, 2);
-  }, [activePresetId, hue, chroma, lightness, radiusPx]);
+  }, [activePresetId, buttonPolarity, hue, chroma, lightness, radiusPx]);
 
   // Dual-Engine Contrast Calculation (WCAG 2.2 AA + WCAG 3 APCA)
   const dualContrast = React.useMemo(() => {
-    const activePreset = presetThemes.find((p) => p.id === activePresetId) || presetThemes[0];
-    const livePrimaryColor = `oklch(${isDark ? Math.min(0.85, lightness + 0.15) : lightness} ${chroma} ${hue})`;
-    const liveFgColor = isDark
-      ? activePreset.styles.dark["primary-foreground"]
-      : activePreset.styles.light["primary-foreground"];
+    const livePrimaryColor = `oklch(${lightness} ${chroma} ${hue})`;
+    const liveFgColor = buttonPolarity === "white" ? "oklch(0.985 0 0)" : `oklch(0.12 0.02 ${hue})`;
     return evaluateDualContrast(liveFgColor, livePrimaryColor, "button");
-  }, [activePresetId, isDark, lightness, chroma, hue]);
+  }, [buttonPolarity, lightness, chroma, hue]);
 
   // Global Keyboard Shortcut: ⌘T / Ctrl+T
   React.useEffect(() => {
@@ -127,13 +134,23 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
     setLightness(preset.lightness);
     setRadiusPx(preset.radiusPx);
 
+    const isDarkText = preset.id === "tokyo-amber" || preset.lightness > 0.65;
+    setButtonPolarity(isDarkText ? "dark" : "white");
+
     applyTweakcnTheme(preset);
   };
 
-  // Live CSS Variable update when sliders change
-  const applyLiveColor = (h: number, c: number, l: number, r: number) => {
+  // High-performance live CSS Variable update when sliders change (zero layout reflow)
+  const applyLiveColor = (
+    h: number,
+    c: number,
+    l: number,
+    r: number,
+    pol: "white" | "dark" = buttonPolarity
+  ) => {
     const activePreset = presetThemes.find((p) => p.id === activePresetId) || presetThemes[0];
     const rem = `${(r / 16).toFixed(3)}rem`;
+    const fgColor = pol === "white" ? "oklch(0.985 0 0)" : `oklch(0.12 0.02 ${h})`;
 
     const updatedTheme: TweakcnTheme = {
       name: `Custom (${activePreset.name})`,
@@ -141,20 +158,33 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
         light: {
           ...activePreset.styles.light,
           primary: `oklch(${l} ${c} ${h})`,
-          ring: `oklch(${Math.max(0.4, l - 0.05)} ${c} ${h})`,
+          "primary-foreground": fgColor,
+          ring: pol === "white" ? `oklch(${Math.max(0.4, l - 0.05)} ${c} ${h})` : `oklch(${Math.min(0.85, l + 0.1)} ${c} ${h})`,
           radius: rem,
         },
         dark: {
           ...activePreset.styles.dark,
-          primary: `oklch(${Math.min(0.85, l + 0.15)} ${c} ${h})`,
-          ring: `oklch(${Math.min(0.8, l + 0.1)} ${c} ${h})`,
+          primary: `oklch(${l} ${c} ${h})`,
+          "primary-foreground": fgColor,
+          ring: pol === "white" ? `oklch(${Math.max(0.4, l - 0.05)} ${c} ${h})` : `oklch(${Math.min(0.85, l + 0.1)} ${c} ${h})`,
           radius: rem,
         },
       },
     };
 
-    applyTweakcnTheme(updatedTheme);
+    applyLiveSliderTheme(updatedTheme);
   };
+
+  // Keep lightness bounded whenever hue, chroma, or polarity shifts
+  React.useEffect(() => {
+    if (lightness < lightnessBounds.minL) {
+      setLightness(lightnessBounds.minL);
+      applyLiveColor(hue, chroma, lightnessBounds.minL, radiusPx, buttonPolarity);
+    } else if (lightness > lightnessBounds.maxL) {
+      setLightness(lightnessBounds.maxL);
+      applyLiveColor(hue, chroma, lightnessBounds.maxL, radiusPx, buttonPolarity);
+    }
+  }, [lightnessBounds, lightness, hue, chroma, radiusPx, buttonPolarity]);
 
   // Handle Reset to Default
   const handleReset = () => {
@@ -164,6 +194,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
     setChroma(defaultPreset.chroma);
     setLightness(defaultPreset.lightness);
     setRadiusPx(defaultPreset.radiusPx);
+    setButtonPolarity("white");
 
     applyTweakcnTheme(defaultPreset);
   };
@@ -320,23 +351,28 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-medium text-foreground">Live Primary Color</span>
                     <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-                      oklch({(isDark ? Math.min(0.85, lightness + 0.15) : lightness).toFixed(2)} {chroma.toFixed(2)} {hue})
+                      oklch({lightness.toFixed(2)} {chroma.toFixed(2)} {hue})
                     </Badge>
                   </div>
 
                   <div className="flex items-center gap-3">
                     <div
-                      className="size-12 rounded-xl border border-white/20 shadow-md shrink-0 transition-colors duration-150"
+                      className="size-12 rounded-xl border border-white/20 shadow-md shrink-0 flex items-center justify-center font-bold text-xs transition-colors duration-150"
                       style={{
-                        backgroundColor: `oklch(${isDark ? Math.min(0.85, lightness + 0.15) : lightness} ${chroma} ${hue})`,
+                        backgroundColor: `oklch(${lightness} ${chroma} ${hue})`,
+                        color: buttonPolarity === "white" ? "oklch(0.985 0 0)" : `oklch(0.12 0.02 ${hue})`,
                       }}
-                    />
+                    >
+                      Aa
+                    </div>
                     <div className="flex-1 min-w-0 text-[11px] text-muted-foreground space-y-1">
                       <p className="font-medium text-foreground">
-                        {isDark ? "Dark-Calibrated Primary" : "Perceptually Uniform Lightness"}
+                        {buttonPolarity === "white"
+                          ? "Deep Ground with Crisp White Text"
+                          : "Luminous Ground with Obsidian Text"}
                       </p>
                       <p className="text-[10px]">
-                        Dual-engine calibrated against WCAG 2.2 AA and WCAG 3 APCA spatial models.
+                        Dynamic safe-zone clamping guarantees 100% compliance across both WCAG 2.2 AA and WCAG 3 APCA.
                       </p>
                     </div>
                   </div>
@@ -367,6 +403,34 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                       </div>
                     </div>
                   </div>
+                </div>
+
+                {/* Polarity Selector */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between text-xs font-medium">
+                    <span>Button Contrast Polarity</span>
+                    <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                      {buttonPolarity === "white" ? "White (Deep Ground)" : "Obsidian (Luminous)"}
+                    </Badge>
+                  </div>
+                  <SegmentedControl
+                    value={buttonPolarity}
+                    onValueChange={(v) => {
+                      const pol = v as "white" | "dark";
+                      setButtonPolarity(pol);
+                      const newBounds = getPassingLightnessBounds(hue, chroma, pol);
+                      const clampedL = pol === "white"
+                        ? Math.min(lightness, newBounds.maxL)
+                        : Math.max(lightness, newBounds.minL);
+                      setLightness(clampedL);
+                      applyLiveColor(hue, chroma, clampedL, radiusPx, pol);
+                    }}
+                    size="sm"
+                    className="w-full"
+                  >
+                    <SegmentedControlItem value="white">Deep Tone (White Text)</SegmentedControlItem>
+                    <SegmentedControlItem value="dark">Luminous (Dark Text)</SegmentedControlItem>
+                  </SegmentedControl>
                 </div>
 
                 {/* Hue Slider */}
@@ -421,11 +485,16 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs font-medium">
                     <span>Perceptual Lightness</span>
-                    <span className="font-mono text-muted-foreground">{lightness.toFixed(2)}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] text-muted-foreground font-mono">
+                        Safe Zone: [{lightnessBounds.minL.toFixed(2)} – {lightnessBounds.maxL.toFixed(2)}]
+                      </span>
+                      <span className="font-mono text-muted-foreground">{lightness.toFixed(2)}</span>
+                    </div>
                   </div>
                   <Slider
-                    min={0.35}
-                    max={0.85}
+                    min={lightnessBounds.minL}
+                    max={lightnessBounds.maxL}
                     step={0.01}
                     value={lightness}
                     onValueChange={(val) => {

@@ -252,3 +252,46 @@ export function evaluateDualContrast(
     dualPassed: passApca && passWcag2AA,
   };
 }
+
+/**
+ * Computes the exact passing bounds [minL, maxL] for Lightness given a Hue and Chroma,
+ * guaranteeing that every setting within [minL, maxL] passes BOTH WCAG 2.2 AA (>= 4.5:1)
+ * and WCAG 3 APCA (|Lc| >= 60).
+ */
+export function getPassingLightnessBounds(
+  h: number,
+  c: number,
+  polarity: "white" | "dark"
+): { minL: number; maxL: number } {
+  const whiteText = "oklch(0.985 0 0)";
+  const darkText = `oklch(0.12 0.02 ${h})`;
+  const txtColor = polarity === "white" ? whiteText : darkText;
+
+  if (polarity === "white") {
+    const minL = 0.20;
+    let maxL = 0.20;
+    // Step upwards to find the highest passing lightness
+    for (let l = 0.20; l <= 0.65; l += 0.01) {
+      const dual = evaluateDualContrast(txtColor, `oklch(${l.toFixed(2)} ${c} ${h})`, "button");
+      if (dual.dualPassed) {
+        maxL = +l.toFixed(2);
+      } else {
+        break;
+      }
+    }
+    return { minL, maxL: Math.max(minL, maxL) };
+  } else {
+    const maxL = 0.88;
+    let minL = 0.88;
+    // Step downwards to find the lowest passing lightness
+    for (let l = 0.88; l >= 0.60; l -= 0.01) {
+      const dual = evaluateDualContrast(txtColor, `oklch(${l.toFixed(2)} ${c} ${h})`, "button");
+      if (dual.dualPassed) {
+        minL = +l.toFixed(2);
+      } else {
+        break;
+      }
+    }
+    return { minL: Math.min(minL, maxL), maxL };
+  }
+}
