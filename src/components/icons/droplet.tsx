@@ -75,15 +75,11 @@ const DropletIcon = forwardRef<DropletIconHandle, DropletIconProps>(
             transition={{ duration: 0.6, delay: 0.2 }}
             variants={{
               normal: {
-                pathLength: 1,
-                opacity: 1,
-                pathOffset: 0,
-              },
+    y: 0, scaleY: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
               animate: {
-                pathLength: [0, 1],
-                opacity: [0, 1],
-                pathOffset: [1, 0],
-              },
+    y: -1.5, scaleY: 1.08, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
           />
         </svg>

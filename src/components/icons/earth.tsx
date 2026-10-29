@@ -24,12 +24,10 @@ const CIRCLE_TRANSITION: Transition = {
 
 const CIRCLE_VARIANTS: Variants = {
   normal: {
-    pathLength: 1,
-    opacity: 1,
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    pathLength: [0, 1],
-    opacity: [0, 1],
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
@@ -93,15 +91,11 @@ const EarthIcon = forwardRef<EarthIconHandle, EarthIconProps>(
             transition={{ duration: 0.7, delay: 0.5, opacity: { delay: 0.5 } }}
             variants={{
               normal: {
-                pathLength: 1,
-                opacity: 1,
-                pathOffset: 0,
-              },
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
               animate: {
-                pathLength: [0, 1],
-                opacity: [0, 1],
-                pathOffset: [1, 0],
-              },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
           />
           <motion.path
@@ -110,15 +104,11 @@ const EarthIcon = forwardRef<EarthIconHandle, EarthIconProps>(
             transition={{ duration: 0.7, delay: 0.5, opacity: { delay: 0.5 } }}
             variants={{
               normal: {
-                pathLength: 1,
-                opacity: 1,
-                pathOffset: 0,
-              },
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
               animate: {
-                pathLength: [0, 1],
-                opacity: [0, 1],
-                pathOffset: [1, 0],
-              },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
           />
           <motion.path
@@ -127,15 +117,11 @@ const EarthIcon = forwardRef<EarthIconHandle, EarthIconProps>(
             transition={{ duration: 0.7, delay: 0.5, opacity: { delay: 0.5 } }}
             variants={{
               normal: {
-                pathLength: 1,
-                opacity: 1,
-                pathOffset: 0,
-              },
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
               animate: {
-                pathLength: [0, 1],
-                opacity: [0, 1],
-                pathOffset: [1, 0],
-              },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
           />
           <motion.circle

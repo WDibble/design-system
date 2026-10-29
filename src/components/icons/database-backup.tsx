@@ -80,7 +80,7 @@ const DatabaseBackupIcon = forwardRef<
           transition={{ duration: 0.6, ease: "easeInOut" }}
           variants={{
             normal: { rotate: 0 },
-            animate: { rotate: 360 },
+            animate: { rotate: -45, transition: { type: "spring" as const, stiffness: 500, damping: 25 } },
           }}
         >
           <path d="M12 12v4h4" />

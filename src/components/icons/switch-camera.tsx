@@ -15,10 +15,11 @@ interface SwitchCameraIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const PATH_VARIANTS: Variants = {
-  normal: { pathLength: 1 },
+  normal: {
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
   animate: {
-    pathLength: [0, 1],
-    transition: { duration: 0.4, ease: "linear" },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 

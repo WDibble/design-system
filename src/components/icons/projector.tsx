@@ -17,19 +17,12 @@ interface ProjectorIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const RAY_LINE_VARIANTS: Variants = {
   hidden: {
-    pathLength: 0,
     opacity: 0,
   },
   animate: {
-    pathLength: 1,
-    opacity: 1,
-    transition: {
-      duration: 0.4,
-      ease: "easeOut",
-    },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
   visible: {
-    pathLength: 1,
     opacity: 1,
   },
 };

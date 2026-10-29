@@ -17,9 +17,9 @@ interface HeartPulseIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const HEART_DRAW_VARIANTS: Variants = {
-  normal: { pathLength: 1, opacity: 1 },
-  hidden: { pathLength: 0, opacity: 0 },
-  draw: { pathLength: [0, 1], opacity: [0, 1] },
+  normal: { opacity: 1 },
+  hidden: { opacity: 0 },
+  draw: { scale: [1, 1.08, 1], opacity: [0, 1] },
 };
 
 const HEART_PULSE_VARIANTS: Variants = {
@@ -28,8 +28,12 @@ const HEART_PULSE_VARIANTS: Variants = {
 };
 
 const LINE_VARIANTS: Variants = {
-  normal: { pathLength: 1, pathOffset: 0, opacity: 1 },
-  animate: { pathLength: [0, 1], pathOffset: [1, 0], opacity: [0, 1] },
+  normal: {
+    y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
+  animate: {
+    y: -1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
 };
 
 const HeartPulseIcon = forwardRef<HeartPulseIconHandle, HeartPulseIconProps>(

@@ -18,22 +18,10 @@ interface PartyPopperIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const LINES_VARIANTS: Variants = {
   normal: {
-    opacity: 1,
-    pathLength: 1,
-    scale: 1,
-    translateX: 0,
-    translateY: 0,
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    scale: [0.3, 0.8, 1, 1.1, 1],
-    pathLength: [0, 0.5, 1],
-    translateX: [-5, 0],
-    translateY: [5, 0],
-    transition: {
-      duration: 0.7,
-      velocity: 0.3,
-    },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 

@@ -17,12 +17,11 @@ interface EyeOffIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const PATH_VARIANTS: Variants = {
-  normal: { pathLength: 1, opacity: 1, pathOffset: 0 },
+  normal: {
+    scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
   animate: {
-    pathLength: [0, 2],
-    opacity: [0, 1],
-    pathOffset: [0, 2],
-    transition: { duration: 0.6 },
+    scale: [1, 0.9, 1], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 

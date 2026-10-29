@@ -18,43 +18,19 @@ interface JapaneseYenIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const JAPANESE_YEN_MAIN_VARIANTS: Variants = {
   normal: {
-    opacity: 1,
-    pathLength: 1,
-    transition: {
-      duration: 0.4,
-      opacity: { duration: 0.1 },
-    },
+    y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    transition: {
-      duration: 0.6,
-      opacity: { duration: 0.1 },
-    },
+    y: -1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
 const JAPANESE_YEN_SECONDARY_VARIANTS: Variants = {
   normal: {
-    opacity: 1,
-    pathLength: 1,
-    pathOffset: 0,
-    transition: {
-      delay: 0.3,
-      duration: 0.3,
-      opacity: { duration: 0.1, delay: 0.3 },
-    },
+    y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    pathOffset: [1, 0],
-    transition: {
-      delay: 0.5,
-      duration: 0.4,
-      opacity: { duration: 0.1, delay: 0.5 },
-    },
+    y: -1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 

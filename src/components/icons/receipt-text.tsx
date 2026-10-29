@@ -24,16 +24,8 @@ const LINES_CONTAINER_VARIANTS: Variants = {
 };
 
 const LINE_VARIANTS: Variants = {
-  visible: {
-    pathLength: 1,
-    opacity: 1,
-    transition: { duration: 0.35, ease: "linear" },
-  },
-  hidden: {
-    pathLength: 0,
-    opacity: 1,
-    transition: { duration: 0.2, ease: "linear" },
-  },
+  visible: { scaleX: 1, originX: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 } },
+  hidden: { scaleX: 0.75, originX: 0, transition: { type: "spring" as const, stiffness: 500, damping: 25 } },
 };
 
 const ReceiptTextIcon = forwardRef<ReceiptTextIconHandle, ReceiptTextIconProps>(

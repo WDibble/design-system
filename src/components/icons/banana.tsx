@@ -24,15 +24,10 @@ const TRANSITION: Transition = {
 
 const VARIANTS: Variants = {
   normal: {
-    pathLength: 1,
-    opacity: 1,
+    scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: (custom: number) => ({
-    pathLength: [0, 1],
-    opacity: [0, 1],
-    transition: {
-      delay: custom * 0.1,
-    },
+    scale: [1, 0.9, 1], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3, delay: custom * 0.08 },
   }),
 };
 

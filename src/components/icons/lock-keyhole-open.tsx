@@ -99,11 +99,11 @@ const LockKeyholeOpenIcon = forwardRef<
           }}
           variants={{
             normal: {
-              pathLength: 0.8,
-            },
+    y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
             animate: {
-              pathLength: 1,
-            },
+    y: -2.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
           }}
         />
       </motion.svg>

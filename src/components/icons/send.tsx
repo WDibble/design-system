@@ -87,25 +87,18 @@ const SendIcon = forwardRef<SendIconHandle, SendIconProps>(
             animate={controls}
             d="M -3 28 C -0.5 26.8 1.6 24.6 3.3 22 C 4.8 19.7 5.2 17.6 4.2 16.1 C 3.2 14.7 1.4 14.5 0.3 15.8 C -0.9 17.2 -0.6 19.4 1.2 20.4 C 3.4 21.5 6.4 19.4 9 15.8"
             fill="none"
-            initial={{ opacity: 0, pathLength: 0 }}
+            initial={{ opacity: 0, }}
             stroke="currentColor"
             strokeDasharray="2 2"
             strokeWidth="1"
             transition={{ duration: 0.55, delay: 0.1 }}
             variants={{
               normal: {
-                pathLength: 0,
-                opacity: 0,
-                translateX: -3,
-                translateY: 3,
-                transition: { duration: 0.3 },
-              },
+    x: 0, y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
               animate: {
-                pathLength: 1,
-                opacity: 1,
-                translateX: 0,
-                translateY: 0,
-              },
+    x: 2, y: -2, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
           />
         </svg>

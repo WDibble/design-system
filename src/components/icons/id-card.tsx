@@ -18,16 +18,10 @@ interface IdCardIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const VARIANTS: Variants = {
   normal: {
-    pathLength: 1,
-    opacity: 1,
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: (custom: number) => ({
-    pathLength: [0, 1],
-    opacity: [0, 1],
-    transition: {
-      duration: 0.3,
-      delay: custom * 0.1,
-    },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
   }),
 };
 

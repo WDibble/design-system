@@ -18,19 +18,10 @@ interface UserCheckIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const CHECK_VARIANTS: Variants = {
   normal: {
-    pathLength: 1,
-    opacity: 1,
-    transition: {
-      duration: 0.3,
-    },
+    scale: 1, y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    pathLength: [0, 1],
-    opacity: [0, 1],
-    transition: {
-      pathLength: { duration: 0.4, ease: "easeInOut" },
-      opacity: { duration: 0.4, ease: "easeInOut" },
-    },
+    scale: [1, 1.15, 1], y: [0, -1, 0], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 

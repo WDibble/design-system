@@ -18,21 +18,10 @@ interface MicOffIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const LINE_VARIANTS: Variants = {
   normal: {
-    pathLength: 1,
-    opacity: 1,
-    transition: {
-      duration: 0.3,
-      opacity: { duration: 0.1 },
-    },
+    scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    pathLength: [0, 1],
-    opacity: [0, 1],
-    transition: {
-      duration: 0.4,
-      delay: 0.15,
-      opacity: { duration: 0.1 },
-    },
+    scale: [1, 0.9, 1], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 

@@ -106,7 +106,6 @@ const BookmarkCheckIcon = forwardRef<
           animate={controls}
           d="m9 10 2 2 4-4"
           initial="normal"
-          pathLength="1"
           strokeDasharray="1 1"
           variants={CHECK_VARIANTS}
         />

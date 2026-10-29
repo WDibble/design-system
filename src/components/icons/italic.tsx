@@ -17,11 +17,11 @@ interface ItalicIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const LINE_VARIANTS: Variants = {
-  normal: { pathLength: 1, opacity: 1, pathOffset: 0 },
+  normal: {
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
   animate: {
-    pathLength: [0, 1],
-    opacity: [0, 1],
-    pathOffset: [1, 0],
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
@@ -104,11 +104,12 @@ const ItalicIcon = forwardRef<ItalicIconHandle, ItalicIconProps>(
               duration: 0.4,
             }}
             variants={{
-              normal: { pathLength: 1, pathOffset: 0 },
+              normal: {
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
               animate: {
-                pathLength: [0, 1],
-                pathOffset: [1, 0],
-              },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
             x1="15"
             x2="9"

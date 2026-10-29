@@ -18,20 +18,10 @@ interface SaudiRiyalIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const SAUDI_RIYAL_VARIANTS: Variants = {
   normal: {
-    opacity: 1,
-    pathLength: 1,
-    transition: {
-      duration: 0.4,
-      opacity: { duration: 0.1 },
-    },
+    y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    transition: {
-      duration: 0.6,
-      opacity: { duration: 0.1 },
-    },
+    y: -1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 

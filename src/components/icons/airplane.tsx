@@ -94,14 +94,14 @@ const AirplaneIcon = forwardRef<AirplaneIconHandle, AirplaneIconProps>(
           {SPEED_LINES.map((line, index) => (
             <motion.line
               animate={controls}
-              initial={{ opacity: 0, pathLength: 1, pathSpacing: 1 }}
+              initial={{ opacity: 0, }}
               key={index}
               stroke="currentColor"
               strokeWidth="1"
               transition={{ duration: 0.15, delay: line.delay }}
               variants={{
                 normal: {
-                  pathOffset: [0, 1],
+                  scale: 0.9,
                   translateX: -3,
                   translateY: 3,
                   opacity: 0,
@@ -111,7 +111,7 @@ const AirplaneIcon = forwardRef<AirplaneIconHandle, AirplaneIconProps>(
                   },
                 },
                 animate: {
-                  pathOffset: [1, 2],
+                  scale: 1.1,
                   translateX: [0, 0],
                   translateY: [0, 0],
                   opacity: 1,

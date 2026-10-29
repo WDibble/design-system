@@ -18,67 +18,28 @@ interface LinkedinIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const PATH_VARIANTS: Variants = {
   normal: {
-    opacity: 1,
-    pathLength: 1,
-    pathOffset: 0,
-    transition: {
-      duration: 0.4,
-      opacity: { duration: 0.1 },
-    },
+    scale: 1, y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    pathOffset: [1, 0],
-    transition: {
-      duration: 0.6,
-      ease: "linear",
-      opacity: { duration: 0.1 },
-    },
+    scale: [1, 1.08, 1], y: [0, -1, 0], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 
 const RECT_VARIANTS: Variants = {
   normal: {
-    opacity: 1,
-    pathLength: 1,
-    pathOffset: 0,
-    transition: {
-      duration: 0.4,
-      opacity: { duration: 0.1 },
-    },
+    scale: 1, y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    pathOffset: [1, 0],
-    transition: {
-      duration: 0.6,
-      ease: "linear",
-      opacity: { duration: 0.1 },
-    },
+    scale: [1, 1.08, 1], y: [0, -1, 0], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 
 const CIRCLE_VARIANTS: Variants = {
   normal: {
-    opacity: 1,
-    pathLength: 1,
-    pathOffset: 0,
-    transition: {
-      duration: 0.4,
-      opacity: { duration: 0.1 },
-    },
+    scale: 1, y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    pathOffset: [1, 0],
-    transition: {
-      duration: 0.6,
-      ease: "linear",
-      opacity: { duration: 0.1 },
-    },
+    scale: [1, 1.08, 1], y: [0, -1, 0], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 

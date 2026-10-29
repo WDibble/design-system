@@ -18,40 +18,28 @@ interface GithubIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const BODY_VARIANTS: Variants = {
   normal: {
-    opacity: 1,
-    pathLength: 1,
-    scale: 1,
-    transition: {
-      duration: 0.3,
-    },
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    scale: [0.9, 1],
-    transition: {
-      duration: 0.4,
-    },
+    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
 const TAIL_VARIANTS: Variants = {
   normal: {
-    pathLength: 1,
     rotate: 0,
     transition: {
       duration: 0.3,
     },
   },
   draw: {
-    pathLength: [0, 1],
+    scale: [1, 1.08, 1],
     rotate: 0,
     transition: {
       duration: 0.5,
     },
   },
   wag: {
-    pathLength: 1,
     rotate: [0, -15, 15, -10, 10, -5, 5],
     transition: {
       duration: 2.5,

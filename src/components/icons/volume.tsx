@@ -97,12 +97,11 @@ const VolumeIcon = forwardRef<VolumeIconHandle, VolumeIconProps>(
               <Fragment key="volume-icon-inactive">
                 <motion.line
                   animate={{
-                    pathLength: [0, 1],
-                    opacity: [0, 1],
+                    scale: [1, 1.15, 1],
                     transition: { delay: 0.1 },
                   }}
-                  exit={{ pathLength: 1, opacity: 1 }}
-                  initial={{ pathLength: 1, opacity: 1 }}
+                  exit={{ scale: 1 }}
+                  initial={{ scale: 1 }}
                   x1="22"
                   x2="16"
                   y1="9"
@@ -110,12 +109,11 @@ const VolumeIcon = forwardRef<VolumeIconHandle, VolumeIconProps>(
                 />
                 <motion.line
                   animate={{
-                    pathLength: [0, 1],
-                    opacity: [0, 1],
+                    scale: [1, 1.15, 1],
                     transition: { delay: 0.2 },
                   }}
-                  exit={{ pathLength: 1, opacity: 1 }}
-                  initial={{ pathLength: 1, opacity: 1 }}
+                  exit={{ scale: 1 }}
+                  initial={{ scale: 1 }}
                   x1="16"
                   x2="22"
                   y1="9"

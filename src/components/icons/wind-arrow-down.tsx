@@ -17,25 +17,11 @@ interface WindArrowDownIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const WIND_VARIANTS: Variants = {
-  normal: (custom: number) => ({
-    pathLength: 1,
-    opacity: 1,
-    pathOffset: 0,
-    transition: {
-      duration: 0.3,
-      ease: "easeInOut",
-      delay: custom,
-    },
+  normal: (_custom: number) => ({
+    x: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   }),
   animate: (custom: number) => ({
-    pathLength: [0, 1],
-    opacity: [0, 1],
-    pathOffset: [1, 0],
-    transition: {
-      duration: 0.5,
-      ease: "easeInOut",
-      delay: custom,
-    },
+    x: 1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
   }),
 };
 

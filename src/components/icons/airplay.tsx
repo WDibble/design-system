@@ -1,6 +1,6 @@
 "use client";
 
-import { easeInOut, easeOut, motion, useAnimation } from "motion/react";
+import { easeOut, motion, useAnimation } from "motion/react";
 import type { HTMLAttributes } from "react";
 import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
 
@@ -19,19 +19,10 @@ const DURATION = 0.3;
 
 const SCREEN_VARIANTS = {
   normal: {
-    opacity: 1,
-    pathLength: 1,
-    pathOffset: 0,
-    transition: { duration: DURATION },
+    x: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    pathOffset: [1, 0],
-    transition: {
-      duration: DURATION * 2,
-      ease: easeInOut,
-    },
+    x: 1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 

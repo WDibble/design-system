@@ -64,23 +64,11 @@ const FrownIcon = forwardRef<FrownIconHandle, FrownIconProps>(
 
     const mouthVariants: Variants = {
       normal: {
-        d: "M16 16s-1.5-2-4-2-4 2-4 2",
-        pathLength: 1,
-        transition: { duration: 0.3, ease: "easeOut" },
-      },
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
       animate: {
-        d: "M16 17s-1.5-2.5-4-2.5-4 2.5-4 2.5",
-        pathLength: [0.3, 1, 1],
-        transition: {
-          d: { duration: 0.5, ease: "easeOut" },
-          pathLength: {
-            duration: 0.5,
-            times: [0, 0.5, 1],
-            ease: "easeInOut",
-          },
-          delay: 0.1,
-        },
-      },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
     };
 
     const leftEyeVariants: Variants = {

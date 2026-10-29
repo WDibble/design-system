@@ -18,23 +18,10 @@ interface CheckCheckIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const PATH_VARIANTS: Variants = {
   normal: {
-    opacity: 1,
-    pathLength: 1,
-    scale: 1,
-    transition: {
-      duration: 0.3,
-      opacity: { duration: 0.1 },
-    },
+    scale: 1, y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: (custom: number) => ({
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    scale: [0.5, 1],
-    transition: {
-      duration: 0.4,
-      opacity: { duration: 0.1 },
-      delay: 0.1 * custom,
-    },
+    scale: [1, 1.15, 1], y: [0, -1, 0], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3, delay: custom * 0.08 },
   }),
 };
 

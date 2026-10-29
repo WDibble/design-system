@@ -105,7 +105,6 @@ const BookmarkMinusIcon = forwardRef<
         <motion.line
           animate={controls}
           initial="normal"
-          pathLength="1"
           strokeDasharray="1 1"
           variants={MINUS_VARIANTS}
           x1="15"

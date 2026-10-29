@@ -17,16 +17,11 @@ interface FolderPlusIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const PATH_VARIANTS: Variants = {
-  normal: { pathLength: 1, opacity: 1 },
+  normal: {
+    scale: 1, y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
   animate: (custom: number) => ({
-    pathLength: [0, 1],
-    opacity: [0, 1],
-    transition: {
-      duration: 0.4,
-      ease: "easeInOut",
-      delay: custom * 0.1,
-      opacity: { delay: custom * 0.1 },
-    },
+    scale: [1, 1.12, 1], y: [0, -1, 0], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3, delay: custom * 0.08 },
   }),
 };
 

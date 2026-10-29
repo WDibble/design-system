@@ -91,19 +91,11 @@ const FILE_TEXT = forwardRef<FileTextIconHandle, FileTextIconProps>(
             strokeWidth="2"
             variants={{
               normal: {
-                pathLength: 1,
-                x1: 8,
-                x2: 10,
-              },
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
               animate: {
-                pathLength: [1, 0, 1],
-                x1: [8, 10, 8],
-                x2: [10, 10, 10],
-                transition: {
-                  duration: 0.7,
-                  delay: 0.3,
-                },
-              },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
           />
           <motion.path
@@ -112,19 +104,11 @@ const FILE_TEXT = forwardRef<FileTextIconHandle, FileTextIconProps>(
             strokeWidth="2"
             variants={{
               normal: {
-                pathLength: 1,
-                x1: 8,
-                x2: 16,
-              },
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
               animate: {
-                pathLength: [1, 0, 1],
-                x1: [8, 16, 8],
-                x2: [16, 16, 16],
-                transition: {
-                  duration: 0.7,
-                  delay: 0.5,
-                },
-              },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
           />
           <motion.path
@@ -133,19 +117,11 @@ const FILE_TEXT = forwardRef<FileTextIconHandle, FileTextIconProps>(
             strokeWidth="2"
             variants={{
               normal: {
-                pathLength: 1,
-                x1: 8,
-                x2: 16,
-              },
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
               animate: {
-                pathLength: [1, 0, 1],
-                x1: [8, 16, 8],
-                x2: [16, 16, 16],
-                transition: {
-                  duration: 0.7,
-                  delay: 0.7,
-                },
-              },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
           />
         </motion.svg>

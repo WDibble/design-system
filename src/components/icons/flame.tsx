@@ -18,18 +18,10 @@ interface FlameIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const PATH_VARIANTS: Variants = {
   normal: {
-    pathLength: 1,
-    opacity: 1,
-    pathOffset: 0,
+    y: 0, scaleY: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    transition: {
-      delay: 0.1,
-      duration: 0.4,
-      opacity: { duration: 0.1, delay: 0.1 },
-    },
+    y: -1.5, scaleY: 1.08, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 

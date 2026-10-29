@@ -18,17 +18,10 @@ interface ChartLineIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const VARIANTS: Variants = {
   normal: {
-    pathLength: 1,
-    opacity: 1,
+    y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    pathLength: [0, 1],
-    opacity: [0, 1],
-    transition: {
-      delay: 0.15,
-      duration: 0.3,
-      opacity: { delay: 0.1 },
-    },
+    y: -1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 

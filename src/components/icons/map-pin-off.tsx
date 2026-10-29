@@ -31,16 +31,10 @@ const SVG_VARIANTS: Variants = {
 
 const BAR_VARIANTS: Variants = {
   normal: {
-    opacity: 1,
+    scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    transition: {
-      delay: 0.3,
-      duration: 0.3,
-      opacity: { duration: 0.1, delay: 0.3 },
-    },
+    scale: [1, 0.9, 1], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 

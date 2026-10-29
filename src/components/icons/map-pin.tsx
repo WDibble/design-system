@@ -31,17 +31,10 @@ const SVG_VARIANTS: Variants = {
 
 const CIRCLE_VARIANTS: Variants = {
   normal: {
-    opacity: 1,
+    y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    pathOffset: [0.5, 0],
-    transition: {
-      delay: 0.3,
-      duration: 0.5,
-      opacity: { duration: 0.1, delay: 0.3 },
-    },
+    y: -2, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 

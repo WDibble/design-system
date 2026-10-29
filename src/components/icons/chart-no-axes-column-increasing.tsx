@@ -18,8 +18,8 @@ interface ChartNoAxesColumnIncreasingIconProps
 }
 
 const LINE_VARIANTS: Variants = {
-  visible: { pathLength: 1, opacity: 1 },
-  hidden: { pathLength: 0, opacity: 0 },
+  visible: { scaleY: 1, originY: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 } },
+  hidden: { scaleY: 0.75, originY: 1, transition: { type: "spring" as const, stiffness: 500, damping: 25 } },
 };
 
 const ChartNoAxesColumnIncreasingIcon = forwardRef<
@@ -35,13 +35,11 @@ const ChartNoAxesColumnIncreasingIcon = forwardRef<
     return {
       startAnimation: async () => {
         await controls.start((i) => ({
-          pathLength: 0,
-          opacity: 0,
+          scaleY: 0.8,
           transition: { delay: i * 0.1, duration: 0.3 },
         }));
         await controls.start((i) => ({
-          pathLength: 1,
-          opacity: 1,
+          scaleY: 1.15,
           transition: { delay: i * 0.1, duration: 0.3 },
         }));
       },
@@ -55,13 +53,11 @@ const ChartNoAxesColumnIncreasingIcon = forwardRef<
         onMouseEnter?.(e);
       } else {
         await controls.start((i) => ({
-          pathLength: 0,
-          opacity: 0,
+          scaleY: 0.8,
           transition: { delay: i * 0.1, duration: 0.3 },
         }));
         await controls.start((i) => ({
-          pathLength: 1,
-          opacity: 1,
+          scaleY: 1.15,
           transition: { delay: i * 0.1, duration: 0.3 },
         }));
       }

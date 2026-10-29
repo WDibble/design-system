@@ -1,6 +1,6 @@
 "use client";
 
-import type { Transition, Variants } from "motion/react";
+import type { Variants } from "motion/react";
 import { motion, useAnimation } from "motion/react";
 import type { HTMLAttributes } from "react";
 import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
@@ -16,23 +16,12 @@ interface WorkflowIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const TRANSITION: Transition = {
-  duration: 0.3,
-  opacity: { delay: 0.15 },
-};
-
 const VARIANTS: Variants = {
   normal: {
-    pathLength: 1,
-    opacity: 1,
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: (custom: number) => ({
-    pathLength: [0, 1],
-    opacity: [0, 1],
-    transition: {
-      ...TRANSITION,
-      delay: 0.1 * custom,
-    },
+    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
   }),
 };
 

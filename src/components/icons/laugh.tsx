@@ -68,23 +68,11 @@ const LaughIcon = forwardRef<LaughIconHandle, LaughIconProps>(
 
     const mouthVariants: Variants = {
       normal: {
-        d: "M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z",
-        pathLength: 1,
-        strokeWidth: 2,
-        transition: { duration: 0.3, ease: "easeOut" },
-      },
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
       animate: {
-        d: "M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z",
-        pathLength: [0.7, 1, 1],
-        strokeWidth: 2.5,
-        scaleY: [1, 1.2, 1.1],
-        y: [0, 0.5, 0.3],
-        transition: {
-          duration: 0.6,
-          times: [0, 0.5, 1],
-          ease: "easeInOut",
-        },
-      },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
     };
 
     const eyeVariants: Variants = {

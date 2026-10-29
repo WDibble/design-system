@@ -22,8 +22,8 @@ const FRAME_VARIANTS: Variants = {
 };
 
 const LINE_VARIANTS: Variants = {
-  visible: { pathLength: 1, opacity: 1 },
-  hidden: { pathLength: 0, opacity: 0 },
+  visible: { scaleX: 1, originX: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 } },
+  hidden: { scaleX: 0.75, originX: 0, transition: { type: "spring" as const, stiffness: 500, damping: 25 } },
 };
 
 const ScanTextIcon = forwardRef<ScanTextIconHandle, ScanTextIconProps>(
@@ -37,13 +37,11 @@ const ScanTextIcon = forwardRef<ScanTextIconHandle, ScanTextIconProps>(
       return {
         startAnimation: async () => {
           await controls.start((i) => ({
-            pathLength: 0,
-            opacity: 0,
+            scaleX: 0.8,
             transition: { delay: i * 0.1, duration: 0.3 },
           }));
           await controls.start((i) => ({
-            pathLength: 1,
-            opacity: 1,
+            scaleX: 1,
             transition: { delay: i * 0.1, duration: 0.3 },
           }));
         },
@@ -57,13 +55,11 @@ const ScanTextIcon = forwardRef<ScanTextIconHandle, ScanTextIconProps>(
           onMouseEnter?.(e);
         } else {
           await controls.start((i) => ({
-            pathLength: 0,
-            opacity: 0,
+            scaleX: 0.8,
             transition: { delay: i * 0.1, duration: 0.3 },
           }));
           await controls.start((i) => ({
-            pathLength: 1,
-            opacity: 1,
+            scaleX: 1,
             transition: { delay: i * 0.1, duration: 0.3 },
           }));
         }

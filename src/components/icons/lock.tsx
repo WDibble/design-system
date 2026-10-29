@@ -96,11 +96,11 @@ const LockIcon = forwardRef<LockIconHandle, LockIconProps>(
             }}
             variants={{
               normal: {
-                pathLength: 1,
-              },
+    y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
               animate: {
-                pathLength: 0.7,
-              },
+    y: -2.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
           />
         </motion.svg>

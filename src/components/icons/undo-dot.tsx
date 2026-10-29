@@ -88,8 +88,12 @@ const UndoDotIcon = forwardRef<UndoDotIconHandle, UndoDotIconProps>(
             d="M21 17a9 9 0 0 0-15-6.7L3 13"
             transition={{ duration: 0.6, ease: CUSTOM_EASING }}
             variants={{
-              normal: { pathLength: 1 },
-              animate: { pathLength: [1, 0.8, 1] },
+              normal: {
+    x: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
+              animate: {
+    x: -1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
           />
           <motion.circle

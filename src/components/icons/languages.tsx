@@ -17,20 +17,11 @@ interface LanguagesIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const PATH_VARIANTS: Variants = {
-  normal: { opacity: 1, pathLength: 1, pathOffset: 0 },
+  normal: {
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
   animate: (custom: number) => ({
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    pathOffset: [1, 0],
-    transition: {
-      opacity: { duration: 0.01, delay: custom * 0.1 },
-      pathLength: {
-        type: "spring",
-        duration: 0.5,
-        bounce: 0,
-        delay: custom * 0.1,
-      },
-    },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
   }),
 };
 

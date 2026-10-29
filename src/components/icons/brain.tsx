@@ -17,58 +17,38 @@ interface BrainIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const BRAIN_STEM_VARIANTS: Variants = {
-  normal: { pathLength: 1, pathOffset: 0 },
+  normal: {
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
   animate: {
-    pathLength: [1, 0.4, 1],
-    pathOffset: [0, 0.25, 0],
-    transition: {
-      duration: 1.4,
-      repeat: Number.POSITIVE_INFINITY,
-      repeatType: "mirror",
-      ease: "easeInOut",
-    },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
 const BRAIN_SIDE_VARIANTS: Variants = {
-  normal: { pathLength: 1, pathOffset: 0 },
+  normal: {
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
   animate: {
-    pathLength: [1, 0.5, 1],
-    pathOffset: [0, 0.25, 0],
-    transition: {
-      duration: 1.4,
-      repeat: Number.POSITIVE_INFINITY,
-      repeatType: "mirror",
-      ease: "easeInOut",
-    },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
 const BRAIN_TOP_ARC_VARIANTS: Variants = {
-  normal: { pathLength: 1, pathOffset: 0 },
+  normal: {
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
   animate: {
-    pathLength: [1, 0.8, 1],
-    pathOffset: [0, 0.07, 0],
-    transition: {
-      duration: 1.4,
-      repeat: Number.POSITIVE_INFINITY,
-      repeatType: "mirror",
-      ease: "easeInOut",
-    },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
 const BRAIN_LOWER_ARC_VARIANTS: Variants = {
-  normal: { pathLength: 1, pathOffset: 0 },
+  normal: {
+    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
   animate: {
-    pathLength: [1, 0.8, 1],
-    pathOffset: [0, 0.14, 0],
-    transition: {
-      duration: 1.4,
-      repeat: Number.POSITIVE_INFINITY,
-      repeatType: "mirror",
-      ease: "easeInOut",
-    },
+    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 

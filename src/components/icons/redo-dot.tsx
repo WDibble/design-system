@@ -88,8 +88,12 @@ const RedoDotIcon = forwardRef<RedoDotIconHandle, RedoDotIconProps>(
             d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"
             transition={{ duration: 0.6, ease: CUSTOM_EASING }}
             variants={{
-              normal: { pathLength: 1 },
-              animate: { pathLength: [1, 0.8, 1] },
+              normal: {
+    x: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
+              animate: {
+    x: -1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
             }}
           />
           <motion.circle

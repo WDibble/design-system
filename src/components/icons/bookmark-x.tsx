@@ -106,7 +106,6 @@ const BookmarkXIcon = forwardRef<BookmarkXIconHandle, BookmarkXIconProps>(
             custom={0}
             d="m14.5 7.5-5 5"
             initial="normal"
-            pathLength="1"
             strokeDasharray="1 1"
             variants={X_LINE_VARIANTS}
           />
@@ -116,7 +115,6 @@ const BookmarkXIcon = forwardRef<BookmarkXIconHandle, BookmarkXIconProps>(
             custom={1}
             d="m9.5 7.5 5 5"
             initial="normal"
-            pathLength="1"
             strokeDasharray="1 1"
             variants={X_LINE_VARIANTS}
           />

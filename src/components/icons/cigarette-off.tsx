@@ -32,10 +32,11 @@ const CIGARETTE_VARIANTS: Variants = {
 };
 
 const PATH_VARIANTS: Variants = {
-  normal: { pathLength: 1 },
+  normal: {
+    scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
   animate: {
-    pathLength: [0, 1],
-    transition: { duration: 0.4, ease: "linear" },
+    scale: [1, 0.9, 1], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 
