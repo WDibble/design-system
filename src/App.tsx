@@ -501,7 +501,7 @@ function AppContent() {
         <NavigationBar
           sticky
           containerClassName="max-w-full px-2"
-          className="sticky top-4 z-40 rounded-2xl glass-regular specular-rim shadow-lg border-border/70 p-2 sm:px-4"
+          className="sticky top-4 z-50 rounded-2xl glass-regular specular-rim shadow-lg border-border/70 p-2 sm:px-4"
           brand={
             <div className="flex items-center gap-3 min-w-0">
               <div className="size-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-xs shrink-0">
@@ -1581,7 +1581,7 @@ function AppContent() {
           </div>
 
           {/* 0. Top Navigation Bar Spectrum */}
-          <Card className="w-full overflow-visible">
+          <Card className="w-full overflow-visible relative z-30">
             <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3">
               <div>
                 <CardTitle className="text-base flex items-center gap-2">
@@ -1598,9 +1598,9 @@ function AppContent() {
                 </Badge>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 overflow-visible relative z-30">
               {/* Live Interactive Navigation Bar Preview */}
-              <div className="rounded-xl border border-border/80 bg-background/50 overflow-visible relative min-h-[72px]">
+              <div className="rounded-xl border border-border/80 bg-background/50 overflow-visible relative z-30 min-h-[72px]">
                 <NavigationBar
                   sticky={false}
                   brand={
@@ -1632,12 +1632,12 @@ function AppContent() {
                       </Button>
                     </>
                   }
-                  className="rounded-xl border-none shadow-none static"
+                  className="rounded-xl border-none shadow-none relative z-30"
                 />
               </div>
 
               {/* Explanatory Pills for the 5 Menu Archetypes */}
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1 text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1 text-xs relative z-10">
                 <div className="p-2.5 rounded-lg border border-border/60 bg-muted/20">
                   <span className="font-semibold text-foreground block text-[11px]">1. Mega Menu</span>
                   <span className="text-[10px] text-muted-foreground">Hero promo card + 2-col link grid</span>
@@ -1662,7 +1662,7 @@ function AppContent() {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start relative z-10">
             {/* 1. Fluid Tabs */}
             <Card className="h-full">
               <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3">

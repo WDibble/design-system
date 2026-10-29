@@ -59,6 +59,7 @@ export interface NavItemConfig {
   label: string;
   href?: string;
   type?: "link" | "mega" | "columns" | "simple";
+  align?: "start" | "center" | "end";
   badge?: string;
   featured?: NavMegaFeatured;
   links?: NavMenuLinkItem[];
@@ -161,8 +162,8 @@ export function NavigationBar({
         aria-label="Main Navigation"
         onMouseLeave={handleMouseLeave}
         className={cn(
-          "w-full z-40 border-b border-border/60 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 transition-colors duration-200 select-none",
-          sticky && "sticky top-0",
+          "w-full border-b border-border/60 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 transition-colors duration-200 select-none",
+          sticky ? "sticky top-0 z-40" : "relative z-30",
           className
         )}
         {...props}
@@ -186,7 +187,13 @@ export function NavigationBar({
                   }
 
                   return (
-                    <NavItem key={itemId} id={itemId} label={item.label} badge={item.badge}>
+                    <NavItem
+                      key={itemId}
+                      id={itemId}
+                      label={item.label}
+                      badge={item.badge}
+                      align={item.align}
+                    >
                       {item.type === "mega" && (
                         <NavMegaMenu featured={item.featured} links={item.links} />
                       )}
@@ -419,11 +426,25 @@ export interface NavItemProps {
   id: string;
   label: string;
   badge?: string;
+  align?: "start" | "center" | "end";
   children?: React.ReactNode;
   className?: string;
 }
 
-export function NavItem({ id, label, badge, children, className }: NavItemProps) {
+const alignmentClasses: Record<"start" | "center" | "end", string> = {
+  start: "left-0",
+  center: "left-1/2 -translate-x-1/2",
+  end: "right-0",
+};
+
+export function NavItem({
+  id,
+  label,
+  badge,
+  align = "start",
+  children,
+  className,
+}: NavItemProps) {
   const { activeItem, setActiveItem } = useNavigation();
   const isOpen = activeItem === id;
 
@@ -446,7 +467,10 @@ export function NavItem({ id, label, badge, children, className }: NavItemProps)
   };
 
   return (
-    <li className={cn("relative", className)} onMouseEnter={handleMouseEnter}>
+    <li
+      className={cn("relative", isOpen && "z-50", className)}
+      onMouseEnter={handleMouseEnter}
+    >
       <button
         type="button"
         aria-expanded={isOpen}
@@ -485,7 +509,7 @@ export function NavItem({ id, label, badge, children, className }: NavItemProps)
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.98 }}
             transition={springs.snappy}
-            className="absolute left-0 top-full pt-2 z-50 select-text"
+            className={cn("absolute top-full pt-2 z-50 select-text", alignmentClasses[align])}
           >
             <div className="rounded-2xl border border-border/80 bg-popover/95 text-popover-foreground shadow-2xl backdrop-blur-xl specular-rim overflow-hidden p-4 sm:p-5">
               {children}
@@ -622,7 +646,7 @@ export function NavMegaMenu({ featured, links, className }: NavMegaMenuProps) {
   const { closeMenu } = useNavigation();
 
   return (
-    <div className={cn("w-[580px] sm:w-[620px] grid grid-cols-12 gap-5", className)}>
+    <div className={cn("w-[580px] sm:w-[620px] max-w-[calc(100vw-2.5rem)] grid grid-cols-12 gap-5", className)}>
       {/* Featured Promo Card (Directive #6 Concentric Radii) */}
       {featured && (
         <div className="col-span-5 flex flex-col justify-between p-4 rounded-xl bg-gradient-to-b from-muted/60 via-muted/30 to-muted/10 border border-border/80 shadow-xs">
@@ -681,7 +705,7 @@ export function NavColumnsMenu({ columns, className }: NavColumnsMenuProps) {
   return (
     <div
       className={cn(
-        "grid gap-6",
+        "grid gap-6 max-w-[calc(100vw-2.5rem)]",
         columns.length === 2 && "w-[500px] grid-cols-2",
         columns.length >= 3 && "w-[680px] grid-cols-3",
         className
@@ -716,7 +740,7 @@ export function NavSimpleMenu({ links, className }: NavSimpleMenuProps) {
   if (!links || links.length === 0) return null;
 
   return (
-    <div className={cn("w-[260px] space-y-1", className)}>
+    <div className={cn("w-[260px] max-w-[calc(100vw-2.5rem)] space-y-1", className)}>
       {links.map((link, idx) => (
         <NavMenuLink key={idx} {...link} />
       ))}
