@@ -232,7 +232,7 @@ export function NavigationBar({
                   }
                 />
 
-                <SheetContent side="right" className="w-[85vw] sm:w-[380px] p-0 flex flex-col justify-between">
+                <SheetContent side="right" className="w-[85vw] sm:w-96 p-0 flex flex-col justify-between">
                   <div>
                     <SheetHeader className="p-4 border-b border-border/40 flex flex-row items-center justify-between space-y-0">
                       <SheetTitle className="text-sm font-semibold truncate">
@@ -660,7 +660,7 @@ export function NavMegaMenu({ featured, links, className }: NavMegaMenuProps) {
   const { closeMenu } = useNavigation();
 
   return (
-    <div className={cn("w-[660px] sm:w-[720px] max-w-[calc(100vw-2.5rem)] grid grid-cols-12 gap-5", className)}>
+    <div className={cn("w-full max-w-2xl lg:max-w-3xl grid grid-cols-12 gap-5", className)}>
       {/* Featured Promo Card (Directive #6 Concentric Radii) */}
       {featured && (
         <div className="col-span-5 flex flex-col justify-between p-4 rounded-xl bg-gradient-to-b from-muted/60 via-muted/30 to-muted/10 border border-border/80 shadow-xs">
@@ -719,9 +719,9 @@ export function NavColumnsMenu({ columns, className }: NavColumnsMenuProps) {
   return (
     <div
       className={cn(
-        "grid gap-6 max-w-[calc(100vw-2.5rem)]",
-        columns.length === 2 && "w-[540px] sm:w-[600px] grid-cols-2",
-        columns.length >= 3 && "w-[720px] sm:w-[780px] grid-cols-3",
+        "grid gap-6",
+        columns.length === 2 && "w-full max-w-xl grid-cols-2",
+        columns.length >= 3 && "w-full max-w-3xl grid-cols-3",
         className
       )}
     >
@@ -754,7 +754,7 @@ export function NavSimpleMenu({ links, className }: NavSimpleMenuProps) {
   if (!links || links.length === 0) return null;
 
   return (
-    <div className={cn("w-[280px] sm:w-[320px] max-w-[calc(100vw-2.5rem)] space-y-1", className)}>
+    <div className={cn("w-72 sm:w-80 space-y-1", className)}>
       {links.map((link, idx) => (
         <NavMenuLink key={idx} {...link} />
       ))}

@@ -248,7 +248,7 @@ export function Calendar({
       </div>
 
       {/* Date Grid with AnimatePresence Month Slide */}
-      <div className="relative overflow-hidden min-h-[216px]">
+      <div className="relative overflow-hidden min-h-56">
         <AnimatePresence initial={false} custom={slideDirection} mode="popLayout">
           <motion.div
             key={`${currentMonth.getFullYear()}-${currentMonth.getMonth()}`}

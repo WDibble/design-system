@@ -134,7 +134,7 @@ export const CommandList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("max-h-[300px] overflow-y-auto overflow-x-hidden p-2", className)}
+    className={cn("max-h-72 sm:max-h-80 overflow-y-auto overflow-x-hidden p-2", className)}
     {...props}
   />
 ));

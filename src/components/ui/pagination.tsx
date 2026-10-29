@@ -274,7 +274,7 @@ export const PaginationPrevious = React.forwardRef<
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
           isIconOnly
             ? "size-8 p-0"
-            : "h-8 w-[84px] sm:w-[88px] gap-1.5 px-2.5",
+            : "h-8 w-20 sm:w-24 gap-1.5 px-2.5",
           disabled && "opacity-40 cursor-not-allowed pointer-events-none",
           className
         )}
@@ -342,7 +342,7 @@ export const PaginationNext = React.forwardRef<
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
           isIconOnly
             ? "size-8 p-0"
-            : "h-8 w-[84px] sm:w-[88px] gap-1.5 px-2.5",
+            : "h-8 w-20 sm:w-24 gap-1.5 px-2.5",
           disabled && "opacity-40 cursor-not-allowed pointer-events-none",
           className
         )}

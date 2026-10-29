@@ -18,7 +18,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         data-invalid={error || undefined}
         aria-invalid={error ? true : undefined}
         className={cn(
-          "flex min-h-[80px] w-full rounded-lg border border-border/80 bg-card px-3 py-2 text-foreground shadow-xs select-auto",
+          "flex min-h-20 w-full rounded-lg border border-border/80 bg-card px-3 py-2 text-foreground shadow-xs select-auto",
           "hover:border-foreground/30",
           "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08)]",
           "placeholder:text-muted-foreground resize-y",
