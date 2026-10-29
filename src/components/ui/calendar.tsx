@@ -2,9 +2,11 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { ChevronsLeft, ChevronsRight } from "lucide-react";
 import { ChevronLeftIcon, ChevronRightIcon, CalendarDaysIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { springs } from "@/tokens/motion";
 import { cn } from "@/lib/utils";
 
 export interface CalendarProps {
@@ -45,20 +47,32 @@ export function Calendar({
   });
   const [slideDirection, setSlideDirection] = React.useState<number>(0);
 
+  const navigateMonth = (targetYear: number, targetMonth: number) => {
+    const currentNorm = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getTime();
+    const targetNorm = new Date(targetYear, targetMonth, 1).getTime();
+    if (targetNorm === currentNorm) return;
+    setSlideDirection(targetNorm > currentNorm ? 1 : -1);
+    setCurrentMonth(new Date(targetYear, targetMonth, 1));
+  };
+
   const prevMonth = () => {
-    setSlideDirection(-1);
-    setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+    navigateMonth(currentMonth.getFullYear(), currentMonth.getMonth() - 1);
   };
 
   const nextMonth = () => {
-    setSlideDirection(1);
-    setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+    navigateMonth(currentMonth.getFullYear(), currentMonth.getMonth() + 1);
+  };
+
+  const prevYear = () => {
+    navigateMonth(currentMonth.getFullYear() - 1, currentMonth.getMonth());
+  };
+
+  const nextYear = () => {
+    navigateMonth(currentMonth.getFullYear() + 1, currentMonth.getMonth());
   };
 
   const goToToday = () => {
-    const isForward = today > currentMonth;
-    setSlideDirection(isForward ? 1 : -1);
-    setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1));
+    navigateMonth(today.getFullYear(), today.getMonth());
     if (onSelect) onSelect(today);
   };
 
@@ -150,6 +164,27 @@ export function Calendar({
 
         <div className="flex items-center gap-0.5">
           <Button
+            size="icon-xs"
+            variant="ghost"
+            onClick={prevYear}
+            aria-label="Previous year"
+            className="size-6 rounded-md text-muted-foreground/70 hover:text-foreground active:scale-95"
+            title="Previous year"
+          >
+            <ChevronsLeft size={13} />
+          </Button>
+          <Button
+            size="icon-xs"
+            variant="ghost"
+            onClick={prevMonth}
+            aria-label="Previous month"
+            className="size-6 rounded-md text-muted-foreground hover:text-foreground active:scale-95"
+            title="Previous month"
+          >
+            <ChevronLeftIcon size={13} />
+          </Button>
+
+          <Button
             size="xs"
             variant="ghost"
             onClick={goToToday}
@@ -160,22 +195,24 @@ export function Calendar({
           </Button>
 
           <Button
-            size="icon"
-            variant="ghost"
-            onClick={prevMonth}
-            aria-label="Previous month"
-            className="size-7 rounded-lg text-muted-foreground hover:text-foreground active:scale-95"
-          >
-            <ChevronLeftIcon size={14} />
-          </Button>
-          <Button
-            size="icon"
+            size="icon-xs"
             variant="ghost"
             onClick={nextMonth}
             aria-label="Next month"
-            className="size-7 rounded-lg text-muted-foreground hover:text-foreground active:scale-95"
+            className="size-6 rounded-md text-muted-foreground hover:text-foreground active:scale-95"
+            title="Next month"
           >
-            <ChevronRightIcon size={14} />
+            <ChevronRightIcon size={13} />
+          </Button>
+          <Button
+            size="icon-xs"
+            variant="ghost"
+            onClick={nextYear}
+            aria-label="Next year"
+            className="size-6 rounded-md text-muted-foreground/70 hover:text-foreground active:scale-95"
+            title="Next year"
+          >
+            <ChevronsRight size={13} />
           </Button>
         </div>
       </div>
@@ -215,19 +252,21 @@ export function Calendar({
               const dateString = date.toISOString().split("T")[0];
 
               return (
-                <button
+                <motion.button
                   key={dateString}
                   type="button"
                   disabled={isDisabled}
                   onClick={() => onSelect?.(date)}
+                  whileTap={!isDisabled ? { scale: 0.92 } : undefined}
+                  transition={springs.tactile}
                   aria-label={`${date.toDateString()}${isSelected ? ", selected" : ""}${isToday ? ", today" : ""}`}
                   aria-pressed={isSelected}
                   className={cn(
-                    "relative size-8 text-xs font-mono font-medium tabular-nums rounded-lg flex items-center justify-center transition-all duration-150 border border-transparent cursor-pointer",
+                    "relative size-8 text-xs font-mono font-medium tabular-nums rounded-lg flex items-center justify-center border border-transparent cursor-pointer select-none",
                     // Current month vs outside month
                     isCurrentMonth ? "text-foreground" : "text-muted-foreground/40",
                     // Hover & Focus (zero layout shift)
-                    !isSelected && !isDisabled && "hover:bg-muted/70 hover:text-foreground active:scale-95",
+                    !isSelected && !isDisabled && "hover:bg-muted/70 hover:text-foreground",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
                     // Today outline indicator
                     isToday && !isSelected && "border-primary/40 text-primary",
@@ -242,7 +281,7 @@ export function Calendar({
                   {isToday && !isSelected && (
                     <span className="absolute bottom-1 size-1 rounded-full bg-primary" />
                   )}
-                </button>
+                </motion.button>
               );
             })}
           </motion.div>

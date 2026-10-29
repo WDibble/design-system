@@ -2574,14 +2574,7 @@ function AppContent() {
                   <div className="flex flex-col items-center gap-2 mx-auto sm:mx-0">
                     <Calendar
                       selected={calendarDate}
-                      onSelect={(d) => {
-                        setCalendarDate(d);
-                        toast({
-                          title: "Date Selected",
-                          description: d.toDateString(),
-                          type: "default",
-                        });
-                      }}
+                      onSelect={(d) => setCalendarDate(d)}
                     />
                     <div className="text-[11px] text-muted-foreground font-mono">
                       Selected: <span className="font-semibold text-foreground">{calendarDate ? calendarDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "None"}</span>
@@ -2686,27 +2679,38 @@ function AppContent() {
                             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                           />
                         </PaginationItem>
-                        {[1, 2, 3].map((page) => (
-                          <PaginationItem key={page}>
-                            <PaginationLink
-                              isActive={currentPage === page}
-                              onClick={() => setCurrentPage(page)}
-                            >
-                              {page}
-                            </PaginationLink>
-                          </PaginationItem>
-                        ))}
-                        <PaginationItem>
-                          <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink
-                            isActive={currentPage === 10}
-                            onClick={() => setCurrentPage(10)}
-                          >
-                            10
-                          </PaginationLink>
-                        </PaginationItem>
+                        {(() => {
+                          const total = 10;
+                          const items: (number | "ellipsis-start" | "ellipsis-end")[] = [];
+
+                          if (currentPage <= 3) {
+                            items.push(1, 2, 3, 4, "ellipsis-end", total);
+                          } else if (currentPage >= total - 2) {
+                            items.push(1, "ellipsis-start", total - 3, total - 2, total - 1, total);
+                          } else {
+                            items.push(1, "ellipsis-start", currentPage - 1, currentPage, currentPage + 1, "ellipsis-end", total);
+                          }
+
+                          return items.map((item, idx) => {
+                            if (typeof item === "string") {
+                              return (
+                                <PaginationItem key={`${item}-${idx}`}>
+                                  <PaginationEllipsis />
+                                </PaginationItem>
+                              );
+                            }
+                            return (
+                              <PaginationItem key={item}>
+                                <PaginationLink
+                                  isActive={currentPage === item}
+                                  onClick={() => setCurrentPage(item)}
+                                >
+                                  {item}
+                                </PaginationLink>
+                              </PaginationItem>
+                            );
+                          });
+                        })()}
                         <PaginationItem>
                           <PaginationNext
                             disabled={currentPage === 10}
@@ -2741,7 +2745,7 @@ function AppContent() {
                 <div className="h-56 w-full rounded-xl border border-border/80 overflow-hidden shadow-sm">
                   <ResizablePanelGroup direction="horizontal" defaultSizes={[32, 68]}>
                     {/* Left Explorer Pane */}
-                    <ResizablePanel defaultSize={32} minSize={20} className="bg-muted/30 p-3 flex flex-col gap-2">
+                    <ResizablePanel order={0} defaultSize={32} minSize={20} className="bg-muted/30 p-3 flex flex-col gap-2">
                       <div className="flex items-center justify-between text-[11px] font-semibold text-foreground">
                         <span>Explorer</span>
                         <Badge variant="secondary" size="sm" className="text-[9px] px-1 py-0 h-3.5">
@@ -2764,7 +2768,7 @@ function AppContent() {
                     <ResizableHandle handleIndex={0} withHandle />
 
                     {/* Right Code/Telemetry Pane */}
-                    <ResizablePanel defaultSize={68} minSize={30} className="bg-card p-3 flex flex-col gap-2">
+                    <ResizablePanel order={1} defaultSize={68} minSize={30} className="bg-card p-3 flex flex-col gap-2">
                       <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground pb-1.5 border-b border-border/50">
                         <span className="text-foreground font-semibold">src/chart.tsx</span>
                         <span className="text-[10px]">100% Dual-Engine APCA</span>

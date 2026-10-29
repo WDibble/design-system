@@ -114,6 +114,22 @@ export function ResizablePanelGroup({
     [direction, panelSizes, startDragging, isDragging, activeHandleIndex]
   );
 
+  let panelCount = 0;
+  let handleCount = 0;
+
+  const mappedChildren = React.Children.map(children, (child) => {
+    if (!React.isValidElement(child)) return child;
+    if (child.type === ResizablePanel) {
+      const order = (child.props as ResizablePanelProps).order ?? panelCount++;
+      return React.cloneElement(child, { order } as React.Attributes & ResizablePanelProps);
+    }
+    if (child.type === ResizableHandle) {
+      const hIndex = (child.props as ResizableHandleProps).handleIndex ?? handleCount++;
+      return React.cloneElement(child, { handleIndex: hIndex } as React.Attributes & ResizableHandleProps);
+    }
+    return child;
+  });
+
   return (
     <ResizablePanelGroupContext.Provider value={contextValue}>
       <div
@@ -125,7 +141,7 @@ export function ResizablePanelGroup({
         )}
         {...props}
       >
-        {children}
+        {mappedChildren}
       </div>
     </ResizablePanelGroupContext.Provider>
   );
@@ -151,13 +167,14 @@ export function ResizablePanel({
     throw new Error("ResizablePanel must be used within a ResizablePanelGroup");
   }
 
+  const isLast = order === context.panelSizes.length - 1;
   const size = context.panelSizes[order] ?? defaultSize ?? 50;
 
   return (
     <div
       style={{
         flexBasis: `${size}%`,
-        flexGrow: 0,
+        flexGrow: isLast ? 1 : 0,
         flexShrink: 0,
         ...style,
       }}
