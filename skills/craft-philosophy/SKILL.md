@@ -67,6 +67,11 @@ When evaluating or generating UI, **strictly refuse** the following AI cliches:
 | **Unconstrained Text Overflow** | Breaking layout when a string is longer than mock copy. | Enforce `truncate`, `line-clamp`, and `min-w-0` on text containers with tooltip fallback. |
 | **Default Button `type` in Forms** | Missing `type="button"` causes unintentional form submissions on click. | Always explicitly set `type="button"` unless intended as `type="submit"`. |
 | **Gimmick Icon Animations** | Spinning plus signs in circles, checkmarks disappearing and redrawing from nothing, twitching/shriveling arrow shafts. Breaks glyph legibility and feels like cheap AI motion slop. | Enforce the **Reversible Mechanical Affordance Doctrine**: operational and numerical icons (`+`, `-`, `✓`, `→`) must remain rock-solid and static. Only animate icons with reversible mechanical motion (sliding rails, lifting lids, gliding paper planes, separating sheets) that glide back to their resting origin. |
+| **Shorthand Class Purging (`size-full` on Sized Primitives)** | Merging multi-axis utility shorthands (`size-full`, `size-auto`) after single-axis variant sizes (`h-9`, `h-8`, `size-9`) inside `cn()` / `twMerge()`. `twMerge` strips the explicit height/width variant, collapsing buttons to glyph line-height (16px–18px). | Never merge multi-axis shorthands on sized primitives. When decoupling layout boxes from visual surfaces, apply the variant tokens and `className` overrides to the visual surface, and synchronize layout classes (`w-full`, `flex-1`) explicitly. |
+| **Isolated Icon Hover Traps** | Forcing users to target a tiny 16px icon glyph inside a button or control to trigger its animation. | Enforce the **Component-Unified Kinetic Affinity Doctrine**: icons inside components are intrinsic organs. The entire parent component's hit area orchestrates the icon's animation lifecycle on hover, press, and keyboard focus. |
+| **Saturated Gradient Text Cliché** | High-saturation linear gradient text (`-webkit-background-clip: text` with purple-to-pink or blue-to-violet ramps) is the universal calling card of generic AI landing pages. Degrades text antialiasing and readability. | Use high-contrast solid typography (`text-foreground`). Express chromatic energy through spatial atmospheric materials and quiet ambient lensing behind translucent glass. |
+| **Muddy sRGB Midpoints** | Legacy CSS linear gradients interpolate across sRGB space, creating a murky desaturated brown/gray dead zone at the 50% midpoint. | Always declare color space interpolation using `linear-gradient(in oklch, ...)` or `linear-gradient(in oklab, ...)` for uniform perceptual lightness and vibrant transitions. |
+| **Unchecked Gradient Surface Contrast** | Placing text over multi-stop gradients where intermediate coordinates dip below WCAG 4.5:1 contrast thresholds. | Enforce geometric coordinate contrast sampling: text must pass $\ge 4.5:1$ across **every stop** along the underlying surface ramp, or the gradient must be confined to low-opacity ambient layers ($\le 25\%$) behind high-contrast ground plates. |
 
 ---
 
@@ -332,9 +337,10 @@ $$W_{\text{column}} = \frac{W_{\text{container}} - (N - 1) \times \text{Gap}}{N}
 #### The Five Anti-Crush Rules
 1. **Responsive Card Padding Budget**: Use fluid padding (`p-4 sm:p-6` for cards, `p-3 sm:p-4` for inner cards) so small screens and compact columns retain maximum usable real estate.
 2. **The `min-w-0` Flex Child Rule**: Any flex child containing text, IDs, or monospace keys (e.g. `production-edge-01`) placed next to a badge or button MUST specify `min-w-0` and `truncate`. Flex items default to `min-width: auto`, which refuses to shrink below text width and pushes sibling badges off-screen.
-3. **Adaptive Header Stacking**: Card headers pairing title badges with status sequences (e.g. `Idle ➔ Load ➔ Success`) must declare `flex-wrap gap-2` or responsive stack (`flex-col sm:flex-row sm:items-center sm:justify-between`). Never let technical metadata wrap onto clumsy orphaned lines.
+3. **Adaptive Header Stacking**: Card headers pairing title badges with status sequences (e.g. `Idle ➔ Load ➔ Success`) must declare `flex-wrap gap-2` or responsive stack (`flex-col md:flex-row md:items-center md:justify-between`). The title block must declare `min-w-0 flex-1` while the badge cluster declares `shrink-0 self-start md:self-center`. Never let technical metadata wrap onto clumsy orphaned lines.
 4. **Ghost Sizer Containment**: Sizing footprints inside buttons must declare `max-w-full overflow-hidden truncate` and must be skipped entirely on icon-only buttons (`size="icon"`).
 5. **Responsive Compound Controls**: Steppers and metric groups must wrap gracefully (`flex-wrap gap-2` or stacked values) when allocated space drops below $220\text{px}$.
+6. **The Pill & Badge Uncrushable Invariant**: Badges and pills must declare `shrink-0 whitespace-nowrap` at the primitive level (`badgeVariants`). When placed in card headers beside headings, they must never allow flex shrink to crush their horizontal padding or split single phrases into multi-line fragments. If horizontal space is constrained, the header must stack vertically (`flex-col md:flex-row`).
 
 ### 17. Segmented Controls & Multi-Option Switches (Zero Glyphic Expansion Invariant)
 When authoring segmented switches, tabs, or multi-option toggles, **never change `font-weight` (e.g. from `font-normal`/`font-medium` to `font-semibold`/`font-bold`) on the active segment**.
@@ -347,6 +353,46 @@ When authoring segmented switches, tabs, or multi-option toggles, **never change
     2. **Spring-Animated Sliding Pill**: Use `motion.span` with `layoutId` and `springs.snappy` to smoothly slide the background pill under the selected item.
     3. **Subtle Elevation**: The sliding pill carries `bg-background shadow-xs` over the `bg-muted` track.
 - **Reference Primitive**: Always use the zero-shift compound [`SegmentedControl`](src/components/ui/segmented-control.tsx) (`<SegmentedControl>` / `<SegmentedControlItem>`).
+
+---
+
+### 18. Perceptual Gradient Engineering & Anti-Slop Color Doctrine
+Linear gradients have been grossly abused across generative AI templates. Raw 2016 sRGB hex ramps (e.g. from early gradient aggregators) produce muddy dead zones and destroy typographic legibility when pasted naively onto buttons or text.
+
+In this design system, gradients are strictly engineered through physical optics and perceptual color spaces.
+
+#### The Three Negative Gradient Bans:
+1. **Banned: Linear Gradient Text (`-webkit-background-clip: text`)**:
+   Clipping saturated multi-color gradients to text destroys font antialiasing, reduces glyph legibility, and is the single most recognizable cliché of low-effort AI landing page templates. Keep typography solid and crisp (`text-foreground`).
+2. **Banned: Muddy sRGB Linear Interpolation**:
+   Standard CSS `linear-gradient(#f00, #00f)` interpolates linearly through gamma-encoded sRGB. Because sRGB does not match human perceptual lightness, the midpoint experiences a severe loss of chroma, rendering a murky, dull brownish-gray sludge. Gradients must declare modern perceptual color spaces:
+   ```css
+   /* Correct: uniform perceptual lightness, no muddy midpoints */
+   background: linear-gradient(in oklch to right, oklch(0.65 0.24 350), oklch(0.68 0.19 230));
+   ```
+3. **Banned: Unchecked Gradient Surface Contrast**:
+   Never place text or interactive controls over a multi-stop gradient without verifying WCAG 2.2 AA contrast ($\ge 4.5:1$) across **every single coordinate stop** of the underlying ramp (geometric coordinate sampling). If any intermediate band drops below $4.5:1$, the layout fails.
+
+#### The Four Sanctioned Functional Gradient Roles:
+1. **Atmospheric Ambient Occlusion & Deep Grounds**:
+   Subtle OKLCH lightness shifts that ground full-page layouts without visual noise:
+   ```css
+   background: linear-gradient(180deg in oklch, oklch(0.14 0.01 260) 0%, oklch(0.10 0.01 260) 100%);
+   ```
+2. **Specular Rim Lighting (The 1px Bevel Highlight)**:
+   Directional light reflection simulating physical glass or anodized metal:
+   ```css
+   box-shadow: inset 0 1px 0 0 oklch(1 0 0 / 0.12);
+   /* or subtle 1px border gradient */
+   border-image: linear-gradient(to bottom in oklch, oklch(1 0 0 / 0.15), oklch(1 0 0 / 0.03)) 1;
+   ```
+3. **Ambient Lensing under Liquid Glass**:
+   Soft chromatic orbs ($\ge 60\text{px}$ blur, $\le 25\%$ opacity) placed *behind* translucent glass cards (`backdrop-filter: blur(20px)`). The glass refracts and diffuses the underlying color harmony without compromising text contrast.
+4. **Directional Alpha Masks (Overflow & Shimmer)**:
+   Gradient masks that signal scrollable table overflow or fluid skeleton shimmer:
+   ```css
+   mask-image: linear-gradient(to right, black calc(100% - 48px), transparent 100%);
+   ```
 
 ---
 
@@ -435,3 +481,6 @@ When reviewing code against this craft standard, **always** output your findings
 | Symmetrical button padding `p-3` | Asymmetrical padding `px-4 py-2` | Text labels require $1.5\times$ to $2\times$ horizontal room to feel balanced. |
 | Arbitrary `z-[9999]` on modal | Semantic `z-50` adhering to the Z-index scale | Arbitrary z-indices create layering conflicts with toasts and tooltips. |
 | Page jumps when opening modal | `scrollbar-gutter: stable` on root container | Locks scrollbar track width to eliminate horizontal reflow on body scroll lock. |
+| Saturated linear gradient text (`bg-clip-text text-transparent`) | Solid typography (`text-foreground`) with chromatic ambient lensing behind glass | Eliminates AI landing page slop and antialiasing degradation. |
+| Legacy sRGB gradient (`linear-gradient(#f00, #00f)`) | Modern perceptual gradient (`linear-gradient(in oklch, ...)`) | Eliminates muddy desaturated midpoint dead zones. |
+| Text over gradient failing intermediate contrast | Ensure $\ge 4.5:1$ contrast across every coordinate stop or place gradient in ambient sublayer ($\le 25\%$) | WCAG 2.2 AA geometric contrast invariant. |

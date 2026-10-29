@@ -57,14 +57,12 @@ export const PopoverContent = React.forwardRef<
             ref={ref}
             className={cn(
               "relative w-72 rounded-2xl glass-regular specular-rim p-4 text-popover-foreground select-auto outline-none",
-              // Deterministic anchor origin locked to trigger edge:
-              "data-[side=bottom]:origin-top data-[side=top]:origin-bottom data-[side=left]:origin-right data-[side=right]:origin-left",
-              "data-[side=bottom]:data-[align=start]:origin-top-left data-[side=bottom]:data-[align=end]:origin-top-right",
-              "data-[side=top]:data-[align=start]:origin-bottom-left data-[side=top]:data-[align=end]:origin-bottom-right",
-              // Apple HIG micro-spring transition (exclusively scale and opacity):
-              "transition-[scale,opacity] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-              "data-[starting-style]:scale-98 data-[starting-style]:opacity-0",
-              "data-[ending-style]:scale-98 data-[ending-style]:opacity-0",
+              // Deterministic anchor origin from Base UI positioner:
+              "origin-(--transform-origin)",
+              // Apple HIG micro-spring transition (scale, transform, and opacity):
+              "transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
+              "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
+              "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
               className
             )}
             {...props}

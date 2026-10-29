@@ -54,14 +54,20 @@ Every theme defines its variables in `:root` (light) and `.dark` (dark/OLED) usi
     --accent: oklch(0.97 0 0);
     --accent-foreground: oklch(0.205 0 0);
 
-    /* Feedback */
+    /* Feedback Intents */
     --destructive: oklch(0.577 0.245 27.325);
     --destructive-foreground: oklch(0.985 0 0);
+    --success: oklch(0.51 0.16 145);
+    --success-foreground: oklch(0.985 0 0);
+    --warning: oklch(0.75 0.16 70);
+    --warning-foreground: oklch(0.205 0 0);
+    --info: oklch(0.52 0.18 245);
+    --info-foreground: oklch(0.985 0 0);
 
-    /* Borders, Inputs, Focus Rings & Radii */
+    /* Borders, Inputs, Focus Rings & Radii (WCAG 2.2 SC 1.4.11 >= 3:1 focus ring) */
     --border: oklch(0.922 0 0);
     --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
+    --ring: oklch(0.60 0 0);
     --radius: 0.625rem;
 
     /* Sidebar Hierarchy */
@@ -110,12 +116,19 @@ Every theme defines its variables in `:root` (light) and `.dark` (dark/OLED) usi
     --accent: oklch(0.269 0 0);
     --accent-foreground: oklch(0.985 0 0);
 
+    /* Feedback Intents */
     --destructive: oklch(0.396 0.141 25.723);
     --destructive-foreground: oklch(0.985 0 0);
+    --success: oklch(0.42 0.14 145);
+    --success-foreground: oklch(0.985 0 0);
+    --warning: oklch(0.48 0.14 70);
+    --warning-foreground: oklch(0.985 0 0);
+    --info: oklch(0.42 0.14 245);
+    --info-foreground: oklch(0.985 0 0);
 
     --border: oklch(0.269 0 0);
     --input: oklch(0.269 0 0);
-    --ring: oklch(0.439 0 0);
+    --ring: oklch(0.52 0 0);
 
     --sidebar: oklch(0.17 0 0);
     --sidebar-foreground: oklch(0.985 0 0);
@@ -158,6 +171,12 @@ This is what allows hot-swapping themes in real time without rebuilding CSS:
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);

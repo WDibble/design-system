@@ -20,8 +20,8 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
           "disabled:cursor-not-allowed disabled:opacity-50",
           // 44px accessible touch target expansion:
           "after:absolute after:-inset-2 after:content-['']",
-          // Track colors:
-          "bg-input data-[checked]:bg-primary",
+          // Track colors with hover affordance:
+          "bg-input hover:bg-input/80 data-[checked]:bg-primary",
           size === "sm" ? "h-5 w-9" : "h-6 w-11",
           className
         )}
@@ -29,7 +29,7 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
       >
         <BaseSwitch.Thumb
           className={cn(
-            "pointer-events-none block rounded-full bg-background shadow-xs ring-0",
+            "pointer-events-none block rounded-full bg-card shadow-sm border border-border/40 dark:bg-foreground data-[checked]:bg-primary-foreground data-[checked]:dark:bg-primary-foreground ring-0",
             // Apple fluid interface spring easing:
             "transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]",
             size === "sm"

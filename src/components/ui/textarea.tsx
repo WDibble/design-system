@@ -17,8 +17,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         aria-invalid={error ? true : undefined}
         className={cn(
           "flex min-h-[80px] w-full rounded-lg border border-border/80 bg-card px-3 py-2 text-foreground shadow-xs select-auto",
+          "hover:border-foreground/30",
           "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08)]",
-          "placeholder:text-muted-foreground/60 resize-y",
+          "placeholder:text-muted-foreground resize-y",
           "transition-[border-color,box-shadow,background-color] duration-150 ease-out",
           // Refined focus ring without offset:
           "focus-visible:outline-none focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/40",

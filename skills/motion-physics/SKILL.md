@@ -54,6 +54,12 @@ When dragging, swiping, or pulling a sheet, slider, or carousel:
 - Any animation in flight can be grabbed, reversed, or redirected mid-motion without visual snapping or state desync.
 - Never disable user input while an animation runs unless the action is strictly destructive or awaiting a server lock.
 
+### 5. Component-Unified Kinetic Affinity (Icons as Intrinsic Organs)
+- Icons nested inside interactive controls (buttons, selects, tabs, cards, inputs) are **intrinsic organs of the component, not isolated widgets**.
+- **The entire component hit area orchestrates the icon**: Hovering anywhere within the component's boundaries, pressing anywhere on the control, or focusing it via keyboard must trigger the icon's animation synchronously.
+- Never force the user to hunt for or hover directly over a tiny 16px icon glyph to trigger its motion.
+- Implement deep controller binding across `leftIcon`, `rightIcon`, and nested `children`, and enforce `pointer-events-none` on nested SVG paths with `group-hover` / `group-active` so the component behaves as a single living kinetic entity.
+
 ---
 
 ## 🎛️ Standard Spring Physics Tokens (`tokens/motion.ts`)
@@ -120,16 +126,36 @@ export const springs = {
 
 ---
 
-## 📐 Scale & Origin Invariants
+## 📐 Scale & Origin Invariants (Popovers, Overlays & Dialogs)
 
-1. **Modal and Dialog Entry**:
-   - **Never animate from `scale(0)`**. Nothing in reality appears from a dimensionless dot.
-   - Enter from `scale(0.95)` with `opacity: 0` to `scale(1.0)` with `opacity: 1`.
-2. **Popovers and Dropdown Menus**:
-   - Anchor `transform-origin` to the trigger element (`transform-origin: var(--transform-origin)`).
-   - Enter from `scale(0.96)` and slide $4\text{px}$ in the direction of the popover placement.
-3. **Sliding Indicator / Tabs**:
-   - Use `layoutId="active-indicator"` in `motion/react` so the visual pill glides seamlessly between active items with zero manual coordinate math:
+All transient surfaces must animate both their entry (`starting-style`) and exit (`ending-style`) with calibrated Apple spring curves, guaranteeing zero layout reflow and immediate responsiveness.
+
+### 1. Trigger-Anchored Overlays (Popover, DropdownMenu, Select, Tooltip)
+- **Transform Origin**: Must dynamically bind to the anchor point using `origin-(--transform-origin)`.
+- **Scale Range**: Enter from `scale-95` to `scale-100`, exit to `scale-95`. Never animate from `scale-0`.
+- **Opacity Range**: Enter from `opacity-0` to `opacity-100`, exit to `opacity-0`.
+- **Snappy Micro-Spring Duration**: `transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]`.
+- **Tailwind v4 Specification**:
+  ```tsx
+  className={cn(
+    "origin-(--transform-origin)",
+    "transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
+    "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
+    "data-[ending-style]:scale-95 data-[ending-style]:opacity-0"
+  )}
+  ```
+
+### 2. Centered Modals & Command Dialogs (Dialog, AlertDialog, CommandDialog)
+- **Scale Range**: Enter from `scale-95` to `scale-100`, exit to `scale-95`.
+- **Duration**: `transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]`.
+- **Backdrop**: Blur with `backdrop-blur-md` and `transition-opacity duration-200 ease-out` with `data-[starting-style]:opacity-0 data-[ending-style]:opacity-0`.
+
+### 3. Edge-Anchored Drawers (Sheet)
+- **Directional Translation**: Full monotonic slide along active edge (`translate-x-full`, `translate-y-full`).
+- **Duration**: `transition-[translate] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]` with mobile safe-area insets (`pb-[env(safe-area-inset-bottom)]`).
+
+### 4. Sliding Indicator / Tabs:
+- Use `layoutId="active-indicator"` in `motion/react` so the visual pill glides seamlessly between active items with zero manual coordinate math:
 
 ```tsx
 import * as React from "react";

@@ -7,8 +7,9 @@ export const inputVariants = cva(
   [
     "flex w-full rounded-lg border bg-card text-foreground shadow-xs select-auto",
     "border-border/80 transition-[border-color,box-shadow,background-color] duration-150 ease-out",
+    "hover:border-foreground/30",
     "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08)]",
-    "placeholder:text-muted-foreground/60",
+    "placeholder:text-muted-foreground",
     // Refined Quiet Chrome focus: seamless 1px accent hugging the border, zero loud offset gap:
     "focus-visible:outline-none focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/40",
     "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted/40",

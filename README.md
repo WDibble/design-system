@@ -95,13 +95,22 @@ All components live in [`src/components/ui/`](src/components/ui/) and are self-c
 | **`Command`** | [`src/components/ui/command.tsx`](src/components/ui/command.tsx) | Global command palette dialog (`⌘K` / `Ctrl+K`) with keyboard search, action shortcuts, and focus protection. |
 | **`Skeleton`** | [`src/components/ui/skeleton.tsx`](src/components/ui/skeleton.tsx) | Dimension-stable skeleton placeholder with `role="status"`, `aria-label`, and zero cumulative layout shift (CLS). |
 
-### 6. Surfaces & Layout
+### 6. Advanced Interaction & Hydration Primitives
+| Component | Path | Description |
+| :--- | :--- | :--- |
+| **`InputOTP`** | [`src/components/ui/input-otp.tsx`](src/components/ui/input-otp.tsx) | Segmented PIN boxes with native SMS autofill parsing (`autocomplete="one-time-code"`), clipboard regex extraction, and active caret animation (Detail #15). |
+| **`Select`** | [`src/components/ui/select.tsx`](src/components/ui/select.tsx) | Headless Base UI form select with liquid glass popup, keyboard arrow navigation, checkmark indicators, and 44px hit-slop. |
+| **`Avatar`** | [`src/components/ui/avatar.tsx`](src/components/ui/avatar.tsx) | Deterministic OKLCH initials color hashing, concentric masking borders, live presence status pips (`online`, `busy`, `away`), and stacked `AvatarGroup`. |
+| **`Progress`** | [`src/components/ui/progress.tsx`](src/components/ui/progress.tsx) | Linear specular progress bar and radial `CircularProgress` SVG meter with tabular number readouts (`tabular-nums`) and smooth spring easing. |
+| **`ProgressiveImage`** | [`src/components/ui/image.tsx`](src/components/ui/image.tsx) | Zero-CLS media hydration with low-resolution BlurHash placeholder crossfade and specular skeleton shimmer (Detail #8). |
+
+### 7. Surfaces & Layout
 | Component | Path | Description |
 | :--- | :--- | :--- |
 | **`Card`** | [`src/components/ui/card.tsx`](src/components/ui/card.tsx) | Quiet surface with `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`, and optional specular lighting. |
 | **`CardInner`** | [`src/components/ui/card.tsx`](src/components/ui/card.tsx) | Mathematically concentric nested surface guaranteeing zero bulging or lumpy corners. |
 
-### 7. Animated Micro-Interaction Icons
+### 8. Animated Micro-Interaction Icons
 Over **470+ animated Lucide icons** located in [`src/components/icons/`](src/components/icons/) featuring imperative handles (`startAnimation`, `stopAnimation`) and hover/press triggers.
 
 ---

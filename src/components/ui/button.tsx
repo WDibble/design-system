@@ -14,30 +14,40 @@ export const buttonVariants = cva(
     "disabled:pointer-events-none [&:disabled:not([aria-busy='true'])]:opacity-50", // Active async loading states retain full 100% opacity to prevent 50%->100% brightness strobe
     "[-webkit-tap-highlight-color:transparent]",
     "data-[state=open]:bg-muted/70 data-[popup-open]:bg-muted/70",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:transition-transform [&_svg]:duration-200 [&_svg]:ease-out",
   ].join(" "),
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-sm hover:opacity-90 active:opacity-100",
+          "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 active:bg-primary",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80 hover:border-border/60",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:opacity-90 active:opacity-100",
+          "bg-destructive text-destructive-foreground shadow-sm hover:bg-[oklch(0.51_0.245_27.325)] dark:hover:bg-[oklch(0.46_0.141_25.723)] active:bg-destructive",
         outline:
-          "border-border/80 bg-card text-foreground shadow-xs hover:bg-muted hover:text-foreground [box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08)]",
+          "border-border/80 bg-card text-foreground shadow-xs hover:bg-muted hover:border-foreground/30 hover:text-foreground [box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08)]",
         ghost:
           "text-muted-foreground hover:bg-muted hover:text-foreground",
         link:
-          "border-transparent text-primary p-0 h-auto",
+          "border-transparent text-primary p-0 h-auto hover:underline",
         success:
-          "border-emerald-500/40 bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 shadow-xs",
+          "border-success/35 bg-success/15 text-emerald-800 dark:text-emerald-200 shadow-xs hover:bg-success/20 hover:border-success/50 active:bg-success/25",
+        warning:
+          "border-warning/35 bg-warning/15 text-amber-900 dark:text-amber-200 shadow-xs hover:bg-warning/20 hover:border-warning/50 active:bg-warning/25",
+        glass:
+          "glass-regular specular-rim text-foreground hover:bg-background/80 hover:border-foreground/20 active:bg-background/90 shadow-xs",
       },
       size: {
-        default: "h-9 px-4 py-2 text-sm gap-2",
-        sm: "h-8 px-3 text-xs gap-1.5 rounded-md",
-        lg: "h-10 px-5 text-base gap-2.5 rounded-xl",
+        xs: "h-7 px-2.5 text-xs gap-1 rounded-md after:absolute after:-inset-2",
+        sm: "h-8 px-3 text-xs gap-1.5 rounded-md after:absolute after:-inset-1.5",
+        default: "h-9 px-4 py-2 text-sm gap-2 rounded-lg after:absolute after:inset-y-[-4px] after:inset-x-0",
+        lg: "h-10 px-5 text-base gap-2.5 rounded-xl after:absolute after:inset-y-[-2px] after:inset-x-0",
+        xl: "h-12 px-6 text-base gap-3 rounded-2xl",
+        "icon-xs": "size-7 p-0 rounded-md shrink-0 after:absolute after:-inset-2",
+        "icon-sm": "size-8 p-0 rounded-md shrink-0 after:absolute after:-inset-1.5",
         icon: "size-9 p-0 rounded-lg shrink-0 after:absolute after:-inset-1.5",
+        "icon-lg": "size-10 p-0 rounded-xl shrink-0 after:absolute after:-inset-1",
       },
     },
     defaultVariants: {
@@ -68,6 +78,10 @@ export interface ButtonProps
    * to guarantee the anchored surface has a zero-jitter, non-moving reference bounding box.
    */
   disableTapScale?: boolean;
+  /**
+   * Responsive helper to stretch the button to 100% width of its parent container.
+   */
+  fullWidth?: boolean;
 }
 
 // Extract layout classes (width, margins, flex bounds) for outer <button> wrapper
@@ -96,6 +110,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       fluidMorph = false,
       iconTrigger = "hover",
       disableTapScale,
+      fullWidth = false,
       children,
       disabled,
       type = "button",
@@ -121,16 +136,24 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       !isLink &&
       (state !== "idle" || isLoading || Boolean(loadingText));
 
-    // Imperative handles for animated icons
-    const leftIconRef = React.useRef<{ startAnimation: () => void; stopAnimation: () => void } | null>(null);
-    const rightIconRef = React.useRef<{ startAnimation: () => void; stopAnimation: () => void } | null>(null);
-    const childIconRef = React.useRef<{ startAnimation: () => void; stopAnimation: () => void } | null>(null);
+    // Component-Unified Kinetic Affinity (Directive #10):
+    // Icons inside buttons are intrinsic organs of the component.
+    // Register all icon controllers (leftIcon, rightIcon, and any icon inside children)
+    // so that hovering or pressing ANY PART of the button triggers the icon animation synchronously.
+    const iconControllersRef = React.useRef<
+      Set<{ startAnimation: () => void; stopAnimation: () => void }>
+    >(new Set());
+
+    // Clear the set on each render pass to prevent stale unmounted references
+    iconControllersRef.current.clear();
 
     const triggerIcon = React.useCallback((action: "start" | "stop") => {
       const method = action === "start" ? "startAnimation" : "stopAnimation";
-      leftIconRef.current?.[method]?.();
-      rightIconRef.current?.[method]?.();
-      childIconRef.current?.[method]?.();
+      iconControllersRef.current.forEach((controller) => {
+        try {
+          controller[method]?.();
+        } catch {}
+      });
     }, []);
 
     const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -190,40 +213,76 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ];
     const widestLabel = labels.reduce((a, b) => (a.length >= b.length ? a : b), labels[0]);
 
-    // Icon size inheritance and ref-binding
-    const defaultIconSize = size === "sm" ? 14 : size === "lg" ? 18 : 16;
+    // Icon size inheritance and ref-binding scaled across all size variants
+    const defaultIconSize =
+      size === "xs" || size === "icon-xs"
+        ? 12
+        : size === "sm" || size === "icon-sm"
+        ? 14
+        : size === "lg" || size === "icon-lg"
+        ? 18
+        : size === "xl"
+        ? 20
+        : 16;
 
-    const enhanceIcon = (
-      icon: React.ReactNode,
-      targetRef: React.MutableRefObject<{ startAnimation: () => void; stopAnimation: () => void } | null>
-    ): React.ReactNode => {
-      if (!React.isValidElement(icon)) return icon;
-      const iconProps = icon.props as any;
-      const existingRef = (icon as any).ref;
+    // Recursive node enhancer: walks children and props to bind refs and inherit size
+    const enhanceNode = React.useCallback(
+      (node: React.ReactNode): React.ReactNode => {
+        if (!node) return node;
 
-      return React.cloneElement(icon as React.ReactElement<any>, {
-        ref: (node: any) => {
-          targetRef.current = node;
-          if (typeof existingRef === "function") {
-            existingRef(node);
-          } else if (existingRef && typeof existingRef === "object") {
-            existingRef.current = node;
-          }
-        },
-        size: iconProps.size ?? defaultIconSize,
-        className: cn(
-          "inline-flex items-center justify-center shrink-0 [&>svg]:size-full",
-          iconProps.className
-        ),
-      });
-    };
+        if (Array.isArray(node)) {
+          return React.Children.map(node, (child) => enhanceNode(child));
+        }
 
-    const renderedLeftIcon = enhanceIcon(leftIcon, leftIconRef);
-    const renderedRightIcon = enhanceIcon(rightIcon, rightIconRef);
-    const renderedChildIcon = isIconButton ? enhanceIcon(children, childIconRef) : children;
+        if (!React.isValidElement(node)) {
+          return node;
+        }
+
+        const nodeProps = node.props as any;
+        const existingRef = (node as any).ref;
+
+        // Recursively enhance child trees if present
+        let mappedChildren = nodeProps.children;
+        if (mappedChildren && (typeof mappedChildren === "object" || Array.isArray(mappedChildren))) {
+          mappedChildren = enhanceNode(mappedChildren);
+        }
+
+        return React.cloneElement(node as React.ReactElement<any>, {
+          ref: (instance: any) => {
+            if (instance && typeof instance.startAnimation === "function") {
+              iconControllersRef.current.add(instance);
+            }
+            if (typeof existingRef === "function") {
+              existingRef(instance);
+            } else if (existingRef && typeof existingRef === "object") {
+              existingRef.current = instance;
+            }
+          },
+          ...(nodeProps.size !== undefined || typeof node.type !== "string"
+            ? { size: nodeProps.size ?? defaultIconSize }
+            : {}),
+          children: mappedChildren,
+        });
+      },
+      [defaultIconSize]
+    );
+
+    const renderedLeftIcon = enhanceNode(leftIcon);
+    const renderedRightIcon = enhanceNode(rightIcon);
+    const renderedChildIcon = enhanceNode(children);
 
     // Physical yield on pointerdown (Directive #1): Interactive controls compress on touch/pointer down.
     const shouldTapScale = !isDisabled && !disableTapScale;
+
+    // Concentric focus-ring radius mapped to variant curvature
+    const radiusClass =
+      size === "xs" || size === "sm" || size === "icon-xs" || size === "icon-sm"
+        ? "rounded-md"
+        : size === "lg" || size === "icon-lg"
+        ? "rounded-xl"
+        : size === "xl"
+        ? "rounded-2xl"
+        : "rounded-lg";
 
     return (
       <button
@@ -241,7 +300,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           "group relative inline-flex items-center justify-center p-0 border-0 bg-transparent outline-none cursor-pointer disabled:pointer-events-none select-none shrink-0",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          size === "sm" ? "rounded-md" : size === "lg" ? "rounded-xl" : "rounded-lg",
+          radiusClass,
+          (fullWidth || className?.includes("w-full")) && "w-full",
+          className?.includes("flex-1") && "flex-1",
           extractLayoutClasses(className)
         )}
         {...(props as any)}
@@ -256,7 +317,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               size,
               className,
             }),
-            (className?.includes("w-full") || className?.includes("flex-1")) && "w-full"
+            (fullWidth || className?.includes("w-full") || className?.includes("flex-1")) && "w-full"
           )}
         >
           {hasStateTransitions ? (

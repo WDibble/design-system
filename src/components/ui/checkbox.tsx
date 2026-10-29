@@ -16,7 +16,7 @@ export const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(
         disabled={disabled}
         className={cn(
           "group relative inline-flex shrink-0 cursor-pointer items-center justify-center rounded-[5px] border select-none",
-          "border-border/80 bg-card text-primary-foreground shadow-xs",
+          "border-border/80 hover:border-foreground/50 bg-card text-primary-foreground shadow-xs",
           "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08)]",
           "transition-[background-color,border-color,box-shadow,transform] duration-150 ease-out",
           // Checked & Indeterminate states:

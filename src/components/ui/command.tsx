@@ -76,7 +76,7 @@ export function CommandDialog({ open, onOpenChange, children }: CommandDialogPro
         <DialogPrimitive.Popup
           className={cn(
             "fixed left-1/2 top-1/3 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl glass-regular specular-rim shadow-2xl p-0 outline-none",
-            "transition-[scale,opacity] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]",
+            "transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]",
             "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
             "data-[ending-style]:scale-95 data-[ending-style]:opacity-0"
           )}
