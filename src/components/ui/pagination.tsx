@@ -274,7 +274,7 @@ export const PaginationPrevious = React.forwardRef<
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
           isIconOnly
             ? "size-8 p-0"
-            : "h-8 w-20 sm:w-24 gap-1.5 px-2.5",
+            : "h-8 w-24 gap-1.5 px-2.5",
           disabled && "opacity-40 cursor-not-allowed pointer-events-none",
           className
         )}
@@ -285,7 +285,7 @@ export const PaginationPrevious = React.forwardRef<
           className="shrink-0 pointer-events-none transition-transform duration-150 ease-out group-hover:-translate-x-0.5"
         />
         {!isIconOnly && (
-          <span className="truncate">{children ?? label ?? "Previous"}</span>
+          <span className="whitespace-nowrap">{children ?? label ?? "Previous"}</span>
         )}
       </motion.button>
     );
@@ -342,14 +342,14 @@ export const PaginationNext = React.forwardRef<
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
           isIconOnly
             ? "size-8 p-0"
-            : "h-8 w-20 sm:w-24 gap-1.5 px-2.5",
+            : "h-8 w-24 gap-1.5 px-2.5",
           disabled && "opacity-40 cursor-not-allowed pointer-events-none",
           className
         )}
         {...props}
       >
         {!isIconOnly && (
-          <span className="truncate">{children ?? label ?? "Next"}</span>
+          <span className="whitespace-nowrap">{children ?? label ?? "Next"}</span>
         )}
         <ChevronRightIcon
           size={14}

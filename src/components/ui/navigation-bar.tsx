@@ -521,7 +521,7 @@ export function NavItem({
             transition={springs.snappy}
             className={cn("absolute top-full pt-2 z-50 select-text", alignmentClasses[align])}
           >
-            <div className="rounded-2xl border border-border/80 bg-popover/95 text-popover-foreground shadow-2xl backdrop-blur-xl specular-rim overflow-hidden p-4 sm:p-5">
+            <div className="rounded-2xl border border-border/80 bg-popover/95 text-popover-foreground shadow-2xl backdrop-blur-xl specular-rim overflow-hidden p-4 sm:p-5 max-w-[calc(100vw-2rem)]">
               {children}
             </div>
           </motion.div>
