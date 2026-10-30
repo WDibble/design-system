@@ -473,9 +473,10 @@ function AppContent() {
         links: [
           {
             title: "Design Principles",
-            description: "Anti-slop design engineering manifesto",
+            description: "Anti-slop design engineering manifesto (v0.1 Draft)",
             href: "/principles",
             icon: <ZapIcon size={16} />,
+            badge: "v0.1",
             onClick: (e) => {
               e.preventDefault();
               navigateTo("/principles");
@@ -3095,7 +3096,7 @@ function AppContent() {
             <CommandGroup heading="Platform Navigation">
               <CommandItem onSelect={() => { setCommandOpen(false); navigateTo("/principles"); }}>
                 <CompassIcon size={14} />
-                <span>Read Design Principles &amp; Manifesto (/principles)</span>
+                <span>Read Design Principles &amp; Manifesto (v0.1 Draft)</span>
                 <CommandShortcut>⌘P</CommandShortcut>
               </CommandItem>
               <CommandItem onSelect={() => { setCommandOpen(false); navigateTo("/"); }}>

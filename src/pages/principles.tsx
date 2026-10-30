@@ -24,6 +24,8 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
         </blockquote>
 
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-xs font-mono text-muted-foreground">
+          <span className="text-foreground font-semibold">Version 0.1 (Working Draft)</span>
+          <span className="text-border">&bull;</span>
           <span>Human-Centric Architecture</span>
           <span className="text-border">&bull;</span>
           <span>Kinetic Truth</span>

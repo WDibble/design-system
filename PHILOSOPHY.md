@@ -1,5 +1,7 @@
 # The Design Philosophy & Manifesto: The Art of Human Software
 
+> **Specification Status**: Version 0.1 (Working Draft)
+>
 > *"When we align the interface to the way we think and move, something magical happens: it stops feeling like a computer and starts feeling like a seamless extension of us."*
 
 ---
