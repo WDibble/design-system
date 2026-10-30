@@ -45,7 +45,7 @@ import { FileUpload, type FileItem } from "@/components/ui/file-upload";
 import {
   Timeline,
   TimelineItem,
-  TimelineIndicator,
+  TimelineNode,
   TimelineContent,
   TimelineHeader,
   TimelineTitle,
@@ -61,7 +61,6 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { CopyButton } from "@/components/ui/copy-button";
 import {
-  CheckIcon,
   SparklesIcon,
   FolderOpenIcon,
   FileTextIcon,
@@ -755,10 +754,31 @@ export function AdvancedPrimitivesShowcase() {
                 4 events recorded
               </span>
             </div>
+
+            {/* Specialized Node Archetype Suite Tray */}
+            <div className="p-2.5 rounded-xl border border-border/60 bg-muted/20 space-y-2">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="font-semibold text-foreground">Specialized Node Palette</span>
+                <span className="font-mono text-muted-foreground text-[10px]">9 Pack Presets</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                <TimelineNode.Progress progress={76} pulse interactive />
+                <TimelineNode.Heartbeat status="success" interactive />
+                <TimelineNode.Pulse status="primary" interactive />
+                <TimelineNode.Step step={1} state="completed" interactive />
+                <TimelineNode.Step step={2} state="current" interactive />
+                <TimelineNode.Step step={3} state="pending" interactive />
+                <TimelineNode.Avatar fallback="CI" badgeStatus="success" badgeIcon="✓" interactive />
+                <TimelineNode.Commit variant="commit" status="primary" interactive />
+                <TimelineNode.Action label="Approval Gate" status="primary" onClick={() => {}} />
+                <TimelineNode.Dot dotVariant="glow" status="warning" interactive />
+              </div>
+            </div>
+
             <Timeline className="pt-2">
               {/* 1. Conic Progress Node + Animated Traveling Packet Flow Connector */}
               <TimelineItem connectorVariant="flow">
-                <TimelineIndicator status="primary" progress={76} pulse interactive />
+                <TimelineNode.Progress progress={76} pulse interactive />
                 <TimelineContent>
                   <TimelineHeader>
                     <div className="flex items-center gap-2 min-w-0">
@@ -786,7 +806,7 @@ export function AdvancedPrimitivesShowcase() {
 
               {/* 2. Telemetry Heartbeat LED Node */}
               <TimelineItem connectorVariant="solid">
-                <TimelineIndicator status="success" heartbeat interactive />
+                <TimelineNode.Heartbeat status="success" interactive />
                 <TimelineContent>
                   <TimelineHeader>
                     <div className="flex items-center gap-2 min-w-0">
@@ -803,11 +823,9 @@ export function AdvancedPrimitivesShowcase() {
                 </TimelineContent>
               </TimelineItem>
 
-              {/* 3. Success Affirmation Node with Attribution Footer */}
+              {/* 3. Collaborative Actor Avatar Node with Attribution Footer */}
               <TimelineItem connectorVariant="solid">
-                <TimelineIndicator status="success" interactive>
-                  <CheckIcon size={14} />
-                </TimelineIndicator>
+                <TimelineNode.Avatar fallback="WD" badgeStatus="success" badgeIcon="✓" interactive />
                 <TimelineContent>
                   <TimelineHeader>
                     <TimelineTitle>Version 0.1 Tagged &amp; Published</TimelineTitle>
@@ -829,7 +847,7 @@ export function AdvancedPrimitivesShowcase() {
 
               {/* 4. Sequential Stepper Numeral Node */}
               <TimelineItem isLast connectorVariant="none">
-                <TimelineIndicator status="default" step={4} interactive />
+                <TimelineNode.Step step={4} state="completed" interactive />
                 <TimelineContent>
                   <TimelineHeader>
                     <TimelineTitle>Automated Build Verification</TimelineTitle>
