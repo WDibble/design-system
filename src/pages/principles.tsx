@@ -1,16 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  CompassIcon,
-  ArrowRightIcon,
-  BookTextIcon,
-  FeatherIcon,
-  ActivityIcon,
-  EyeIcon,
-  SlidersHorizontalIcon,
-  ShieldCheckIcon,
-  ZapIcon,
-} from "@/components/icons";
+import { ArrowRightIcon } from "@/components/icons";
 
 export interface PrinciplesPageProps {
   onBackToWorkbench?: () => void;
@@ -18,11 +8,10 @@ export interface PrinciplesPageProps {
 
 export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
   return (
-    <article className="max-w-3xl mx-auto space-y-20 py-4 sm:py-8 text-foreground animate-in fade-in duration-300">
+    <article className="max-w-3xl mx-auto space-y-16 py-6 sm:py-10 text-foreground animate-in fade-in duration-300">
       {/* Editorial Hero Header */}
-      <header className="space-y-6 text-center sm:text-left border-b border-border/60 pb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted border border-border/70 text-xs font-mono text-muted-foreground uppercase tracking-wider">
-          <CompassIcon size={13} className="text-primary" />
+      <header className="space-y-6 text-center sm:text-left border-b border-border/50 pb-10">
+        <div className="inline-flex items-center px-3 py-1 rounded-full bg-muted/60 border border-border/60 text-xs font-mono text-muted-foreground uppercase tracking-wider">
           <span>Design Philosophy &amp; Engineering Standard</span>
         </div>
 
@@ -55,18 +44,17 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
       </header>
 
       {/* Part 1: The Human Sensory Manifesto */}
-      <section className="space-y-8">
-        <div className="space-y-2">
+      <section className="space-y-6">
+        <div className="space-y-1.5 border-b border-border/40 pb-4">
           <div className="text-xs font-mono uppercase tracking-widest text-primary font-semibold">
             Chapter I
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground flex items-center gap-2.5">
-            <BookTextIcon size={24} className="text-primary" />
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
             Beyond the Robotic Average
           </h2>
         </div>
 
-        <div className="space-y-5 text-sm sm:text-base text-muted-foreground leading-relaxed">
+        <div className="space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
           <p>
             Generative AI models assemble user interfaces the way a compiler parses an AST: mathematically, defensively, and without feeling. Left unprompted, an agent calculates the average of the internet: neon blue-to-purple gradients, generic 3-card grids, screaming kicker labels, and linear transitions that halt abruptly like a stalled engine.
           </p>
@@ -80,13 +68,12 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
       </section>
 
       {/* Part 2: The Five Core Philosophical Pillars */}
-      <section className="space-y-12">
-        <div className="space-y-2">
+      <section className="space-y-6">
+        <div className="space-y-1.5 border-b border-border/40 pb-4">
           <div className="text-xs font-mono uppercase tracking-widest text-primary font-semibold">
             Chapter II
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground flex items-center gap-2.5">
-            <FeatherIcon size={24} className="text-primary" />
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
             The Five Philosophical Pillars
           </h2>
           <p className="text-sm text-muted-foreground">
@@ -94,19 +81,18 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
           </p>
         </div>
 
-        <div className="space-y-10 divide-y divide-border/60">
+        <div className="divide-y divide-border/40">
           {/* Tenet 1 */}
-          <div className="pt-8 first:pt-0 space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="size-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                <ActivityIcon size={18} />
+          <div className="py-8 first:pt-2 last:pb-0 space-y-3">
+            <div className="flex items-baseline gap-3">
+              <span className="text-xs font-mono font-bold text-primary tracking-wider">
+                01
               </span>
-              <div>
-                <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">Tenet 01</span>
-                <h3 className="text-lg font-semibold text-foreground">The Law of Physicality (Kinetic Truth)</h3>
-              </div>
+              <h3 className="text-lg font-semibold text-foreground tracking-tight">
+                The Law of Physicality (Kinetic Truth)
+              </h3>
             </div>
-            <div className="space-y-3 text-sm text-muted-foreground leading-relaxed pl-11">
+            <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
               <p>
                 In the real universe, no physical object teleports. Nothing appears from a mathematical zero without momentum, and nothing stops at a fixed linear velocity. We reject arbitrary duration timers (<code className="text-xs font-mono text-foreground">300ms ease-in-out</code>) in favor of calibrated physical springs with mass, stiffness, and damping.
               </p>
@@ -117,17 +103,16 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
           </div>
 
           {/* Tenet 2 */}
-          <div className="pt-8 space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="size-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                <EyeIcon size={18} />
+          <div className="py-8 last:pb-0 space-y-3">
+            <div className="flex items-baseline gap-3">
+              <span className="text-xs font-mono font-bold text-primary tracking-wider">
+                02
               </span>
-              <div>
-                <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">Tenet 02</span>
-                <h3 className="text-lg font-semibold text-foreground">The Discipline of Radical Restraint (Quiet Chrome)</h3>
-              </div>
+              <h3 className="text-lg font-semibold text-foreground tracking-tight">
+                The Discipline of Radical Restraint (Quiet Chrome)
+              </h3>
             </div>
-            <div className="space-y-3 text-sm text-muted-foreground leading-relaxed pl-11">
+            <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
               <p>
                 Software is a gallery for human work, not an amusement park. We reject the lazy reflex of boxing every piece of text inside a bordered card. Card-in-card nesting produces visual clutter and suffocates content.
               </p>
@@ -138,17 +123,16 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
           </div>
 
           {/* Tenet 3 */}
-          <div className="pt-8 space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="size-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                <SlidersHorizontalIcon size={18} />
+          <div className="py-8 last:pb-0 space-y-3">
+            <div className="flex items-baseline gap-3">
+              <span className="text-xs font-mono font-bold text-primary tracking-wider">
+                03
               </span>
-              <div>
-                <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">Tenet 03</span>
-                <h3 className="text-lg font-semibold text-foreground">Typographic Permanence &amp; Tabular Rhythm</h3>
-              </div>
+              <h3 className="text-lg font-semibold text-foreground tracking-tight">
+                Typographic Permanence &amp; Tabular Rhythm
+              </h3>
             </div>
-            <div className="space-y-3 text-sm text-muted-foreground leading-relaxed pl-11">
+            <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
               <p>
                 Typography is structural architecture. We eliminate screaming, hyper-saturated kicker eyebrows above headings. Headings possess natural gravitas through weight, tracking, and optical scale.
               </p>
@@ -159,17 +143,16 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
           </div>
 
           {/* Tenet 4 */}
-          <div className="pt-8 space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="size-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                <ShieldCheckIcon size={18} />
+          <div className="py-8 last:pb-0 space-y-3">
+            <div className="flex items-baseline gap-3">
+              <span className="text-xs font-mono font-bold text-primary tracking-wider">
+                04
               </span>
-              <div>
-                <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">Tenet 04</span>
-                <h3 className="text-lg font-semibold text-foreground">Emotional Dignity &amp; Forgiving States</h3>
-              </div>
+              <h3 className="text-lg font-semibold text-foreground tracking-tight">
+                Emotional Dignity &amp; Forgiving States
+              </h3>
             </div>
-            <div className="space-y-3 text-sm text-muted-foreground leading-relaxed pl-11">
+            <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
               <p>
                 Software must grant calm reassurance to the human nervous system. We never ambush the user with irreversible operations or interrupt their workflow with jarring, modal confirmation traps for routine tasks.
               </p>
@@ -180,17 +163,16 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
           </div>
 
           {/* Tenet 5 */}
-          <div className="pt-8 space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="size-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                <ZapIcon size={18} />
+          <div className="py-8 last:pb-0 space-y-3">
+            <div className="flex items-baseline gap-3">
+              <span className="text-xs font-mono font-bold text-primary tracking-wider">
+                05
               </span>
-              <div>
-                <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">Tenet 05</span>
-                <h3 className="text-lg font-semibold text-foreground">The Anti-Slop Conviction &amp; Machine Taste</h3>
-              </div>
+              <h3 className="text-lg font-semibold text-foreground tracking-tight">
+                The Anti-Slop Conviction &amp; Machine Taste
+              </h3>
             </div>
-            <div className="space-y-3 text-sm text-muted-foreground leading-relaxed pl-11">
+            <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
               <p>
                 Generative AI models must be given strict negative constraints to prevent cliché boilerplate. We strictly ban saturated linear gradient text (<code className="text-xs font-mono text-foreground">-webkit-background-clip: text</code>), spinning symmetrical operational icons (<code className="text-xs font-mono text-foreground">+</code>, <code className="text-xs font-mono text-foreground">-</code>), and unconstrained horizontal flex lists.
               </p>
@@ -203,8 +185,8 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
       </section>
 
       {/* Part 3: The 11 Codified Design Engineering Invariants */}
-      <section className="space-y-8">
-        <div className="space-y-2">
+      <section className="space-y-6">
+        <div className="space-y-1.5 border-b border-border/40 pb-4">
           <div className="text-xs font-mono uppercase tracking-widest text-primary font-semibold">
             Chapter III
           </div>
@@ -216,7 +198,7 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="divide-y divide-border/40">
           {[
             {
               num: "01",
@@ -287,22 +269,22 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
           ].map((item) => (
             <div
               key={item.num}
-              className="p-5 rounded-xl border border-border/70 bg-card/40 space-y-2"
+              className="py-5 first:pt-2 last:pb-0 space-y-2"
             >
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                <div className="flex items-center gap-2">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                <div className="flex items-baseline gap-3">
                   <span className="text-xs font-mono font-bold text-primary">
-                    Directive #{item.num}
+                    #{item.num}
                   </span>
-                  <span className="text-sm font-semibold text-foreground">
+                  <span className="text-sm sm:text-base font-semibold text-foreground tracking-tight">
                     {item.title}
                   </span>
                 </div>
-                <span className="text-[11px] font-mono text-muted-foreground">
+                <span className="text-[11px] font-mono text-muted-foreground pl-7 sm:pl-0">
                   {item.formula}
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed pl-7">
                 {item.body}
               </p>
             </div>
@@ -311,12 +293,12 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
       </section>
 
       {/* Part 4: Epilogue & Single Interactive Return CTA */}
-      <footer className="pt-8 border-t border-border/60 text-center space-y-6">
+      <footer className="pt-10 border-t border-border/50 text-center space-y-6">
         <div className="space-y-2 max-w-lg mx-auto">
-          <h3 className="text-lg font-semibold text-foreground">
+          <h3 className="text-lg font-semibold text-foreground tracking-tight">
             Experience the Living Design System
           </h3>
-          <p className="text-xs text-muted-foreground leading-relaxed">
+          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
             Every one of the 37 headless primitives and 470+ kinetic icons in this repository operates strictly under these invariants.
           </p>
         </div>
