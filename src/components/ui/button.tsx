@@ -32,7 +32,7 @@ export const buttonVariants = cva(
         ghost:
           "text-muted-foreground hover:bg-muted hover:text-foreground",
         link:
-          "border-transparent text-foreground underline decoration-primary decoration-2 underline-offset-4 hover:decoration-primary/80 dark:text-primary dark:hover:text-primary/90 p-0 h-auto",
+          "border-transparent text-primary underline-offset-4 hover:underline decoration-primary p-0 h-auto shadow-none",
         success:
           "border-success/35 bg-success/15 text-emerald-800 dark:text-emerald-200 shadow-xs hover:bg-success/20 hover:border-success/50 active:bg-success/25",
         warning:
