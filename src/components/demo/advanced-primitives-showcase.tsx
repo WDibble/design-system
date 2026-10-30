@@ -57,10 +57,12 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { CopyButton } from "@/components/ui/copy-button";
 import {
   CheckIcon,
   SparklesIcon,
   FolderOpenIcon,
+  FileTextIcon,
   SearchIcon,
   BoldIcon,
   ItalicIcon,
@@ -126,6 +128,207 @@ const treeData: TreeNodeData[] = [
   { id: "philosophy", label: "PHILOSOPHY.md" },
 ];
 
+interface FileDetail {
+  path: string;
+  type: "file" | "directory";
+  role: string;
+  snippet: string;
+  metrics: { label: string; value: string }[];
+}
+
+const fileDetailsMap: Record<string, FileDetail> = {
+  src: {
+    path: "src/",
+    type: "directory",
+    role: "Core design engineering source root",
+    snippet: `src/\n├── components/   # Headless primitives & kinetic icons\n├── tokens/       # Apple springs & OKLCH gradients\n├── lib/          # Contrast evaluation & theme runtime\n├── pages/        # Design principles draft v0.1\n└── App.tsx       # Live interactive workbench`,
+    metrics: [
+      { label: "Files", value: "62" },
+      { label: "Engine", value: "React 19" },
+    ],
+  },
+  components: {
+    path: "src/components/",
+    type: "directory",
+    role: "Component library layer built with Base UI",
+    snippet: `components/\n├── ui/           # 48 headless accessible primitives\n├── icons/        # 470 reversible spring-animated icons\n└── demo/         # Interactive workbench showcases`,
+    metrics: [
+      { label: "Primitives", value: "48" },
+      { label: "Icons", value: "470" },
+    ],
+  },
+  ui: {
+    path: "src/components/ui/",
+    type: "directory",
+    role: "48 accessible headless primitives",
+    snippet: `export * from "./button";\nexport * from "./card";\nexport * from "./combobox";\nexport * from "./dialog";\nexport * from "./drawer";\nexport * from "./radio-group";\nexport * from "./tree";\n// 48 headless primitives`,
+    metrics: [
+      { label: "WCAG", value: "100% AA" },
+      { label: "Primitives", value: "48" },
+    ],
+  },
+  icons: {
+    path: "src/components/icons/",
+    type: "directory",
+    role: "470 reversible kinetic icons with spring physics",
+    snippet: `// Directive 8: Reversible mechanical affordances\nimport { CheckIcon, SearchIcon, SparklesIcon } from "@/components/icons";\n\n// Icons glide back to origin on pointer release`,
+    metrics: [
+      { label: "Glyphs", value: "470" },
+      { label: "Physics", value: "Apple HIG" },
+    ],
+  },
+  tokens: {
+    path: "src/tokens/",
+    type: "directory",
+    role: "Physical motion, materials and gradient tokens",
+    snippet: `tokens/\n├── motion.ts      # Apple HIG spring configurations\n├── gradients.ts   # Perceptual OKLCH meshes\n└── materials.css  # 4-tier liquid glass materials`,
+    metrics: [
+      { label: "Modules", value: "3" },
+      { label: "Color space", value: "OKLCH" },
+    ],
+  },
+  motion: {
+    path: "src/tokens/motion.ts",
+    type: "file",
+    role: "Calibrated Apple HIG spring physics",
+    snippet: `export const springs = {\n  tactile: { type: "spring", stiffness: 400, damping: 28 },\n  dialog:  { type: "spring", stiffness: 280, damping: 26 },\n  snappy:  { type: "spring", stiffness: 500, damping: 30 },\n  micro:   { type: "spring", stiffness: 600, damping: 32 },\n} as const;`,
+    metrics: [
+      { label: "Springs", value: "4 curves" },
+      { label: "Standard", value: "Apple HIG" },
+    ],
+  },
+  gradients: {
+    path: "src/tokens/gradients.ts",
+    type: "file",
+    role: "Perceptual OKLCH ambient color harmonies",
+    snippet: `// Directive 11: Perceptual gradient engineering\nexport const ambientGradients = {\n  cosmicFusion: {\n    palette: "Magenta to Indigo",\n    css: "linear-gradient(135deg in oklch, ...)",\n  },\n  sublimeLight: {\n    palette: "Coral to Periwinkle",\n    css: "linear-gradient(135deg in oklch, ...)",\n  },\n};`,
+    metrics: [
+      { label: "Color space", value: "OKLCH" },
+      { label: "Muddy midpoints", value: "0%" },
+    ],
+  },
+  materials: {
+    path: "src/tokens/materials.css",
+    type: "file",
+    role: "4-tier spatial liquid glass materials",
+    snippet: `.glass-ultra-thin {\n  backdrop-filter: blur(8px);\n  background: var(--material-ultra-thin);\n}\n.glass-thick {\n  backdrop-filter: blur(24px);\n  background: var(--material-thick);\n}`,
+    metrics: [
+      { label: "Materials", value: "4 tiers" },
+      { label: "Specular rim", value: "1px" },
+    ],
+  },
+  lib: {
+    path: "src/lib/",
+    type: "directory",
+    role: "Theme runtime and APCA contrast verification",
+    snippet: `lib/\n├── contrast.ts       # WCAG 2.2 AA + WCAG 3 APCA\n├── theme.ts          # Zod validation & token applier\n├── theme-presets.ts  # Curated OKLCH themes\n└── utils.ts          # Tailwind merge & clsx`,
+    metrics: [
+      { label: "Validation", value: "Zod Schema" },
+      { label: "Contrast", value: "Dual Engine" },
+    ],
+  },
+  app: {
+    path: "src/App.tsx",
+    type: "file",
+    role: "Interactive design system workbench",
+    snippet: `export default function App() {\n  return (\n    <ToastProvider>\n      <NavigationBar items={navItems} />\n      <main className="container space-y-12">\n        {/* 12 interactive component showcases */}\n      </main>\n    </ToastProvider>\n  );\n}`,
+    metrics: [
+      { label: "Showcases", value: "12 sections" },
+      { label: "Telemetry", value: "Real-time" },
+    ],
+  },
+  "index-css": {
+    path: "src/index.css",
+    type: "file",
+    role: "Tailwind v4 theme inline and semantic CSS variables",
+    snippet: `@import "tailwindcss";\n\n@theme inline {\n  --color-background: var(--background);\n  --color-foreground: var(--foreground);\n  --color-primary: var(--primary);\n  --color-primary-foreground: var(--primary-foreground);\n}`,
+    metrics: [
+      { label: "Compiler", value: "Tailwind v4" },
+      { label: "Theme mode", value: "@theme inline" },
+    ],
+  },
+  skills: {
+    path: "skills/",
+    type: "directory",
+    role: "Living design engineering rules & cognitive directives",
+    snippet: `skills/\n├── craft-philosophy/     # 13 non-negotiable directives\n├── motion-physics/       # Apple HIG springs\n├── base-ui-primitives/   # Headless compound model\n└── semantic-theming/     # Semantic token specification`,
+    metrics: [
+      { label: "Skills", value: "4 standards" },
+      { label: "Format", value: "SKILL.md" },
+    ],
+  },
+  craft: {
+    path: "skills/craft-philosophy/SKILL.md",
+    type: "file",
+    role: "13 non-negotiable design directives",
+    snippet: `# The 13 Non-Negotiable Directives\n1. Physical Yield on pointerdown\n2. Zero Layout Shifts\n3. Tabular Numerals\n4. Accessible Invariants\n5. Quiet Chrome & Anti-Pill Proliferation\n6. Concentric Corner Radii...`,
+    metrics: [
+      { label: "Directives", value: "13 rules" },
+      { label: "Version", value: "0.1" },
+    ],
+  },
+  "motion-skill": {
+    path: "skills/motion-physics/SKILL.md",
+    type: "file",
+    role: "Apple fluid interface rules & spring curves",
+    snippet: `# Motion Physics Specification\nAll transitions must inherit velocity, remain interruptible, and never wait for pointer release (click). Calibrated springs: tactile, dialog, snappy, micro.`,
+    metrics: [
+      { label: "Velocity", value: "Inherited" },
+      { label: "Easing", value: "Spring physics" },
+    ],
+  },
+  "base-ui": {
+    path: "skills/base-ui-primitives/SKILL.md",
+    type: "file",
+    role: "Headless accessible compound primitives",
+    snippet: `# Base UI Compound Pattern\nComponents separate behavioral state from visual styling. Follows WCAG 2.2 accessibility invariants, Escape/Outside-click parity, and outside focus trap.`,
+    metrics: [
+      { label: "Composition", value: "Compound" },
+      { label: "Invariants", value: "WCAG 2.2" },
+    ],
+  },
+  theming: {
+    path: "skills/semantic-theming/SKILL.md",
+    type: "file",
+    role: "Semantic theme token specification",
+    snippet: `export const themeExportSchema = z.object({\n  name: z.string().default("Custom Theme"),\n  styles: z.object({\n    light: themeStylePropsSchema,\n    dark: themeStylePropsSchema,\n  }),\n});`,
+    metrics: [
+      { label: "Interoperable", value: "Theme JSON" },
+      { label: "Dual engine", value: "APCA + AA" },
+    ],
+  },
+  demo: {
+    path: "src/components/demo/",
+    type: "directory",
+    role: "Workbench demo harnesses and component showcases",
+    snippet: `demo/\n├── icon-gallery.tsx\n└── advanced-primitives-showcase.tsx`,
+    metrics: [
+      { label: "Galleries", value: "2 harnesses" },
+      { label: "Interactive", value: "Live" },
+    ],
+  },
+  readme: {
+    path: "README.md",
+    type: "file",
+    role: "Design system repository standard",
+    snippet: `# Design System\nA human-centric, agent-native design system built at the intersection of visual precision, physical intuition, and robust engineering.`,
+    metrics: [
+      { label: "License", value: "MIT" },
+      { label: "Standard", value: "Living" },
+    ],
+  },
+  philosophy: {
+    path: "PHILOSOPHY.md",
+    type: "file",
+    role: "Human sensory manifesto (v0.1 Draft)",
+    snippet: `# The Sensory Manifesto\nSoftware is a cognitive environment. We design interfaces for the human nervous system: their hands on glass, their ocular fatigue, their working memory, and their dignity.`,
+    metrics: [
+      { label: "Status", value: "v0.1 Draft" },
+      { label: "Tone", value: "Human dignity" },
+    ],
+  },
+};
+
 export function AdvancedPrimitivesShowcase() {
   // Combobox state
   const [selectedFramework, setSelectedFramework] = React.useState<string | null>("React 19");
@@ -146,6 +349,7 @@ export function AdvancedPrimitivesShowcase() {
 
   // Tree state
   const [selectedTreeNode, setSelectedTreeNode] = React.useState<string>("app");
+  const activeDetail = fileDetailsMap[selectedTreeNode] || fileDetailsMap.app;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
@@ -444,56 +648,86 @@ export function AdvancedPrimitivesShowcase() {
         </CardContent>
       </Card>
 
-      {/* 3. Hierarchy & Viewport Primitives: Tree & ScrollArea */}
+      {/* 3. Master-Detail Project Architecture Explorer */}
       <Card className="flex flex-col justify-between h-full">
         <CardHeader className="flex flex-col gap-1 pb-3">
           <CardTitle className="text-base flex items-center gap-2">
             <FolderOpenIcon size={16} className="text-primary" />
-            <span>Hierarchical Tree &amp; Scroll Viewport</span>
+            <span>Project Explorer &amp; Token Inspector</span>
           </CardTitle>
           <CardDescription className="text-xs">
-            Recursive expandable file tree and smooth scrollable viewport with auto-hiding custom thumb.
+            Recursive file tree paired with a live architectural inspector and code snippet preview.
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="space-y-6 flex-1">
-          {/* Interactive Tree View */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-foreground">Project File Tree</label>
-              <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
-                Selected: {selectedTreeNode}
-              </span>
-            </div>
-            <div className="p-3 rounded-xl border border-border/80 bg-muted/20">
+        <CardContent className="space-y-4 flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-start">
+            {/* Left: Compact Tree (Unconstrained Natural Height, Zero Inner Scrollbars) */}
+            <div className="flex flex-col gap-2 p-2.5 rounded-xl border border-border/80 bg-muted/15">
+              <div className="flex items-center justify-between px-1">
+                <span className="text-[11px] font-semibold text-foreground">File System</span>
+                <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
+                  62 files
+                </span>
+              </div>
               <Tree
                 data={treeData}
                 selectedId={selectedTreeNode}
                 onSelect={(node) => setSelectedTreeNode(node.id)}
-                defaultExpandedIds={["src", "components", "tokens"]}
-                className="max-h-56 overflow-y-auto"
+                defaultExpandedIds={["src"]}
+                className="w-full"
               />
             </div>
-          </div>
 
-          {/* Smooth ScrollArea Viewport */}
-          <div className="space-y-2 pt-3 border-t border-border/40">
-            <label className="text-xs font-semibold text-foreground">Scroll Area (Auto-Hiding Scrollbar)</label>
-            <ScrollArea
-              tabIndex={0}
-              aria-label="System diagnostic event log"
-              className="h-32 w-full rounded-lg border border-border/70 p-3 bg-muted/15 font-mono text-[11px] leading-relaxed text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <div className="space-y-1.5">
-                <p className="text-emerald-600 dark:text-emerald-400">[00:00:01] System boot initialized on React 19 and Vite 8.</p>
-                <p>[00:00:02] Loading Base UI accessible headless primitives.</p>
-                <p>[00:00:03] Calibrating Apple HIG spring curves (damping: 24, stiffness: 260).</p>
-                <p>[00:00:04] Evaluating WCAG 2.2 AA (4.5:1) and APCA (|Lc| &ge; 60) contrast bounds.</p>
-                <p>[00:00:05] Initializing Speculation Rules API for instant pre-rendering.</p>
-                <p>[00:00:06] Registering 48 headless primitives and 470 kinetic icons.</p>
-                <p className="text-primary font-semibold">[00:00:07] Design System v0.1 ready for production.</p>
+            {/* Right: Live File & Token Inspector */}
+            <div className="flex flex-col gap-2.5 p-3 rounded-xl border border-border/80 bg-card shadow-xs">
+              {/* Header */}
+              <div className="flex items-start justify-between gap-2 pb-2 border-b border-border/50">
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-muted text-foreground">
+                    {activeDetail.type === "directory" ? (
+                      <FolderOpenIcon size={14} className="text-primary" />
+                    ) : (
+                      <FileTextIcon size={14} className="text-primary" />
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-foreground font-mono truncate">
+                      {activeDetail.path}
+                    </p>
+                    <p className="text-[10px] text-muted-foreground truncate">
+                      {activeDetail.role}
+                    </p>
+                  </div>
+                </div>
+                <CopyButton
+                  value={activeDetail.snippet}
+                  size="sm"
+                  aria-label={`Copy source snippet for ${activeDetail.path}`}
+                />
               </div>
-            </ScrollArea>
+
+              {/* Source Snippet Preview inside ScrollArea */}
+              <ScrollArea
+                tabIndex={0}
+                aria-label={`Source preview for ${activeDetail.path}`}
+                className="h-44 w-full rounded-lg border border-border/70 p-2.5 bg-muted/20 font-mono text-[10px] leading-relaxed text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              >
+                <pre className="font-mono whitespace-pre text-[10px] leading-relaxed select-text">
+                  {activeDetail.snippet}
+                </pre>
+              </ScrollArea>
+
+              {/* Telemetry Footer */}
+              <div className="flex items-center justify-between pt-1 border-t border-border/40 font-mono text-[10px] text-muted-foreground tabular-nums">
+                {activeDetail.metrics.map((m) => (
+                  <div key={m.label} className="flex items-center gap-1.5">
+                    <span>{m.label}:</span>
+                    <span className="text-foreground font-medium">{m.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
