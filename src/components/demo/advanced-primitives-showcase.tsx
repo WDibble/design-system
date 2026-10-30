@@ -63,7 +63,6 @@ import { CopyButton } from "@/components/ui/copy-button";
 import {
   CheckIcon,
   SparklesIcon,
-  LoaderCircleIcon,
   FolderOpenIcon,
   FileTextIcon,
   SearchIcon,
@@ -753,26 +752,25 @@ export function AdvancedPrimitivesShowcase() {
             <div className="flex items-center justify-between">
               <label className="text-xs font-semibold text-foreground">Deployment Audit Timeline</label>
               <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
-                3 events recorded
+                4 events recorded
               </span>
             </div>
             <Timeline className="pt-2">
-              <TimelineItem>
-                <TimelineIndicator status="primary" pulse>
-                  <LoaderCircleIcon size={14} className="animate-spin text-primary" />
-                </TimelineIndicator>
+              {/* 1. Conic Progress Node + Animated Traveling Packet Flow Connector */}
+              <TimelineItem connectorVariant="flow">
+                <TimelineIndicator status="primary" progress={76} pulse interactive />
                 <TimelineContent>
                   <TimelineHeader>
                     <div className="flex items-center gap-2 min-w-0">
                       <TimelineTitle>Edge Cache Synchronisation</TimelineTitle>
                       <Badge variant="outline" size="sm" className="font-mono text-[9px] border-primary/40 text-primary py-0 shrink-0">
-                        Active
+                        76% Compiled
                       </Badge>
                     </div>
-                    <TimelineTime dateTime="2026-10-30T13:58:00Z">Just now</TimelineTime>
+                    <TimelineTime dateTime="2026-10-30T13:58:00Z">Streaming</TimelineTime>
                   </TimelineHeader>
                   <TimelineDescription>
-                    Purging stale assets across 12 availability zones with zero layout shift warm-up.
+                    Streaming distribution bundle across 12 availability zones with live conic stroke telemetry.
                   </TimelineDescription>
                   <TimelineBody>
                     <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-muted-foreground">
@@ -780,14 +778,34 @@ export function AdvancedPrimitivesShowcase() {
                         sha:7cbf211
                       </span>
                       <span className="text-muted-foreground/50">&bull;</span>
-                      <span>48 primitives verified</span>
+                      <span className="text-primary font-medium">Flowing to ingest node</span>
                     </div>
                   </TimelineBody>
                 </TimelineContent>
               </TimelineItem>
 
-              <TimelineItem>
-                <TimelineIndicator status="success">
+              {/* 2. Telemetry Heartbeat LED Node */}
+              <TimelineItem connectorVariant="solid">
+                <TimelineIndicator status="success" heartbeat interactive />
+                <TimelineContent>
+                  <TimelineHeader>
+                    <div className="flex items-center gap-2 min-w-0">
+                      <TimelineTitle>WebSocket Telemetry Channel</TimelineTitle>
+                      <Badge variant="outline" size="sm" className="font-mono text-[9px] border-emerald-500/40 text-emerald-600 dark:text-emerald-400 py-0 shrink-0">
+                        Healthy
+                      </Badge>
+                    </div>
+                    <TimelineTime dateTime="2026-10-30T13:45:00Z">Just now</TimelineTime>
+                  </TimelineHeader>
+                  <TimelineDescription>
+                    Active cardiac probe pinging edge listeners at 2.8s hardware-synchronized intervals.
+                  </TimelineDescription>
+                </TimelineContent>
+              </TimelineItem>
+
+              {/* 3. Success Affirmation Node with Attribution Footer */}
+              <TimelineItem connectorVariant="solid">
+                <TimelineIndicator status="success" interactive>
                   <CheckIcon size={14} />
                 </TimelineIndicator>
                 <TimelineContent>
@@ -809,15 +827,16 @@ export function AdvancedPrimitivesShowcase() {
                 </TimelineContent>
               </TimelineItem>
 
+              {/* 4. Sequential Stepper Numeral Node */}
               <TimelineItem isLast connectorVariant="none">
-                <TimelineIndicator status="default" />
+                <TimelineIndicator status="default" step={4} interactive />
                 <TimelineContent>
                   <TimelineHeader>
-                    <TimelineTitle>Automated Build Verified</TimelineTitle>
+                    <TimelineTitle>Automated Build Verification</TimelineTitle>
                     <TimelineTime dateTime="2026-10-30T13:00:00Z">45m ago</TimelineTime>
                   </TimelineHeader>
                   <TimelineDescription>
-                    All component exports passed strict TypeScript compilation and perceptual contrast checks.
+                    All 48 component exports passed strict TypeScript compilation and perceptual contrast checks.
                   </TimelineDescription>
                 </TimelineContent>
               </TimelineItem>

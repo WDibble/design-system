@@ -305,6 +305,46 @@
   }
 }
 
+/* Flow packet animation along timeline connectors */
+@keyframes flow-packet {
+  0% {
+    top: -24px;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* Telemetry heartbeat LED dual-beat pulse */
+@keyframes heartbeat-led {
+  0%, 65%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  12% {
+    transform: scale(1.35);
+    opacity: 1;
+    filter: drop-shadow(0 0 3px currentColor);
+  }
+  24% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  36% {
+    transform: scale(1.22);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 2px currentColor);
+  }
+}
+
 /* Global Accessibility: Strict reduced motion compliance (WCAG 2.2 SC 2.3.3) */
 @media (prefers-reduced-motion: reduce) {
   *,

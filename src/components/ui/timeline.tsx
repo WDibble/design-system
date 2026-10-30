@@ -54,7 +54,8 @@ Timeline.displayName = "Timeline";
 
 export interface TimelineItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
   isLast?: boolean;
-  connectorVariant?: "solid" | "dashed" | "none";
+  connectorVariant?: "solid" | "dashed" | "flow" | "none";
+  activeFlow?: boolean;
 }
 
 export const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
@@ -63,6 +64,7 @@ export const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
       className,
       isLast = false,
       connectorVariant = "solid",
+      activeFlow = false,
       children,
       ...props
     },
@@ -93,6 +95,8 @@ export const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
         ? "gap-5 pb-10"
         : "gap-4 pb-8";
 
+    const resolvedVariant = activeFlow ? "flow" : connectorVariant;
+
     return (
       <li
         ref={ref}
@@ -104,18 +108,26 @@ export const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
         )}
         {...props}
       >
-        {!isLast && connectorVariant !== "none" && (
+        {!isLast && resolvedVariant !== "none" && (
           <span
             aria-hidden="true"
             className={cn(
               "absolute bottom-0 pointer-events-none group-last:hidden z-0",
               connectorTopClass,
               connectorLeftClass,
-              connectorVariant === "dashed"
+              resolvedVariant === "dashed"
                 ? "w-0 border-l border-dashed border-border/80 bg-transparent"
-                : "w-px bg-border/80"
+                : "w-px bg-border/80",
+              resolvedVariant === "flow" && "overflow-hidden"
             )}
-          />
+          >
+            {resolvedVariant === "flow" && (
+              <span
+                aria-hidden="true"
+                className="absolute left-0 w-full h-10 bg-gradient-to-b from-transparent via-primary to-transparent animate-[flow-packet_2.2s_cubic-bezier(0.4,0,0.6,1)_infinite]"
+              />
+            )}
+          </span>
         )}
         {children}
       </li>
@@ -130,7 +142,7 @@ TimelineItem.displayName = "TimelineItem";
 
 export interface TimelineConnectorProps
   extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "solid" | "dashed";
+  variant?: "solid" | "dashed" | "flow";
 }
 
 export const TimelineConnector = React.forwardRef<
@@ -163,10 +175,18 @@ export const TimelineConnector = React.forwardRef<
         variant === "dashed"
           ? "w-0 border-l border-dashed border-border/80 bg-transparent"
           : "w-px bg-border/80",
+        variant === "flow" && "overflow-hidden",
         className
       )}
       {...props}
-    />
+    >
+      {variant === "flow" && (
+        <span
+          aria-hidden="true"
+          className="absolute left-0 w-full h-10 bg-gradient-to-b from-transparent via-primary to-transparent animate-[flow-packet_2.2s_cubic-bezier(0.4,0,0.6,1)_infinite]"
+        />
+      )}
+    </span>
   );
 });
 TimelineConnector.displayName = "TimelineConnector";
@@ -180,6 +200,10 @@ export interface TimelineIndicatorProps
   status?: "default" | "primary" | "success" | "warning" | "destructive" | "muted";
   size?: TimelineSize;
   pulse?: boolean;
+  heartbeat?: boolean;
+  progress?: number | "indeterminate";
+  step?: number;
+  interactive?: boolean;
 }
 
 export const TimelineIndicator = React.forwardRef<
@@ -192,7 +216,12 @@ export const TimelineIndicator = React.forwardRef<
       status = "default",
       size: explicitSize,
       pulse = false,
+      heartbeat = false,
+      progress,
+      step,
+      interactive = false,
       children,
+      tabIndex,
       ...props
     },
     ref
@@ -214,10 +243,23 @@ export const TimelineIndicator = React.forwardRef<
         ? "size-2.5"
         : "size-2";
 
+    // SVG Progress Ring Geometry
+    const svgDim = resolvedSize === "sm" ? 20 : resolvedSize === "lg" ? 36 : 28;
+    const strokeWidth = resolvedSize === "sm" ? 1.5 : 2;
+    const radius = (svgDim - strokeWidth * 2) / 2;
+    const circumference = 2 * Math.PI * radius;
+
+    const strokeOffset =
+      typeof progress === "number"
+        ? circumference - (circumference * Math.min(100, Math.max(0, progress))) / 100
+        : circumference * 0.75;
+
     return (
       <span
         ref={ref}
-        aria-hidden="true"
+        aria-hidden={!interactive}
+        role={interactive ? "button" : undefined}
+        tabIndex={interactive ? (tabIndex ?? 0) : undefined}
         className={cn(
           "relative z-10 flex shrink-0 items-center justify-center rounded-full border font-medium shadow-xs select-none",
           "bg-background transition-colors duration-150",
@@ -232,6 +274,8 @@ export const TimelineIndicator = React.forwardRef<
             "border-destructive bg-destructive/10 text-destructive",
           status === "muted" &&
             "border-border/40 bg-muted/40 text-muted-foreground/60 shadow-none",
+          interactive &&
+            "cursor-pointer hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           className
         )}
         {...props}
@@ -241,21 +285,86 @@ export const TimelineIndicator = React.forwardRef<
           aria-hidden="true"
           className="absolute inset-0 rounded-full bg-background -z-10 pointer-events-none"
         />
+
+        {/* Circular Progress Ring Overlay */}
+        {progress !== undefined && (
+          <svg
+            aria-hidden="true"
+            viewBox={`0 0 ${svgDim} ${svgDim}`}
+            className={cn(
+              "absolute inset-0 size-full -rotate-90 pointer-events-none",
+              progress === "indeterminate" && "animate-spin duration-1000"
+            )}
+          >
+            {/* Background Track */}
+            <circle
+              cx={svgDim / 2}
+              cy={svgDim / 2}
+              r={radius}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={strokeWidth}
+              className="opacity-20"
+            />
+            {/* Active Value Stroke */}
+            <circle
+              cx={svgDim / 2}
+              cy={svgDim / 2}
+              r={radius}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={strokeWidth}
+              strokeDasharray={
+                progress === "indeterminate"
+                  ? `${circumference * 0.3} ${circumference * 0.7}`
+                  : circumference
+              }
+              strokeDashoffset={progress === "indeterminate" ? 0 : strokeOffset}
+              strokeLinecap="round"
+              className={cn(
+                "transition-[stroke-dashoffset] duration-300 ease-out",
+                status === "primary" ? "text-primary" : "text-current"
+              )}
+            />
+          </svg>
+        )}
+
+        {/* Fluid radar dissipation wave */}
         {pulse && (
           <>
-            {/* Fluid radar dissipation wave with ring stroke and atmospheric decay */}
             <span
               aria-hidden="true"
               className="absolute inset-0 rounded-full border border-current bg-current/25 animate-[ping-compact_2.4s_cubic-bezier(0,0,0.2,1)_infinite] pointer-events-none"
             />
-            {/* Steady ambient glow halo */}
             <span
               aria-hidden="true"
               className="absolute -inset-0.5 rounded-full opacity-15 bg-current pointer-events-none"
             />
           </>
         )}
-        {children || <span className={cn("rounded-full bg-current", defaultDotClass)} />}
+
+        {/* Content Slots: Children > Step Number > Progress Label > Heartbeat > Default Dot */}
+        {children ? (
+          children
+        ) : step !== undefined ? (
+          <span className="font-mono font-semibold tabular-nums leading-none">
+            {step}
+          </span>
+        ) : typeof progress === "number" ? (
+          <span className="font-mono text-[9px] font-semibold tabular-nums leading-none">
+            {Math.round(progress)}
+          </span>
+        ) : heartbeat ? (
+          <span
+            aria-hidden="true"
+            className={cn(
+              "rounded-full bg-current animate-[heartbeat-led_2.8s_ease-in-out_infinite]",
+              defaultDotClass
+            )}
+          />
+        ) : (
+          <span className={cn("rounded-full bg-current", defaultDotClass)} />
+        )}
       </span>
     );
   }
