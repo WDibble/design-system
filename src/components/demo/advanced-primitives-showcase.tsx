@@ -762,23 +762,23 @@ export function AdvancedPrimitivesShowcase() {
                 <span className="font-mono text-muted-foreground text-[10px]">9 Pack Presets</span>
               </div>
               <div className="flex flex-wrap items-center gap-2 pt-0.5">
-                <TimelineNode.Progress progress={76} pulse interactive />
-                <TimelineNode.Heartbeat status="success" interactive />
-                <TimelineNode.Pulse status="primary" interactive />
-                <TimelineNode.Step step={1} state="completed" interactive />
-                <TimelineNode.Step step={2} state="current" interactive />
-                <TimelineNode.Step step={3} state="pending" interactive />
-                <TimelineNode.Avatar fallback="CI" badgeStatus="success" badgeIcon="✓" interactive />
-                <TimelineNode.Commit variant="commit" status="primary" interactive />
+                <TimelineNode.Progress progress={76} pulse interactive aria-label="Progress preview: 76%" />
+                <TimelineNode.Heartbeat status="success" interactive aria-label="Heartbeat probe: Healthy" />
+                <TimelineNode.Pulse status="primary" interactive aria-label="Radar beacon: Active" />
+                <TimelineNode.Step step={1} state="completed" interactive aria-label="Step 1: Completed" />
+                <TimelineNode.Step step={2} state="current" interactive aria-label="Step 2: Current" />
+                <TimelineNode.Step step={3} state="pending" interactive aria-label="Step 3: Pending" />
+                <TimelineNode.Avatar fallback="CI" badgeStatus="success" badgeIcon="✓" interactive aria-label="Author: CI Release Engine" />
+                <TimelineNode.Commit variant="commit" status="primary" interactive aria-label="Git commit node" />
                 <TimelineNode.Action label="Approval Gate" status="primary" onClick={() => {}} />
-                <TimelineNode.Dot dotVariant="glow" status="warning" interactive />
+                <TimelineNode.Dot dotVariant="glow" status="warning" interactive aria-label="Warning status dot" />
               </div>
             </div>
 
             <Timeline className="pt-2">
               {/* 1. Conic Progress Node + Animated Traveling Packet Flow Connector */}
               <TimelineItem connectorVariant="flow">
-                <TimelineNode.Progress progress={76} pulse interactive />
+                <TimelineNode.Progress progress={76} pulse interactive aria-label="Build progress: 76%" />
                 <TimelineContent>
                   <TimelineHeader>
                     <div className="flex items-center gap-2 min-w-0">
@@ -806,7 +806,7 @@ export function AdvancedPrimitivesShowcase() {
 
               {/* 2. Telemetry Heartbeat LED Node */}
               <TimelineItem connectorVariant="solid">
-                <TimelineNode.Heartbeat status="success" interactive />
+                <TimelineNode.Heartbeat status="success" interactive aria-label="WebSocket connection healthy" />
                 <TimelineContent>
                   <TimelineHeader>
                     <div className="flex items-center gap-2 min-w-0">
@@ -825,7 +825,7 @@ export function AdvancedPrimitivesShowcase() {
 
               {/* 3. Collaborative Actor Avatar Node with Attribution Footer */}
               <TimelineItem connectorVariant="solid">
-                <TimelineNode.Avatar fallback="WD" badgeStatus="success" badgeIcon="✓" interactive />
+                <TimelineNode.Avatar fallback="WD" badgeStatus="success" badgeIcon="✓" interactive aria-label="Author: William Dibble" />
                 <TimelineContent>
                   <TimelineHeader>
                     <TimelineTitle>Version 0.1 Tagged &amp; Published</TimelineTitle>
@@ -847,7 +847,7 @@ export function AdvancedPrimitivesShowcase() {
 
               {/* 4. Sequential Stepper Numeral Node */}
               <TimelineItem isLast connectorVariant="none">
-                <TimelineNode.Step step={4} state="completed" interactive />
+                <TimelineNode.Step step={4} state="completed" interactive aria-label="Step 4: Build verified" />
                 <TimelineContent>
                   <TimelineHeader>
                     <TimelineTitle>Automated Build Verification</TimelineTitle>

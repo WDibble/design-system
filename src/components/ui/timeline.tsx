@@ -263,12 +263,38 @@ export const TimelineIndicator = React.forwardRef<
         ? circumference - (circumference * Math.min(100, Math.max(0, progress))) / 100
         : circumference * 0.75;
 
+    const defaultLabel =
+      typeof progress === "number"
+        ? `Progress ${Math.round(progress)} percent`
+        : progress === "indeterminate"
+        ? "Progress in progress"
+        : step !== undefined
+        ? `Step ${step}`
+        : heartbeat
+        ? `Telemetry probe, status ${status}`
+        : pulse
+        ? `Active event, status ${status}`
+        : `Timeline indicator, status ${status}`;
+
+    const resolvedAriaLabel =
+      (props as any)["aria-label"] ?? (interactive ? defaultLabel : undefined);
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
+      if (interactive && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        (props.onClick as any)?.(e);
+      }
+      props.onKeyDown?.(e);
+    };
+
     return (
       <span
         ref={ref}
         aria-hidden={!interactive}
         role={interactive ? "button" : undefined}
+        aria-label={resolvedAriaLabel}
         tabIndex={interactive ? (tabIndex ?? 0) : undefined}
+        onKeyDown={handleKeyDown}
         className={cn(
           "relative z-10 flex shrink-0 items-center justify-center rounded-full border font-medium shadow-xs select-none",
           "bg-background transition-colors duration-150",
@@ -284,7 +310,7 @@ export const TimelineIndicator = React.forwardRef<
           status === "muted" &&
             "border-border/40 bg-muted/40 text-muted-foreground/60 shadow-none",
           interactive &&
-            "cursor-pointer hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+            "cursor-pointer hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-1.5 after:content-['']",
           className
         )}
         {...props}
@@ -608,6 +634,7 @@ export interface TimelineAvatarNodeProps
   fallback: string;
   badgeIcon?: React.ReactNode;
   badgeStatus?: "default" | "primary" | "success" | "warning" | "destructive";
+  interactive?: boolean;
 }
 
 export const TimelineAvatarNode = React.forwardRef<
@@ -621,6 +648,7 @@ export const TimelineAvatarNode = React.forwardRef<
       badgeIcon,
       badgeStatus = "success",
       size: explicitSize,
+      interactive = false,
       className,
       ...props
     },
@@ -643,10 +671,31 @@ export const TimelineAvatarNode = React.forwardRef<
         ? "size-3.5 -bottom-1 -right-1 text-[9px]"
         : "size-3 -bottom-0.5 -right-0.5 text-[8px]";
 
+    const resolvedAriaLabel =
+      (props as any)["aria-label"] ?? (interactive ? `Actor: ${fallback}` : undefined);
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
+      if (interactive && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        (props.onClick as any)?.(e);
+      }
+      props.onKeyDown?.(e);
+    };
+
     return (
       <span
         ref={ref}
-        className={cn("relative z-10 inline-flex shrink-0 select-none", className)}
+        aria-hidden={!interactive}
+        role={interactive ? "button" : undefined}
+        aria-label={resolvedAriaLabel}
+        tabIndex={interactive ? 0 : undefined}
+        onKeyDown={handleKeyDown}
+        className={cn(
+          "relative z-10 inline-flex shrink-0 select-none",
+          interactive &&
+            "cursor-pointer hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-1.5 after:content-['']",
+          className
+        )}
         {...props}
       >
         <Avatar className={cn("rounded-full border border-border/80 shadow-xs", avatarSizeClass)}>
