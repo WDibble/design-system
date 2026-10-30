@@ -32,7 +32,7 @@ export const buttonVariants = cva(
         ghost:
           "text-muted-foreground hover:bg-muted hover:text-foreground",
         link:
-          "border-transparent text-primary underline-offset-4 hover:underline decoration-primary p-0 h-auto shadow-none",
+          "border-transparent text-primary p-0 h-auto shadow-none",
         success:
           "border-success/35 bg-success/15 text-emerald-800 dark:text-emerald-200 shadow-xs hover:bg-success/20 hover:border-success/50 active:bg-success/25",
         warning:
@@ -473,7 +473,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             )}
             {variant === "link" ? (
               <span className="relative inline-flex items-center after:content-[''] after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-full after:bg-current after:origin-left after:scale-x-0 group-hover:after:scale-x-100 group-focus-visible:after:scale-x-100 after:transition-transform after:duration-200 after:ease-[cubic-bezier(0.16,1,0.3,1)]">
-                {children}
+                {renderedChildIcon}
               </span>
             ) : (
               renderedChildIcon
