@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 export interface ThemeToggleProps extends Omit<ButtonProps, "children" | "onClick"> {
   /**
    * Controlled dark state. If omitted, ThemeToggle automatically manages
-   * state and synchronizes with localStorage and document.documentElement.classList.
+   * state and synchronises with localStorage and document.documentElement.classList.
    */
   isDark?: boolean;
   /**

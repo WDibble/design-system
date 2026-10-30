@@ -1390,7 +1390,7 @@ function AppContent() {
                 {/* 1. Standard Modal Dialog */}
                 <Dialog>
                   <DialogTrigger render={<Button variant="default" />}>
-                    Open Standard Dialog
+                    Open Standard Dialogue
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>

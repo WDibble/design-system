@@ -14,7 +14,7 @@ export const presetThemes: PresetTheme[] = [
   {
     id: "zinc-default",
     name: "Zinc Minimalist",
-    description: "Quiet Chrome baseline. Calibrated grayscale typography and sub-pixel neutral elevation.",
+    description: "Quiet Chrome baseline. Calibrated greyscale typography and sub-pixel neutral elevation.",
     hue: 0,
     chroma: 0,
     lightness: 0.205,
@@ -150,7 +150,7 @@ export const presetThemes: PresetTheme[] = [
   {
     id: "tokyo-amber",
     name: "Tokyo Amber",
-    description: "Industrial warmth. High-contrast golden amber inspired by analog synthesizers and Tokyo street signs.",
+    description: "Industrial warmth. High-contrast golden amber inspired by analogue synthesizers and Tokyo street signs.",
     hue: 65,
     chroma: 0.18,
     lightness: 0.76,

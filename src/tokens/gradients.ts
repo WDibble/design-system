@@ -3,7 +3,7 @@
  * Conforms to Directive 11 (Perceptual Gradient Engineering & Anti-Slop Contrast Invariant)
  * and skills/craft-philosophy/SKILL.md Section 18.
  *
- * Eliminates sRGB muddy midpoints by enforcing modern perceptual color space interpolation
+ * Eliminates sRGB muddy midpoints by enforcing modern perceptual colour space interpolation
  * (linear-gradient(in oklch, ...) / radial-gradient(in oklch, ...)).
  */
 
@@ -102,7 +102,7 @@ export const alphaMasks = {
 
 /**
  * 4. Ambient Lensing under Liquid Glass (Curated from uiGradients)
- * Chromatic color harmonies adapted from uiGradients into perceptual OKLCH coordinates.
+ * Chromatic colour harmonies adapted from uiGradients into perceptual OKLCH coordinates.
  * Strictly intended for soft blurred background orbs (blur >= 60px, opacity <= 25%)
  * or behind glass panels (backdrop-filter: blur(20px)).
  * NEVER apply as solid foreground text or buttons without contrast protection.
