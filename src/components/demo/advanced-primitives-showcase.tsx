@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { cn } from "@/lib/utils";
 import {
   Combobox,
   ComboboxInput,
@@ -61,6 +62,16 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { CopyButton } from "@/components/ui/copy-button";
 import {
+  Toolbar,
+  ToolbarGroup,
+  ToolbarButton,
+  ToolbarSeparator,
+  ToolbarToggleGroup,
+  ToolbarToggleItem,
+} from "@/components/ui/toolbar";
+import { MarkdownToolbar } from "@/components/ui/markdown-toolbar";
+import { Textarea } from "@/components/ui/textarea";
+import {
   SparklesIcon,
   FolderOpenIcon,
   FileTextIcon,
@@ -70,10 +81,13 @@ import {
   UnderlineIcon,
   LayoutGridIcon,
   AlignLeftIcon,
+  AlignCenterIcon,
+  AlignRightIcon,
   CursorClickIcon,
   TerminalIcon,
   SlidersHorizontalIcon,
 } from "@/components/icons";
+import { LinkIcon, CodeIcon, PenToolIcon } from "lucide-react";
 
 const frameworks = [
   "React 19",
@@ -330,6 +344,123 @@ const fileDetailsMap: Record<string, FileDetail> = {
   },
 };
 
+function SimpleMarkdownPreview({ content }: { content: string }) {
+  const lines = content.split("\n");
+  const renderedElements: React.ReactNode[] = [];
+  let inTable = false;
+  let tableRows: string[][] = [];
+
+  const flushTable = (key: number) => {
+    if (tableRows.length > 0) {
+      const [header, _, ...bodyRows] = tableRows;
+      renderedElements.push(
+        <div key={`table-${key}`} className="my-2.5 overflow-x-auto rounded-lg border border-border/70">
+          <table className="w-full text-xs text-left">
+            {header && (
+              <thead className="bg-muted/40 border-b border-border/70">
+                <tr>
+                  {header.map((col, idx) => (
+                    <th key={idx} className="px-3 py-1.5 font-semibold text-foreground text-[11px]">
+                      {col.trim()}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            )}
+            <tbody>
+              {bodyRows.map((row, rIdx) => (
+                <tr key={rIdx} className="border-b border-border/40 last:border-0 hover:bg-muted/20">
+                  {row.map((cell, cIdx) => (
+                    <td key={cIdx} className="px-3 py-1 text-muted-foreground text-[11px]">
+                      {cell.trim()}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+      tableRows = [];
+      inTable = false;
+    }
+  };
+
+  lines.forEach((line, index) => {
+    if (line.trim().startsWith("|") && line.trim().endsWith("|")) {
+      inTable = true;
+      const cells = line.trim().slice(1, -1).split("|");
+      tableRows.push(cells);
+      return;
+    } else if (inTable) {
+      flushTable(index);
+    }
+
+    if (line.startsWith("# ")) {
+      renderedElements.push(
+        <h2 key={index} className="text-base font-bold tracking-tight text-foreground mt-2 mb-1">
+          {line.replace("# ", "")}
+        </h2>
+      );
+    } else if (line.startsWith("## ")) {
+      renderedElements.push(
+        <h3 key={index} className="text-sm font-semibold tracking-tight text-foreground mt-2 mb-1">
+          {line.replace("## ", "")}
+        </h3>
+      );
+    } else if (line.startsWith("### ")) {
+      renderedElements.push(
+        <h4 key={index} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-2 mb-0.5">
+          {line.replace("### ", "")}
+        </h4>
+      );
+    } else if (line.startsWith("> ")) {
+      renderedElements.push(
+        <blockquote key={index} className="border-l-2 border-primary/60 pl-3 py-1 text-xs italic text-muted-foreground my-1.5 bg-muted/20 rounded-r-md">
+          {line.replace("> ", "")}
+        </blockquote>
+      );
+    } else if (line.startsWith("- [ ] ") || line.startsWith("- [x] ")) {
+      const checked = line.startsWith("- [x] ");
+      const text = line.replace(/- \[[ x]\] /, "");
+      renderedElements.push(
+        <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground my-0.5">
+          <input type="checkbox" checked={checked} readOnly className="size-3.5 rounded accent-primary pointer-events-none" />
+          <span className={checked ? "line-through opacity-70" : "text-foreground"}>{text}</span>
+        </div>
+      );
+    } else if (line.startsWith("- ")) {
+      renderedElements.push(
+        <li key={index} className="text-xs text-muted-foreground ml-4 list-disc my-0.5">
+          {line.replace("- ", "")}
+        </li>
+      );
+    } else if (line.trim() === "---") {
+      renderedElements.push(<hr key={index} className="my-2 border-border/50" />);
+    } else if (line.trim().length > 0) {
+      const parts = line.split(/(\*\*.*?\*\*)/g);
+      renderedElements.push(
+        <p key={index} className="text-xs text-muted-foreground my-1 leading-relaxed">
+          {parts.map((part, pIdx) => {
+            if (part.startsWith("**") && part.endsWith("**")) {
+              return (
+                <strong key={pIdx} className="font-semibold text-foreground">
+                  {part.slice(2, -2)}
+                </strong>
+              );
+            }
+            return part;
+          })}
+        </p>
+      );
+    }
+  });
+
+  if (inTable) flushTable(lines.length);
+
+  return <div className="space-y-1 text-left">{renderedElements}</div>;
+}
+
 export function AdvancedPrimitivesShowcase() {
   // Combobox state
   const [selectedFramework, setSelectedFramework] = React.useState<string | null>("React 19");
@@ -351,6 +482,30 @@ export function AdvancedPrimitivesShowcase() {
   // Tree state
   const [selectedTreeNode, setSelectedTreeNode] = React.useState<string>("app");
   const activeDetail = fileDetailsMap[selectedTreeNode] || fileDetailsMap.app;
+
+  // Toolbar & MarkdownToolbar state
+  const [genericFormat, setGenericFormat] = React.useState<string[]>(["bold"]);
+  const [genericAlign, setGenericAlign] = React.useState<string>("left");
+  const [markdownText, setMarkdownText] = React.useState<string>(
+`# Antigravity Design System
+
+An agent-native, human-centric design system built with **strict visual precision** and physical intuition.
+
+- [x] WCAG 2.2 AA and WCAG 3 APCA compliant contrast
+- [x] Zero layout shifts across all dynamic states
+- [ ] Kinetic mechanical affordances
+
+### Architecture Specifications
+| Primitive | Headless Foundation | Verification |
+| --- | --- | --- |
+| Toolbar | @base-ui/react/toolbar | Verified |
+| MarkdownToolbar | Selection-Preserving API | Interactive |
+
+> Physical yield on pointerdown: controls compress to scale(0.97) immediately.`
+  );
+  const [markdownView, setMarkdownView] = React.useState<"edit" | "split" | "preview">("split");
+  const [lastAction, setLastAction] = React.useState<string>("ready");
+  const markdownRef = React.useRef<HTMLTextAreaElement>(null);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
@@ -876,6 +1031,148 @@ export function AdvancedPrimitivesShowcase() {
               maxSizeMB={5}
               accept=".pdf,.png,.jpg,.json"
             />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 5. Accessible Toolbars & Markdown Authoring Suite */}
+      <Card className="flex flex-col justify-between h-full lg:col-span-2">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3">
+          <div className="flex flex-col gap-1">
+            <CardTitle className="text-base flex items-center gap-2">
+              <PenToolIcon size={16} className="text-primary" />
+              <span>Accessible Toolbars &amp; Markdown Authoring Studio</span>
+            </CardTitle>
+            <CardDescription className="text-xs">
+              Autonomous selection-preserving text engine built on Base UI Toolbar primitives with roving tabindex, keyboard shortcuts, and live split preview.
+            </CardDescription>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+              Last Action: {lastAction}
+            </Badge>
+          </div>
+        </CardHeader>
+
+        <CardContent className="space-y-6 flex-1">
+          {/* Sub-section A: Foundational Generic Toolbar */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-foreground">Generic Toolbar Primitive</label>
+              <span className="text-[10px] font-mono text-muted-foreground">
+                Base UI Toolbar · WAI-ARIA role="toolbar"
+              </span>
+            </div>
+            <div className="p-3 rounded-xl border border-border/60 bg-muted/20 flex flex-wrap items-center gap-4">
+              <Toolbar variant="default" size="sm" className="bg-background">
+                <ToolbarToggleGroup
+                  value={genericFormat}
+                  onValueChange={(val) => setGenericFormat(val as string[])}
+                  aria-label="Text formatting options"
+                >
+                  <ToolbarToggleItem value="bold" aria-label="Toggle bold">
+                    <BoldIcon className="size-3.5" />
+                  </ToolbarToggleItem>
+                  <ToolbarToggleItem value="italic" aria-label="Toggle italic">
+                    <ItalicIcon className="size-3.5" />
+                  </ToolbarToggleItem>
+                  <ToolbarToggleItem value="underline" aria-label="Toggle underline">
+                    <UnderlineIcon className="size-3.5" />
+                  </ToolbarToggleItem>
+                </ToolbarToggleGroup>
+
+                <ToolbarSeparator />
+
+                <ToolbarToggleGroup
+                  value={genericAlign ? [genericAlign] : []}
+                  onValueChange={(val) => {
+                    const arr = val as string[];
+                    if (arr.length > 0) setGenericAlign(arr[arr.length - 1]);
+                  }}
+                  aria-label="Text alignment"
+                >
+                  <ToolbarToggleItem value="left" aria-label="Align text left">
+                    <AlignLeftIcon className="size-3.5" />
+                  </ToolbarToggleItem>
+                  <ToolbarToggleItem value="center" aria-label="Align text centre">
+                    <AlignCenterIcon className="size-3.5" />
+                  </ToolbarToggleItem>
+                  <ToolbarToggleItem value="right" aria-label="Align text right">
+                    <AlignRightIcon className="size-3.5" />
+                  </ToolbarToggleItem>
+                </ToolbarToggleGroup>
+
+                <ToolbarSeparator />
+
+                <ToolbarGroup aria-label="External actions">
+                  <ToolbarButton aria-label="Insert Hyperlink" onClick={() => setLastAction("generic-link")}>
+                    <LinkIcon className="size-3.5" />
+                  </ToolbarButton>
+                  <ToolbarButton aria-label="Insert Snippet" onClick={() => setLastAction("generic-code")}>
+                    <CodeIcon className="size-3.5" />
+                  </ToolbarButton>
+                </ToolbarGroup>
+              </Toolbar>
+
+              <span className="text-xs text-muted-foreground font-mono">
+                Format: <span className="text-foreground font-semibold">{genericFormat.join(", ") || "none"}</span> · Align: <span className="text-foreground font-semibold">{genericAlign}</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Sub-section B: Live Interactive Markdown Authoring Suite */}
+          <div className="space-y-3 pt-3 border-t border-border/40">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-foreground">Interactive Markdown Editor with Live Preview</label>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
+                  {markdownText.length} characters · {markdownText.split("\n").length} lines
+                </span>
+              </div>
+            </div>
+
+            {/* Markdown Toolbar docked above editor */}
+            <MarkdownToolbar
+              textareaRef={markdownRef}
+              viewMode={markdownView}
+              onViewModeChange={setMarkdownView}
+              onAction={(act) => setLastAction(act)}
+              variant="default"
+              size="sm"
+              className="bg-card/90"
+            />
+
+            {/* Editor & Preview Panels */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {(markdownView === "edit" || markdownView === "split") && (
+                <div className={cn("space-y-1.5", markdownView === "edit" && "md:col-span-2")}>
+                  <div className="flex items-center justify-between text-[11px] text-muted-foreground px-1">
+                    <span className="font-semibold text-foreground">Markdown Source</span>
+                    <span className="font-mono text-[10px]">HTML &lt;textarea&gt;</span>
+                  </div>
+                  <Textarea
+                    ref={markdownRef}
+                    value={markdownText}
+                    onChange={(e) => setMarkdownText(e.target.value)}
+                    rows={12}
+                    className="font-mono text-xs leading-relaxed resize-y bg-background/80"
+                    placeholder="Type or format your markdown here..."
+                  />
+                </div>
+              )}
+
+              {(markdownView === "preview" || markdownView === "split") && (
+                <div className={cn("space-y-1.5", markdownView === "preview" && "md:col-span-2")}>
+                  <div className="flex items-center justify-between text-[11px] text-muted-foreground px-1">
+                    <span className="font-semibold text-foreground">Live Rendered Preview</span>
+                    <span className="font-mono text-[10px]">Real-time DOM</span>
+                  </div>
+                  <div className="h-[270px] overflow-y-auto p-4 rounded-xl border border-border/80 bg-background/60 specular-rim">
+                    <SimpleMarkdownPreview content={markdownText} />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
