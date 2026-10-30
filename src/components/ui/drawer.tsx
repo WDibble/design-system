@@ -96,7 +96,13 @@ export const DrawerContent = React.forwardRef<
           {...props}
         >
           {!hideHandle && <DrawerHandle />}
-          <div className="flex-1 overflow-y-auto px-6 py-4">{children}</div>
+          <div className="flex-1 overflow-y-auto px-6 py-4 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">{children}</div>
+
+          {/* Overdrag Bleed Extension to eliminate void gap during upward rubber-band pull */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-full h-[100vh] bg-background border-x border-border/80"
+          />
         </DrawerPrimitive.Popup>
       </DrawerPrimitive.Viewport>
     </DrawerPortal>
