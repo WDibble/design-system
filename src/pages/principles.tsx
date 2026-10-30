@@ -24,13 +24,13 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
         </blockquote>
 
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-xs font-mono text-muted-foreground">
-          <span>PHILOSOPHY.md</span>
+          <span>Human-Centric Architecture</span>
           <span className="text-border">&bull;</span>
-          <span>AGENTS.md</span>
+          <span>Kinetic Truth</span>
           <span className="text-border">&bull;</span>
-          <span>11 Non-Negotiable Directives</span>
+          <span>Eleven Core Invariants</span>
           <span className="text-border">&bull;</span>
-          <span>5 Core Tenets</span>
+          <span>Five Philosophical Pillars</span>
         </div>
       </header>
 
@@ -47,13 +47,13 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
 
         <div className="space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
           <p>
-            Generative AI models assemble user interfaces the way a compiler parses an AST: mathematically, defensively, and without feeling. Left unprompted, an agent calculates the average of the internet: neon blue-to-purple gradients, generic 3-card grids, screaming kicker labels, and linear transitions that halt abruptly like a stalled engine.
+            Generative systems frequently assemble user interfaces defensively, calculating the statistical median of the internet: generic card grids, screaming accent badges, and rigid linear transitions that halt abruptly like a stalled engine.
           </p>
           <p>
-            This is not design; this is visual assembly. Design is the disciplined intersection of human psychology, physical mechanics, and visual restraint. Software is not merely a tool to manipulate a database &mdash; it is a sensory environment where people spend hours of their lives creating, communicating, and thinking.
+            This is visual assembly, not design. True design lives at the disciplined intersection of human psychology, physical mechanics, and visual restraint. Software is not merely an abstraction over data &mdash; it is a sensory environment where people spend hours creating, communicating, and thinking.
           </p>
           <p>
-            Every primitive in this system is engineered with negative constraints: strict bans on synthetic slop, coupled with mathematical invariants for optical concentricity, layout stability, and sensory tactility.
+            Every primitive in this system is shaped by negative constraints: deliberate boundaries against synthetic tropes, balanced by principles of geometric harmony, structural stability, and immediate physical resonance.
           </p>
         </div>
       </section>
@@ -85,10 +85,10 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
             </div>
             <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
               <p>
-                In the real universe, no physical object teleports. Nothing appears from a mathematical zero without momentum, and nothing stops at a fixed linear velocity. We reject arbitrary duration timers (<code className="text-xs font-mono text-foreground">300ms ease-in-out</code>) in favor of calibrated physical springs with mass, stiffness, and damping.
+                In the physical universe, objects possess weight and inertia. Nothing appears instantaneously without momentum, and nothing halts abruptly at a fixed linear velocity. We reject artificial linear timing in favor of natural spring dynamics governed by mass, tension, and damping.
               </p>
               <p>
-                When you press a key on a Steinway piano or the shutter on a Leica camera, the mechanism yields beneath your fingertip the exact millisecond pressure occurs. Interactive controls must compress on <strong className="text-foreground font-medium">pointerdown</strong> (<code className="text-xs font-mono text-foreground">scale(0.98)</code>). Waiting for <code className="text-xs font-mono text-foreground">click</code> (pointer release) delays tactile acknowledgment by 100&ndash;250ms, betraying human touch.
+                When you strike a piano key or press a camera shutter, the mechanism yields beneath your fingertip the exact moment pressure begins. Controls must respond immediately upon contact, acknowledging touch without waiting for release.
               </p>
             </div>
           </div>
@@ -105,10 +105,10 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
             </div>
             <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
               <p>
-                Software is a gallery for human work, not an amusement park. We reject the lazy reflex of boxing every piece of text inside a bordered card. Card-in-card nesting produces visual clutter and suffocates content.
+                Software is an exhibition gallery for human thought, not an amusement park. We resist the impulse to enclose every piece of information within a bordered container. Recursive card nesting creates visual noise that distracts from core content.
               </p>
               <p>
-                We rely first on spatial rhythm, typographic hierarchy, optical alignment, and subtle 1px hairline rules. Chrome steps back into the shadows so the user&rsquo;s content can breathe.
+                We prioritize spatial rhythm, typographic hierarchy, optical alignment, and subtle hairline separators. Interface chrome steps back quietly so the user&rsquo;s work takes center stage.
               </p>
             </div>
           </div>
@@ -120,15 +120,15 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
                 03
               </span>
               <h3 className="text-lg font-semibold text-foreground tracking-tight">
-                Typographic Permanence &amp; Tabular Rhythm
+                Typographic Permanence &amp; Temporal Rhythm
               </h3>
             </div>
             <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
               <p>
-                Typography is structural architecture. We eliminate screaming, hyper-saturated kicker eyebrows above headings. Headings possess natural gravitas through weight, tracking, and optical scale.
+                Typography provides structural architecture. Headings carry their own weight and natural authority through optical scale and careful tracking, without decorative eyebrow kickers.
               </p>
               <p>
-                Numbers must never dance. In data tables, timers, countdown tickers, financial metrics, and meters, changing digits must occupy uniform glyph widths (<code className="text-xs font-mono text-foreground">font-variant-numeric: tabular-nums</code>). Zero horizontal line jittering.
+                Numbers must never jitter or dance. In metrics, timers, gauges, and tables, changing digits occupy uniform character widths, ensuring layout baselines remain rock-solid as values update in real time.
               </p>
             </div>
           </div>
@@ -145,10 +145,10 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
             </div>
             <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
               <p>
-                Software must grant calm reassurance to the human nervous system. We never ambush the user with irreversible operations or interrupt their workflow with jarring, modal confirmation traps for routine tasks.
+                Software should offer calm reassurance to the nervous system. We never ambush people with irreversible consequences or interrupt their flow with jarring confirmation modals for routine tasks.
               </p>
               <p>
-                Destructive operations are paired with non-blocking, fluid undo toasts. Dignified interfaces respect human agency, forgive honest mistakes, and preserve velocity.
+                Significant operations provide clear, non-blocking undo affordances. A dignified interface respects human agency, accommodates natural mistakes, and preserves creative momentum.
               </p>
             </div>
           </div>
@@ -160,15 +160,15 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
                 05
               </span>
               <h3 className="text-lg font-semibold text-foreground tracking-tight">
-                The Anti-Slop Conviction &amp; Machine Taste
+                The Anti-Slop Conviction &amp; Calibrated Taste
               </h3>
             </div>
             <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
               <p>
-                Generative AI models must be given strict negative constraints to prevent cliché boilerplate. We strictly ban saturated linear gradient text (<code className="text-xs font-mono text-foreground">-webkit-background-clip: text</code>), spinning symmetrical operational icons (<code className="text-xs font-mono text-foreground">+</code>, <code className="text-xs font-mono text-foreground">-</code>), and unconstrained horizontal flex lists.
+                Autonomous systems require thoughtful negative constraints to avoid predictable boilerplate. We ban synthetic neon gradient text, spinning operational icons, and cramped, overcrowded horizontal layouts.
               </p>
               <p>
-                All gradients are reserved for functional optical physics: atmospheric ambient occlusion, 1px specular rim lighting, and chromatic lensing, interpolating strictly in modern perceptual color spaces (<code className="text-xs font-mono text-foreground">linear-gradient(in oklch, ...)</code>) to eliminate muddy sRGB gray midpoints.
+                Gradients serve natural optical physics: soft atmospheric occlusion, subtle specular rim lighting, and chromatic lensing, blending smoothly through modern perceptual color spaces that eliminate muddy midtones.
               </p>
             </div>
           </div>
@@ -185,7 +185,7 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
             The Eleven Codified Invariants
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-            Strict engineering directives enforced across every component, primitive, and fixture harness in this codebase.
+            Universal design engineering directives enforced across every surface and primitive in this system.
           </p>
         </div>
 
@@ -193,69 +193,69 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
           {[
             {
               num: "01",
-              title: "Physical Yield on pointerdown",
-              formula: "active:scale-[0.98] · tactile spring",
-              body: "Interactive controls must compress the millisecond touch or mouse down occurs. Tactile acknowledgment must never wait for click (pointer release).",
+              title: "Immediate Yield on Touch Contact",
+              concept: "Instant Tactile Compression · Natural Spring Physics",
+              body: "Interactive controls yield the millisecond physical pressure begins. Sensory feedback responds to touch contact immediately rather than waiting for release.",
             },
             {
               num: "02",
-              title: "Zero Cumulative Layout Shifts",
-              formula: "CLS = 0.000 · frozen dynamic geometry",
-              body: "Never alter border-width, font-weight, margin, or padding across dynamic states. Selection is conveyed purely via contrast, background indicators, or opacity. Animate exclusively compositor properties (transform, opacity).",
+              title: "Absolute Geometric Stability",
+              concept: "Zero Layout Shift · Stable Spatial Baselines",
+              body: "Interactive feedback must never alter element dimensions, borders, or font weights. Visual changes occur strictly through contrast, luminance, and hardware-accelerated transforms.",
             },
             {
               num: "03",
-              title: "Tabular Numeral Invariant",
-              formula: "font-variant-numeric: tabular-nums",
-              body: "All metrics, countdown timers, financial figures, data table columns, and meters must specify tabular numerals to lock digit bounding boxes and eliminate horizontal jitter.",
+              title: "Temporal Numeral Stability",
+              concept: "Uniform Character Rhythm · Jitter-Free Telemetry",
+              body: "All metrics, countdown timers, financial figures, and data columns maintain locked, uniform character widths so fluctuating values update without horizontal jitter.",
             },
             {
               num: "04",
-              title: "Accessible Landmark Invariant",
-              formula: "WCAG 2.2 Level AA · 44px hit-slop expansion",
-              body: "Every icon-only control must declare an explicit aria-label. Dialogs must trap focus, maintain inert guards, and dismiss on Escape.",
+              title: "Universal Accessibility & Ergonomics",
+              concept: "Generous Hit Surfaces · Logical Keyboard Navigation",
+              body: "Every interactive control provides clear programmatic descriptions and generous hit targets. Overlays preserve logical focus boundaries and dismiss fluidly with standard gestures.",
             },
             {
               num: "05",
-              title: "Quiet Chrome & Anti-Pill Proliferation",
-              formula: "Spatial rhythm > Nested cards & decorative pills",
-              body: "Rely first on spatial baseline rhythm and typographic contrast. Strictly ban decorative eyebrow pills above headings and cosmetic chips. Badges are reserved for functional operational telemetry.",
+              title: "Quiet Chrome & Restrained Hierarchy",
+              concept: "Spatial Breathing Room · Functional Badges Only",
+              body: "Spatial rhythm and typographic contrast take precedence over nested card boxes. Headings carry their own authority without decorative kickers, and pills are reserved strictly for active operational telemetry.",
             },
             {
               num: "06",
-              title: "Concentric Corner Radii",
-              formula: "R_inner = max(0, R_outer - Padding)",
-              body: "When nesting rounded surfaces, the inner radius must mathematically deduct padding to eliminate bulging, deformed corners.",
+              title: "Concentric Optical Curvature",
+              concept: "Harmonic Geometry · Proportional Corner Radii",
+              body: "When nesting rounded surfaces, interior corner curves deduct surrounding padding so outlines remain optically parallel and concentric rather than deformed.",
             },
             {
               num: "07",
-              title: "Navigation Anti-Truncation & Bounded Allocation",
-              formula: "shrink-0 whitespace-nowrap · @container/nav",
-              body: "Navigation labels, menu items, and pills must never truncate primary text. Horizontal navigation bars must enforce bounded allocation (maxVisibleItems) with automatic 'More ▾' overflow harvesting.",
+              title: "Adaptive Layouts & Unbroken Titles",
+              concept: "Guaranteed Legibility · Turnkey Overflow Management",
+              body: "Primary titles and navigation items must never truncate or clip essential text. Dense navigation bars adapt gracefully by grouping secondary destinations into clean overflow menus.",
             },
             {
               num: "08",
               title: "Reversible Kinetic Affordances",
-              formula: "Static operational glyphs · Mechanical glides",
-              body: "Icons only animate if they possess a reversible mechanical glide that returns to origin. Strictly ban spinning operational icons (+, -) and stroke erasure gimmicks.",
+              concept: "Mechanical Integrity · Zero Gimmick Animation",
+              body: "Icons and glyphs move only to reflect reversible mechanical states that return cleanly to their resting origin. Symmetrical symbols and status icons remain calm and stable.",
             },
             {
               num: "09",
-              title: "Dimension Invariants & Basis Collapse Defense",
-              formula: "w-[...] basis in position: absolute",
-              body: "Never merge multi-axis shorthands (size-full) after single-axis variant sizes. Floating popovers in auto-width parents must declare an explicit width basis paired with a viewport cap.",
+              title: "Bounded Boundaries for Floating Surfaces",
+              concept: "Explicit Dimensional Bases · Unambiguous Overlays",
+              body: "Floating menus, dropdowns, and flyout overlays must establish definite structural boundaries to prevent content from collapsing into narrow single-word columns.",
             },
             {
               num: "10",
-              title: "Component-Unified Kinetic Affinity",
-              formula: "pointer-events-none on SVG · group-hover affinity",
-              body: "Icons inside components are intrinsic organs, not isolated targets. Hovering or pressing any part of the parent component triggers kinetic affordances synchronously.",
+              title: "Unified Component Affinity",
+              concept: "Holistic Surface Feedback · Synchronized Lifecycle",
+              body: "Embedded icons and indicators belong organically to their parent component. Engaging any portion of the interactive surface triggers cohesive, synchronized sensory feedback.",
             },
             {
               num: "11",
-              title: "Perceptual Gradient Engineering & Dual-Engine Contrast",
-              formula: "linear-gradient(in oklch, ...) · WCAG 2.2 + APCA",
-              body: "Zero saturated text clipping. All gradient ramps interpolate in OKLCH perceptual space. High-luminance hues mandate negative-polarity obsidian text.",
+              title: "Perceptual Color Harmony & Dual Contrast",
+              concept: "Perceptual Color Spaces · Guaranteed Contrast Standards",
+              body: "Color ramps blend smoothly through modern perceptual spaces to eliminate muddy gray midpoints, maintaining rigorous visual contrast across light and dark environments.",
             },
           ].map((item) => (
             <div
@@ -270,7 +270,7 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
                   {item.title}
                 </h3>
                 <div className="text-xs font-mono text-muted-foreground/80 leading-relaxed pt-0.5">
-                  {item.formula}
+                  {item.concept}
                 </div>
               </div>
               <div className="md:col-span-7 md:pt-1">
@@ -290,7 +290,7 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
             Experience the Living Design System
           </h3>
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            Every one of the 37 headless primitives and 470+ kinetic icons in this repository operates strictly under these invariants.
+            Every headless primitive, kinetic component, and visual token in this system embodies these core tenets.
           </p>
         </div>
 
