@@ -584,13 +584,28 @@ function AppContent() {
                 variant={currentPath === "/principles" ? "default" : "outline"}
                 size="sm"
                 onClick={() => navigateTo(currentPath === "/principles" ? "/" : "/principles")}
-                className="gap-1.5 h-9 px-2.5 sm:px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70"
+                className={cn(
+                  "gap-1.5 h-9 px-2.5 sm:px-3 rounded-xl transition-colors",
+                  currentPath === "/principles"
+                    ? "bg-primary text-primary-foreground hover:bg-primary/90 border-transparent shadow-sm"
+                    : "border-border/60 bg-muted/40 hover:bg-muted/70 text-foreground"
+                )}
               >
-                <CompassIcon size={14} className={currentPath === "/principles" ? "text-primary-foreground" : "text-primary"} />
+                <CompassIcon
+                  size={14}
+                  className={currentPath === "/principles" ? "text-primary-foreground" : "text-primary"}
+                />
                 <span className="hidden sm:inline text-xs font-medium">
                   {currentPath === "/principles" ? "Workbench" : "Principles"}
                 </span>
-                <kbd className="hidden xl:inline-flex items-center text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
+                <kbd
+                  className={cn(
+                    "hidden xl:inline-flex items-center text-[10px] font-mono px-1.5 py-0.5 rounded",
+                    currentPath === "/principles"
+                      ? "bg-primary-foreground/20 text-primary-foreground border border-primary-foreground/30"
+                      : "bg-muted/80 border border-border/40 text-muted-foreground"
+                  )}
+                >
                   ⌘P
                 </kbd>
               </Button>
