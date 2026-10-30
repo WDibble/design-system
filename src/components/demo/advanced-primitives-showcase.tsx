@@ -804,8 +804,8 @@ export function AdvancedPrimitivesShowcase() {
                 </TimelineContent>
               </TimelineItem>
 
-              {/* 2. Telemetry Heartbeat LED Node */}
-              <TimelineItem connectorVariant="solid">
+              {/* 2. Telemetry Heartbeat LED Node + Fixed Verified Solid Connector */}
+              <TimelineItem connectorVariant="solid" connectorStatus="success">
                 <TimelineNode.Heartbeat status="success" interactive aria-label="WebSocket connection healthy" />
                 <TimelineContent>
                   <TimelineHeader>
@@ -823,8 +823,8 @@ export function AdvancedPrimitivesShowcase() {
                 </TimelineContent>
               </TimelineItem>
 
-              {/* 3. Collaborative Actor Avatar Node with Attribution Footer */}
-              <TimelineItem connectorVariant="solid">
+              {/* 3. Collaborative Actor Avatar Node + Fixed Architectural Dashed Connector */}
+              <TimelineItem connectorVariant="dashed">
                 <TimelineNode.Avatar fallback="WD" badgeStatus="success" badgeIcon="✓" interactive aria-label="Author: William Dibble" />
                 <TimelineContent>
                   <TimelineHeader>

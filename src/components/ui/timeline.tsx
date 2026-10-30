@@ -17,16 +17,72 @@ import { cn } from "@/lib/utils";
  * -----------------------------------------------------------------------------------------------*/
 
 export type TimelineSize = "sm" | "default" | "lg";
+export type TimelineConnectorVariant =
+  | "solid"
+  | "dashed"
+  | "dotted"
+  | "flow"
+  | "pulse"
+  | "none";
+export type TimelineConnectorStatus =
+  | "default"
+  | "primary"
+  | "success"
+  | "warning"
+  | "destructive";
 
 interface TimelineContextValue {
   size: TimelineSize;
+  connectorVariant: TimelineConnectorVariant;
+  connectorStatus: TimelineConnectorStatus;
 }
 
 const TimelineContext = React.createContext<TimelineContextValue>({
   size: "default",
+  connectorVariant: "solid",
+  connectorStatus: "default",
 });
 
 export const useTimeline = () => React.useContext(TimelineContext);
+
+const getConnectorTrackClass = (
+  variant: TimelineConnectorVariant,
+  status: TimelineConnectorStatus = "default"
+) => {
+  if (variant === "none") return "";
+
+  if (variant === "dashed") {
+    return cn(
+      "w-0 border-l border-dashed bg-transparent",
+      status === "default" && "border-border/80",
+      status === "primary" && "border-primary/60",
+      status === "success" && "border-emerald-500/60",
+      status === "warning" && "border-amber-500/60",
+      status === "destructive" && "border-destructive/60"
+    );
+  }
+
+  if (variant === "dotted") {
+    return cn(
+      "w-0 border-l border-dotted bg-transparent",
+      status === "default" && "border-border/80",
+      status === "primary" && "border-primary/60",
+      status === "success" && "border-emerald-500/60",
+      status === "warning" && "border-amber-500/60",
+      status === "destructive" && "border-destructive/60"
+    );
+  }
+
+  // solid, flow, pulse
+  return cn(
+    "w-px",
+    status === "default" && "bg-border/80",
+    status === "primary" && "bg-primary/60",
+    status === "success" && "bg-emerald-500/60",
+    status === "warning" && "bg-amber-500/60",
+    status === "destructive" && "bg-destructive/60"
+  );
+};
 
 /* -------------------------------------------------------------------------------------------------
  * Timeline (Root)
@@ -34,12 +90,26 @@ export const useTimeline = () => React.useContext(TimelineContext);
 
 export interface TimelineProps extends React.HTMLAttributes<HTMLOListElement> {
   size?: TimelineSize;
+  connectorVariant?: TimelineConnectorVariant;
+  connectorStatus?: TimelineConnectorStatus;
 }
 
 export const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(
-  ({ className, size = "default", children, ...props }, ref) => {
+  (
+    {
+      className,
+      size = "default",
+      connectorVariant = "solid",
+      connectorStatus = "default",
+      children,
+      ...props
+    },
+    ref
+  ) => {
     return (
-      <TimelineContext.Provider value={{ size }}>
+      <TimelineContext.Provider
+        value={{ size, connectorVariant, connectorStatus }}
+      >
         <ol
           ref={ref}
           role="list"
@@ -63,7 +133,8 @@ Timeline.displayName = "Timeline";
 
 export interface TimelineItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
   isLast?: boolean;
-  connectorVariant?: "solid" | "dashed" | "flow" | "none";
+  connectorVariant?: TimelineConnectorVariant;
+  connectorStatus?: TimelineConnectorStatus;
   activeFlow?: boolean;
 }
 
@@ -72,14 +143,19 @@ export const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
     {
       className,
       isLast = false,
-      connectorVariant = "solid",
+      connectorVariant,
+      connectorStatus,
       activeFlow = false,
       children,
       ...props
     },
     ref
   ) => {
-    const { size } = useTimeline();
+    const {
+      size,
+      connectorVariant: defaultVariant,
+      connectorStatus: defaultStatus,
+    } = useTimeline();
 
     // Mathematically exact track center coordinates
     const connectorLeftClass =
@@ -104,7 +180,11 @@ export const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
         ? "gap-5 pb-10"
         : "gap-4 pb-8";
 
-    const resolvedVariant = activeFlow ? "flow" : connectorVariant;
+    const resolvedVariant = activeFlow
+      ? "flow"
+      : (connectorVariant ?? defaultVariant);
+
+    const resolvedStatus = connectorStatus ?? defaultStatus;
 
     return (
       <li
@@ -124,16 +204,36 @@ export const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
               "absolute bottom-0 pointer-events-none group-last:hidden z-0",
               connectorTopClass,
               connectorLeftClass,
-              resolvedVariant === "dashed"
-                ? "w-0 border-l border-dashed border-border/80 bg-transparent"
-                : "w-px bg-border/80",
-              resolvedVariant === "flow" && "overflow-hidden"
+              getConnectorTrackClass(resolvedVariant, resolvedStatus),
+              (resolvedVariant === "flow" || resolvedVariant === "pulse") &&
+                "overflow-hidden"
             )}
           >
+            {/* Animated Flow Stream Packet */}
             {resolvedVariant === "flow" && (
               <span
                 aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-transparent via-primary to-transparent animate-[flow-packet_2.2s_cubic-bezier(0.4,0,0.6,1)_infinite] will-change-transform transform-gpu pointer-events-none"
+                className={cn(
+                  "absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-transparent via-primary to-transparent animate-[flow-packet_2.2s_cubic-bezier(0.4,0,0.6,1)_infinite] will-change-transform transform-gpu pointer-events-none",
+                  resolvedStatus === "success" && "via-emerald-500",
+                  resolvedStatus === "warning" && "via-amber-500",
+                  resolvedStatus === "destructive" && "via-destructive"
+                )}
+              />
+            )}
+
+            {/* Animated Kinetic Breathing Pulse Line */}
+            {resolvedVariant === "pulse" && (
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "absolute inset-0 w-full animate-[line-pulse_2.4s_ease-in-out_infinite] will-change-transform transform-gpu pointer-events-none",
+                  resolvedStatus === "default" && "bg-primary/50",
+                  resolvedStatus === "primary" && "bg-primary",
+                  resolvedStatus === "success" && "bg-emerald-500",
+                  resolvedStatus === "warning" && "bg-amber-500",
+                  resolvedStatus === "destructive" && "bg-destructive"
+                )}
               />
             )}
           </span>
@@ -151,14 +251,23 @@ TimelineItem.displayName = "TimelineItem";
 
 export interface TimelineConnectorProps
   extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "solid" | "dashed" | "flow";
+  variant?: TimelineConnectorVariant;
+  status?: TimelineConnectorStatus;
 }
 
 export const TimelineConnector = React.forwardRef<
   HTMLSpanElement,
   TimelineConnectorProps
->(({ className, variant = "solid", ...props }, ref) => {
-  const { size } = useTimeline();
+>(({ className, variant, status, ...props }, ref) => {
+  const {
+    size,
+    connectorVariant: defaultVariant,
+    connectorStatus: defaultStatus,
+  } = useTimeline();
+
+  const resolvedVariant = variant ?? defaultVariant;
+  const resolvedStatus = status ?? defaultStatus;
+
   const connectorLeftClass =
     size === "sm"
       ? "left-[10px] -translate-x-1/2"
@@ -173,6 +282,8 @@ export const TimelineConnector = React.forwardRef<
       ? "top-9"
       : "top-7";
 
+  if (resolvedVariant === "none") return null;
+
   return (
     <span
       ref={ref}
@@ -181,18 +292,36 @@ export const TimelineConnector = React.forwardRef<
         "absolute bottom-0 pointer-events-none group-last:hidden z-0",
         connectorTopClass,
         connectorLeftClass,
-        variant === "dashed"
-          ? "w-0 border-l border-dashed border-border/80 bg-transparent"
-          : "w-px bg-border/80",
-        variant === "flow" && "overflow-hidden",
+        getConnectorTrackClass(resolvedVariant, resolvedStatus),
+        (resolvedVariant === "flow" || resolvedVariant === "pulse") &&
+          "overflow-hidden",
         className
       )}
       {...props}
     >
-      {variant === "flow" && (
+      {resolvedVariant === "flow" && (
         <span
           aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-transparent via-primary to-transparent animate-[flow-packet_2.2s_cubic-bezier(0.4,0,0.6,1)_infinite] will-change-transform transform-gpu pointer-events-none"
+          className={cn(
+            "absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-transparent via-primary to-transparent animate-[flow-packet_2.2s_cubic-bezier(0.4,0,0.6,1)_infinite] will-change-transform transform-gpu pointer-events-none",
+            resolvedStatus === "success" && "via-emerald-500",
+            resolvedStatus === "warning" && "via-amber-500",
+            resolvedStatus === "destructive" && "via-destructive"
+          )}
+        />
+      )}
+
+      {resolvedVariant === "pulse" && (
+        <span
+          aria-hidden="true"
+          className={cn(
+            "absolute inset-0 w-full animate-[line-pulse_2.4s_ease-in-out_infinite] will-change-transform transform-gpu pointer-events-none",
+            resolvedStatus === "default" && "bg-primary/50",
+            resolvedStatus === "primary" && "bg-primary",
+            resolvedStatus === "success" && "bg-emerald-500",
+            resolvedStatus === "warning" && "bg-amber-500",
+            resolvedStatus === "destructive" && "bg-destructive"
+          )}
         />
       )}
     </span>

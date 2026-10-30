@@ -336,6 +336,16 @@
   }
 }
 
+/* Breathing line pulse along timeline connectors (compositor only) */
+@keyframes line-pulse {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 /* Telemetry heartbeat LED dual-beat pulse (compositor only, zero filter repaints) */
 @keyframes heartbeat-led {
   0%, 65%, 100% {
