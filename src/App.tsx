@@ -373,25 +373,6 @@ function AppContent() {
   const demoNavItems: NavItemConfig[] = React.useMemo(
     () => [
       {
-        label: "Principles",
-        href: "/principles",
-        badge: "Manifesto",
-        isActive: currentPath === "/principles",
-        onClick: (e) => {
-          e.preventDefault();
-          navigateTo("/principles");
-        },
-      },
-      {
-        label: "Workbench",
-        href: "/",
-        isActive: currentPath === "/",
-        onClick: (e) => {
-          e.preventDefault();
-          navigateTo("/");
-        },
-      },
-      {
         label: "Platform",
         type: "mega",
         badge: "v2.0",
@@ -597,6 +578,22 @@ function AppContent() {
           items={demoNavItems}
           actions={
             <>
+              {/* Principles Manifesto Page Trigger */}
+              <Button
+                variant={currentPath === "/principles" ? "default" : "outline"}
+                size="sm"
+                onClick={() => navigateTo(currentPath === "/principles" ? "/" : "/principles")}
+                className="gap-1.5 h-9 px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70"
+              >
+                <CompassIcon size={14} className={currentPath === "/principles" ? "text-primary-foreground" : "text-primary"} />
+                <span className="text-xs font-medium">
+                  {currentPath === "/principles" ? "Workbench" : "Principles"}
+                </span>
+                <kbd className="hidden lg:inline-flex items-center text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
+                  ⌘P
+                </kbd>
+              </Button>
+
               {/* Theme Studio Drawer Trigger */}
               <Button
                 variant="outline"

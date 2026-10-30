@@ -686,7 +686,7 @@ export function NavMegaMenu({ featured, links, className }: NavMegaMenuProps) {
   const { closeMenu } = useNavigation();
 
   return (
-    <div className={cn("w-full max-w-2xl lg:max-w-3xl grid grid-cols-12 gap-5", className)}>
+    <div className={cn("w-[660px] sm:w-[720px] max-w-[calc(100vw-2.5rem)] grid grid-cols-12 gap-5", className)}>
       {/* Featured Promo Card (Directive #6 Concentric Radii) */}
       {featured && (
         <div className="col-span-5 flex flex-col justify-between p-4 rounded-xl bg-gradient-to-b from-muted/60 via-muted/30 to-muted/10 border border-border/80 shadow-xs">
@@ -745,14 +745,14 @@ export function NavColumnsMenu({ columns, className }: NavColumnsMenuProps) {
   return (
     <div
       className={cn(
-        "grid gap-6",
-        columns.length === 2 && "w-full max-w-xl grid-cols-2",
-        columns.length >= 3 && "w-full max-w-3xl grid-cols-3",
+        "grid gap-6 max-w-[calc(100vw-2.5rem)]",
+        columns.length === 2 && "w-[540px] sm:w-[600px] grid-cols-2",
+        columns.length >= 3 && "w-[720px] sm:w-[780px] grid-cols-3",
         className
       )}
     >
       {columns.map((col, cIdx) => (
-        <div key={cIdx} className="space-y-2 min-w-56">
+        <div key={cIdx} className="space-y-2">
           <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground px-2.5 font-medium">
             {col.category}
           </div>
