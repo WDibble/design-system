@@ -35,7 +35,7 @@ export const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(
           ref={ref}
           role="list"
           className={cn(
-            "@container/timeline relative flex flex-col pl-1 sm:pl-2 select-none",
+            "@container/timeline relative flex flex-col pl-2 sm:pl-3 select-none",
             className
           )}
           {...props}
@@ -88,10 +88,10 @@ export const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
 
     const itemGapClass =
       size === "sm"
-        ? "gap-2.5 pb-6"
+        ? "gap-3 pb-6"
         : size === "lg"
-        ? "gap-4 pb-10"
-        : "gap-3.5 pb-8";
+        ? "gap-5 pb-10"
+        : "gap-4 pb-8";
 
     return (
       <li
@@ -242,10 +242,18 @@ export const TimelineIndicator = React.forwardRef<
           className="absolute inset-0 rounded-full bg-background -z-10 pointer-events-none"
         />
         {pulse && (
-          <span
-            aria-hidden="true"
-            className="absolute -inset-1 rounded-full animate-ping opacity-35 bg-current pointer-events-none"
-          />
+          <>
+            {/* Compact restrained radar pulse wave capped to ~3.5px expansion */}
+            <span
+              aria-hidden="true"
+              className="absolute -inset-0.5 rounded-full animate-[ping-compact_2.2s_cubic-bezier(0,0,0.2,1)_infinite] bg-current pointer-events-none"
+            />
+            {/* Steady ambient glow ring */}
+            <span
+              aria-hidden="true"
+              className="absolute -inset-0.5 rounded-full opacity-20 bg-current pointer-events-none"
+            />
+          </>
         )}
         {children || <span className={cn("rounded-full bg-current", defaultDotClass)} />}
       </span>
