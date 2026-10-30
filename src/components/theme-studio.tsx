@@ -27,10 +27,10 @@ import {
   type PresetTheme,
 } from "@/lib/theme-presets";
 import {
-  applyTweakcnTheme,
+  applyThemeTokens,
   applyLiveSliderTheme,
-  tweakcnExportSchema,
-  type TweakcnTheme,
+  themeExportSchema,
+  type ThemeTokenPayload,
 } from "@/lib/theme";
 import { evaluateDualContrast, getPassingLightnessBounds } from "@/lib/contrast";
 import { cn } from "@/lib/utils";
@@ -50,14 +50,14 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
   const [lightness, setLightness] = React.useState(presetThemes[0].lightness);
   const [radiusPx, setRadiusPx] = React.useState(presetThemes[0].radiusPx);
   const [buttonPolarity, setButtonPolarity] = React.useState<"white" | "dark">("white");
-  const [activeTab, setActiveTab] = React.useState<"presets" | "custom" | "tweakcn">("presets");
+  const [activeTab, setActiveTab] = React.useState<"presets" | "custom" | "tokens">("presets");
 
   // Dynamic Lightness Bounds guaranteeing 100% Dual-Engine Pass
   const lightnessBounds = React.useMemo(() => {
     return getPassingLightnessBounds(hue, chroma, buttonPolarity);
   }, [hue, chroma, buttonPolarity]);
 
-  // tweakcn JSON Import/Export State
+  // Theme JSON Import/Export State
   const [importJson, setImportJson] = React.useState("");
   const [importError, setImportError] = React.useState<string | null>(null);
   const [importSuccess, setImportSuccess] = React.useState(false);
@@ -69,7 +69,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
     const fgColor = buttonPolarity === "white" ? "oklch(0.985 0 0)" : `oklch(0.12 0.02 ${hue})`;
 
     // Clone and update active theme styles with custom adjustments
-    const currentTheme: TweakcnTheme = {
+    const currentTheme: ThemeTokenPayload = {
       name: activePreset.name,
       styles: {
         light: {
@@ -137,7 +137,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
     const isDarkText = preset.id === "tokyo-amber" || preset.lightness > 0.65;
     setButtonPolarity(isDarkText ? "dark" : "white");
 
-    applyTweakcnTheme(preset);
+    applyThemeTokens(preset);
   };
 
   // High-performance live CSS Variable update when sliders change (zero layout reflow)
@@ -152,7 +152,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
     const rem = `${(r / 16).toFixed(3)}rem`;
     const fgColor = pol === "white" ? "oklch(0.985 0 0)" : `oklch(0.12 0.02 ${h})`;
 
-    const updatedTheme: TweakcnTheme = {
+    const updatedTheme: ThemeTokenPayload = {
       name: `Custom (${activePreset.name})`,
       styles: {
         light: {
@@ -196,28 +196,28 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
     setRadiusPx(defaultPreset.radiusPx);
     setButtonPolarity("white");
 
-    applyTweakcnTheme(defaultPreset);
+    applyThemeTokens(defaultPreset);
   };
 
-  // Handle tweakcn JSON Import
+  // Handle Theme JSON Import
   const handleImport = () => {
     setImportError(null);
     setImportSuccess(false);
 
     try {
       const parsed = JSON.parse(importJson);
-      const validated = tweakcnExportSchema.safeParse(parsed);
+      const validated = themeExportSchema.safeParse(parsed);
 
       if (!validated.success) {
         setImportError(validated.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join(", "));
         return;
       }
 
-      applyTweakcnTheme(validated.data);
+      applyThemeTokens(validated.data);
       setImportSuccess(true);
       setTimeout(() => setImportSuccess(false), 2500);
     } catch {
-      setImportError("Invalid JSON syntax. Please verify tweakcn export format.");
+      setImportError("Invalid JSON syntax. Please verify theme token JSON format.");
     }
   };
 
@@ -229,7 +229,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
           size="default"
           variant="glass"
           onClick={() => setOpen(true)}
-          aria-label="Open Theme Studio & tweakcn Customizer (⌘T)"
+          aria-label="Open Theme Studio (⌘T)"
           className="rounded-full shadow-2xl gap-2 pl-3.5 pr-4 border border-border/80 glass-thick specular-rim"
         >
           <PaletteIcon size={16} className="text-primary" />
@@ -265,20 +265,20 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
               </Button>
             </div>
             <SheetDescription className="text-xs text-muted-foreground leading-relaxed">
-              Perceptual OKLCH palette calibration, concentric radius math, and two-way tweakcn JSON interoperability.
+              Perceptual OKLCH palette calibration, concentric radius math, and two-way semantic JSON interoperability.
             </SheetDescription>
 
             {/* Navigation Tabs */}
             <div className="pt-2">
               <SegmentedControl
                 value={activeTab}
-                onValueChange={(v) => setActiveTab(v as "presets" | "custom" | "tweakcn")}
+                onValueChange={(v) => setActiveTab(v as "presets" | "custom" | "tokens")}
                 size="sm"
                 className="w-full"
               >
                 <SegmentedControlItem value="presets">Presets</SegmentedControlItem>
                 <SegmentedControlItem value="custom">Tune OKLCH</SegmentedControlItem>
-                <SegmentedControlItem value="tweakcn">tweakcn JSON</SegmentedControlItem>
+                <SegmentedControlItem value="tokens">Theme JSON</SegmentedControlItem>
               </SegmentedControl>
             </div>
           </SheetHeader>
@@ -559,16 +559,16 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
               </div>
             )}
 
-            {/* Tab 3: Two-Way tweakcn JSON Interoperability */}
-            {activeTab === "tweakcn" && (
+            {/* Tab 3: Two-Way Semantic JSON Interoperability */}
+            {activeTab === "tokens" && (
               <div className="space-y-5">
                 {/* Export Section */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-xs font-semibold text-foreground">Export tweakcn JSON</p>
+                      <p className="text-xs font-semibold text-foreground">Export Theme JSON</p>
                       <p className="text-[11px] text-muted-foreground">
-                        Ready to paste into tweakcn.com or import back here.
+                        Ready to export or backup as semantic design tokens.
                       </p>
                     </div>
                     <CopyButton value={activeThemeJson} size="sm" />
@@ -577,7 +577,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                     readOnly
                     rows={8}
                     value={activeThemeJson}
-                    aria-label="Exported tweakcn theme JSON"
+                    aria-label="Exported theme JSON"
                     className="font-mono text-[11px] leading-relaxed bg-muted/40 select-all"
                   />
                 </div>
@@ -585,9 +585,9 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                 {/* Import Section */}
                 <div className="pt-3 border-t border-border/40 space-y-2.5">
                   <div>
-                    <p className="text-xs font-semibold text-foreground">Import from tweakcn.com</p>
+                    <p className="text-xs font-semibold text-foreground">Import Theme JSON</p>
                     <p className="text-[11px] text-muted-foreground">
-                      Paste a exported tweakcn JSON theme to apply it instantly.
+                      Paste an exported theme JSON token payload to apply it instantly.
                     </p>
                   </div>
                   <Textarea
@@ -595,7 +595,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
                     placeholder='Paste {"name": "My Theme", "styles": { "light": {...}, "dark": {...} }}'
                     value={importJson}
                     onChange={(e) => setImportJson(e.target.value)}
-                    aria-label="Import tweakcn theme JSON payload"
+                    aria-label="Import theme JSON payload"
                     className="font-mono text-[11px] leading-relaxed"
                   />
 

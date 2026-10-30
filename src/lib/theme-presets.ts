@@ -1,6 +1,6 @@
-import type { TweakcnTheme } from "./theme";
+import type { ThemeTokenPayload } from "./theme";
 
-export interface PresetTheme extends TweakcnTheme {
+export interface PresetTheme extends ThemeTokenPayload {
   id: string;
   description: string;
   hue: number;

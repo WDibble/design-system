@@ -5,7 +5,7 @@ description: Architecture, compound slot composition, and accessibility standard
 
 # Base UI Primitives: Accessible Headless Architecture
 
-This repository adopts **Base UI (`@base-ui/react`)** as the headless unstyled foundation for all interactive components, replacing Radix UI. Base UI provides cleaner DOM output, zero redundant wrappers, and native alignment with modern CSS transitions (`@starting-style`) while delivering 100% WCAG 2.2-compliant accessible state machines.
+This repository adopts **Base UI (`@base-ui/react`)** as the headless unstyled foundation for all interactive components. Base UI provides cleaner DOM output, zero redundant wrappers, and native alignment with modern CSS transitions (`@starting-style`) while delivering 100% WCAG 2.2-compliant accessible state machines.
 
 ---
 

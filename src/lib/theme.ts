@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * Zod validation schema for semantic theme tokens interoperable with tweakcn.com
+ * Zod validation schema for semantic design theme tokens
  */
 export const themeStylePropsSchema = z.object({
   background: z.string(),
@@ -48,7 +48,7 @@ export const themeStylePropsSchema = z.object({
   "font-mono": z.string().optional(),
 });
 
-export const tweakcnExportSchema = z.object({
+export const themeExportSchema = z.object({
   name: z.string().default("Custom Theme"),
   styles: z.object({
     light: themeStylePropsSchema,
@@ -56,7 +56,7 @@ export const tweakcnExportSchema = z.object({
   }),
 });
 
-export type TweakcnTheme = z.infer<typeof tweakcnExportSchema>;
+export type ThemeTokenPayload = z.infer<typeof themeExportSchema>;
 export type ThemeStyleProps = z.infer<typeof themeStylePropsSchema>;
 
 /**
@@ -142,11 +142,11 @@ export function clearInlineThemeStyles(): void {
 }
 
 /**
- * Dynamically applies a tweakcn theme to the active document.
+ * Dynamically applies semantic design tokens to the active document.
  * Compiles both light (:root) and dark (.dark) token sets into a dedicated
  * stylesheet in document.head without setting inline styles on document.documentElement.
  */
-export function applyTweakcnTheme(theme: TweakcnTheme | null): void {
+export function applyThemeTokens(theme: ThemeTokenPayload | null): void {
   if (typeof document === "undefined") return;
 
   const restore = disableTransitionsTemporarily();
@@ -155,9 +155,7 @@ export function applyTweakcnTheme(theme: TweakcnTheme | null): void {
     // 1. Purge any residual inline styles on <html> so they never override .dark or :root in CSS
     clearInlineThemeStyles();
 
-    let styleSheet = document.getElementById("tweakcn-custom-theme") as HTMLStyleElement | null;
-    const legacyDark = document.getElementById("tweakcn-dark-theme");
-    if (legacyDark) legacyDark.remove();
+    let styleSheet = document.getElementById("theme-custom-style") as HTMLStyleElement | null;
 
     if (!theme) {
       // Reset to native index.css defaults
@@ -167,7 +165,7 @@ export function applyTweakcnTheme(theme: TweakcnTheme | null): void {
 
     if (!styleSheet) {
       styleSheet = document.createElement("style");
-      styleSheet.id = "tweakcn-custom-theme";
+      styleSheet.id = "theme-custom-style";
       document.head.appendChild(styleSheet);
     }
 
@@ -223,9 +221,9 @@ ${darkMaterials}
  * synchronous reflows or injecting/removing stylesheets.
  */
 let liveThemeRafId: number | null = null;
-let pendingTheme: TweakcnTheme | null = null;
+let pendingTheme: ThemeTokenPayload | null = null;
 
-export function applyLiveSliderTheme(theme: TweakcnTheme): void {
+export function applyLiveSliderTheme(theme: ThemeTokenPayload): void {
   if (typeof document === "undefined") return;
 
   pendingTheme = theme;
@@ -235,10 +233,10 @@ export function applyLiveSliderTheme(theme: TweakcnTheme): void {
     liveThemeRafId = null;
     if (!pendingTheme) return;
 
-    let styleSheet = document.getElementById("tweakcn-custom-theme") as HTMLStyleElement | null;
+    let styleSheet = document.getElementById("theme-custom-style") as HTMLStyleElement | null;
     if (!styleSheet) {
       styleSheet = document.createElement("style");
-      styleSheet.id = "tweakcn-custom-theme";
+      styleSheet.id = "theme-custom-style";
       document.head.appendChild(styleSheet);
     }
 

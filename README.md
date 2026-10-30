@@ -2,7 +2,7 @@
 
 > A human-centric, agent-native design system built with **React 19**, **Base UI (`@base-ui/react`)**, **Tailwind CSS v4**, and **Motion (`motion/react`)**.
 > 
-> Crafted at the intersection of visual precision, tactile physics, and zero-shift layout stability. 100% accessible (WCAG 2.2 AA / AAA), copy-paste friendly (in the spirit of shadcn/ui), with zero heavy npm package lock-in.
+> Crafted at the intersection of visual precision, tactile physics, and zero-shift layout stability. 100% accessible (WCAG 2.2 AA / AAA), copy-paste friendly, with zero heavy npm package lock-in.
 
 ---
 
@@ -109,7 +109,7 @@ export const springs = {
 
 Copy the theme tokens from [`src/index.css`](src/index.css) into your project's main stylesheet. 
 
-These use modern perceptual **OKLCH color spaces** and are 100% compatible with [tweakcn.com](https://tweakcn.com):
+These use modern perceptual **OKLCH colour spaces** and compile seamlessly with standard design token architectures:
 
 ```css
 @import "tailwindcss";

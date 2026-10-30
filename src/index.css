@@ -175,7 +175,7 @@
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
 
-  /* Relative Radius Token Scale (aligned with tweakcn / shadcn Tailwind v4) */
+  /* Relative Radius Token Scale */
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-xl: calc(var(--radius) + 4px);

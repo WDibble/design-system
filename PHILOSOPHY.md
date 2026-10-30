@@ -123,7 +123,7 @@ This philosophy is not an academic essay to be archived and forgotten. It is the
 1. Every rule codified in `skills/`.
 2. Every spring parameter calibrated in `tokens/motion.ts`.
 3. Every headless primitive wrapped in Base UI.
-4. Every theme exported to and from `tweakcn`.
+4. Every theme exported to and from semantic token JSON.
 
 When someone opens an app built with this design system, they should not think *"this was built with an AI design kit."*
 

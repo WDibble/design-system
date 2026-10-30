@@ -1,11 +1,11 @@
 ---
-name: tweakcn-theming
-description: Semantic design token architecture and theme specification interoperable with tweakcn (jnsahaj/tweakcn) and Tailwind CSS v4. Governs OKLCH color spaces, CSS custom properties, @theme inline compilation, Zod validation schema, and two-way import/export. Use when creating, modifying, styling, or auditing themes, colors, radiuses, or visual tokens.
+name: semantic-theming
+description: Semantic design token architecture and theme specification interoperable with standard design tokens and Tailwind CSS v4. Governs OKLCH colour spaces, CSS custom properties, @theme inline compilation, Zod validation schema, and two-way import/export. Use when creating, modifying, styling, or auditing themes, colours, radiuses, or visual tokens.
 ---
 
-# tweakcn Theming: Semantic Token Architecture & Tailwind v4
+# Semantic Theming: Token Architecture & Tailwind v4
 
-This skill codifies the semantic design token architecture for the design system. It maintains **100% two-way compatibility with [tweakcn](https://github.com/jnsahaj/tweakcn)** and compiles directly into **Tailwind CSS v4** using the modern `@theme inline` directive.
+This skill codifies the semantic design token architecture for the design system. It maintains **100% two-way compatibility with standard JSON design tokens** and compiles directly into **Tailwind CSS v4** using the modern `@theme inline` directive.
 
 ---
 
@@ -200,7 +200,7 @@ This is what allows hot-swapping themes in real time without rebuilding CSS:
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
 
-  /* Relative Radius Token Scale (aligned with tweakcn / shadcn Tailwind v4) */
+  /* Relative Radius Token Scale */
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-xl: calc(var(--radius) + 4px);
@@ -237,7 +237,7 @@ When authoring dynamic tints, surface overlays, or translucent borders in CSS:
 
 ## 📦 Zod Validation Schema for Runtime Theme Imports
 
-Use this schema in the theme customizer to validate JSON imported from `tweakcn.com`:
+Use this schema in the theme customizer to validate imported JSON tokens:
 
 ```typescript
 import { z } from "zod";
@@ -281,7 +281,7 @@ export const themeStylePropsSchema = z.object({
   "font-mono": z.string().optional(),
 });
 
-export const tweakcnExportSchema = z.object({
+export const themeExportSchema = z.object({
   name: z.string().default("Custom Theme"),
   styles: z.object({
     light: themeStylePropsSchema,
@@ -289,7 +289,7 @@ export const tweakcnExportSchema = z.object({
   }),
 });
 
-export type TweakcnTheme = z.infer<typeof tweakcnExportSchema>;
+export type ThemeTokenPayload = z.infer<typeof themeExportSchema>;
 ```
 
 ---
@@ -297,7 +297,7 @@ export type TweakcnTheme = z.infer<typeof tweakcnExportSchema>;
 ## 🔄 Dynamic Theme Applier Utility
 
 ```typescript
-export function applyTweakcnTheme(theme: TweakcnTheme) {
+export function applyThemeTokens(theme: ThemeTokenPayload) {
   const root = document.documentElement;
 
   // Apply light properties to :root
@@ -306,10 +306,10 @@ export function applyTweakcnTheme(theme: TweakcnTheme) {
   });
 
   // Dynamically update dark mode CSS rule in head
-  let darkStyleSheet = document.getElementById("tweakcn-dark-theme") as HTMLStyleElement;
+  let darkStyleSheet = document.getElementById("theme-custom-style") as HTMLStyleElement;
   if (!darkStyleSheet) {
     darkStyleSheet = document.createElement("style");
-    darkStyleSheet.id = "tweakcn-dark-theme";
+    darkStyleSheet.id = "theme-custom-style";
     document.head.appendChild(darkStyleSheet);
   }
 

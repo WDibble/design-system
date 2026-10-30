@@ -861,7 +861,7 @@ function AppContent() {
               Button Variants & Kinetic Icon Intent
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Directional action icons powered by pqoqubbw animated icons with hover or press physics.
+              Directional action icons with reversible kinetic affordance and hover or press physics.
             </p>
           </div>
 
@@ -2112,14 +2112,14 @@ function AppContent() {
                   </div>
                 </div>
 
-                {/* uiGradients Curated Harmony Selector */}
+                {/* Curated Harmonic Mesh Selector */}
                 <div className="flex flex-col gap-2 pt-1">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-medium text-muted-foreground">
-                      Curated uiGradients OKLCH Mesh:
+                      Curated Ambient OKLCH Mesh:
                     </span>
                     <span className="text-[10px] font-mono text-muted-foreground">
-                      {ambientGradients[selectedGradient].heritage}
+                      {ambientGradients[selectedGradient].palette}
                     </span>
                   </div>
                   <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
@@ -3159,7 +3159,7 @@ function AppContent() {
           <p className="font-mono">React 19 · Base UI · Motion · Tailwind CSS v4</p>
         </footer>
 
-        {/* Live Theme Studio & tweakcn Customizer Drawer */}
+        {/* Live Theme Studio Drawer */}
         <ThemeStudio isDark={isDark} onToggleDark={(nextDark) => toggleTheme(nextDark)} />
       </div>
     </div>
