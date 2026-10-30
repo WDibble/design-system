@@ -576,6 +576,7 @@ function AppContent() {
             </button>
           }
           items={demoNavItems}
+          maxVisibleItems={4}
           actions={
             <>
               {/* Principles Manifesto Page Trigger */}
@@ -583,13 +584,13 @@ function AppContent() {
                 variant={currentPath === "/principles" ? "default" : "outline"}
                 size="sm"
                 onClick={() => navigateTo(currentPath === "/principles" ? "/" : "/principles")}
-                className="gap-1.5 h-9 px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70"
+                className="gap-1.5 h-9 px-2.5 sm:px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70"
               >
                 <CompassIcon size={14} className={currentPath === "/principles" ? "text-primary-foreground" : "text-primary"} />
-                <span className="text-xs font-medium">
+                <span className="hidden sm:inline text-xs font-medium">
                   {currentPath === "/principles" ? "Workbench" : "Principles"}
                 </span>
-                <kbd className="hidden lg:inline-flex items-center text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
+                <kbd className="hidden xl:inline-flex items-center text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
                   ⌘P
                 </kbd>
               </Button>
@@ -600,11 +601,11 @@ function AppContent() {
                 size="sm"
                 onClick={() => window.dispatchEvent(new CustomEvent("open-theme-studio"))}
                 aria-label="Open Theme Studio (⌘T)"
-                className="gap-1.5 h-9 px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70 hidden md:inline-flex"
+                className="gap-1.5 h-9 px-2.5 sm:px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70 hidden md:inline-flex"
               >
                 <PaletteIcon size={14} className="text-primary" />
-                <span className="hidden lg:inline text-xs font-medium">Themes</span>
-                <kbd className="hidden lg:inline-flex items-center text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
+                <span className="hidden xl:inline text-xs font-medium">Themes</span>
+                <kbd className="hidden xl:inline-flex items-center text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
                   ⌘T
                 </kbd>
               </Button>
@@ -614,11 +615,11 @@ function AppContent() {
                 variant="outline"
                 size="sm"
                 onClick={() => setCommandOpen(true)}
-                className="gap-2 h-9 px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70"
+                className="gap-2 h-9 px-2.5 sm:px-3 rounded-xl border-border/60 bg-muted/40 hover:bg-muted/70"
               >
                 <SearchIcon size={14} className="opacity-70" />
-                <span className="hidden sm:inline text-xs text-muted-foreground font-normal">Command</span>
-                <kbd className="hidden sm:inline-flex items-center gap-0.5 text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
+                <span className="hidden md:inline text-xs text-muted-foreground font-normal">Command</span>
+                <kbd className="hidden xl:inline-flex items-center gap-0.5 text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted/80 border border-border/40 text-muted-foreground">
                   ⌘K
                 </kbd>
               </Button>
@@ -1680,6 +1681,7 @@ function AppContent() {
                 <NavigationBar
                   sticky={false}
                   containerClassName="max-w-full px-3 sm:px-4"
+                  maxVisibleItems={3}
                   brand={
                     <div className="flex items-center gap-2">
                       <div className="size-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-semibold text-sm">
@@ -1697,15 +1699,16 @@ function AppContent() {
                         variant="outline"
                         size="sm"
                         onClick={() => setCommandOpen(true)}
-                        className="h-8 gap-1.5 text-xs text-muted-foreground hidden xl:inline-flex rounded-lg"
+                        className="h-8 gap-1.5 text-xs text-muted-foreground hidden sm:inline-flex rounded-lg px-2.5"
                       >
                         <SearchIcon size={13} />
-                        <span>Search</span>
+                        <span className="hidden md:inline">Search</span>
                         <kbd className="text-[10px] font-mono px-1 py-0.5 rounded bg-muted/80 border border-border/50">⌘K</kbd>
                       </Button>
                       <ThemeToggle isDark={isDark} onToggleDark={toggleTheme} className="size-8 rounded-lg" />
-                      <Button size="sm" className="h-8 text-xs font-medium rounded-lg">
-                        Get Started
+                      <Button size="sm" className="h-8 text-xs font-medium rounded-lg px-2.5 sm:px-3">
+                        <span className="hidden sm:inline">Get Started</span>
+                        <span className="sm:hidden">Join</span>
                       </Button>
                     </>
                   }

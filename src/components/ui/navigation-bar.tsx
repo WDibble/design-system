@@ -103,6 +103,88 @@ export interface NavigationBarProps extends React.ComponentProps<"nav"> {
   mobileFooter?: React.ReactNode;
   sticky?: boolean;
   containerClassName?: string;
+  /**
+   * Maximum number of items rendered directly on desktop before folding into "More ▾".
+   * Guarantees zero clashing with actions on the right regardless of how many items exist.
+   * @default 4
+   */
+  maxVisibleItems?: number;
+  /**
+   * Custom label for the synthesized overflow dropdown trigger.
+   * @default "More"
+   */
+  moreLabel?: string;
+  /**
+   * Custom badge for the synthesized overflow dropdown trigger.
+   */
+  moreBadge?: string;
+}
+
+/**
+ * Synthesizes an overflow menu configuration from excess items.
+ */
+function buildOverflowMenu(overflowItems: NavItemConfig[]): {
+  type: "simple" | "columns";
+  links?: NavMenuLinkItem[];
+  columns?: NavMenuColumn[];
+} {
+  const hasComplexChildren = overflowItems.some(
+    (item) => (item.columns && item.columns.length > 0) || (item.links && item.links.length > 1)
+  );
+
+  if (!hasComplexChildren) {
+    const flatLinks: NavMenuLinkItem[] = overflowItems.flatMap((item) => {
+      if (item.links && item.links.length > 0) {
+        return item.links;
+      }
+      return [
+        {
+          title: item.label,
+          href: item.href || "#",
+          badge: item.badge,
+          onClick: item.onClick,
+        },
+      ];
+    });
+
+    return {
+      type: "simple",
+      links: flatLinks,
+    };
+  }
+
+  const columns: NavMenuColumn[] = [];
+  const directLinks: NavMenuLinkItem[] = [];
+
+  overflowItems.forEach((item) => {
+    if (item.type === "columns" && item.columns) {
+      columns.push(...item.columns);
+    } else if (item.links && item.links.length > 0) {
+      columns.push({
+        category: item.label,
+        links: item.links,
+      });
+    } else {
+      directLinks.push({
+        title: item.label,
+        href: item.href || "#",
+        badge: item.badge,
+        onClick: item.onClick,
+      });
+    }
+  });
+
+  if (directLinks.length > 0) {
+    columns.unshift({
+      category: "Quick Links",
+      links: directLinks,
+    });
+  }
+
+  return {
+    type: "columns",
+    columns,
+  };
 }
 
 export function NavigationBar({
@@ -113,6 +195,9 @@ export function NavigationBar({
   mobileFooter,
   sticky = true,
   containerClassName,
+  maxVisibleItems = 4,
+  moreLabel = "More",
+  moreBadge,
   className,
   children,
   ...props
@@ -154,6 +239,26 @@ export function NavigationBar({
 
   const isTurnkey = Boolean(items && items.length > 0 && !children);
 
+  // Partition items into visible and overflow sets for collision-free layout
+  const { visibleItems, overflowItems, hasOverflow } = React.useMemo(() => {
+    if (!items || items.length === 0) {
+      return { visibleItems: [], overflowItems: [], hasOverflow: false };
+    }
+    if (items.length > maxVisibleItems) {
+      return {
+        visibleItems: items.slice(0, maxVisibleItems),
+        overflowItems: items.slice(maxVisibleItems),
+        hasOverflow: true,
+      };
+    }
+    return { visibleItems: items, overflowItems: [], hasOverflow: false };
+  }, [items, maxVisibleItems]);
+
+  const overflowMenu = React.useMemo(() => {
+    if (!hasOverflow || overflowItems.length === 0) return null;
+    return buildOverflowMenu(overflowItems);
+  }, [hasOverflow, overflowItems]);
+
   return (
     <NavigationContext.Provider
       value={{
@@ -167,7 +272,7 @@ export function NavigationBar({
         aria-label="Main Navigation"
         onMouseLeave={handleMouseLeave}
         className={cn(
-          "w-full border-b border-border/60 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 transition-colors duration-200 select-none",
+          "@container/nav w-full border-b border-border/60 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 transition-colors duration-200 select-none",
           sticky ? "sticky top-0 z-40" : "relative z-30",
           className
         )}
@@ -178,10 +283,10 @@ export function NavigationBar({
           <div className="flex items-center gap-6 min-w-0">
             {brand && <div className="shrink-0">{brand}</div>}
 
-            {/* Desktop Navigation List (Hidden on Mobile) */}
+            {/* Desktop Navigation List (Hidden on Mobile or constrained container) */}
             {isTurnkey ? (
-              <NavList className="hidden lg:flex">
-                {items!.map((item, idx) => {
+              <NavList className="hidden @[48rem]/nav:flex lg:flex">
+                {visibleItems.map((item, idx) => {
                   const itemId = item.id || `nav-item-${idx}-${item.label.toLowerCase().replace(/\s+/g, "-")}`;
                   if (item.type === "link" || (!item.type && item.href && !item.links && !item.columns && !item.featured)) {
                     return (
@@ -217,6 +322,24 @@ export function NavigationBar({
                     </NavItem>
                   );
                 })}
+
+                {/* Turnkey "More ▾" Overflow Dropdown Trigger (Directive #7 Anti-Crush) */}
+                {hasOverflow && overflowMenu && (
+                  <NavItem
+                    key="nav-item-overflow-more"
+                    id="nav-item-overflow-more"
+                    label={moreLabel}
+                    badge={moreBadge}
+                    align="end"
+                  >
+                    {overflowMenu.type === "columns" && (
+                      <NavColumnsMenu columns={overflowMenu.columns} />
+                    )}
+                    {overflowMenu.type === "simple" && (
+                      <NavSimpleMenu links={overflowMenu.links} />
+                    )}
+                  </NavItem>
+                )}
               </NavList>
             ) : (
               children
@@ -225,10 +348,10 @@ export function NavigationBar({
 
           {/* Desktop Right Actions & Mobile Hamburger */}
           <div className="flex items-center gap-2 shrink-0">
-            {actions && <div className="hidden lg:flex items-center gap-2">{actions}</div>}
+            {actions && <div className="hidden @[48rem]/nav:flex lg:flex items-center gap-2">{actions}</div>}
 
             {/* Mobile Sheet Trigger */}
-            <div className="lg:hidden">
+            <div className="@[48rem]/nav:hidden lg:hidden">
               <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
                 <SheetTrigger
                   render={
@@ -746,6 +869,7 @@ export function NavColumnsMenu({ columns, className }: NavColumnsMenuProps) {
     <div
       className={cn(
         "grid gap-6 max-w-[calc(100vw-2.5rem)]",
+        columns.length <= 1 && "w-72 sm:w-80 grid-cols-1",
         columns.length === 2 && "w-[540px] sm:w-[600px] grid-cols-2",
         columns.length >= 3 && "w-[720px] sm:w-[780px] grid-cols-3",
         className
