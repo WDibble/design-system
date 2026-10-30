@@ -282,7 +282,10 @@ export const PaginationPrevious = React.forwardRef<
       >
         <ChevronLeftIcon
           size={14}
-          className="shrink-0 pointer-events-none transition-transform duration-150 ease-out group-hover:-translate-x-0.5"
+          className={cn(
+            "shrink-0 pointer-events-none",
+            !isIconOnly && "transition-transform duration-150 ease-out group-hover:-translate-x-0.5"
+          )}
         />
         {!isIconOnly && (
           <span className="whitespace-nowrap">{children ?? label ?? "Previous"}</span>
@@ -353,7 +356,10 @@ export const PaginationNext = React.forwardRef<
         )}
         <ChevronRightIcon
           size={14}
-          className="shrink-0 pointer-events-none transition-transform duration-150 ease-out group-hover:translate-x-0.5"
+          className={cn(
+            "shrink-0 pointer-events-none",
+            !isIconOnly && "transition-transform duration-150 ease-out group-hover:translate-x-0.5"
+          )}
         />
       </motion.button>
     );
