@@ -27,7 +27,9 @@ import {
   UsersIcon,
   PaletteIcon,
   CalendarDaysIcon,
+  CompassIcon,
 } from "@/components/icons";
+import { PrinciplesPage } from "@/pages/principles";
 import { Button, type ButtonState, type IconAnimationTrigger } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -200,6 +202,48 @@ import { ThemeStudio } from "@/components/theme-studio";
 function AppContent() {
   const { toast } = useToast();
   const [commandOpen, setCommandOpen] = React.useState(false);
+
+  // Lightweight client-side router supporting both HTML5 pushState and hash fallback
+  const [currentPath, setCurrentPath] = React.useState<string>(() => {
+    if (typeof window === "undefined") return "/";
+    const path = window.location.pathname;
+    const hash = window.location.hash;
+    if (path === "/principles" || hash === "#principles" || hash === "#/principles") {
+      return "/principles";
+    }
+    return "/";
+  });
+
+  React.useEffect(() => {
+    const handleLocationChange = () => {
+      const path = window.location.pathname;
+      const hash = window.location.hash;
+      if (path === "/principles" || hash === "#principles" || hash === "#/principles") {
+        setCurrentPath("/principles");
+      } else {
+        setCurrentPath("/");
+      }
+    };
+
+    window.addEventListener("popstate", handleLocationChange);
+    window.addEventListener("hashchange", handleLocationChange);
+    return () => {
+      window.removeEventListener("popstate", handleLocationChange);
+      window.removeEventListener("hashchange", handleLocationChange);
+    };
+  }, []);
+
+  const navigateTo = React.useCallback((to: string) => {
+    if (to === "/principles") {
+      window.history.pushState({}, "", "/principles");
+      setCurrentPath("/principles");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.history.pushState({}, "", "/");
+      setCurrentPath("/");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, []);
   const [previewMaterial, setPreviewMaterial] = React.useState<"ultra-thin" | "thin" | "regular" | "thick">("regular");
   const [selectedGradient, setSelectedGradient] = React.useState<AmbientGradientKey>("cosmicFusion");
   const [isSimulatingLoading, setIsSimulatingLoading] = React.useState(false);
@@ -329,6 +373,25 @@ function AppContent() {
   const demoNavItems: NavItemConfig[] = React.useMemo(
     () => [
       {
+        label: "Principles",
+        href: "/principles",
+        badge: "Manifesto",
+        isActive: currentPath === "/principles",
+        onClick: (e) => {
+          e.preventDefault();
+          navigateTo("/principles");
+        },
+      },
+      {
+        label: "Workbench",
+        href: "/",
+        isActive: currentPath === "/",
+        onClick: (e) => {
+          e.preventDefault();
+          navigateTo("/");
+        },
+      },
+      {
         label: "Platform",
         type: "mega",
         badge: "v2.0",
@@ -400,8 +463,12 @@ function AppContent() {
               {
                 title: "Quiet Chrome",
                 description: "Human-centric spatial typography",
-                href: "#philosophy",
+                href: "/principles",
                 icon: <EyeIcon size={16} />,
+                onClick: (e) => {
+                  e.preventDefault();
+                  navigateTo("/principles");
+                },
               },
               {
                 title: "Accessibility Matrix",
@@ -426,8 +493,12 @@ function AppContent() {
           {
             title: "Design Principles",
             description: "Anti-slop design engineering manifesto",
-            href: "#manifesto",
+            href: "/principles",
             icon: <ZapIcon size={16} />,
+            onClick: (e) => {
+              e.preventDefault();
+              navigateTo("/principles");
+            },
           },
           {
             title: "Team Permissions",
@@ -454,7 +525,7 @@ function AppContent() {
         badge: "Open Source",
       },
     ],
-    []
+    [currentPath, navigateTo]
   );
 
   const toggleTheme = (targetDark?: boolean) => {
@@ -503,13 +574,17 @@ function AppContent() {
           containerClassName="max-w-full px-2"
           className="sticky top-4 z-50 rounded-2xl glass-regular specular-rim shadow-lg border-border/70 p-2 sm:px-4"
           brand={
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="size-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-xs shrink-0">
+            <button
+              type="button"
+              onClick={() => navigateTo("/")}
+              className="flex items-center gap-3 min-w-0 text-left outline-none cursor-pointer group"
+            >
+              <div className="size-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-xs shrink-0 transition-transform group-hover:scale-105 active:scale-95">
                 <SparklesIcon size={20} />
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="text-base sm:text-lg font-bold tracking-tight text-foreground">
+                  <h1 className="text-base sm:text-lg font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
                     Design System
                   </h1>
                   <Badge variant="outline" size="sm" dot className="hidden sm:inline-flex">
@@ -517,7 +592,7 @@ function AppContent() {
                   </Badge>
                 </div>
               </div>
-            </div>
+            </button>
           }
           items={demoNavItems}
           actions={
@@ -562,8 +637,12 @@ function AppContent() {
 
         {/* Main Content Landmark */}
         <main id="main-content" tabIndex={-1} className="flex flex-col gap-10 outline-none">
-          {/* Feature Spotlight: The 5 Kinetic State Mechanics */}
-          <section className="flex flex-col gap-4">
+          {currentPath === "/principles" ? (
+            <PrinciplesPage onBackToWorkbench={() => navigateTo("/")} />
+          ) : (
+            <>
+              {/* Feature Spotlight: The 5 Kinetic State Mechanics */}
+              <section className="flex flex-col gap-4">
           <div>
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
               <ZapIcon size={16} className="text-amber-500" />
@@ -3004,6 +3083,8 @@ function AppContent() {
 
           <IconGallery />
         </section>
+            </>
+          )}
       </main>
 
       {/* Global Command Dialog (⌘K / Ctrl+K) */}
@@ -3012,6 +3093,16 @@ function AppContent() {
           <CommandList>
             <CommandEmpty />
             <CommandGroup heading="Platform Navigation">
+              <CommandItem onSelect={() => { setCommandOpen(false); navigateTo("/principles"); }}>
+                <CompassIcon size={14} />
+                <span>Read Design Principles &amp; Manifesto (/principles)</span>
+                <CommandShortcut>⌘P</CommandShortcut>
+              </CommandItem>
+              <CommandItem onSelect={() => { setCommandOpen(false); navigateTo("/"); }}>
+                <LayersIcon size={14} />
+                <span>Interactive Component Workbench</span>
+                <CommandShortcut>⌘W</CommandShortcut>
+              </CommandItem>
               <CommandItem onSelect={() => { setCommandOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
                 <SparklesIcon size={14} />
                 <span>Scroll to Top</span>

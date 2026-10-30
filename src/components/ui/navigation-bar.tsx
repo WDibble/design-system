@@ -38,6 +38,8 @@ export interface NavMenuLinkItem {
   icon?: React.ReactNode;
   badge?: string;
   isExternal?: boolean;
+  isActive?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 export interface NavMenuColumn {
@@ -52,6 +54,7 @@ export interface NavMegaFeatured {
   badge?: string;
   icon?: React.ReactNode;
   tag?: string;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 export interface NavItemConfig {
@@ -64,6 +67,8 @@ export interface NavItemConfig {
   featured?: NavMegaFeatured;
   links?: NavMenuLinkItem[];
   columns?: NavMenuColumn[];
+  isActive?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 /* -------------------------------------------------------------------------------------------------
@@ -180,7 +185,13 @@ export function NavigationBar({
                   const itemId = item.id || `nav-item-${idx}-${item.label.toLowerCase().replace(/\s+/g, "-")}`;
                   if (item.type === "link" || (!item.type && item.href && !item.links && !item.columns && !item.featured)) {
                     return (
-                      <NavItemLink key={itemId} href={item.href || "#"} badge={item.badge}>
+                      <NavItemLink
+                        key={itemId}
+                        href={item.href || "#"}
+                        badge={item.badge}
+                        isActive={item.isActive}
+                        onClick={item.onClick}
+                      >
                         {item.label}
                       </NavItemLink>
                     );
@@ -258,7 +269,10 @@ export function NavigationBar({
                                 <div key={itemId} className="py-2 border-b border-border/40">
                                   <a
                                     href={item.href || "#"}
-                                    onClick={() => setMobileOpen(false)}
+                                    onClick={(e) => {
+                                      setMobileOpen(false);
+                                      item.onClick?.(e);
+                                    }}
                                     className="flex items-center justify-between text-sm font-medium py-1 text-foreground hover:text-primary transition-colors"
                                   >
                                     <span>{item.label}</span>
@@ -289,7 +303,10 @@ export function NavigationBar({
                                   {item.featured && (
                                     <a
                                       href={item.featured.href}
-                                      onClick={() => setMobileOpen(false)}
+                                      onClick={(e) => {
+                                        setMobileOpen(false);
+                                        item.featured?.onClick?.(e);
+                                      }}
                                       className="block p-3 rounded-xl bg-muted/40 border border-border/60 hover:bg-muted/70 transition-colors"
                                     >
                                       {item.featured.badge && (
@@ -311,7 +328,10 @@ export function NavigationBar({
                                     <a
                                       key={`mobile-link-${lIdx}`}
                                       href={link.href}
-                                      onClick={() => setMobileOpen(false)}
+                                      onClick={(e) => {
+                                        setMobileOpen(false);
+                                        link.onClick?.(e);
+                                      }}
                                       className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-muted/60 transition-colors"
                                     >
                                       {link.icon && (
@@ -347,7 +367,10 @@ export function NavigationBar({
                                         <a
                                           key={`col-link-${cIdx}-${lIdx}`}
                                           href={link.href}
-                                          onClick={() => setMobileOpen(false)}
+                                          onClick={(e) => {
+                                            setMobileOpen(false);
+                                            link.onClick?.(e);
+                                          }}
                                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/60 text-xs font-medium text-foreground"
                                         >
                                           {link.icon && <span className="text-muted-foreground">{link.icon}</span>}
@@ -608,7 +631,10 @@ export function NavMenuLink({
   return (
     <a
       href={href}
-      onClick={() => closeMenu()}
+      onClick={(e) => {
+        closeMenu();
+        props.onClick?.(e);
+      }}
       className={cn(
         "group flex items-start gap-3 p-2.5 rounded-xl transition-all duration-150 border border-transparent active:scale-[0.99] outline-none select-none",
         "hover:bg-muted/70 hover:border-border/40",
