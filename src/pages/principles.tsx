@@ -176,15 +176,15 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
       </section>
 
       {/* Part 3: The 11 Codified Design Engineering Invariants */}
-      <section className="space-y-6">
-        <div className="space-y-1.5 border-b border-border/40 pb-4">
+      <section className="space-y-8">
+        <div className="space-y-2 border-b border-border/40 pb-5">
           <div className="text-xs font-mono uppercase tracking-widest text-primary font-semibold">
             Chapter III
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
             The Eleven Codified Invariants
           </h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
             Strict engineering directives enforced across every component, primitive, and fixture harness in this codebase.
           </p>
         </div>
@@ -194,90 +194,90 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
             {
               num: "01",
               title: "Physical Yield on pointerdown",
-              formula: "active:scale-[0.98] · transition: tactile spring",
-              body: "Interactive controls must compress the millisecond pointerdown occurs. Never wait for click (pointer release).",
+              formula: "active:scale-[0.98] · tactile spring",
+              body: "Interactive controls must compress the millisecond touch or mouse down occurs. Tactile acknowledgment must never wait for click (pointer release).",
             },
             {
               num: "02",
-              title: "Zero Cumulative Layout Shifts (CLS = 0.000)",
-              formula: "Dynamic states frozen: border-width, font-weight, margin, padding",
-              body: "Never change border width or font weight on hover or active states. Selection is conveyed purely via contrast, background indicator pills, or opacity. Animate exclusively compositor properties (transform, opacity).",
+              title: "Zero Cumulative Layout Shifts",
+              formula: "CLS = 0.000 · frozen dynamic geometry",
+              body: "Never alter border-width, font-weight, margin, or padding across dynamic states. Selection is conveyed purely via contrast, background indicators, or opacity. Animate exclusively compositor properties (transform, opacity).",
             },
             {
               num: "03",
               title: "Tabular Numeral Invariant",
               formula: "font-variant-numeric: tabular-nums",
-              body: "All metrics, countdown timers, financial figures, data table columns, and meters must specify tabular numerals to lock digit bounding boxes.",
+              body: "All metrics, countdown timers, financial figures, data table columns, and meters must specify tabular numerals to lock digit bounding boxes and eliminate horizontal jitter.",
             },
             {
               num: "04",
               title: "Accessible Landmark Invariant",
-              formula: "WCAG 2.2 Level AA / AAA · 44px hit-slop target expansion",
+              formula: "WCAG 2.2 Level AA · 44px hit-slop expansion",
               body: "Every icon-only control must declare an explicit aria-label. Dialogs must trap focus, maintain inert guards, and dismiss on Escape.",
             },
             {
               num: "05",
               title: "Quiet Chrome & Anti-Pill Proliferation",
-              formula: "Spatial baseline rhythm > Nested cards & decorative pills",
-              body: "Rely first on spatial rhythm, typographic contrast, and baseline alignment. Strictly ban decorative eyebrow pills above headings and cosmetic pill chips. Badges are reserved for functional operational telemetry.",
+              formula: "Spatial rhythm > Nested cards & decorative pills",
+              body: "Rely first on spatial baseline rhythm and typographic contrast. Strictly ban decorative eyebrow pills above headings and cosmetic chips. Badges are reserved for functional operational telemetry.",
             },
             {
               num: "06",
-              title: "Concentric Corner Radii Invariant",
+              title: "Concentric Corner Radii",
               formula: "R_inner = max(0, R_outer - Padding)",
               body: "When nesting rounded surfaces, the inner radius must mathematically deduct padding to eliminate bulging, deformed corners.",
             },
             {
               num: "07",
               title: "Navigation Anti-Truncation & Bounded Allocation",
-              formula: "shrink-0 whitespace-nowrap · W_col ≥ 220px · @container/nav",
+              formula: "shrink-0 whitespace-nowrap · @container/nav",
               body: "Navigation labels, menu items, and pills must never truncate primary text. Horizontal navigation bars must enforce bounded allocation (maxVisibleItems) with automatic 'More ▾' overflow harvesting.",
             },
             {
               num: "08",
-              title: "Reversible Kinetic Affordances (No Gimmick Icon Animation)",
-              formula: "Static operational glyphs (+, -, ✓, →) · Reversible mechanical glides",
-              body: "Icons only animate if they possess a reversible mechanical glide that returns to origin. Strictly ban spinning operational icons and stroke erasure gimmicks.",
+              title: "Reversible Kinetic Affordances",
+              formula: "Static operational glyphs · Mechanical glides",
+              body: "Icons only animate if they possess a reversible mechanical glide that returns to origin. Strictly ban spinning operational icons (+, -) and stroke erasure gimmicks.",
             },
             {
               num: "09",
-              title: "Dimension Invariants & Absolute Basis Collapse Defense",
-              formula: "w-[...] basis in position: absolute · Symmetric optical margins",
-              body: "Never merge multi-axis shorthands (size-full) after single-axis variant sizes. Floating popovers inside absolute auto-width parents must declare an explicit structural width base (w-[660px] sm:w-[720px]) paired with a viewport cap (max-w-[calc(100vw-2.5rem)]) to prevent min-content collapse.",
+              title: "Dimension Invariants & Basis Collapse Defense",
+              formula: "w-[...] basis in position: absolute",
+              body: "Never merge multi-axis shorthands (size-full) after single-axis variant sizes. Floating popovers in auto-width parents must declare an explicit width basis paired with a viewport cap.",
             },
             {
               num: "10",
               title: "Component-Unified Kinetic Affinity",
-              formula: "pointer-events-none on nested SVG paths · group-hover affinity",
-              body: "Icons inside components are intrinsic organs, not isolated targets. Hovering or pressing any part of the component triggers the icon's kinetic affordance synchronously.",
+              formula: "pointer-events-none on SVG · group-hover affinity",
+              body: "Icons inside components are intrinsic organs, not isolated targets. Hovering or pressing any part of the parent component triggers kinetic affordances synchronously.",
             },
             {
               num: "11",
               title: "Perceptual Gradient Engineering & Dual-Engine Contrast",
-              formula: "linear-gradient(in oklch, ...) · WCAG 2.2 AA (4.5:1) + APCA (|Lc| ≥ 60/75)",
+              formula: "linear-gradient(in oklch, ...) · WCAG 2.2 + APCA",
               body: "Zero saturated text clipping. All gradient ramps interpolate in OKLCH perceptual space. High-luminance hues mandate negative-polarity obsidian text.",
             },
           ].map((item) => (
             <div
               key={item.num}
-              className="py-5 first:pt-2 last:pb-0 space-y-2"
+              className="py-8 first:pt-4 last:pb-0 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 items-start"
             >
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-                <div className="flex items-baseline gap-3">
-                  <span className="text-xs font-mono font-bold text-primary">
-                    #{item.num}
-                  </span>
-                  <span className="text-sm sm:text-base font-semibold text-foreground tracking-tight">
-                    {item.title}
-                  </span>
+              <div className="md:col-span-5 space-y-1.5">
+                <div className="text-xs font-mono font-bold text-primary tracking-wider">
+                  Directive #{item.num}
                 </div>
-                <span className="text-[11px] font-mono text-muted-foreground pl-7 sm:pl-0">
+                <h3 className="text-base sm:text-lg font-semibold text-foreground tracking-tight leading-snug">
+                  {item.title}
+                </h3>
+                <div className="text-xs font-mono text-muted-foreground/80 leading-relaxed pt-0.5">
                   {item.formula}
-                </span>
+                </div>
               </div>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed pl-7">
-                {item.body}
-              </p>
+              <div className="md:col-span-7 md:pt-1">
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                  {item.body}
+                </p>
+              </div>
             </div>
           ))}
         </div>
