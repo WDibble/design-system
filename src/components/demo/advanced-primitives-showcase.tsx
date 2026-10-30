@@ -164,7 +164,7 @@ export function AdvancedPrimitivesShowcase() {
         <CardContent className="space-y-6 flex-1">
           {/* Combobox Autocomplete */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-foreground flex items-center justify-between">
+            <label htmlFor="combobox-technologies" className="text-xs font-semibold text-foreground flex items-center justify-between">
               <span>Filterable Combobox</span>
               <span className="text-[10px] font-mono text-muted-foreground">Base UI Combobox</span>
             </label>
@@ -174,6 +174,8 @@ export function AdvancedPrimitivesShowcase() {
               onValueChange={setSelectedFramework}
             >
               <ComboboxInput
+                id="combobox-technologies"
+                aria-label="Search technologies"
                 placeholder="Search technologies..."
                 icon={<SearchIcon size={14} />}
                 size="default"
@@ -197,7 +199,12 @@ export function AdvancedPrimitivesShowcase() {
                 Active: {density}
               </span>
             </div>
-            <RadioGroup value={density} onValueChange={(v) => setDensity(v as string)} className="grid grid-cols-3 gap-2">
+            <RadioGroup
+              value={density}
+              onValueChange={(v) => setDensity(v as string)}
+              aria-label="Layout density options"
+              className="grid grid-cols-3 gap-2"
+            >
               {[
                 { id: "compact", label: "Compact", desc: "High density" },
                 { id: "comfortable", label: "Comfortable", desc: "Default spacing" },
@@ -207,7 +214,7 @@ export function AdvancedPrimitivesShowcase() {
                   key={opt.id}
                   className="flex items-start gap-2.5 p-2.5 rounded-lg border border-border/70 bg-card hover:bg-muted/40 cursor-pointer transition-colors shadow-xs"
                 >
-                  <RadioGroupItem value={opt.id} className="mt-0.5" />
+                  <RadioGroupItem value={opt.id} aria-label={opt.label} className="mt-0.5" />
                   <div className="flex flex-col">
                     <span className="text-xs font-medium text-foreground">{opt.label}</span>
                     <span className="text-[10px] text-muted-foreground">{opt.desc}</span>
@@ -227,6 +234,7 @@ export function AdvancedPrimitivesShowcase() {
                 <ToggleGroup
                   value={formatting}
                   onValueChange={(vals) => setFormatting(vals as string[])}
+                  aria-label="Text formatting styles"
                   variant="surface"
                 >
                   <Toggle value="bold" aria-label="Toggle bold text" size="sm">
@@ -251,6 +259,7 @@ export function AdvancedPrimitivesShowcase() {
                       setViewMode(vals[vals.length - 1] as string);
                     }
                   }}
+                  aria-label="Display layout mode"
                   variant="outline"
                 >
                   <Toggle value="grid" aria-label="Grid layout view" size="sm">
@@ -311,7 +320,10 @@ export function AdvancedPrimitivesShowcase() {
               <span className="text-[10px] font-mono text-muted-foreground">Secondary click / Long press</span>
             </label>
             <ContextMenu>
-              <ContextMenuTrigger className="flex h-28 w-full flex-col items-center justify-center rounded-xl border border-dashed border-border/80 bg-muted/20 text-center select-none cursor-context-menu hover:bg-muted/40 transition-colors p-4">
+              <ContextMenuTrigger
+                aria-label="Interactive context menu demo surface. Secondary click or press Shift+F10 to trigger menu."
+                className="flex h-28 w-full flex-col items-center justify-center rounded-xl border border-dashed border-border/80 bg-muted/20 text-center select-none cursor-context-menu hover:bg-muted/40 transition-colors p-4"
+              >
                 <CursorClickIcon size={20} className="text-muted-foreground mb-1.5" />
                 <span className="text-xs font-medium text-foreground">Right click inside this area</span>
                 <span className="text-[11px] text-muted-foreground">
@@ -357,7 +369,10 @@ export function AdvancedPrimitivesShowcase() {
             <div className="flex items-center gap-3">
               <span className="text-xs text-muted-foreground">Hover over author:</span>
               <HoverCard>
-                <HoverCardTrigger className="text-xs font-semibold text-primary underline underline-offset-4 cursor-pointer hover:text-primary/80">
+                <HoverCardTrigger
+                  aria-label="View Antigravity engine profile preview"
+                  className="text-xs font-semibold text-primary underline underline-offset-4 cursor-pointer hover:text-primary/80"
+                >
                   @antigravity
                 </HoverCardTrigger>
                 <HoverCardContent className="w-80 space-y-3">
@@ -391,7 +406,7 @@ export function AdvancedPrimitivesShowcase() {
             <div>
               <Drawer>
                 <DrawerTrigger render={
-                  <Button variant="outline" size="sm" className="gap-2">
+                  <Button variant="outline" size="sm" aria-label="Open system telemetry bottom drawer" className="gap-2">
                     <TerminalIcon size={14} />
                     <span>Open Bottom Drawer</span>
                   </Button>
@@ -464,7 +479,11 @@ export function AdvancedPrimitivesShowcase() {
           {/* Smooth ScrollArea Viewport */}
           <div className="space-y-2 pt-3 border-t border-border/40">
             <label className="text-xs font-semibold text-foreground">Scroll Area (Auto-Hiding Scrollbar)</label>
-            <ScrollArea className="h-32 w-full rounded-lg border border-border/70 p-3 bg-muted/15 font-mono text-[11px] leading-relaxed text-muted-foreground">
+            <ScrollArea
+              tabIndex={0}
+              aria-label="System diagnostic event log"
+              className="h-32 w-full rounded-lg border border-border/70 p-3 bg-muted/15 font-mono text-[11px] leading-relaxed text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
               <div className="space-y-1.5">
                 <p className="text-emerald-600 dark:text-emerald-400">[00:00:01] System boot initialized on React 19 and Vite 8.</p>
                 <p>[00:00:02] Loading Base UI accessible headless primitives.</p>

@@ -47,6 +47,7 @@ export function Tree({
   return (
     <div
       role="tree"
+      aria-label={props["aria-label"] || "File hierarchy tree"}
       className={cn("flex flex-col gap-0.5 select-none text-xs", className)}
       {...props}
     >
@@ -119,6 +120,7 @@ function TreeNodeItem({
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         disabled={node.disabled}
+        aria-label={`${node.label}${hasChildren ? (isExpanded ? ", folder expanded" : ", folder collapsed") : ", file"}`}
         style={{ paddingLeft: `${Math.max(8, level * 16 + 8)}px` }}
         className={cn(
           "flex w-full items-center gap-2 py-1.5 pr-2.5 rounded-md text-left font-medium outline-none",
@@ -135,6 +137,7 @@ function TreeNodeItem({
         {/* Chevron Affordance */}
         {hasChildren ? (
           <span
+            aria-hidden="true"
             className={cn(
               "flex size-4 shrink-0 items-center justify-center text-muted-foreground transition-transform duration-150 ease-out",
               isExpanded && "rotate-90"
@@ -143,11 +146,11 @@ function TreeNodeItem({
             <ChevronRightIcon size={12} />
           </span>
         ) : (
-          <span className="size-4 shrink-0" />
+          <span aria-hidden="true" className="size-4 shrink-0" />
         )}
 
         {/* Node Icon */}
-        <span className="shrink-0 text-muted-foreground flex items-center justify-center">
+        <span aria-hidden="true" className="shrink-0 text-muted-foreground flex items-center justify-center">
           {node.icon || (hasChildren ? (isExpanded ? <FolderOpenIcon size={14} /> : <FoldersIcon size={14} />) : <FileTextIcon size={14} />)}
         </span>
 
