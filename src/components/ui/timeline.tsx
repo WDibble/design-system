@@ -243,15 +243,15 @@ export const TimelineIndicator = React.forwardRef<
         />
         {pulse && (
           <>
-            {/* Compact restrained radar pulse wave capped to ~3.5px expansion */}
+            {/* Fluid radar dissipation wave with ring stroke and atmospheric decay */}
             <span
               aria-hidden="true"
-              className="absolute -inset-0.5 rounded-full animate-[ping-compact_2.2s_cubic-bezier(0,0,0.2,1)_infinite] bg-current pointer-events-none"
+              className="absolute inset-0 rounded-full border border-current bg-current/25 animate-[ping-compact_2.4s_cubic-bezier(0,0,0.2,1)_infinite] pointer-events-none"
             />
-            {/* Steady ambient glow ring */}
+            {/* Steady ambient glow halo */}
             <span
               aria-hidden="true"
-              className="absolute -inset-0.5 rounded-full opacity-20 bg-current pointer-events-none"
+              className="absolute -inset-0.5 rounded-full opacity-15 bg-current pointer-events-none"
             />
           </>
         )}
