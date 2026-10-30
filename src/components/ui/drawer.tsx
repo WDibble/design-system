@@ -8,6 +8,7 @@ export const Drawer = DrawerPrimitive.Root;
 export const DrawerTrigger = DrawerPrimitive.Trigger;
 export const DrawerPortal = DrawerPrimitive.Portal;
 export const DrawerClose = DrawerPrimitive.Close;
+export const DrawerViewport = DrawerPrimitive.Viewport;
 
 export const DrawerBackdrop = React.forwardRef<
   HTMLDivElement,
@@ -28,31 +29,76 @@ export const DrawerBackdrop = React.forwardRef<
 });
 DrawerBackdrop.displayName = "DrawerBackdrop";
 
+export interface DrawerHandleProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  preventCloseOnClick?: boolean;
+}
+
+export const DrawerHandle = React.forwardRef<
+  HTMLButtonElement,
+  DrawerHandleProps
+>(({ className, preventCloseOnClick = false, onClick, ...props }, ref) => {
+  return (
+    <DrawerClose
+      render={
+        <button
+          ref={ref}
+          type="button"
+          aria-label="Drag down or click to close drawer"
+          className={cn(
+            "group mx-auto flex h-8 w-full cursor-grab active:cursor-grabbing items-center justify-center pt-2.5 pb-1 outline-none touch-none select-none",
+            className
+          )}
+          onClick={(e) => {
+            if (preventCloseOnClick) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+            onClick?.(e);
+          }}
+          {...props}
+        >
+          <span className="h-1.5 w-12 rounded-full bg-muted-foreground/30 transition-all duration-150 group-hover:w-16 group-hover:bg-muted-foreground/50 group-active:scale-95" />
+        </button>
+      }
+    />
+  );
+});
+DrawerHandle.displayName = "DrawerHandle";
+
 export interface DrawerContentProps
-  extends React.ComponentProps<typeof DrawerPrimitive.Popup> {}
+  extends React.ComponentProps<typeof DrawerPrimitive.Popup> {
+  hideHandle?: boolean;
+}
 
 export const DrawerContent = React.forwardRef<
   HTMLDivElement,
   DrawerContentProps
->(({ className, children, ...props }, ref) => {
+>(({ className, children, hideHandle = false, ...props }, ref) => {
   return (
     <DrawerPortal>
       <DrawerBackdrop />
-      <DrawerPrimitive.Popup
-        ref={ref}
-        className={cn(
-          "fixed inset-x-0 bottom-0 z-50 mt-24 flex max-h-[85vh] flex-col rounded-t-[20px] border-t border-border/80 bg-background shadow-2xl outline-none",
-          "specular-rim",
-          "transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
-          "data-[starting-style]:translate-y-full",
-          "data-[ending-style]:translate-y-full",
-          className
-        )}
-        {...props}
-      >
-        <div className="mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-muted-foreground/25 hover:bg-muted-foreground/40 transition-colors" />
-        <div className="flex-1 overflow-y-auto px-6 py-4">{children}</div>
-      </DrawerPrimitive.Popup>
+      <DrawerPrimitive.Viewport className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
+        <DrawerPrimitive.Popup
+          ref={ref}
+          className={cn(
+            "pointer-events-auto relative w-full max-h-[85vh] flex flex-col rounded-t-[20px] border-t border-border/80 bg-background shadow-2xl outline-none",
+            "specular-rim",
+            "touch-auto overscroll-contain select-none",
+            "[transform:translateY(var(--drawer-swipe-movement-y,0px))]",
+            "transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+            "data-swiping:transition-none data-swiping:select-none",
+            "data-[starting-style]:translate-y-full",
+            "data-[ending-style]:translate-y-full",
+            "data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*300ms)]",
+            className
+          )}
+          {...props}
+        >
+          {!hideHandle && <DrawerHandle />}
+          <div className="flex-1 overflow-y-auto px-6 py-4">{children}</div>
+        </DrawerPrimitive.Popup>
+      </DrawerPrimitive.Viewport>
     </DrawerPortal>
   );
 });

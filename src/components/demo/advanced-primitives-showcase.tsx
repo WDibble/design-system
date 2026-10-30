@@ -620,7 +620,7 @@ export function AdvancedPrimitivesShowcase() {
                   <DrawerHeader>
                     <DrawerTitle>System Telemetry Drawer</DrawerTitle>
                     <DrawerDescription>
-                      Swipe down on touch devices or click anywhere outside to dismiss.
+                      Drag or click the handle, swipe down on touch, or click anywhere outside to dismiss.
                     </DrawerDescription>
                   </DrawerHeader>
                   <div className="space-y-3 py-2 text-xs text-muted-foreground">
