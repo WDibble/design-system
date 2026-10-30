@@ -352,11 +352,6 @@ export function AdvancedPrimitivesShowcase() {
   const [selectedTreeNode, setSelectedTreeNode] = React.useState<string>("app");
   const activeDetail = fileDetailsMap[selectedTreeNode] || fileDetailsMap.app;
 
-  // Timeline interactive states
-  const [isAudioPlaying, setIsAudioPlaying] = React.useState(true);
-  const [reactionCount, setReactionCount] = React.useState(24);
-  const [isReasoning, setIsReasoning] = React.useState(true);
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
       {/* 1. Advanced Selection & Formatting */}
@@ -756,63 +751,27 @@ export function AdvancedPrimitivesShowcase() {
             <div className="flex items-center justify-between">
               <label className="text-xs font-semibold text-foreground">Deployment Audit Timeline</label>
               <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
-                5 events recorded
+                4 events recorded
               </span>
             </div>
 
             {/* Specialized Node Archetype Suite Tray */}
-            <div className="p-3 rounded-xl border border-border/60 bg-muted/20 space-y-3">
+            <div className="p-2.5 rounded-xl border border-border/60 bg-muted/20 space-y-2">
               <div className="flex items-center justify-between text-[11px]">
                 <span className="font-semibold text-foreground">Specialized Node Palette</span>
-                <span className="font-mono text-muted-foreground text-[10px]">17 Pack Presets</span>
+                <span className="font-mono text-muted-foreground text-[10px]">10 Pack Presets</span>
               </div>
-
-              {/* Core & Telemetry */}
-              <div className="space-y-1.5">
-                <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider block">
-                  Core &amp; Telemetry
-                </span>
-                <div className="flex flex-wrap items-center gap-2">
-                  <TimelineNode.Progress progress={76} pulse interactive aria-label="Progress preview: 76%" />
-                  <TimelineNode.Heartbeat status="success" interactive aria-label="Heartbeat probe: Healthy" />
-                  <TimelineNode.Pulse status="primary" interactive aria-label="Radar beacon: Active" />
-                  <TimelineNode.Step step={1} state="completed" interactive aria-label="Step 1: Completed" />
-                  <TimelineNode.Step step={2} state="current" interactive aria-label="Step 2: Current" />
-                  <TimelineNode.Step step={3} state="pending" interactive aria-label="Step 3: Pending" />
-                  <TimelineNode.Avatar fallback="CI" badgeStatus="success" badgeIcon="✓" interactive aria-label="Author: CI Release Engine" />
-                  <TimelineNode.Commit variant="commit" status="primary" interactive aria-label="Git commit node" />
-                  <TimelineNode.Action label="Approval Gate" status="primary" onClick={() => {}} />
-                  <TimelineNode.Dot dotVariant="glow" status="warning" interactive aria-label="Warning status dot" />
-                </div>
-              </div>
-
-              {/* Domain & Creative Archetypes */}
-              <div className="space-y-1.5 pt-2 border-t border-border/40">
-                <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider block">
-                  Domain &amp; Creative Archetypes
-                </span>
-                <div className="flex flex-wrap items-center gap-2">
-                  <TimelineNode.Reasoning
-                    isThinking={isReasoning}
-                    interactive
-                    onClick={() => setIsReasoning((r) => !r)}
-                    aria-label={`AI reasoning: ${isReasoning ? "Thinking" : "Idle"}`}
-                  />
-                  <TimelineNode.Audio
-                    isPlaying={isAudioPlaying}
-                    onTogglePlay={() => setIsAudioPlaying((p) => !p)}
-                  />
-                  <TimelineNode.Security securityState="scanning" interactive aria-label="Biometric verification scanning" />
-                  <TimelineNode.Currency fromCurrency="$" toCurrency="€" interactive aria-label="Currency swap: USD to EUR" />
-                  <TimelineNode.Stamp stampText="OK" status="success" interactive aria-label="Executive stamp approval" />
-                  <TimelineNode.Thermal value={82} interactive aria-label="Thermal gauge: 82 degrees" />
-                  <TimelineNode.Reaction
-                    emoji="🚀"
-                    count={reactionCount}
-                    onReact={() => setReactionCount((c) => c + 1)}
-                  />
-                  <TimelineNode.Timer label="14m" urgency="warning" interactive aria-label="SLA countdown timer: 14m remaining" />
-                </div>
+              <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                <TimelineNode.Progress progress={76} pulse interactive aria-label="Progress preview: 76%" />
+                <TimelineNode.Heartbeat status="success" interactive aria-label="Heartbeat probe: Healthy" />
+                <TimelineNode.Pulse status="primary" interactive aria-label="Radar beacon: Active" />
+                <TimelineNode.Step step={1} state="completed" interactive aria-label="Step 1: Completed" />
+                <TimelineNode.Step step={2} state="current" interactive aria-label="Step 2: Current" />
+                <TimelineNode.Step step={3} state="pending" interactive aria-label="Step 3: Pending" />
+                <TimelineNode.Avatar fallback="CI" badgeStatus="success" badgeIcon="✓" interactive aria-label="Author: CI Release Engine" />
+                <TimelineNode.Commit variant="commit" status="primary" interactive aria-label="Git commit node" />
+                <TimelineNode.Action label="Approval Gate" status="primary" onClick={() => {}} />
+                <TimelineNode.Dot dotVariant="glow" status="warning" interactive aria-label="Warning status dot" />
               </div>
             </div>
 
@@ -864,26 +823,7 @@ export function AdvancedPrimitivesShowcase() {
                 </TimelineContent>
               </TimelineItem>
 
-              {/* 3. AI Autonomous Reasoning Orbit Node */}
-              <TimelineItem connectorVariant="solid">
-                <TimelineNode.Reasoning isThinking interactive aria-label="AI policy synthesis in progress" />
-                <TimelineContent>
-                  <TimelineHeader>
-                    <div className="flex items-center gap-2 min-w-0">
-                      <TimelineTitle>Autonomous Policy Synthesis</TimelineTitle>
-                      <Badge variant="outline" size="sm" className="font-mono text-[9px] border-violet-500/40 text-violet-600 dark:text-violet-400 py-0 shrink-0">
-                        Thinking
-                      </Badge>
-                    </div>
-                    <TimelineTime dateTime="2026-10-30T13:38:00Z">7m ago</TimelineTime>
-                  </TimelineHeader>
-                  <TimelineDescription>
-                    Multi-turn orbital reasoning verifying release invariants against accessibility criteria.
-                  </TimelineDescription>
-                </TimelineContent>
-              </TimelineItem>
-
-              {/* 4. Collaborative Actor Avatar Node with Attribution Footer */}
+              {/* 3. Collaborative Actor Avatar Node with Attribution Footer */}
               <TimelineItem connectorVariant="solid">
                 <TimelineNode.Avatar fallback="WD" badgeStatus="success" badgeIcon="✓" interactive aria-label="Author: William Dibble" />
                 <TimelineContent>
@@ -905,9 +845,9 @@ export function AdvancedPrimitivesShowcase() {
                 </TimelineContent>
               </TimelineItem>
 
-              {/* 5. Sequential Stepper Numeral Node */}
+              {/* 4. Sequential Stepper Numeral Node */}
               <TimelineItem isLast connectorVariant="none">
-                <TimelineNode.Step step={5} state="completed" interactive aria-label="Step 5: Build verified" />
+                <TimelineNode.Step step={4} state="completed" interactive aria-label="Step 4: Build verified" />
                 <TimelineContent>
                   <TimelineHeader>
                     <TimelineTitle>Automated Build Verification</TimelineTitle>
