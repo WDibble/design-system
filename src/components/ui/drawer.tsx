@@ -82,27 +82,28 @@ export const DrawerContent = React.forwardRef<
         <DrawerPrimitive.Popup
           ref={ref}
           className={cn(
-            "pointer-events-auto relative w-full max-h-[85vh] flex flex-col rounded-t-[20px] border-t border-border/80 bg-background shadow-2xl outline-none",
+            "pointer-events-auto relative w-full sm:max-w-xl flex flex-col rounded-t-[20px] border-t sm:border-x border-border/80 bg-background outline-none",
+            "shadow-[0_-12px_40px_-8px_oklch(0_0_0/0.18)] dark:shadow-[0_-12px_40px_-8px_oklch(0_0_0/0.45)]",
             "specular-rim",
             "touch-auto overscroll-contain select-none",
+            "[--bleed:12rem]",
+            "max-h-[calc(85vh+var(--bleed))]",
+            "mb-[calc(-1*var(--bleed))]",
+            "pb-[calc(env(safe-area-inset-bottom,0px)+var(--bleed))]",
             "[transform:translateY(var(--drawer-swipe-movement-y,0px))]",
             "transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
             "data-swiping:transition-none data-swiping:select-none",
-            "data-[starting-style]:translate-y-full",
-            "data-[ending-style]:translate-y-full",
+            "data-[starting-style]:[transform:translateY(calc(100%-var(--bleed)+2px))]",
+            "data-[ending-style]:[transform:translateY(calc(100%-var(--bleed)+2px))]",
             "data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*300ms)]",
             className
           )}
           {...props}
         >
           {!hideHandle && <DrawerHandle />}
-          <div className="flex-1 overflow-y-auto px-6 py-4 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">{children}</div>
-
-          {/* Overdrag Bleed Extension to eliminate void gap during upward rubber-band pull */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-full h-[100vh] bg-background border-x border-border/80"
-          />
+          <DrawerPrimitive.Content className="flex flex-col flex-1 overflow-y-auto px-6 py-4">
+            {children}
+          </DrawerPrimitive.Content>
         </DrawerPrimitive.Popup>
       </DrawerPrimitive.Viewport>
     </DrawerPortal>
