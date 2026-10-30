@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { ArrowRightIcon } from "@/components/icons";
 
 export interface PrinciplesPageProps {
@@ -11,10 +10,6 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
     <article className="max-w-3xl mx-auto space-y-16 py-6 sm:py-10 text-foreground animate-in fade-in duration-300">
       {/* Editorial Hero Header */}
       <header className="space-y-6 text-center sm:text-left border-b border-border/50 pb-10">
-        <div className="inline-flex items-center px-3 py-1 rounded-full bg-muted/60 border border-border/60 text-xs font-mono text-muted-foreground uppercase tracking-wider">
-          <span>Design Philosophy &amp; Engineering Standard</span>
-        </div>
-
         <div className="space-y-3">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-[1.12]">
             The Art of Human Software
@@ -28,17 +23,13 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
           &ldquo;When we align the interface to the way we think and move, something magical happens &mdash; it stops feeling like a computer and starts feeling like a seamless extension of us.&rdquo;
         </blockquote>
 
-        <div className="flex flex-wrap items-center gap-2 pt-2 text-[11px] font-mono text-muted-foreground">
-          <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-            PHILOSOPHY.md
-          </Badge>
-          <span>&bull;</span>
-          <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-            AGENTS.md
-          </Badge>
-          <span>&bull;</span>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-xs font-mono text-muted-foreground">
+          <span>PHILOSOPHY.md</span>
+          <span className="text-border">&bull;</span>
+          <span>AGENTS.md</span>
+          <span className="text-border">&bull;</span>
           <span>11 Non-Negotiable Directives</span>
-          <span>&bull;</span>
+          <span className="text-border">&bull;</span>
           <span>5 Core Tenets</span>
         </div>
       </header>
@@ -226,9 +217,9 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
             },
             {
               num: "05",
-              title: "Quiet Chrome Doctrine",
-              formula: "Spatial baseline rhythm > Nested card borders",
-              body: "Rely first on spatial rhythm, typographic contrast, and baseline alignment. Reject recursive card nesting.",
+              title: "Quiet Chrome & Anti-Pill Proliferation",
+              formula: "Spatial baseline rhythm > Nested cards & decorative pills",
+              body: "Rely first on spatial rhythm, typographic contrast, and baseline alignment. Strictly ban decorative eyebrow pills above headings and cosmetic pill chips. Badges are reserved for functional operational telemetry.",
             },
             {
               num: "06",
