@@ -9,6 +9,9 @@ import {
   GitMergeIcon,
   GitPullRequestIcon,
   PlayIcon,
+  SparklesIcon,
+  ShieldCheckIcon,
+  VolumeIcon,
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
@@ -877,6 +880,336 @@ export const TimelineIconNode = React.forwardRef<
 });
 TimelineIconNode.displayName = "TimelineIconNode";
 
+/**
+ * 10. TimelineReasoningNode
+ * AI thought and reasoning loop node with an illuminated cosmic orbit particle.
+ */
+export interface TimelineReasoningNodeProps
+  extends Omit<TimelineIndicatorProps, "children"> {
+  isThinking?: boolean;
+}
+
+export const TimelineReasoningNode = React.forwardRef<
+  HTMLSpanElement,
+  TimelineReasoningNodeProps
+>(({ isThinking = true, className, ...props }, ref) => {
+  return (
+    <TimelineIndicator
+      ref={ref}
+      status="primary"
+      aria-label={
+        (props as any)["aria-label"] ??
+        (isThinking ? "AI reasoning in progress" : "AI reasoning completed")
+      }
+      className={cn(
+        "bg-gradient-to-br from-violet-500/15 via-fuchsia-500/10 to-amber-500/15 border-violet-500/40 text-violet-600 dark:text-violet-300",
+        className
+      )}
+      {...props}
+    >
+      {isThinking && (
+        <span
+          aria-hidden="true"
+          className="absolute size-1.5 rounded-full bg-violet-400 shadow-[0_0_6px_currentColor] animate-[orbit-particle_2.4s_linear_infinite] pointer-events-none"
+        />
+      )}
+      <SparklesIcon size={13} className="text-current" />
+    </TimelineIndicator>
+  );
+});
+TimelineReasoningNode.displayName = "TimelineReasoningNode";
+
+/**
+ * 11. TimelineAudioNode
+ * Multi-bar animated audio spectrum visualizer with interactive play/pause overlay.
+ */
+export interface TimelineAudioNodeProps
+  extends Omit<TimelineIndicatorProps, "children"> {
+  isPlaying?: boolean;
+  onTogglePlay?: () => void;
+}
+
+export const TimelineAudioNode = React.forwardRef<
+  HTMLSpanElement,
+  TimelineAudioNodeProps
+>(({ isPlaying = true, onTogglePlay, className, ...props }, ref) => {
+  return (
+    <TimelineIndicator
+      ref={ref}
+      status="primary"
+      interactive={Boolean(onTogglePlay)}
+      onClick={onTogglePlay}
+      aria-label={
+        (props as any)["aria-label"] ?? (isPlaying ? "Audio playing" : "Audio paused")
+      }
+      className={cn(
+        "group/audio border-primary/50 text-primary bg-primary/10 overflow-hidden",
+        className
+      )}
+      {...props}
+    >
+      {isPlaying ? (
+        <span className="flex items-center gap-0.5 h-3.5 pointer-events-none">
+          <span className="w-0.5 rounded-full bg-current animate-[audio-wave-1_1.2s_ease-in-out_infinite]" />
+          <span className="w-0.5 rounded-full bg-current animate-[audio-wave-2_0.9s_ease-in-out_infinite]" />
+          <span className="w-0.5 rounded-full bg-current animate-[audio-wave-3_1.4s_ease-in-out_infinite]" />
+        </span>
+      ) : (
+        <VolumeIcon size={13} className="text-current" />
+      )}
+    </TimelineIndicator>
+  );
+});
+TimelineAudioNode.displayName = "TimelineAudioNode";
+
+/**
+ * 12. TimelineSecurityNode
+ * Zero-trust biometric and compliance challenge node with vertical laser scanline sweep.
+ */
+export interface TimelineSecurityNodeProps
+  extends Omit<TimelineIndicatorProps, "children"> {
+  securityState?: "scanning" | "verified" | "rejected";
+}
+
+export const TimelineSecurityNode = React.forwardRef<
+  HTMLSpanElement,
+  TimelineSecurityNodeProps
+>(({ securityState = "scanning", className, ...props }, ref) => {
+  const isScanning = securityState === "scanning";
+  const isVerified = securityState === "verified";
+
+  const resolvedStatus = isVerified
+    ? "success"
+    : securityState === "rejected"
+    ? "destructive"
+    : "primary";
+
+  return (
+    <TimelineIndicator
+      ref={ref}
+      status={resolvedStatus}
+      aria-label={
+        (props as any)["aria-label"] ?? `Security state: ${securityState}`
+      }
+      className={cn("overflow-hidden", className)}
+      {...props}
+    >
+      {isScanning && (
+        <span
+          aria-hidden="true"
+          className="absolute left-1 right-1 h-0.5 bg-cyan-400 shadow-[0_0_8px_#22d3ee] animate-[scanline_1.8s_ease-in-out_infinite] pointer-events-none"
+        />
+      )}
+      <ShieldCheckIcon size={13} className="text-current" />
+    </TimelineIndicator>
+  );
+});
+TimelineSecurityNode.displayName = "TimelineSecurityNode";
+
+/**
+ * 13. TimelineCurrencyNode
+ * Fintech currency conversion and swap node with 45-degree angled partition and kinetic counter-slide.
+ */
+export interface TimelineCurrencyNodeProps
+  extends Omit<TimelineIndicatorProps, "children"> {
+  fromCurrency?: string;
+  toCurrency?: string;
+}
+
+export const TimelineCurrencyNode = React.forwardRef<
+  HTMLSpanElement,
+  TimelineCurrencyNodeProps
+>(
+  (
+    { fromCurrency = "$", toCurrency = "€", className, status = "default", ...props },
+    ref
+  ) => {
+    return (
+      <TimelineIndicator
+        ref={ref}
+        status={status}
+        aria-label={
+          (props as any)["aria-label"] ??
+          `Currency conversion from ${fromCurrency} to ${toCurrency}`
+        }
+        className={cn(
+          "group/currency relative font-mono font-bold text-[9px] overflow-hidden leading-none",
+          className
+        )}
+        {...props}
+      >
+        {/* Angled 45-degree hairline separator */}
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 m-auto w-px h-5 bg-border/80 rotate-45 pointer-events-none"
+        />
+        <span className="absolute top-1.5 left-1.5 transition-transform duration-150 group-hover/currency:-translate-y-0.5 text-foreground/80">
+          {fromCurrency}
+        </span>
+        <span className="absolute bottom-1.5 right-1.5 transition-transform duration-150 group-hover/currency:translate-y-0.5 text-primary font-bold">
+          {toCurrency}
+        </span>
+      </TimelineIndicator>
+    );
+  }
+);
+TimelineCurrencyNode.displayName = "TimelineCurrencyNode";
+
+/**
+ * 14. TimelineStampNode
+ * Legal, procurement, and executive approval rubber-stamp seal with tactile press impact.
+ */
+export interface TimelineStampNodeProps
+  extends Omit<TimelineIndicatorProps, "children"> {
+  stampText?: string;
+}
+
+export const TimelineStampNode = React.forwardRef<
+  HTMLSpanElement,
+  TimelineStampNodeProps
+>(({ stampText = "OK", status = "success", className, ...props }, ref) => {
+  return (
+    <TimelineIndicator
+      ref={ref}
+      status={status}
+      aria-label={(props as any)["aria-label"] ?? `Document stamp: ${stampText}`}
+      className={cn(
+        "font-mono font-extrabold uppercase text-[8px] tracking-tighter border-2 border-dashed rotate-[-8deg] animate-[stamp-press_0.35s_cubic-bezier(0.16,1,0.3,1)] select-none",
+        status === "success" && "border-emerald-600/90 text-emerald-700 dark:text-emerald-300 bg-emerald-500/15",
+        status === "destructive" && "border-destructive/90 text-destructive bg-destructive/15",
+        className
+      )}
+      {...props}
+    >
+      <span className="leading-none">{stampText}</span>
+    </TimelineIndicator>
+  );
+});
+TimelineStampNode.displayName = "TimelineStampNode";
+
+/**
+ * 15. TimelineThermalNode
+ * Cloud infrastructure thermal and throttling gauge with perceptual OKLCH hue mapping.
+ */
+export interface TimelineThermalNodeProps
+  extends Omit<TimelineIndicatorProps, "children"> {
+  value: number;
+  unit?: string;
+}
+
+export const TimelineThermalNode = React.forwardRef<
+  HTMLSpanElement,
+  TimelineThermalNodeProps
+>(({ value, unit = "°", className, ...props }, ref) => {
+  const isHigh = value >= 75;
+  const isMid = value >= 45 && value < 75;
+
+  const thermalColorClass = isHigh
+    ? "border-destructive/80 text-destructive bg-destructive/10"
+    : isMid
+    ? "border-amber-500/80 text-amber-600 dark:text-amber-400 bg-amber-500/10"
+    : "border-cyan-500/80 text-cyan-600 dark:text-cyan-400 bg-cyan-500/10";
+
+  return (
+    <TimelineIndicator
+      ref={ref}
+      aria-label={
+        (props as any)["aria-label"] ?? `Thermal gauge: ${value}${unit}`
+      }
+      className={cn(
+        "font-mono font-bold text-[9px] tabular-nums tracking-tighter",
+        thermalColorClass,
+        className
+      )}
+      {...props}
+    >
+      <span className="leading-none">{value}{unit}</span>
+    </TimelineIndicator>
+  );
+});
+TimelineThermalNode.displayName = "TimelineThermalNode";
+
+/**
+ * 16. TimelineReactionNode
+ * Community sentiment and retrospective reaction pill with spring tap bounce and count feedback.
+ */
+export interface TimelineReactionNodeProps
+  extends Omit<TimelineIndicatorProps, "children"> {
+  emoji?: string;
+  count?: number;
+  onReact?: () => void;
+}
+
+export const TimelineReactionNode = React.forwardRef<
+  HTMLSpanElement,
+  TimelineReactionNodeProps
+>(
+  (
+    { emoji = "🔥", count = 1, onReact, className, status = "default", ...props },
+    ref
+  ) => {
+    return (
+      <TimelineIndicator
+        ref={ref}
+        status={status}
+        interactive={Boolean(onReact)}
+        onClick={onReact}
+        aria-label={
+          (props as any)["aria-label"] ?? `Reaction ${emoji}, count ${count}`
+        }
+        className={cn(
+          "font-mono text-[9px] font-semibold tabular-nums gap-0.5",
+          className
+        )}
+        {...props}
+      >
+        <span className="text-[10px] leading-none select-none">{emoji}</span>
+      </TimelineIndicator>
+    );
+  }
+);
+TimelineReactionNode.displayName = "TimelineReactionNode";
+
+/**
+ * 17. TimelineTimerNode
+ * Incident response and customer SLA countdown node with threshold warning state.
+ */
+export interface TimelineTimerNodeProps
+  extends Omit<TimelineIndicatorProps, "children"> {
+  label: string;
+  urgency?: "normal" | "warning" | "critical";
+}
+
+export const TimelineTimerNode = React.forwardRef<
+  HTMLSpanElement,
+  TimelineTimerNodeProps
+>(({ label, urgency = "normal", className, ...props }, ref) => {
+  const urgencyStatus =
+    urgency === "critical"
+      ? "destructive"
+      : urgency === "warning"
+      ? "warning"
+      : "default";
+
+  return (
+    <TimelineIndicator
+      ref={ref}
+      status={urgencyStatus}
+      pulse={urgency === "critical"}
+      aria-label={(props as any)["aria-label"] ?? `SLA countdown: ${label}`}
+      className={cn(
+        "font-mono font-semibold text-[8px] tabular-nums tracking-tighter",
+        urgency === "critical" && "shadow-[0_0_8px_var(--color-destructive)]",
+        className
+      )}
+      {...props}
+    >
+      <span className="leading-none">{label}</span>
+    </TimelineIndicator>
+  );
+});
+TimelineTimerNode.displayName = "TimelineTimerNode";
+
 /* -------------------------------------------------------------------------------------------------
  * Unified TimelineNode Namespace
  * -----------------------------------------------------------------------------------------------*/
@@ -892,4 +1225,12 @@ export const TimelineNode = {
   Action: TimelineActionNode,
   Dot: TimelineDotNode,
   Icon: TimelineIconNode,
+  Reasoning: TimelineReasoningNode,
+  Audio: TimelineAudioNode,
+  Security: TimelineSecurityNode,
+  Currency: TimelineCurrencyNode,
+  Stamp: TimelineStampNode,
+  Thermal: TimelineThermalNode,
+  Reaction: TimelineReactionNode,
+  Timer: TimelineTimerNode,
 };

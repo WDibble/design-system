@@ -345,6 +345,58 @@
   }
 }
 
+/* AI reasoning orbit particle */
+@keyframes orbit-particle {
+  0% {
+    transform: rotate(0deg) translateX(14px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(14px) rotate(-360deg);
+  }
+}
+
+/* Audio spectrum visualizer bars */
+@keyframes audio-wave-1 {
+  0%, 100% { height: 4px; }
+  50% { height: 14px; }
+}
+@keyframes audio-wave-2 {
+  0%, 100% { height: 12px; }
+  50% { height: 5px; }
+}
+@keyframes audio-wave-3 {
+  0%, 100% { height: 6px; }
+  50% { height: 15px; }
+}
+
+/* Biometric security laser scanline */
+@keyframes scanline {
+  0%, 100% {
+    top: 15%;
+    opacity: 0.25;
+  }
+  50% {
+    top: 78%;
+    opacity: 1;
+  }
+}
+
+/* Tactile contract rubber stamp slam */
+@keyframes stamp-press {
+  0% {
+    transform: rotate(-10deg) scale(1.3);
+    opacity: 0;
+  }
+  70% {
+    transform: rotate(-10deg) scale(0.96);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-10deg) scale(1);
+    opacity: 1;
+  }
+}
+
 /* Global Accessibility: Strict reduced motion compliance (WCAG 2.2 SC 2.3.3) */
 @media (prefers-reduced-motion: reduce) {
   *,
