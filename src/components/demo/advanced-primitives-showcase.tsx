@@ -51,6 +51,8 @@ import {
   TimelineTitle,
   TimelineTime,
   TimelineDescription,
+  TimelineBody,
+  TimelineFooter,
 } from "@/components/ui/timeline";
 import { Tree, type TreeNodeData } from "@/components/ui/tree";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
@@ -61,6 +63,7 @@ import { CopyButton } from "@/components/ui/copy-button";
 import {
   CheckIcon,
   SparklesIcon,
+  LoaderCircleIcon,
   FolderOpenIcon,
   FileTextIcon,
   SearchIcon,
@@ -746,46 +749,75 @@ export function AdvancedPrimitivesShowcase() {
 
         <CardContent className="space-y-6 flex-1">
           {/* Chronological Timeline */}
-          <div className="space-y-2">
-            <label className="text-xs font-semibold text-foreground">Deployment Audit Timeline</label>
-            <Timeline className="pt-1">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-foreground">Deployment Audit Timeline</label>
+              <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
+                3 events recorded
+              </span>
+            </div>
+            <Timeline className="pt-2">
+              <TimelineItem>
+                <TimelineIndicator status="primary" pulse>
+                  <LoaderCircleIcon size={14} className="animate-spin text-primary" />
+                </TimelineIndicator>
+                <TimelineContent>
+                  <TimelineHeader>
+                    <div className="flex items-center gap-2 min-w-0">
+                      <TimelineTitle>Edge Cache Synchronisation</TimelineTitle>
+                      <Badge variant="outline" size="sm" className="font-mono text-[9px] border-primary/40 text-primary py-0 shrink-0">
+                        Active
+                      </Badge>
+                    </div>
+                    <TimelineTime dateTime="2026-10-30T13:58:00Z">Just now</TimelineTime>
+                  </TimelineHeader>
+                  <TimelineDescription>
+                    Purging stale assets across 12 availability zones with zero layout shift warm-up.
+                  </TimelineDescription>
+                  <TimelineBody>
+                    <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-muted-foreground">
+                      <span className="px-1.5 py-0.5 rounded-md bg-muted/70 border border-border/50 text-foreground font-semibold">
+                        sha:7cbf211
+                      </span>
+                      <span className="text-muted-foreground/50">&bull;</span>
+                      <span>48 primitives verified</span>
+                    </div>
+                  </TimelineBody>
+                </TimelineContent>
+              </TimelineItem>
+
               <TimelineItem>
                 <TimelineIndicator status="success">
-                  <CheckIcon size={12} />
+                  <CheckIcon size={14} />
                 </TimelineIndicator>
                 <TimelineContent>
                   <TimelineHeader>
                     <TimelineTitle>Version 0.1 Tagged &amp; Published</TimelineTitle>
-                    <TimelineTime dateTime="2026-10-30T12:00:00Z">Just now</TimelineTime>
+                    <TimelineTime dateTime="2026-10-30T13:30:00Z">18m ago</TimelineTime>
                   </TimelineHeader>
                   <TimelineDescription>
-                    Origin anonymity invariant enforced across 13 core directives.
+                    Self-contained origin anonymity enforced across all 13 design engineering directives.
                   </TimelineDescription>
+                  <TimelineFooter>
+                    <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                      <Avatar className="size-4 text-[8px]">
+                        <AvatarFallback>CI</AvatarFallback>
+                      </Avatar>
+                      <span>Triggered via Automated Release Engine</span>
+                    </div>
+                  </TimelineFooter>
                 </TimelineContent>
               </TimelineItem>
 
-              <TimelineItem>
-                <TimelineIndicator status="primary" />
-                <TimelineContent>
-                  <TimelineHeader>
-                    <TimelineTitle>Batch 7 Primitives Added</TimelineTitle>
-                    <TimelineTime dateTime="2026-10-30T11:45:00Z">15m ago</TimelineTime>
-                  </TimelineHeader>
-                  <TimelineDescription>
-                    Integrated Combobox, RadioGroup, ToggleGroup, ContextMenu, Drawer, and Timeline.
-                  </TimelineDescription>
-                </TimelineContent>
-              </TimelineItem>
-
-              <TimelineItem isLast>
+              <TimelineItem isLast connectorVariant="none">
                 <TimelineIndicator status="default" />
                 <TimelineContent>
                   <TimelineHeader>
                     <TimelineTitle>Automated Build Verified</TimelineTitle>
-                    <TimelineTime dateTime="2026-10-30T11:30:00Z">30m ago</TimelineTime>
+                    <TimelineTime dateTime="2026-10-30T13:00:00Z">45m ago</TimelineTime>
                   </TimelineHeader>
                   <TimelineDescription>
-                    All 48 components compiled cleanly with zero TypeScript errors.
+                    All component exports passed strict TypeScript compilation and perceptual contrast checks.
                   </TimelineDescription>
                 </TimelineContent>
               </TimelineItem>
