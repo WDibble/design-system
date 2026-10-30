@@ -1,6 +1,6 @@
 # The Design Philosophy & Manifesto: The Art of Human Software
 
-> *"When we align the interface to the way we think and move, something magical happens — it stops feeling like a computer and starts feeling like a seamless extension of us."*
+> *"When we align the interface to the way we think and move, something magical happens: it stops feeling like a computer and starts feeling like a seamless extension of us."*
 
 ---
 
@@ -59,12 +59,12 @@ When software ignores physics, the subconscious mind registers a micro-dissonanc
 
 ### Tenet 2: The Discipline of Radical Restraint (The Quiet Chrome)
 
-> *"Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away."* — Antoine de Saint-Exupéry
+> *"Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away."* (Antoine de Saint-Exupéry)
 
 A museum does not paint bright red arrows pointing to a Rembrandt. The museum walls are quiet, neutral, and lit with care so the artwork can speak.
 
 Most modern web apps suffer from visual screaming:
-- Cards nested inside cards, bordered by colored outlines, floating on drop shadows, capped with kicker tags, and illuminated with neon halos.
+- Cards nested inside cards, bordered by coloured outlines, floating on drop shadows, capped with kicker tags, and illuminated with neon halos.
 
 Our philosophy demands **quiet chrome**:
 1. **Cards are a Last Resort**: Grouping should be achieved through spatial proximity, typography, and baseline rhythm before reaching for a rectangular box.
@@ -75,7 +75,7 @@ Our philosophy demands **quiet chrome**:
 
 ### Tenet 3: Spatial Rhythm and Typographic Harmony (The Silence Between Notes)
 
-> *"Music is the silence between the notes."* — Claude Debussy
+> *"Music is the silence between the notes."* (Claude Debussy)
 
 In interface design, whitespace is not empty screen estate waiting to be filled with features. Whitespace is breathing room for the human brain.
 

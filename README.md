@@ -268,7 +268,7 @@ All icons located in [`src/components/icons/`](src/components/icons/) feature re
 Every line of code in this repository enforces these core design engineering invariants:
 
 1. **Physical Yield on `pointerdown`**: Interactive controls compress (`scale(0.97)` to `0.98`) the exact millisecond touch or mouse down occurs. Never wait for pointer release (`click`).
-2. **Zero Layout Shifts**: Dynamic states (`hover`, `focus`, `active`, `selected`) never change `border-width`, `font-weight`, `margin`, or `padding`. Outline states alter color only. Selection is signaled via color luminance or background pills—never by switching font weight.
+2. **Zero Layout Shifts**: Dynamic states (`hover`, `focus`, `active`, `selected`) never change `border-width`, `font-weight`, `margin`, or `padding`. Outline states alter color only. Selection is signaled via color luminance or background pills; never by switching font weight.
 3. **Tabular Numerals**: All counters, prices, timestamps, metrics, and data tables declare `font-variant-numeric: tabular-nums` (`tabular-nums`) to prevent horizontal digit jitter.
 4. **Accessible Invariants**: 100% WCAG 2.2 AA / AAA compliance. Every icon-only button carries an explicit `aria-label`. Dialogs trap focus, maintain focus guards, and dismiss on `Escape`.
 5. **Quiet Chrome**: Avoid the lazy reflex of putting everything in bordered cards. Rely first on spatial rhythm, typographic hierarchy, and optical alignment.
@@ -277,7 +277,7 @@ Every line of code in this repository enforces these core design engineering inv
 8. **Reversible Kinetic Affordances (No Gimmick Icon Animation)**: Icons only animate if they have a reversible mechanical affordance that glides back to its resting origin on pointer leave (e.g. sliding filter knobs, gliding paper plane, separating sheets). Confirmation icons (`+`, `-`, `✓`) remain rock-solid and static.
 9. **Component Dimension Invariants & Atomic Class Collision Defense**: Never merge multi-axis shorthand utilities (`size-full`, `p-0`) after single-axis variant sizes (`h-9`, `px-4`) inside `cn()` / `twMerge()`.
 10. **Component-Unified Kinetic Affinity**: Icons inside interactive components trigger synchronously with the parent component on hover, press, or focus (`group-hover`/`group-active`).
-11. **Perceptual Gradient Engineering & Dual-Engine Contrast**: No neon gradient-clipped text. All CSS gradient ramps interpolate in modern perceptual color spaces (`linear-gradient(in oklch, ...)`). Text and interactive boundaries satisfy both WCAG 2.2 Level AA ($\ge 4.5:1$) and WCAG 3 APCA ($|L_c| \ge 60/75$).
+11. **Perceptual Gradient Engineering & Dual-Engine Contrast**: No neon gradient-clipped text. All CSS gradient ramps interpolate in modern perceptual colour spaces (`linear-gradient(in oklch, ...)`). Text and interactive boundaries satisfy both WCAG 2.2 Level AA ($\ge 4.5:1$) and WCAG 3 APCA ($|L_c| \ge 60/75$).
 
 ---
 

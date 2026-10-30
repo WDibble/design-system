@@ -405,7 +405,7 @@ function AppContent() {
           },
           {
             title: "Theme Studio",
-            description: "OKLCH dual-engine WCAG 2.2 color tokens",
+            description: "OKLCH dual-engine WCAG 2.2 colour tokens",
             href: "#theme-studio",
             icon: <PaletteIcon size={16} />,
           },
@@ -2098,7 +2098,7 @@ function AppContent() {
                       </Badge>
                     </div>
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      Lensing refraction derived from <span className="font-medium text-foreground">{ambientGradients[selectedGradient].name}</span> in perceptual OKLCH space without muddy sRGB gray midpoints.
+                      Lensing refraction derived from <span className="font-medium text-foreground">{ambientGradients[selectedGradient].name}</span> in perceptual OKLCH space without muddy sRGB grey midpoints.
                     </p>
                     <div className="flex items-center gap-2 pt-1">
                       <Button size="sm" variant="default">
@@ -2311,7 +2311,7 @@ function AppContent() {
                       </div>
                     </div>
                     <p className="text-[10px] text-muted-foreground">
-                      sRGB gamma curve destroys chroma at the midpoint, producing an unappealing desaturated murky gray band.
+                      sRGB gamma curve destroys chroma at the midpoint, producing an unappealing desaturated murky grey band.
                     </p>
                   </div>
 
@@ -3110,14 +3110,14 @@ function AppContent() {
               </CommandItem>
               <CommandItem onSelect={() => { setCommandOpen(false); toggleTheme(); }}>
                 {isDark ? <SunIcon size={14} /> : <MoonIcon size={14} />}
-                <span>Toggle Color Theme</span>
+                <span>Toggle Colour Theme</span>
                 <CommandShortcut>⌘T</CommandShortcut>
               </CommandItem>
               <CommandItem onSelect={() => {
                 setCommandOpen(false);
                 toast({
                   title: "Instant Edge Deployment Triggered",
-                  description: "Synchronized across 5 global Anycast nodes.",
+                  description: "Synchronised across 5 global Anycast nodes.",
                   type: "success"
                 });
               }}>

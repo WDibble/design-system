@@ -20,7 +20,7 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
         </div>
 
         <blockquote className="border-l-2 border-primary/60 pl-4 py-1 text-sm italic text-muted-foreground leading-relaxed">
-          &ldquo;When we align the interface to the way we think and move, something magical happens &mdash; it stops feeling like a computer and starts feeling like a seamless extension of us.&rdquo;
+          &ldquo;When we align the interface to the way we think and move, something magical happens: it stops feeling like a computer and starts feeling like a seamless extension of us.&rdquo;
         </blockquote>
 
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-xs font-mono text-muted-foreground">
@@ -50,7 +50,7 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
             Generative systems frequently assemble user interfaces defensively, calculating the statistical median of the internet: generic card grids, screaming accent badges, and rigid linear transitions that halt abruptly like a stalled engine.
           </p>
           <p>
-            This is visual assembly, not design. True design lives at the disciplined intersection of human psychology, physical mechanics, and visual restraint. Software is not merely an abstraction over data &mdash; it is a sensory environment where people spend hours creating, communicating, and thinking.
+            This is visual assembly, not design. True design lives at the disciplined intersection of human psychology, physical mechanics, and visual restraint. Software is not merely an abstraction over data; it is a sensory environment where people spend hours creating, communicating, and thinking.
           </p>
           <p>
             Every primitive in this system is shaped by negative constraints: deliberate boundaries against synthetic tropes, balanced by principles of geometric harmony, structural stability, and immediate physical resonance.
@@ -108,7 +108,7 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
                 Software is an exhibition gallery for human thought, not an amusement park. We resist the impulse to enclose every piece of information within a bordered container. Recursive card nesting creates visual noise that distracts from core content.
               </p>
               <p>
-                We prioritize spatial rhythm, typographic hierarchy, optical alignment, and subtle hairline separators. Interface chrome steps back quietly so the user&rsquo;s work takes center stage.
+                We prioritise spatial rhythm, typographic hierarchy, optical alignment, and subtle hairline separators. Interface chrome steps back quietly so the user&rsquo;s work takes centre stage.
               </p>
             </div>
           </div>
@@ -168,7 +168,7 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
                 Autonomous systems require thoughtful negative constraints to avoid predictable boilerplate. We ban synthetic neon gradient text, spinning operational icons, and cramped, overcrowded horizontal layouts.
               </p>
               <p>
-                Gradients serve natural optical physics: soft atmospheric occlusion, subtle specular rim lighting, and chromatic lensing, blending smoothly through modern perceptual color spaces that eliminate muddy midtones.
+                Gradients serve natural optical physics: soft atmospheric occlusion, subtle specular rim lighting, and chromatic lensing, blending smoothly through modern perceptual colour spaces that eliminate muddy midtones.
               </p>
             </div>
           </div>
@@ -249,13 +249,13 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
               num: "10",
               title: "Unified Component Affinity",
               concept: "Holistic Surface Feedback",
-              body: "Embedded icons and indicators belong organically to their parent component. Engaging any portion of the interactive surface triggers cohesive, synchronized sensory feedback.",
+              body: "Embedded icons and indicators belong organically to their parent component. Engaging any portion of the interactive surface triggers cohesive, synchronised sensory feedback.",
             },
             {
               num: "11",
-              title: "Perceptual Color Harmony & Dual Contrast",
-              concept: "Perceptual Color Spaces",
-              body: "Color ramps blend smoothly through modern perceptual spaces to eliminate muddy gray midpoints, maintaining rigorous visual contrast across light and dark environments.",
+              title: "Perceptual Colour Harmony & Dual Contrast",
+              concept: "Perceptual Colour Spaces",
+              body: "Colour ramps blend smoothly through modern perceptual spaces to eliminate muddy grey midpoints, maintaining rigorous visual contrast across light and dark environments.",
             },
           ].map((item) => (
             <div
