@@ -300,13 +300,22 @@ export const TimelineIndicator = React.forwardRef<
           "bg-background transition-colors duration-150",
           sizeClass,
           status === "default" && "border-border/80 text-muted-foreground",
-          status === "primary" && "border-primary bg-primary/10 text-primary",
+          status === "primary" &&
+            (pulse
+              ? "border-primary/45 bg-background text-primary shadow-2xs"
+              : "border-primary bg-primary/10 text-primary"),
           status === "success" &&
-            "border-emerald-500/80 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+            (pulse
+              ? "border-emerald-500/45 bg-background text-emerald-600 dark:text-emerald-400 shadow-2xs"
+              : "border-emerald-500/80 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"),
           status === "warning" &&
-            "border-amber-500/80 bg-amber-500/10 text-amber-700 dark:text-amber-300",
+            (pulse
+              ? "border-amber-500/45 bg-background text-amber-700 dark:text-amber-300 shadow-2xs"
+              : "border-amber-500/80 bg-amber-500/10 text-amber-700 dark:text-amber-300"),
           status === "destructive" &&
-            "border-destructive bg-destructive/10 text-destructive",
+            (pulse
+              ? "border-destructive/45 bg-background text-destructive shadow-2xs"
+              : "border-destructive bg-destructive/10 text-destructive"),
           status === "muted" &&
             "border-border/40 bg-muted/40 text-muted-foreground/60 shadow-none",
           interactive &&
@@ -364,18 +373,12 @@ export const TimelineIndicator = React.forwardRef<
           </svg>
         )}
 
-        {/* Fluid radar dissipation wave */}
+        {/* Fluid radar dissipation wave with resting normal state */}
         {pulse && (
-          <>
-            <span
-              aria-hidden="true"
-              className="absolute inset-0 rounded-full border border-current bg-current/25 animate-[ping-compact_2.4s_cubic-bezier(0,0,0.2,1)_infinite] pointer-events-none will-change-transform transform-gpu"
-            />
-            <span
-              aria-hidden="true"
-              className="absolute -inset-0.5 rounded-full opacity-15 bg-current pointer-events-none"
-            />
-          </>
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 rounded-full border border-current bg-current/20 animate-[ping-compact_3s_cubic-bezier(0,0,0.2,1)_infinite] pointer-events-none will-change-transform transform-gpu"
+          />
         )}
 
         {/* Content Slots: Children > Step Number > Progress Label > Heartbeat > Default Dot */}
