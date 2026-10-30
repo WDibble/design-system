@@ -224,13 +224,13 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
   return (
     <>
       {/* Floating Launcher Button */}
-      <div className="fixed bottom-6 right-6 z-40">
+      <div className="fixed bottom-6 right-6 z-40 transform-gpu isolation-isolate">
         <Button
           size="default"
           variant="glass"
           onClick={() => setOpen(true)}
           aria-label="Open Theme Studio (⌘T)"
-          className="rounded-full shadow-2xl gap-2 pl-3.5 pr-4 border border-border/80 glass-thick specular-rim"
+          className="rounded-full shadow-2xl gap-2 pl-3.5 pr-4 border border-border/80 glass-thick specular-rim transform-gpu"
         >
           <PaletteIcon size={16} className="text-primary" />
           <span className="font-semibold text-xs tracking-tight">Theme Studio</span>

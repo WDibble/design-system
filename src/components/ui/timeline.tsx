@@ -133,7 +133,7 @@ export const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
             {resolvedVariant === "flow" && (
               <span
                 aria-hidden="true"
-                className="absolute left-0 w-full h-10 bg-gradient-to-b from-transparent via-primary to-transparent animate-[flow-packet_2.2s_cubic-bezier(0.4,0,0.6,1)_infinite]"
+                className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-transparent via-primary to-transparent animate-[flow-packet_2.2s_cubic-bezier(0.4,0,0.6,1)_infinite] will-change-transform transform-gpu pointer-events-none"
               />
             )}
           </span>
@@ -192,7 +192,7 @@ export const TimelineConnector = React.forwardRef<
       {variant === "flow" && (
         <span
           aria-hidden="true"
-          className="absolute left-0 w-full h-10 bg-gradient-to-b from-transparent via-primary to-transparent animate-[flow-packet_2.2s_cubic-bezier(0.4,0,0.6,1)_infinite]"
+          className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-transparent via-primary to-transparent animate-[flow-packet_2.2s_cubic-bezier(0.4,0,0.6,1)_infinite] will-change-transform transform-gpu pointer-events-none"
         />
       )}
     </span>
@@ -296,7 +296,7 @@ export const TimelineIndicator = React.forwardRef<
         tabIndex={interactive ? (tabIndex ?? 0) : undefined}
         onKeyDown={handleKeyDown}
         className={cn(
-          "relative z-10 flex shrink-0 items-center justify-center rounded-full border font-medium shadow-xs select-none",
+          "relative z-10 flex shrink-0 items-center justify-center rounded-full border font-medium shadow-xs select-none transform-gpu isolation-isolate",
           "bg-background transition-colors duration-150",
           sizeClass,
           status === "default" && "border-border/80 text-muted-foreground",
@@ -369,7 +369,7 @@ export const TimelineIndicator = React.forwardRef<
           <>
             <span
               aria-hidden="true"
-              className="absolute inset-0 rounded-full border border-current bg-current/25 animate-[ping-compact_2.4s_cubic-bezier(0,0,0.2,1)_infinite] pointer-events-none"
+              className="absolute inset-0 rounded-full border border-current bg-current/25 animate-[ping-compact_2.4s_cubic-bezier(0,0,0.2,1)_infinite] pointer-events-none will-change-transform transform-gpu"
             />
             <span
               aria-hidden="true"
@@ -393,7 +393,7 @@ export const TimelineIndicator = React.forwardRef<
           <span
             aria-hidden="true"
             className={cn(
-              "rounded-full bg-current animate-[heartbeat-led_2.8s_ease-in-out_infinite]",
+              "rounded-full bg-current animate-[heartbeat-led_2.8s_ease-in-out_infinite] will-change-transform transform-gpu",
               defaultDotClass
             )}
           />

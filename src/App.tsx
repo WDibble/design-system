@@ -556,7 +556,7 @@ function AppContent() {
           <NavigationBar
             sticky
             containerClassName="max-w-full px-2"
-            className="sticky top-4 z-50 rounded-2xl glass-regular specular-rim shadow-lg border-border/70 p-2 sm:px-4"
+            className="sticky top-4 z-50 rounded-2xl glass-regular specular-rim shadow-lg border-border/70 p-2 sm:px-4 transform-gpu isolation-isolate"
             brand={
               <button
                 type="button"
