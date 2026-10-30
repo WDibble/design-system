@@ -78,6 +78,14 @@ export const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
         ? "left-[18px] -translate-x-1/2"
         : "left-[14px] -translate-x-1/2";
 
+    // Track starts strictly at the bottom edge of this item's node
+    const connectorTopClass =
+      size === "sm"
+        ? "top-5"
+        : size === "lg"
+        ? "top-9"
+        : "top-7";
+
     const itemGapClass =
       size === "sm"
         ? "gap-2.5 pb-6"
@@ -100,7 +108,8 @@ export const TimelineItem = React.forwardRef<HTMLLIElement, TimelineItemProps>(
           <span
             aria-hidden="true"
             className={cn(
-              "absolute top-3.5 bottom-0 pointer-events-none group-last:hidden z-0",
+              "absolute bottom-0 pointer-events-none group-last:hidden z-0",
+              connectorTopClass,
               connectorLeftClass,
               connectorVariant === "dashed"
                 ? "w-0 border-l border-dashed border-border/80 bg-transparent"
@@ -136,12 +145,20 @@ export const TimelineConnector = React.forwardRef<
       ? "left-[18px] -translate-x-1/2"
       : "left-[14px] -translate-x-1/2";
 
+  const connectorTopClass =
+    size === "sm"
+      ? "top-5"
+      : size === "lg"
+      ? "top-9"
+      : "top-7";
+
   return (
     <span
       ref={ref}
       aria-hidden="true"
       className={cn(
-        "absolute top-3.5 bottom-0 pointer-events-none group-last:hidden z-0",
+        "absolute bottom-0 pointer-events-none group-last:hidden z-0",
+        connectorTopClass,
         connectorLeftClass,
         variant === "dashed"
           ? "w-0 border-l border-dashed border-border/80 bg-transparent"
@@ -219,6 +236,11 @@ export const TimelineIndicator = React.forwardRef<
         )}
         {...props}
       >
+        {/* Solid background mask guarantees zero line shine-through */}
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 rounded-full bg-background -z-10 pointer-events-none"
+        />
         {pulse && (
           <span
             aria-hidden="true"
