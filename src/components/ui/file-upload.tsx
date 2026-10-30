@@ -14,13 +14,15 @@ export interface FileItem {
 }
 
 export interface FileUploadProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "title"> {
   value?: FileItem[];
   onChange?: (files: FileItem[]) => void;
   accept?: string;
   maxFiles?: number;
   maxSizeMB?: number;
   disabled?: boolean;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
 }
 
 export function formatFileSize(bytes: number): string {
@@ -29,6 +31,19 @@ export function formatFileSize(bytes: number): string {
   const sizes = ["B", "KB", "MB", "GB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
+}
+
+export function formatAcceptedTypes(accept?: string): string {
+  if (!accept) return "all file formats";
+  const items = accept
+    .split(",")
+    .map((s) => s.trim().replace(/^\./, "").toUpperCase())
+    .filter(Boolean);
+
+  if (items.length === 0) return "all file formats";
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]} or ${items[1]}`;
+  return `${items.slice(0, -1).join(", ")}, or ${items[items.length - 1]}`;
 }
 
 export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
@@ -41,6 +56,8 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       maxFiles = 5,
       maxSizeMB = 10,
       disabled = false,
+      title,
+      description,
       children,
       ...props
     },
@@ -66,6 +83,27 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
         if (file.size > maxBytes) {
           setErrorMessage(`"${file.name}" exceeds the ${maxSizeMB} MB limit.`);
           return;
+        }
+
+        if (accept) {
+          const acceptedList = accept.split(",").map((s) => s.trim().toLowerCase());
+          const fileName = file.name.toLowerCase();
+          const fileType = file.type.toLowerCase();
+          const matches = acceptedList.some((pat) => {
+            if (pat.startsWith(".")) {
+              return fileName.endsWith(pat);
+            }
+            if (pat.endsWith("/*")) {
+              const prefix = pat.replace("/*", "");
+              return fileType.startsWith(prefix);
+            }
+            return fileType === pat;
+          });
+
+          if (!matches) {
+            setErrorMessage(`"${file.name}" has an unsupported format. Please provide ${formatAcceptedTypes(accept)}.`);
+            return;
+          }
         }
 
         validFiles.push({
@@ -135,25 +173,48 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           aria-label="Upload files dropzone"
           aria-disabled={disabled}
           className={cn(
-            "relative flex flex-col items-center justify-center p-6 sm:p-8 rounded-xl border border-dashed text-center cursor-pointer select-none",
-            "transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out outline-none",
-            "bg-muted/20 border-border/80 hover:bg-muted/40 hover:border-foreground/40",
+            "group relative flex flex-col items-center justify-center p-6 sm:p-7 rounded-xl border border-dashed text-center cursor-pointer select-none",
+            "transition-[background-color,border-color,box-shadow,transform] duration-150 ease-out outline-none",
+            "bg-muted/15 border-border/80 hover:bg-muted/30 hover:border-foreground/40",
             "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             // Directive 1: Tactile yield on pointerdown
             "active:scale-[0.99]",
-            isDragging && "border-primary bg-primary/5 ring-2 ring-primary/20 scale-[1.01]",
+            isDragging && "border-primary bg-primary/5 ring-2 ring-primary/20 scale-[1.005]",
             disabled && "pointer-events-none opacity-50 cursor-not-allowed"
           )}
         >
-          <div className="flex size-11 items-center justify-center rounded-full bg-muted border border-border/80 text-muted-foreground shadow-xs mb-3">
-            <UploadIcon size={20} className="text-primary" />
+          <div
+            className={cn(
+              "flex size-11 items-center justify-center rounded-full bg-card border border-border/80 text-muted-foreground shadow-xs mb-3",
+              "transition-transform duration-200 ease-out group-hover:scale-105 group-hover:text-primary",
+              isDragging && "scale-110 text-primary border-primary/50 shadow-sm"
+            )}
+          >
+            <UploadIcon size={18} />
           </div>
 
-          <p className="text-xs font-semibold text-foreground">
-            Click to upload or drag and drop
+          <p className="text-xs font-semibold text-foreground tracking-tight">
+            {title || (
+              <>
+                Drag and drop files here, or <span className="text-primary underline underline-offset-4 font-semibold">browse</span>
+              </>
+            )}
           </p>
-          <p className="text-[11px] text-muted-foreground mt-1 tabular-nums">
-            {accept ? accept.toUpperCase() : "Files"} up to {maxSizeMB} MB (maximum {maxFiles} files)
+
+          <p className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed max-w-sm">
+            {description || (
+              <>
+                <span>Supports {formatAcceptedTypes(accept)}</span>
+                <span className="mx-1.5 text-border/80">·</span>
+                <span className="tabular-nums">Up to {maxSizeMB} MB per file</span>
+                {maxFiles > 1 && (
+                  <>
+                    <span className="mx-1.5 text-border/80">·</span>
+                    <span className="tabular-nums">Maximum {maxFiles} files</span>
+                  </>
+                )}
+              </>
+            )}
           </p>
         </div>
 

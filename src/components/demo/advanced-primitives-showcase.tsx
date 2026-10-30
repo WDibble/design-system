@@ -560,7 +560,12 @@ export function AdvancedPrimitivesShowcase() {
 
           {/* Drag & Drop File Upload */}
           <div className="space-y-2 pt-3 border-t border-border/40">
-            <label className="text-xs font-semibold text-foreground">File Staging Dropzone</label>
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-foreground">File Staging Dropzone</label>
+              <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
+                {files.length} / 3 staged
+              </span>
+            </div>
             <FileUpload
               value={files}
               onChange={setFiles}
