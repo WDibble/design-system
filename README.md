@@ -22,7 +22,7 @@ npm install
 npm run dev
 ```
 
-Open [`http://localhost:5173`](http://localhost:5173) in your browser. You will see all 35 components, the real-time Theme Studio (⌘T), 470+ animated icons, and living interactive state transitions.
+Open [`http://localhost:5173`](http://localhost:5173) in your browser. You will see all 37 components, the real-time Theme Studio (⌘T), 470+ animated icons, and living interactive state transitions.
 
 To verify TypeScript and bundle a production build:
 ```bash
@@ -273,7 +273,7 @@ Every line of code in this repository enforces these core design engineering inv
 4. **Accessible Invariants**: 100% WCAG 2.2 AA / AAA compliance. Every icon-only button carries an explicit `aria-label`. Dialogs trap focus, maintain focus guards, and dismiss on `Escape`.
 5. **Quiet Chrome**: Avoid the lazy reflex of putting everything in bordered cards. Rely first on spatial rhythm, typographic hierarchy, and optical alignment.
 6. **Concentric Corner Radii**: Nested rounded surfaces compute their inner curve mathematically: $R_{\text{inner}} = \max(0, R_{\text{outer}} - \text{Padding})$ to eliminate bulging, lumpy corners.
-7. **Anti-Crush Responsive Page Architecture**: Minimum viable column width ($W_{\text{col}} \ge 340\text{px}$). Flex child titles declare `min-w-0 flex-1 truncate` while adjacent badge clusters declare `shrink-0 whitespace-nowrap`, breaking into responsive vertical stacks on small viewports.
+7. **Anti-Crush Responsive Page Architecture & Navigation Anti-Truncation Invariant**: Minimum viable column width ($W_{\text{col}} \ge 340\text{px}$). All badges and pills declare `shrink-0 whitespace-nowrap`. Navigation link titles, dropdown menu labels, and command items must NEVER declare `truncate` or `overflow-hidden` on their primary text labels, maintaining `whitespace-nowrap font-semibold` with wrapping badge clusters and minimum column widths ($W_{\text{col}} \ge 220\text{px}$).
 8. **Reversible Kinetic Affordances (No Gimmick Icon Animation)**: Icons only animate if they have a reversible mechanical affordance that glides back to its resting origin on pointer leave (e.g. sliding filter knobs, gliding paper plane, separating sheets). Confirmation icons (`+`, `-`, `✓`) remain rock-solid and static.
 9. **Component Dimension Invariants & Atomic Class Collision Defense**: Never merge multi-axis shorthand utilities (`size-full`, `p-0`) after single-axis variant sizes (`h-9`, `px-4`) inside `cn()` / `twMerge()`.
 10. **Component-Unified Kinetic Affinity**: Icons inside interactive components trigger synchronously with the parent component on hover, press, or focus (`group-hover`/`group-active`).

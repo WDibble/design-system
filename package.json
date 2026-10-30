@@ -2,6 +2,23 @@
   "name": "design-system",
   "private": true,
   "version": "0.1.0",
+  "description": "A human-centric, agent-native design system built with React 19, Base UI, Tailwind CSS v4, and Motion.",
+  "license": "MIT",
+  "author": "WDibble",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WDibble/design-system.git"
+  },
+  "keywords": [
+    "design-system",
+    "react-19",
+    "base-ui",
+    "tailwindcss-v4",
+    "motion",
+    "ui-kit",
+    "accessible",
+    "oklch"
+  ],
   "type": "module",
   "sideEffects": [
     "**/*.css"
