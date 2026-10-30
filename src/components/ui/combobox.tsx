@@ -83,12 +83,12 @@ export const ComboboxContent = React.forwardRef<
   const content = (
     <ComboboxPrimitive.Positioner
       sideOffset={sideOffset}
-      className="z-50 outline-none w-[var(--anchor-width)] min-w-[200px]"
+      className="z-50 outline-none w-[var(--anchor-width)] min-w-[200px] max-w-[calc(100vw-2.5rem)]"
     >
       <ComboboxPrimitive.Popup
         ref={ref}
         className={cn(
-          "max-h-72 overflow-y-auto rounded-lg border border-border/80 bg-popover/95 p-1 text-popover-foreground shadow-xl backdrop-blur-md",
+          "max-h-72 overflow-y-auto rounded-xl border border-border/80 bg-popover/95 p-1 text-popover-foreground shadow-xl backdrop-blur-md",
           "specular-rim outline-none",
           "transition-[opacity,transform] duration-150 ease-out",
           "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
@@ -116,11 +116,11 @@ export const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
       <ComboboxPrimitive.Item
         ref={ref}
         className={cn(
-          "relative flex cursor-pointer select-none items-center justify-between rounded-md px-2.5 py-1.5 text-xs font-medium outline-none",
+          "relative flex cursor-pointer select-none items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-medium outline-none",
           "text-foreground/90 transition-colors duration-100",
           "hover:bg-accent hover:text-accent-foreground",
           "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
-          "data-[selected]:bg-primary/10 data-[selected]:text-primary data-[selected]:font-semibold",
+          "data-[selected]:bg-primary/10 data-[selected]:text-primary",
           "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
           "active:scale-[0.985]", // Directive 1: Tactile yield
           className

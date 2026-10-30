@@ -41,7 +41,7 @@ export const HoverCardContent = React.forwardRef<
           <PreviewCardPrimitive.Popup
             ref={ref}
             className={cn(
-              "w-72 rounded-xl border border-border/80 bg-popover/95 p-4 text-popover-foreground shadow-2xl backdrop-blur-md outline-none",
+              "w-72 max-w-[calc(100vw-2.5rem)] rounded-xl border border-border/80 bg-popover/95 p-4 text-popover-foreground shadow-2xl backdrop-blur-md outline-none",
               "specular-rim",
               "transition-[opacity,transform] duration-150 ease-out",
               "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",

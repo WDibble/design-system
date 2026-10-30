@@ -152,15 +152,10 @@ export function AdvancedPrimitivesShowcase() {
       {/* 1. Advanced Selection & Formatting */}
       <Card className="flex flex-col justify-between h-full">
         <CardHeader className="flex flex-col gap-1 pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-base flex items-center gap-2">
-              <SlidersHorizontalIcon size={16} className="text-primary" />
-              <span>Selection &amp; Keycap Primitives</span>
-            </CardTitle>
-            <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-              Batch 7
-            </Badge>
-          </div>
+          <CardTitle className="text-base flex items-center gap-2">
+            <SlidersHorizontalIcon size={16} className="text-primary" />
+            <span>Selection &amp; Keycap Primitives</span>
+          </CardTitle>
           <CardDescription className="text-xs">
             Combobox autocomplete with instant filtering, accessible radio groups, and tactile physical keycaps.
           </CardDescription>
@@ -299,15 +294,10 @@ export function AdvancedPrimitivesShowcase() {
       {/* 2. Contextual Surfaces: ContextMenu, HoverCard & Drawer */}
       <Card className="flex flex-col justify-between h-full">
         <CardHeader className="flex flex-col gap-1 pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-base flex items-center gap-2">
-              <CursorClickIcon size={16} className="text-primary" />
-              <span>Contextual Floating Surfaces</span>
-            </CardTitle>
-            <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-              Desktop &amp; Mobile
-            </Badge>
-          </div>
+          <CardTitle className="text-base flex items-center gap-2">
+            <CursorClickIcon size={16} className="text-primary" />
+            <span>Contextual Floating Surfaces</span>
+          </CardTitle>
           <CardDescription className="text-xs">
             Desktop-grade right-click context menu, rich hover preview cards, and swipeable bottom drawer.
           </CardDescription>
@@ -442,15 +432,10 @@ export function AdvancedPrimitivesShowcase() {
       {/* 3. Hierarchy & Viewport Primitives: Tree & ScrollArea */}
       <Card className="flex flex-col justify-between h-full">
         <CardHeader className="flex flex-col gap-1 pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-base flex items-center gap-2">
-              <FolderOpenIcon size={16} className="text-primary" />
-              <span>Hierarchical Tree &amp; Scroll Viewport</span>
-            </CardTitle>
-            <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-              Keyboard Accessible
-            </Badge>
-          </div>
+          <CardTitle className="text-base flex items-center gap-2">
+            <FolderOpenIcon size={16} className="text-primary" />
+            <span>Hierarchical Tree &amp; Scroll Viewport</span>
+          </CardTitle>
           <CardDescription className="text-xs">
             Recursive expandable file tree and smooth scrollable viewport with auto-hiding custom thumb.
           </CardDescription>
@@ -497,15 +482,10 @@ export function AdvancedPrimitivesShowcase() {
       {/* 4. Activity Stream & File Staging: Timeline & FileUpload */}
       <Card className="flex flex-col justify-between h-full">
         <CardHeader className="flex flex-col gap-1 pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-base flex items-center gap-2">
-              <SparklesIcon size={16} className="text-primary" />
-              <span>Activity Stream &amp; File Staging</span>
-            </CardTitle>
-            <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-              Audit Trail
-            </Badge>
-          </div>
+          <CardTitle className="text-base flex items-center gap-2">
+            <SparklesIcon size={16} className="text-primary" />
+            <span>Activity Stream &amp; File Staging</span>
+          </CardTitle>
           <CardDescription className="text-xs">
             Chronological audit timeline and tactile drag-and-drop file staging zone with format validation.
           </CardDescription>

@@ -128,7 +128,7 @@ function TreeNodeItem({
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
           // Directive 1: Tactile yield:
           "active:scale-[0.985]",
-          isSelected && "bg-primary/10 text-primary font-semibold hover:bg-primary/15",
+          isSelected && "bg-primary/10 text-primary hover:bg-primary/15",
           node.disabled && "opacity-40 cursor-not-allowed pointer-events-none"
         )}
       >

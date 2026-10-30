@@ -12,7 +12,7 @@ export const toggleVariants = cva(
     "transition-[background-color,border-color,color,box-shadow,transform] duration-150 ease-out",
     "hover:bg-muted/70 hover:text-foreground",
     // Pressed state:
-    "data-[pressed]:bg-muted data-[pressed]:text-foreground data-[pressed]:font-semibold",
+    "data-[pressed]:bg-muted data-[pressed]:text-foreground",
     // Focus ring:
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     // Directive 1: Tactile yield on pointerdown:

@@ -32,7 +32,7 @@ export const ContextMenuContent = React.forwardRef<
         <ContextMenuPrimitive.Popup
           ref={ref}
           className={cn(
-            "min-w-48 overflow-hidden rounded-xl border border-border/80 bg-popover/95 p-1 text-popover-foreground shadow-2xl backdrop-blur-md select-none",
+            "min-w-48 max-w-[calc(100vw-2.5rem)] overflow-hidden rounded-xl border border-border/80 bg-popover/95 p-1 text-popover-foreground shadow-2xl backdrop-blur-md select-none",
             "specular-rim outline-none",
             "transition-[opacity,transform] duration-150 ease-out",
             "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
