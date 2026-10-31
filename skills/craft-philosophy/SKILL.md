@@ -473,6 +473,7 @@ When reviewing code against this craft standard, **always** output your findings
 | `transform: scale(0)` on modal entry | `transform: scale(0.95); opacity: 0` | Objects exist in space; emerging from 0.95 feels natural and physical. |
 | No `:active` press state on button | `active:scale-[0.98] transition-transform` | Visual feedback on press gives immediate tactile confirmation. |
 | `<button><XIcon /></button>` | `<button type="button" aria-label="Close dialog"><XIcon className="size-4 shrink-0" /></button>` | Prevents accidental form submission, prevents icon squishing, provides screen-reader accessible name. |
+| Motion icon in button without explicit size (e.g. `<BoldIcon className="size-3.5" />`) | Pass explicit `size={14}` and declare `[&_svg]:size-3.5 [&>div]:size-3.5` on the button | Motion icons wrap `<svg>` in a `<div>` with default 28px inline SVG attributes; without explicit scaling, icons blow out of buttons. |
 | `h-screen` | `h-dvh` | Prevents mobile browser navigation bar jumps and layout shifts. |
 | Small 28px button without touch target | `relative after:absolute after:-inset-2` | Meets Apple HIG & WCAG 2.5.5 minimum 44x44px touch target without visual bloat. |
 | Font weight changes on hover or active | Keep `font-medium`, use background luminance or border shadow lift | Eliminates layout shifts, glyph width jumps, and text jitter. |

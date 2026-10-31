@@ -27,9 +27,9 @@ export const toggleVariants = cva(
         surface: "bg-muted/40 hover:bg-muted/70 data-[pressed]:bg-background data-[pressed]:shadow-xs data-[pressed]:border-border/60",
       },
       size: {
-        sm: "h-8 px-2 min-w-8 text-xs",
-        default: "h-9 px-3 min-w-9 text-xs",
-        lg: "h-10 px-4 min-w-10 text-sm",
+        sm: "h-8 px-2 min-w-8 text-xs [&_svg]:size-3.5 [&_svg]:shrink-0 [&>div]:size-3.5 [&>div]:flex [&>div]:items-center [&>div]:justify-center",
+        default: "h-9 px-3 min-w-9 text-xs [&_svg]:size-4 [&_svg]:shrink-0 [&>div]:size-4 [&>div]:flex [&>div]:items-center [&>div]:justify-center",
+        lg: "h-10 px-4 min-w-10 text-sm [&_svg]:size-4.5 [&_svg]:shrink-0 [&>div]:size-4.5 [&>div]:flex [&>div]:items-center [&>div]:justify-center",
       },
     },
     defaultVariants: {
