@@ -59,10 +59,10 @@ export const toolbarButtonVariants = cva(
         surface: "bg-muted/30 hover:bg-muted/60 data-[pressed]:bg-background data-[pressed]:shadow-xs",
       },
       size: {
-        xs: "h-7 min-w-7 px-1.5 text-[11px] rounded-md gap-1",
-        sm: "h-8 min-w-8 px-2 text-xs rounded-lg gap-1.5",
-        default: "h-9 min-w-9 px-2.5 text-xs rounded-lg gap-2",
-        lg: "h-10 min-w-10 px-3 text-sm rounded-lg gap-2",
+        xs: "h-7 min-w-7 px-1.5 text-[11px] rounded-md gap-1 [&_svg]:size-3 [&_svg]:shrink-0 [&>div]:size-3 [&>div]:flex [&>div]:items-center [&>div]:justify-center",
+        sm: "h-8 min-w-8 px-2 text-xs rounded-lg gap-1.5 [&_svg]:size-3.5 [&_svg]:shrink-0 [&>div]:size-3.5 [&>div]:flex [&>div]:items-center [&>div]:justify-center",
+        default: "h-9 min-w-9 px-2.5 text-xs rounded-lg gap-2 [&_svg]:size-4 [&_svg]:shrink-0 [&>div]:size-4 [&>div]:flex [&>div]:items-center [&>div]:justify-center",
+        lg: "h-10 min-w-10 px-3 text-sm rounded-lg gap-2 [&_svg]:size-4.5 [&_svg]:shrink-0 [&>div]:size-4.5 [&>div]:flex [&>div]:items-center [&>div]:justify-center",
       },
     },
     defaultVariants: {

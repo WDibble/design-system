@@ -1071,13 +1071,13 @@ An agent-native, human-centric design system built with **strict visual precisio
                   aria-label="Text formatting options"
                 >
                   <ToolbarToggleItem value="bold" aria-label="Toggle bold">
-                    <BoldIcon className="size-3.5" />
+                    <BoldIcon size={14} className="size-3.5" />
                   </ToolbarToggleItem>
                   <ToolbarToggleItem value="italic" aria-label="Toggle italic">
-                    <ItalicIcon className="size-3.5" />
+                    <ItalicIcon size={14} className="size-3.5" />
                   </ToolbarToggleItem>
                   <ToolbarToggleItem value="underline" aria-label="Toggle underline">
-                    <UnderlineIcon className="size-3.5" />
+                    <UnderlineIcon size={14} className="size-3.5" />
                   </ToolbarToggleItem>
                 </ToolbarToggleGroup>
 
@@ -1092,13 +1092,13 @@ An agent-native, human-centric design system built with **strict visual precisio
                   aria-label="Text alignment"
                 >
                   <ToolbarToggleItem value="left" aria-label="Align text left">
-                    <AlignLeftIcon className="size-3.5" />
+                    <AlignLeftIcon size={14} className="size-3.5" />
                   </ToolbarToggleItem>
                   <ToolbarToggleItem value="center" aria-label="Align text centre">
-                    <AlignCenterIcon className="size-3.5" />
+                    <AlignCenterIcon size={14} className="size-3.5" />
                   </ToolbarToggleItem>
                   <ToolbarToggleItem value="right" aria-label="Align text right">
-                    <AlignRightIcon className="size-3.5" />
+                    <AlignRightIcon size={14} className="size-3.5" />
                   </ToolbarToggleItem>
                 </ToolbarToggleGroup>
 
