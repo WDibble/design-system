@@ -4,8 +4,7 @@ import * as React from "react";
 import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area";
 import { cn } from "@/lib/utils";
 
-export interface ScrollAreaProps
-  extends React.ComponentProps<typeof ScrollAreaPrimitive.Root> {
+export interface ScrollAreaProps extends React.ComponentProps<typeof ScrollAreaPrimitive.Root> {
   viewportRef?: React.Ref<HTMLDivElement>;
   viewportClassName?: string;
 }
@@ -32,8 +31,9 @@ export const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
 );
 ScrollArea.displayName = "ScrollArea";
 
-export interface ScrollBarProps
-  extends React.ComponentProps<typeof ScrollAreaPrimitive.Scrollbar> {}
+export interface ScrollBarProps extends React.ComponentProps<
+  typeof ScrollAreaPrimitive.Scrollbar
+> {}
 
 export const ScrollBar = React.forwardRef<HTMLDivElement, ScrollBarProps>(
   ({ className, orientation = "vertical", ...props }, ref) => {
@@ -42,7 +42,7 @@ export const ScrollBar = React.forwardRef<HTMLDivElement, ScrollBarProps>(
         ref={ref}
         orientation={orientation}
         className={cn(
-          "flex touch-none select-none p-0.5 transition-colors duration-150 ease-out",
+          "flex touch-none p-0.5 transition-colors duration-150 ease-out select-none",
           orientation === "vertical" && "h-full w-2.5 border-l border-l-transparent",
           orientation === "horizontal" && "h-2.5 flex-col border-t border-t-transparent",
           className

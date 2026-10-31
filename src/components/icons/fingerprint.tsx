@@ -18,10 +18,14 @@ interface FingerprintIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const PATH_VARIANTS: Variants = {
   normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+    y: -1.5,
+    scale: 1.04,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
@@ -115,31 +119,13 @@ const FingerprintIcon = forwardRef<FingerprintIconHandle, FingerprintIconProps>(
             variants={PATH_VARIANTS}
           />
 
-          <path
-            d="M2 12a10 10 0 0 1 18-6"
-            fill="none"
-            strokeOpacity={0.4}
-            strokeWidth="2"
-          />
-          <motion.path
-            animate={controls}
-            d="M2 12a10 10 0 0 1 18-6"
-            variants={PATH_VARIANTS}
-          />
+          <path d="M2 12a10 10 0 0 1 18-6" fill="none" strokeOpacity={0.4} strokeWidth="2" />
+          <motion.path animate={controls} d="M2 12a10 10 0 0 1 18-6" variants={PATH_VARIANTS} />
 
           <path d="M2 16h.01" fill="none" strokeOpacity={0.4} strokeWidth="2" />
-          <motion.path
-            animate={controls}
-            d="M2 16h.01"
-            variants={PATH_VARIANTS}
-          />
+          <motion.path animate={controls} d="M2 16h.01" variants={PATH_VARIANTS} />
 
-          <path
-            d="M21.8 16c.2-2 .131-5.354 0-6"
-            fill="none"
-            strokeOpacity={0.4}
-            strokeWidth="2"
-          />
+          <path d="M21.8 16c.2-2 .131-5.354 0-6" fill="none" strokeOpacity={0.4} strokeWidth="2" />
           <motion.path
             animate={controls}
             d="M21.8 16c.2-2 .131-5.354 0-6"
@@ -158,29 +144,15 @@ const FingerprintIcon = forwardRef<FingerprintIconHandle, FingerprintIconProps>(
             variants={PATH_VARIANTS}
           />
 
-          <path
-            d="M8.65 22c.21-.66.45-1.32.57-2"
-            fill="none"
-            strokeOpacity={0.4}
-            strokeWidth="2"
-          />
+          <path d="M8.65 22c.21-.66.45-1.32.57-2" fill="none" strokeOpacity={0.4} strokeWidth="2" />
           <motion.path
             animate={controls}
             d="M8.65 22c.21-.66.45-1.32.57-2"
             variants={PATH_VARIANTS}
           />
 
-          <path
-            d="M9 6.8a6 6 0 0 1 9 5.2v2"
-            fill="none"
-            strokeOpacity={0.4}
-            strokeWidth="2"
-          />
-          <motion.path
-            animate={controls}
-            d="M9 6.8a6 6 0 0 1 9 5.2v2"
-            variants={PATH_VARIANTS}
-          />
+          <path d="M9 6.8a6 6 0 0 1 9 5.2v2" fill="none" strokeOpacity={0.4} strokeWidth="2" />
+          <motion.path animate={controls} d="M9 6.8a6 6 0 0 1 9 5.2v2" variants={PATH_VARIANTS} />
         </svg>
       </div>
     );

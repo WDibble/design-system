@@ -12,8 +12,7 @@ export const DropdownMenuGroup = MenuPrimitive.Group;
 export const DropdownMenuRadioGroup = MenuPrimitive.RadioGroup;
 export const DropdownMenuSub = MenuPrimitive.SubmenuRoot;
 
-export interface DropdownMenuContentProps
-  extends React.ComponentProps<typeof MenuPrimitive.Popup> {
+export interface DropdownMenuContentProps extends React.ComponentProps<typeof MenuPrimitive.Popup> {
   anchor?: MenuPrimitive.Positioner.Props["anchor"];
   side?: MenuPrimitive.Positioner.Props["side"];
   align?: MenuPrimitive.Positioner.Props["align"];
@@ -24,10 +23,7 @@ export interface DropdownMenuContentProps
   portalProps?: MenuPrimitive.Portal.Props;
 }
 
-export const DropdownMenuContent = React.forwardRef<
-  HTMLDivElement,
-  DropdownMenuContentProps
->(
+export const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenuContentProps>(
   (
     {
       className,
@@ -59,7 +55,7 @@ export const DropdownMenuContent = React.forwardRef<
           <MenuPrimitive.Popup
             ref={ref}
             className={cn(
-              "relative min-w-48 overflow-hidden rounded-2xl glass-regular specular-rim p-1 text-popover-foreground select-none outline-none",
+              "glass-regular specular-rim relative min-w-48 overflow-hidden rounded-2xl p-1 text-popover-foreground outline-none select-none",
               // Deterministic anchor origin from Base UI positioner:
               "origin-(--transform-origin)",
               // Apple HIG micro-spring transition (scale, transform, and opacity):
@@ -79,36 +75,34 @@ export const DropdownMenuContent = React.forwardRef<
 );
 DropdownMenuContent.displayName = "DropdownMenuContent";
 
-export interface DropdownMenuItemProps
-  extends React.ComponentProps<typeof MenuPrimitive.Item> {
+export interface DropdownMenuItemProps extends React.ComponentProps<typeof MenuPrimitive.Item> {
   inset?: boolean;
   variant?: "default" | "destructive";
 }
 
-export const DropdownMenuItem = React.forwardRef<
-  HTMLDivElement,
-  DropdownMenuItemProps
->(({ className, inset, variant = "default", ...props }, ref) => {
-  return (
-    <MenuPrimitive.Item
-      ref={ref}
-      className={cn(
-        "relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium text-foreground outline-none",
-        "transition-all duration-100 ease-out active:scale-[0.98]",
-        "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
-        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-        inset && "pl-8",
-        variant === "destructive" && [
-          "text-destructive dark:text-rose-400",
-          "data-[highlighted]:bg-destructive data-[highlighted]:text-destructive-foreground",
-        ],
-        "[&_svg]:pointer-events-none [&_svg]:shrink-0",
-        className
-      )}
-      {...props}
-    />
-  );
-});
+export const DropdownMenuItem = React.forwardRef<HTMLDivElement, DropdownMenuItemProps>(
+  ({ className, inset, variant = "default", ...props }, ref) => {
+    return (
+      <MenuPrimitive.Item
+        ref={ref}
+        className={cn(
+          "relative flex cursor-pointer items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium text-foreground outline-none select-none",
+          "transition-all duration-100 ease-out active:scale-[0.98]",
+          "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
+          "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+          inset && "pl-8",
+          variant === "destructive" && [
+            "text-destructive dark:text-rose-400",
+            "data-[highlighted]:bg-destructive data-[highlighted]:text-destructive-foreground",
+          ],
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+          className
+        )}
+        {...props}
+      />
+    );
+  }
+);
 DropdownMenuItem.displayName = "DropdownMenuItem";
 
 export const DropdownMenuCheckboxItem = React.forwardRef<
@@ -120,7 +114,7 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
       ref={ref}
       checked={checked}
       className={cn(
-        "relative flex cursor-pointer select-none items-center gap-2 rounded-lg py-1.5 pl-8 pr-2.5 text-xs font-medium text-foreground outline-none",
+        "relative flex cursor-pointer items-center gap-2 rounded-lg py-1.5 pr-2.5 pl-8 text-xs font-medium text-foreground outline-none select-none",
         "transition-all duration-100 ease-out active:scale-[0.98]",
         "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
@@ -147,7 +141,7 @@ export const DropdownMenuRadioItem = React.forwardRef<
     <MenuPrimitive.RadioItem
       ref={ref}
       className={cn(
-        "relative flex cursor-pointer select-none items-center gap-2 rounded-lg py-1.5 pl-8 pr-2.5 text-xs font-medium text-foreground outline-none",
+        "relative flex cursor-pointer items-center gap-2 rounded-lg py-1.5 pr-2.5 pl-8 text-xs font-medium text-foreground outline-none select-none",
         "transition-all duration-100 ease-out active:scale-[0.98]",
         "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
@@ -176,7 +170,7 @@ export const DropdownMenuSubTrigger = React.forwardRef<
     <MenuPrimitive.SubmenuTrigger
       ref={ref}
       className={cn(
-        "flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium text-foreground outline-none",
+        "flex cursor-pointer items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium text-foreground outline-none select-none",
         "transition-all duration-100 ease-out active:scale-[0.98]",
         "data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
         "data-[popup-open]:bg-accent data-[popup-open]:text-accent-foreground",
@@ -192,39 +186,38 @@ export const DropdownMenuSubTrigger = React.forwardRef<
 });
 DropdownMenuSubTrigger.displayName = "DropdownMenuSubTrigger";
 
-export const DropdownMenuSubContent = React.forwardRef<
-  HTMLDivElement,
-  DropdownMenuContentProps
->(({ className, children, sideOffset = 4, alignOffset = -4, ...props }, ref) => {
-  return (
-    <MenuPrimitive.Portal>
-      <MenuPrimitive.Positioner
-        side="right"
-        align="start"
-        sideOffset={sideOffset}
-        alignOffset={alignOffset}
-        className="z-50 outline-none"
-      >
-        <MenuPrimitive.Popup
-          ref={ref}
-          className={cn(
-            "relative min-w-40 overflow-hidden rounded-2xl glass-regular specular-rim p-1 text-popover-foreground select-none outline-none",
-            // Deterministic anchor origin from Base UI positioner:
-            "origin-(--transform-origin)",
-            // Apple HIG micro-spring transition (scale, transform, and opacity):
-            "transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-            "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
-            "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
-            className
-          )}
-          {...props}
+export const DropdownMenuSubContent = React.forwardRef<HTMLDivElement, DropdownMenuContentProps>(
+  ({ className, children, sideOffset = 4, alignOffset = -4, ...props }, ref) => {
+    return (
+      <MenuPrimitive.Portal>
+        <MenuPrimitive.Positioner
+          side="right"
+          align="start"
+          sideOffset={sideOffset}
+          alignOffset={alignOffset}
+          className="z-50 outline-none"
         >
-          {children}
-        </MenuPrimitive.Popup>
-      </MenuPrimitive.Positioner>
-    </MenuPrimitive.Portal>
-  );
-});
+          <MenuPrimitive.Popup
+            ref={ref}
+            className={cn(
+              "glass-regular specular-rim relative min-w-40 overflow-hidden rounded-2xl p-1 text-popover-foreground outline-none select-none",
+              // Deterministic anchor origin from Base UI positioner:
+              "origin-(--transform-origin)",
+              // Apple HIG micro-spring transition (scale, transform, and opacity):
+              "transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
+              "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
+              "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
+              className
+            )}
+            {...props}
+          >
+            {children}
+          </MenuPrimitive.Popup>
+        </MenuPrimitive.Positioner>
+      </MenuPrimitive.Portal>
+    );
+  }
+);
 DropdownMenuSubContent.displayName = "DropdownMenuSubContent";
 
 export const DropdownMenuSeparator = React.forwardRef<
@@ -251,7 +244,7 @@ export function DropdownMenuLabel({
   return (
     <div
       className={cn(
-        "px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground select-none",
+        "px-2.5 py-1 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase select-none",
         inset && "pl-8",
         className
       )}
@@ -268,7 +261,7 @@ export function DropdownMenuShortcut({
   return (
     <span
       className={cn(
-        "ml-auto text-[10px] font-mono tracking-widest text-muted-foreground select-none",
+        "ml-auto font-mono text-[10px] tracking-widest text-muted-foreground select-none",
         className
       )}
       {...props}

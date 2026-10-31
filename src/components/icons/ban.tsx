@@ -18,10 +18,12 @@ interface BanIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const CIRCLE_VARIANTS: Variants = {
   normal: {
-    scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    scale: [1, 0.9, 1], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
+    scale: [1, 0.9, 1],
+    transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 

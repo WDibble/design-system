@@ -4,8 +4,10 @@ import * as React from "react";
 import { Slider as BaseSlider } from "@base-ui/react/slider";
 import { cn } from "@/lib/utils";
 
-export interface SliderProps
-  extends Omit<React.ComponentProps<typeof BaseSlider.Root>, "value" | "defaultValue"> {
+export interface SliderProps extends Omit<
+  React.ComponentProps<typeof BaseSlider.Root>,
+  "value" | "defaultValue"
+> {
   value?: number | number[];
   defaultValue?: number | number[];
   label?: React.ReactNode;
@@ -54,8 +56,8 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         max={max}
         thumbAlignment={thumbAlignment}
         className={cn(
-          "group/slider flex flex-col gap-2 w-full select-none",
-          disabled && "opacity-50 pointer-events-none",
+          "group/slider flex w-full flex-col gap-2 select-none",
+          disabled && "pointer-events-none opacity-50",
           className
         )}
         {...props}
@@ -64,17 +66,17 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           <div className="flex items-center justify-between text-xs font-medium">
             {label ? (
               typeof label === "string" ? (
-                <BaseSlider.Label className="text-foreground font-medium select-none">
+                <BaseSlider.Label className="font-medium text-foreground select-none">
                   {label}
                 </BaseSlider.Label>
               ) : (
                 label
               )
             ) : (
-              <BaseSlider.Label className="text-foreground font-medium select-none" />
+              <BaseSlider.Label className="font-medium text-foreground select-none" />
             )}
             {showValue && (
-              <span className="font-mono tabular-nums text-muted-foreground select-none">
+              <span className="font-mono text-muted-foreground tabular-nums select-none">
                 <BaseSlider.Value>
                   {(formattedValues) => (
                     <span>
@@ -89,11 +91,11 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           </div>
         )}
 
-        <BaseSlider.Control className="group/control relative flex items-center w-full py-3 touch-none cursor-pointer select-none">
+        <BaseSlider.Control className="group/control relative flex w-full cursor-pointer touch-none items-center py-3 select-none">
           {/* Static track with constant geometric height to guarantee zero layout shift on surrounding elements */}
           <BaseSlider.Track
             className={cn(
-              "relative grow select-none rounded-full h-1.5",
+              "relative h-1.5 grow rounded-full select-none",
               "before:absolute before:inset-0 before:rounded-full before:bg-muted/80 dark:before:bg-muted/40",
               "before:[box-shadow:inset_0_1px_1px_rgba(0,0,0,0.12)]"
             )}
@@ -101,7 +103,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             {/* Active range indicator with smooth spring glide on click / preset change, and zero lag when dragging */}
             <BaseSlider.Indicator
               className={cn(
-                "select-none rounded-full bg-primary",
+                "rounded-full bg-primary select-none",
                 "bg-gradient-to-r from-primary/90 to-primary",
                 "shadow-xs",
                 // Smooth glide when clicking track or preset buttons:
@@ -117,28 +119,28 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                 key={index}
                 index={index}
                 className={cn(
-                  "group/thumb block size-5 shrink-0 select-none rounded-full outline-none",
+                  "group/thumb block size-5 shrink-0 rounded-full outline-none select-none",
                   // High-craft tactile knob: Elevated pure white in both light and dark mode with specular rim & deep drop shadow:
-                  "bg-white border border-black/15 dark:border-white/40",
+                  "border border-black/15 bg-white dark:border-white/40",
                   "shadow-md dark:shadow-[0_2px_10px_rgba(0,0,0,0.85),0_0_0_1px_rgba(255,255,255,0.15)]",
                   // Smooth glide on position changes (click on track or preset button):
                   "[transition:inset-inline-start_300ms_cubic-bezier(0.16,1,0.3,1),left_300ms_cubic-bezier(0.16,1,0.3,1),bottom_300ms_cubic-bezier(0.16,1,0.3,1),transform_150ms_ease-out,box-shadow_150ms_ease-out,border-color_150ms_ease-out]",
                   // When actively dragging, eliminate position transition for instant pointer tracking:
                   "data-[dragging]:[transition:transform_150ms_ease-out,box-shadow_150ms_ease-out,border-color_150ms_ease-out]",
                   "hover:scale-115 hover:border-foreground/30",
-                  "data-[dragging]:scale-125 data-[dragging]:shadow-lg data-[dragging]:border-primary",
+                  "data-[dragging]:scale-125 data-[dragging]:border-primary data-[dragging]:shadow-lg",
                   // Refined focus ring without loud offset:
                   "focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1 focus-visible:ring-offset-background",
                   // 44px accessible touch target expansion:
                   "after:absolute after:-inset-3 after:content-['']",
-                  "cursor-grab active:cursor-grabbing flex items-center justify-center"
+                  "flex cursor-grab items-center justify-center active:cursor-grabbing"
                 )}
               >
                 {/* Center tactile pip */}
                 <div
                   className={cn(
                     "size-1.5 rounded-full bg-zinc-400 dark:bg-zinc-600",
-                    "transition-colors duration-150 pointer-events-none",
+                    "pointer-events-none transition-colors duration-150",
                     "group-hover/thumb:bg-primary",
                     "group-data-[dragging]/slider:bg-primary"
                   )}
@@ -148,17 +150,17 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                 {showTooltip && (
                   <div
                     className={cn(
-                      "absolute -top-8.5 left-1/2 -translate-x-1/2 pointer-events-none select-none z-30",
-                      "flex items-center justify-center rounded-md bg-foreground text-background px-1.5 py-0.5",
-                      "text-[10px] font-semibold font-mono tabular-nums shadow-md whitespace-nowrap",
+                      "pointer-events-none absolute -top-8.5 left-1/2 z-30 -translate-x-1/2 select-none",
+                      "flex items-center justify-center rounded-md bg-foreground px-1.5 py-0.5 text-background",
+                      "font-mono text-[10px] font-semibold whitespace-nowrap tabular-nums shadow-md",
                       // Apple HIG fluid transition:
                       "transition-[opacity,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
                       // Resting state: tucked away
-                      "opacity-0 scale-75 translate-y-1",
+                      "translate-y-1 scale-75 opacity-0",
                       // Visible on thumb hover, thumb focus, or while scrubbing:
-                      "group-hover/thumb:opacity-100 group-hover/thumb:scale-100 group-hover/thumb:translate-y-0",
-                      "group-focus-visible/thumb:opacity-100 group-focus-visible/thumb:scale-100 group-focus-visible/thumb:translate-y-0",
-                      "group-data-[dragging]/slider:opacity-100 group-data-[dragging]/slider:scale-100 group-data-[dragging]/slider:translate-y-0",
+                      "group-hover/thumb:translate-y-0 group-hover/thumb:scale-100 group-hover/thumb:opacity-100",
+                      "group-focus-visible/thumb:translate-y-0 group-focus-visible/thumb:scale-100 group-focus-visible/thumb:opacity-100",
+                      "group-data-[dragging]/slider:translate-y-0 group-data-[dragging]/slider:scale-100 group-data-[dragging]/slider:opacity-100",
                       // Downward caret:
                       "after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[3.5px] after:border-transparent after:border-t-foreground"
                     )}

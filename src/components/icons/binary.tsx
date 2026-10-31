@@ -122,22 +122,12 @@ const BinaryIcon = forwardRef<BinaryIconHandle, BinaryIconProps>(
             x="6"
             y="4"
           />
-          <motion.g
-            animate={controls}
-            custom={0}
-            initial="normal"
-            variants={FLIP_IN_VARIANTS}
-          >
+          <motion.g animate={controls} custom={0} initial="normal" variants={FLIP_IN_VARIANTS}>
             <path d="M6 4h2v6" />
             <path d="M6 10h4" />
           </motion.g>
 
-          <motion.g
-            animate={controls}
-            custom={1}
-            initial="normal"
-            variants={FLIP_OUT_VARIANTS}
-          >
+          <motion.g animate={controls} custom={1} initial="normal" variants={FLIP_OUT_VARIANTS}>
             <path d="M14 4h2v6" />
             <path d="M14 10h4" />
           </motion.g>
@@ -153,12 +143,7 @@ const BinaryIcon = forwardRef<BinaryIconHandle, BinaryIconProps>(
             y="4"
           />
 
-          <motion.g
-            animate={controls}
-            custom={2}
-            initial="normal"
-            variants={FLIP_OUT_VARIANTS}
-          >
+          <motion.g animate={controls} custom={2} initial="normal" variants={FLIP_OUT_VARIANTS}>
             <path d="M6 14h2v6" />
             <path d="M6 20h4" />
           </motion.g>
@@ -185,12 +170,7 @@ const BinaryIcon = forwardRef<BinaryIconHandle, BinaryIconProps>(
             x="14"
             y="14"
           />
-          <motion.g
-            animate={controls}
-            custom={3}
-            initial="normal"
-            variants={FLIP_IN_VARIANTS}
-          >
+          <motion.g animate={controls} custom={3} initial="normal" variants={FLIP_IN_VARIANTS}>
             <path d="M14 14h2v6" />
             <path d="M14 20h4" />
           </motion.g>

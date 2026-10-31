@@ -110,32 +110,25 @@ export function Pagination({
 }
 Pagination.displayName = "Pagination";
 
-export const PaginationContent = React.forwardRef<
-  HTMLUListElement,
-  React.ComponentProps<"ul">
->(({ className, ...props }, ref) => (
-  <ul
-    ref={ref}
-    className={cn("flex flex-row items-center gap-1 sm:gap-1.5 shrink-0", className)}
-    {...props}
-  />
-));
+export const PaginationContent = React.forwardRef<HTMLUListElement, React.ComponentProps<"ul">>(
+  ({ className, ...props }, ref) => (
+    <ul
+      ref={ref}
+      className={cn("flex shrink-0 flex-row items-center gap-1 sm:gap-1.5", className)}
+      {...props}
+    />
+  )
+);
 PaginationContent.displayName = "PaginationContent";
 
-export const PaginationItem = React.forwardRef<
-  HTMLLIElement,
-  React.ComponentProps<"li">
->(({ className, ...props }, ref) => (
-  <li
-    ref={ref}
-    className={cn("inline-flex items-center shrink-0", className)}
-    {...props}
-  />
-));
+export const PaginationItem = React.forwardRef<HTMLLIElement, React.ComponentProps<"li">>(
+  ({ className, ...props }, ref) => (
+    <li ref={ref} className={cn("inline-flex shrink-0 items-center", className)} {...props} />
+  )
+);
 PaginationItem.displayName = "PaginationItem";
 
-export interface PaginationLinkProps
-  extends Omit<HTMLMotionProps<"button">, "ref" | "children"> {
+export interface PaginationLinkProps extends Omit<HTMLMotionProps<"button">, "ref" | "children"> {
   isActive?: boolean;
   children?: React.ReactNode;
 }
@@ -175,12 +168,12 @@ export const PaginationLink = ({
         onClick?.(e);
       }}
       className={cn(
-        "group relative size-8 shrink-0 rounded-md font-mono tabular-nums text-xs font-medium flex items-center justify-center border border-transparent select-none outline-none transition-colors duration-150",
+        "group relative flex size-8 shrink-0 items-center justify-center rounded-md border border-transparent font-mono text-xs font-medium tabular-nums transition-colors duration-150 outline-none select-none",
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
         isActive
-          ? "text-primary-foreground cursor-default"
-          : "text-muted-foreground hover:text-foreground hover:bg-muted/70 cursor-pointer",
-        disabled && "opacity-40 cursor-not-allowed pointer-events-none",
+          ? "cursor-default text-primary-foreground"
+          : "cursor-pointer text-muted-foreground hover:bg-muted/70 hover:text-foreground",
+        disabled && "pointer-events-none cursor-not-allowed opacity-40",
         className
       )}
       {...props}
@@ -190,21 +183,18 @@ export const PaginationLink = ({
         <motion.span
           layoutId={layoutId}
           transition={springs.snappy}
-          className="absolute inset-0 rounded-md bg-primary shadow-xs specular-rim pointer-events-none"
+          className="specular-rim pointer-events-none absolute inset-0 rounded-md bg-primary shadow-xs"
         />
       )}
 
       {/* Numerical Label */}
-      <span className="relative z-10 block pointer-events-none">
-        {children}
-      </span>
+      <span className="pointer-events-none relative z-10 block">{children}</span>
     </motion.button>
   );
 };
 PaginationLink.displayName = "PaginationLink";
 
-export interface PaginationButtonProps
-  extends Omit<HTMLMotionProps<"button">, "ref" | "children"> {
+export interface PaginationButtonProps extends Omit<HTMLMotionProps<"button">, "ref" | "children"> {
   children?: React.ReactNode;
   disabled?: boolean;
   /**
@@ -225,10 +215,7 @@ export interface PaginationButtonProps
   label?: React.ReactNode;
 }
 
-export const PaginationPrevious = React.forwardRef<
-  HTMLButtonElement,
-  PaginationButtonProps
->(
+export const PaginationPrevious = React.forwardRef<HTMLButtonElement, PaginationButtonProps>(
   (
     {
       className,
@@ -269,13 +256,11 @@ export const PaginationPrevious = React.forwardRef<
         whileTap={!disabled ? { scale: 0.94 } : undefined}
         transition={springs.tactile}
         className={cn(
-          "group inline-flex items-center justify-center shrink-0 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-colors duration-150",
-          "hover:bg-muted hover:border-foreground/30 hover:text-foreground",
+          "group inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md border border-border/80 bg-card text-xs font-medium text-foreground shadow-xs transition-colors duration-150 outline-none select-none",
+          "hover:border-foreground/30 hover:bg-muted hover:text-foreground",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
-          isIconOnly
-            ? "size-8 p-0"
-            : "h-8 w-24 gap-1.5 px-2.5",
-          disabled && "opacity-40 cursor-not-allowed pointer-events-none",
+          isIconOnly ? "size-8 p-0" : "h-8 w-24 gap-1.5 px-2.5",
+          disabled && "pointer-events-none cursor-not-allowed opacity-40",
           className
         )}
         {...props}
@@ -283,7 +268,7 @@ export const PaginationPrevious = React.forwardRef<
         <ChevronLeftIcon
           size={14}
           className={cn(
-            "shrink-0 pointer-events-none",
+            "pointer-events-none shrink-0",
             !isIconOnly && "transition-transform duration-150 ease-out group-hover:-translate-x-0.5"
           )}
         />
@@ -296,10 +281,7 @@ export const PaginationPrevious = React.forwardRef<
 );
 PaginationPrevious.displayName = "PaginationPrevious";
 
-export const PaginationNext = React.forwardRef<
-  HTMLButtonElement,
-  PaginationButtonProps
->(
+export const PaginationNext = React.forwardRef<HTMLButtonElement, PaginationButtonProps>(
   (
     {
       className,
@@ -340,24 +322,20 @@ export const PaginationNext = React.forwardRef<
         whileTap={!disabled ? { scale: 0.94 } : undefined}
         transition={springs.tactile}
         className={cn(
-          "group inline-flex items-center justify-center shrink-0 rounded-md text-xs font-medium select-none cursor-pointer border border-border/80 bg-card text-foreground shadow-xs outline-none transition-colors duration-150",
-          "hover:bg-muted hover:border-foreground/30 hover:text-foreground",
+          "group inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md border border-border/80 bg-card text-xs font-medium text-foreground shadow-xs transition-colors duration-150 outline-none select-none",
+          "hover:border-foreground/30 hover:bg-muted hover:text-foreground",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
-          isIconOnly
-            ? "size-8 p-0"
-            : "h-8 w-24 gap-1.5 px-2.5",
-          disabled && "opacity-40 cursor-not-allowed pointer-events-none",
+          isIconOnly ? "size-8 p-0" : "h-8 w-24 gap-1.5 px-2.5",
+          disabled && "pointer-events-none cursor-not-allowed opacity-40",
           className
         )}
         {...props}
       >
-        {!isIconOnly && (
-          <span className="whitespace-nowrap">{children ?? label ?? "Next"}</span>
-        )}
+        {!isIconOnly && <span className="whitespace-nowrap">{children ?? label ?? "Next"}</span>}
         <ChevronRightIcon
           size={14}
           className={cn(
-            "shrink-0 pointer-events-none",
+            "pointer-events-none shrink-0",
             !isIconOnly && "transition-transform duration-150 ease-out group-hover:translate-x-0.5"
           )}
         />
@@ -379,13 +357,13 @@ export const PaginationNextIcon = React.forwardRef<
 >((props, ref) => <PaginationNext ref={ref} variant="icon" {...props} />);
 PaginationNextIcon.displayName = "PaginationNextIcon";
 
-export const PaginationEllipsis = ({
-  className,
-  ...props
-}: React.ComponentProps<"span">) => (
+export const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<"span">) => (
   <span
     aria-hidden
-    className={cn("flex size-8 shrink-0 items-center justify-center text-muted-foreground select-none", className)}
+    className={cn(
+      "flex size-8 shrink-0 items-center justify-center text-muted-foreground select-none",
+      className
+    )}
     {...props}
   >
     <span className="font-mono text-xs tracking-widest">…</span>
@@ -401,10 +379,7 @@ export type PaginationItemType = number | "ellipsis-start" | "ellipsis-end";
  * When totalPages > 7, this function ALWAYS returns exactly 7 items, guaranteeing
  * zero layout shift or width flickering as the active page changes.
  */
-export function getPaginationItems(
-  currentPage: number,
-  totalPages: number
-): PaginationItemType[] {
+export function getPaginationItems(currentPage: number, totalPages: number): PaginationItemType[] {
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, i) => i + 1);
   }

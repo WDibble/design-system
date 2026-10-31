@@ -19,7 +19,9 @@ interface LinkIconProps extends HTMLAttributes<HTMLDivElement> {
 const PATH_VARIANTS: Variants = {
   initial: { rotate: 0 },
   animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+    y: -1.5,
+    scale: 1.04,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 

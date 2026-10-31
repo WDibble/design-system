@@ -18,10 +18,20 @@ interface ChromeIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const VARIANTS: Variants = {
   normal: {
-    scale: 1, y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    scale: 1,
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: (custom: number) => ({
-    scale: [1, 1.08, 1], y: [0, -1, 0], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3, delay: custom * 0.08 },
+    scale: [1, 1.08, 1],
+    y: [0, -1, 0],
+    transition: {
+      type: "spring" as const,
+      stiffness: 500,
+      damping: 25,
+      duration: 0.3,
+      delay: custom * 0.08,
+    },
   }),
 };
 
@@ -80,14 +90,7 @@ const ChromeIcon = forwardRef<ChromeIconHandle, ChromeIconProps>(
           xmlns="http://www.w3.org/2000/svg"
         >
           <circle cx="12" cy="12" r="10" />
-          <motion.circle
-            animate={controls}
-            custom={0}
-            cx="12"
-            cy="12"
-            r="4"
-            variants={VARIANTS}
-          />
+          <motion.circle animate={controls} custom={0} cx="12" cy="12" r="4" variants={VARIANTS} />
           <motion.line
             animate={controls}
             custom={3}

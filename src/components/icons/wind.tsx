@@ -18,10 +18,12 @@ interface WindIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const PATH_VARIANTS: Variants = {
   normal: (_custom: number) => ({
-    x: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    x: 0,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   }),
   animate: (custom: number) => ({
-    x: 1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
+    x: 1.5,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
   }),
 };
 

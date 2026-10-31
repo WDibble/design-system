@@ -51,96 +51,95 @@ const PATH_VARIANTS: Variants = {
   }),
 };
 
-const SatelliteDishIcon = forwardRef<
-  SatelliteDishIconHandle,
-  SatelliteDishIconProps
->(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-  const svgControls = useAnimation();
-  const pathControls = useAnimation();
-  const isControlledRef = useRef(false);
+const SatelliteDishIcon = forwardRef<SatelliteDishIconHandle, SatelliteDishIconProps>(
+  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
+    const svgControls = useAnimation();
+    const pathControls = useAnimation();
+    const isControlledRef = useRef(false);
 
-  const runPathIntro = useCallback(async () => {
-    await pathControls.start("fadeOut");
-    pathControls.start("fadeIn");
-  }, [pathControls]);
+    const runPathIntro = useCallback(async () => {
+      await pathControls.start("fadeOut");
+      pathControls.start("fadeIn");
+    }, [pathControls]);
 
-  useImperativeHandle(ref, () => {
-    isControlledRef.current = ref != null;
-    return {
-      startAnimation: async () => {
-        await Promise.all([svgControls.start("animate"), runPathIntro()]);
+    useImperativeHandle(ref, () => {
+      isControlledRef.current = ref != null;
+      return {
+        startAnimation: async () => {
+          await Promise.all([svgControls.start("animate"), runPathIntro()]);
+        },
+        stopAnimation: () => {
+          svgControls.start("normal");
+          pathControls.start("normal");
+        },
+      };
+    }, [pathControls, ref, runPathIntro, svgControls]);
+
+    const handleMouseEnter = useCallback(
+      async (e: React.MouseEvent<HTMLDivElement>) => {
+        if (isControlledRef.current) {
+          onMouseEnter?.(e);
+        } else {
+          await Promise.all([svgControls.start("animate"), runPathIntro()]);
+        }
       },
-      stopAnimation: () => {
-        svgControls.start("normal");
-        pathControls.start("normal");
+      [onMouseEnter, runPathIntro, svgControls]
+    );
+
+    const handleMouseLeave = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (isControlledRef.current) {
+          onMouseLeave?.(e);
+        } else {
+          svgControls.start("normal");
+          pathControls.start("normal");
+        }
       },
-    };
-  }, [pathControls, ref, runPathIntro, svgControls]);
+      [onMouseLeave, pathControls, svgControls]
+    );
 
-  const handleMouseEnter = useCallback(
-    async (e: React.MouseEvent<HTMLDivElement>) => {
-      if (isControlledRef.current) {
-        onMouseEnter?.(e);
-      } else {
-        await Promise.all([svgControls.start("animate"), runPathIntro()]);
-      }
-    },
-    [onMouseEnter, runPathIntro, svgControls]
-  );
-
-  const handleMouseLeave = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (isControlledRef.current) {
-        onMouseLeave?.(e);
-      } else {
-        svgControls.start("normal");
-        pathControls.start("normal");
-      }
-    },
-    [onMouseLeave, pathControls, svgControls]
-  );
-
-  return (
-    <div
-      className={cn(className)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      {...props}
-    >
-      <motion.svg
-        animate={svgControls}
-        fill="none"
-        height={size}
-        initial="normal"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        variants={SATELLITE_DISH_VARIANTS}
-        viewBox="0 0 24 24"
-        width={size}
-        xmlns="http://www.w3.org/2000/svg"
+    return (
+      <div
+        className={cn(className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...props}
       >
-        <path d="M4 10a7.31 7.31 0 0 0 10 10Z" />
-        <path d="m9 15 3-3" />
-        <motion.path
-          animate={pathControls}
-          custom={1}
-          d="M17 13a6 6 0 0 0-6-6"
-          initial={{ opacity: 1 }}
-          variants={PATH_VARIANTS}
-        />
-        <motion.path
-          animate={pathControls}
-          custom={2}
-          d="M21 13A10 10 0 0 0 11 3"
-          initial={{ opacity: 1 }}
-          variants={PATH_VARIANTS}
-        />
-      </motion.svg>
-    </div>
-  );
-});
+        <motion.svg
+          animate={svgControls}
+          fill="none"
+          height={size}
+          initial="normal"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          variants={SATELLITE_DISH_VARIANTS}
+          viewBox="0 0 24 24"
+          width={size}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M4 10a7.31 7.31 0 0 0 10 10Z" />
+          <path d="m9 15 3-3" />
+          <motion.path
+            animate={pathControls}
+            custom={1}
+            d="M17 13a6 6 0 0 0-6-6"
+            initial={{ opacity: 1 }}
+            variants={PATH_VARIANTS}
+          />
+          <motion.path
+            animate={pathControls}
+            custom={2}
+            d="M21 13A10 10 0 0 0 11 3"
+            initial={{ opacity: 1 }}
+            variants={PATH_VARIANTS}
+          />
+        </motion.svg>
+      </div>
+    );
+  }
+);
 
 SatelliteDishIcon.displayName = "SatelliteDishIcon";
 

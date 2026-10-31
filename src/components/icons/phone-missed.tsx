@@ -97,11 +97,7 @@ const PhoneMissedIcon = forwardRef<PhoneMissedIconHandle, PhoneMissedIconProps>(
           width="24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <motion.g
-            animate={controls}
-            initial={{ y: 0, opacity: 1 }}
-            variants={ARROW_VARIANTS}
-          >
+          <motion.g animate={controls} initial={{ y: 0, opacity: 1 }} variants={ARROW_VARIANTS}>
             <path d="m16 2 6 6" />
             <path d="m22 2-6 6" />
           </motion.g>

@@ -8,28 +8,16 @@ export const HoverCard = PreviewCardPrimitive.Root;
 export const HoverCardTrigger = PreviewCardPrimitive.Trigger;
 export const HoverCardPortal = PreviewCardPrimitive.Portal;
 
-export interface HoverCardContentProps
-  extends React.ComponentProps<typeof PreviewCardPrimitive.Popup> {
+export interface HoverCardContentProps extends React.ComponentProps<
+  typeof PreviewCardPrimitive.Popup
+> {
   sideOffset?: number;
   align?: PreviewCardPrimitive.Positioner.Props["align"];
   side?: PreviewCardPrimitive.Positioner.Props["side"];
 }
 
-export const HoverCardContent = React.forwardRef<
-  HTMLDivElement,
-  HoverCardContentProps
->(
-  (
-    {
-      className,
-      align = "center",
-      side = "bottom",
-      sideOffset = 8,
-      children,
-      ...props
-    },
-    ref
-  ) => {
+export const HoverCardContent = React.forwardRef<HTMLDivElement, HoverCardContentProps>(
+  ({ className, align = "center", side = "bottom", sideOffset = 8, children, ...props }, ref) => {
     return (
       <PreviewCardPrimitive.Portal>
         <PreviewCardPrimitive.Positioner

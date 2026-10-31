@@ -18,10 +18,14 @@ interface GitCommitHorizontalIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const VARIANTS: Variants = {
   normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: (custom: number) => ({
-    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
+    y: -2,
+    scale: 1.1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
   }),
 };
 
@@ -81,14 +85,7 @@ const GitCommitHorizontalIcon = forwardRef<
         width={size}
         xmlns="http://www.w3.org/2000/svg"
       >
-        <motion.circle
-          animate={controls}
-          custom={1}
-          cx="12"
-          cy="12"
-          r="3"
-          variants={VARIANTS}
-        />
+        <motion.circle animate={controls} custom={1} cx="12" cy="12" r="3" variants={VARIANTS} />
         <motion.line
           animate={controls}
           custom={0}

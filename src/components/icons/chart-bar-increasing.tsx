@@ -17,8 +17,16 @@ interface ChartBarIncreasingIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const LINE_VARIANTS: Variants = {
-  visible: { scaleX: 1, originX: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 } },
-  hidden: { scaleX: 0.75, originX: 0, transition: { type: "spring" as const, stiffness: 500, damping: 25 } },
+  visible: {
+    scaleX: 1,
+    originX: 0,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
+  hidden: {
+    scaleX: 0.75,
+    originX: 0,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
 };
 
 const ChartBarIncreasingIcon = forwardRef<

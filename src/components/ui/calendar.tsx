@@ -19,8 +19,18 @@ export interface CalendarProps {
 }
 
 const MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 const DAY_NAMES = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -58,7 +68,9 @@ export function Calendar({
 }: CalendarProps) {
   const today = React.useMemo(() => new Date(), []);
   const [currentMonth, setCurrentMonth] = React.useState(() => {
-    return selected ? new Date(selected.getFullYear(), selected.getMonth(), 1) : new Date(today.getFullYear(), today.getMonth(), 1);
+    return selected
+      ? new Date(selected.getFullYear(), selected.getMonth(), 1)
+      : new Date(today.getFullYear(), today.getMonth(), 1);
   });
   const [slideDirection, setSlideDirection] = React.useState<number>(0);
 
@@ -164,14 +176,14 @@ export function Calendar({
       role="region"
       aria-label="Calendar date picker"
       className={cn(
-        "p-3.5 select-none w-72 max-w-full rounded-2xl border border-border/80 bg-card text-card-foreground shadow-lg glass-thin specular-rim",
+        "glass-thin specular-rim w-72 max-w-full rounded-2xl border border-border/80 bg-card p-3.5 text-card-foreground shadow-lg select-none",
         className
       )}
     >
       {/* Month & Navigation Header */}
-      <div className="flex items-center justify-between gap-1 mb-3 px-1">
+      <div className="mb-3 flex items-center justify-between gap-1 px-1">
         <div className="flex items-center gap-1.5">
-          <span className="font-semibold text-xs tracking-tight text-foreground">
+          <span className="text-xs font-semibold tracking-tight text-foreground">
             {MONTH_NAMES[currentMonth.getMonth()]}
           </span>
           <span className="font-mono text-xs text-muted-foreground tabular-nums">
@@ -205,7 +217,7 @@ export function Calendar({
             size="xs"
             variant="ghost"
             onClick={goToToday}
-            className="h-6 px-1.5 text-[10px] text-muted-foreground hover:text-foreground font-medium rounded-md"
+            className="h-6 rounded-md px-1.5 text-[10px] font-medium text-muted-foreground hover:text-foreground"
             aria-label="Go to today"
           >
             Today
@@ -235,11 +247,11 @@ export function Calendar({
       </div>
 
       {/* Weekday Labels */}
-      <div className="grid grid-cols-7 gap-1 text-center mb-1">
+      <div className="mb-1 grid grid-cols-7 gap-1 text-center">
         {DAY_NAMES.map((name) => (
           <div
             key={name}
-            className="text-[11px] font-medium text-muted-foreground/80 py-1"
+            className="py-1 text-[11px] font-medium text-muted-foreground/80"
             aria-label={name}
           >
             {name}
@@ -248,7 +260,7 @@ export function Calendar({
       </div>
 
       {/* Date Grid with AnimatePresence Month Slide */}
-      <div className="relative overflow-hidden min-h-56">
+      <div className="relative min-h-56 overflow-hidden">
         <AnimatePresence initial={false} custom={slideDirection} mode="popLayout">
           <motion.div
             key={`${currentMonth.getFullYear()}-${currentMonth.getMonth()}`}
@@ -285,19 +297,19 @@ export function Calendar({
                   aria-label={`${date.toDateString()}${isSelected ? ", selected" : ""}${isToday ? ", today" : ""}`}
                   aria-pressed={isSelected}
                   className={cn(
-                    "relative size-8 text-xs font-mono font-medium tabular-nums rounded-lg flex items-center justify-center border border-transparent cursor-pointer select-none",
+                    "relative flex size-8 cursor-pointer items-center justify-center rounded-lg border border-transparent font-mono text-xs font-medium tabular-nums select-none",
                     // Current month vs outside month
                     isCurrentMonth ? "text-foreground" : "text-muted-foreground/40",
                     // Hover & Focus (zero layout shift)
                     !isSelected && !isDisabled && "hover:bg-muted/70 hover:text-foreground",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+                    "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background focus-visible:outline-none",
                     // Today outline indicator
                     isToday && !isSelected && "border-primary/40 text-primary",
                     // Selected state
                     isSelected &&
-                      "bg-primary text-primary-foreground shadow-xs specular-rim hover:bg-primary/95",
+                      "specular-rim bg-primary text-primary-foreground shadow-xs hover:bg-primary/95",
                     // Disabled
-                    isDisabled && "opacity-25 cursor-not-allowed pointer-events-none"
+                    isDisabled && "pointer-events-none cursor-not-allowed opacity-25"
                   )}
                 >
                   <span>{dayNumber}</span>
@@ -350,22 +362,20 @@ export function DatePicker({
             aria-expanded={open}
             aria-haspopup="dialog"
             className={cn(
-              "w-56 justify-start text-left font-normal gap-2 h-9 px-3 rounded-lg border-border/80 glass-thin",
+              "glass-thin h-9 w-56 justify-start gap-2 rounded-lg border-border/80 px-3 text-left font-normal",
               !selected && "text-muted-foreground",
               className
             )}
           />
         }
       >
-        <CalendarDaysIcon size={15} className="text-muted-foreground shrink-0" />
-        <span className="truncate tabular-nums text-xs">
-          {formattedDate || placeholder}
-        </span>
+        <CalendarDaysIcon size={15} className="shrink-0 text-muted-foreground" />
+        <span className="truncate text-xs tabular-nums">{formattedDate || placeholder}</span>
       </PopoverTrigger>
       <PopoverContent
         align="start"
         sideOffset={6}
-        className="p-0 border-0 shadow-2xl w-auto overflow-hidden rounded-2xl glass-thick specular-rim"
+        className="glass-thick specular-rim w-auto overflow-hidden rounded-2xl border-0 p-0 shadow-2xl"
       >
         <Calendar
           selected={selected}

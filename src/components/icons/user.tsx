@@ -18,19 +18,27 @@ interface UserIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const PATH_VARIANT: Variants = {
   normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+    y: -1.5,
+    scale: 1.04,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
 const CIRCLE_VARIANT: Variants = {
   normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+    y: -1.5,
+    scale: 1.04,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
@@ -87,13 +95,7 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
           width={size}
           xmlns="http://www.w3.org/2000/svg"
         >
-          <motion.circle
-            animate={controls}
-            cx="12"
-            cy="8"
-            r="5"
-            variants={CIRCLE_VARIANT}
-          />
+          <motion.circle animate={controls} cx="12" cy="8" r="5" variants={CIRCLE_VARIANT} />
 
           <motion.path
             animate={controls}

@@ -18,10 +18,14 @@ interface WorkflowIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const VARIANTS: Variants = {
   normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: (custom: number) => ({
-    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
+    y: -2,
+    scale: 1.1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
   }),
 };
 

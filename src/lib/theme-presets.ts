@@ -14,7 +14,8 @@ export const presetThemes: PresetTheme[] = [
   {
     id: "zinc-default",
     name: "Zinc Minimalist",
-    description: "Quiet Chrome baseline. Calibrated greyscale typography and sub-pixel neutral elevation.",
+    description:
+      "Quiet Chrome baseline. Calibrated greyscale typography and sub-pixel neutral elevation.",
     hue: 0,
     chroma: 0,
     lightness: 0.205,
@@ -82,7 +83,8 @@ export const presetThemes: PresetTheme[] = [
   {
     id: "oled-abyss",
     name: "Abyssal Sapphire",
-    description: "Deep oceanic dark ground with electric sapphire accents for low-light engineering.",
+    description:
+      "Deep oceanic dark ground with electric sapphire accents for low-light engineering.",
     hue: 250,
     chroma: 0.18,
     lightness: 0.55,
@@ -150,7 +152,8 @@ export const presetThemes: PresetTheme[] = [
   {
     id: "tokyo-amber",
     name: "Tokyo Amber",
-    description: "Industrial warmth. High-contrast golden amber inspired by analogue synthesizers and Tokyo street signs.",
+    description:
+      "Industrial warmth. High-contrast golden amber inspired by analogue synthesizers and Tokyo street signs.",
     hue: 65,
     chroma: 0.18,
     lightness: 0.76,
@@ -286,9 +289,10 @@ export const presetThemes: PresetTheme[] = [
   {
     id: "rose-sunset",
     name: "Rose Sunset",
-    description: "Terracotta and warm dusk rose. Expressive editorial palette for creative and consumer interfaces.",
+    description:
+      "Terracotta and warm dusk rose. Expressive editorial palette for creative and consumer interfaces.",
     hue: 20,
-    chroma: 0.20,
+    chroma: 0.2,
     lightness: 0.58,
     radiusPx: 16,
     colorSwatch: "oklch(0.65 0.20 20)",
@@ -354,7 +358,8 @@ export const presetThemes: PresetTheme[] = [
   {
     id: "swiss-brutalist",
     name: "Swiss Architectural",
-    description: "Zero border-radius. Pure 90-degree geometry, ultra-sharp hairline borders, and graphic book typography.",
+    description:
+      "Zero border-radius. Pure 90-degree geometry, ultra-sharp hairline borders, and graphic book typography.",
     hue: 0,
     chroma: 0,
     lightness: 0,

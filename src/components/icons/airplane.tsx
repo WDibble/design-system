@@ -94,7 +94,7 @@ const AirplaneIcon = forwardRef<AirplaneIconHandle, AirplaneIconProps>(
           {SPEED_LINES.map((line, index) => (
             <motion.line
               animate={controls}
-              initial={{ opacity: 0, }}
+              initial={{ opacity: 0 }}
               key={index}
               stroke="currentColor"
               strokeWidth="1"

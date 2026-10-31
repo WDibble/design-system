@@ -5,8 +5,7 @@ import { Progress as ProgressPrimitive } from "@base-ui/react/progress";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
-export interface ProgressProps
-  extends React.ComponentProps<typeof ProgressPrimitive.Root> {
+export interface ProgressProps extends React.ComponentProps<typeof ProgressPrimitive.Root> {
   size?: "sm" | "default" | "lg";
   showValue?: boolean;
 }
@@ -23,7 +22,7 @@ export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     };
 
     return (
-      <div className="w-full flex flex-col gap-1.5">
+      <div className="flex w-full flex-col gap-1.5">
         <ProgressPrimitive.Root
           ref={ref}
           value={value}
@@ -46,7 +45,7 @@ export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           ) : (
             <ProgressPrimitive.Track className="size-full">
               <ProgressPrimitive.Indicator
-                className="h-full rounded-full bg-primary transition-[width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] [box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.2)]"
+                className="h-full rounded-full bg-primary [box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.2)] transition-[width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
                 style={{ width: `${clampedValue}%` }}
               />
             </ProgressPrimitive.Track>
@@ -54,7 +53,7 @@ export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
         </ProgressPrimitive.Root>
 
         {showValue && !isIndeterminate && (
-          <div className="flex justify-between items-center text-xs text-muted-foreground font-mono tabular-nums">
+          <div className="flex items-center justify-between font-mono text-xs text-muted-foreground tabular-nums">
             <span>Progress</span>
             <span className="font-semibold text-foreground">{Math.round(clampedValue)}%</span>
           </div>
@@ -73,17 +72,7 @@ export interface CircularProgressProps extends React.HTMLAttributes<HTMLDivEleme
 }
 
 export const CircularProgress = React.forwardRef<HTMLDivElement, CircularProgressProps>(
-  (
-    {
-      className,
-      value,
-      size = 48,
-      strokeWidth = 4,
-      showValue = false,
-      ...props
-    },
-    ref
-  ) => {
+  ({ className, value, size = 48, strokeWidth = 4, showValue = false, ...props }, ref) => {
     const isIndeterminate = value === null || value === undefined;
     const clampedValue = isIndeterminate ? 0 : Math.min(100, Math.max(0, value));
 
@@ -138,7 +127,7 @@ export const CircularProgress = React.forwardRef<HTMLDivElement, CircularProgres
         </svg>
 
         {showValue && !isIndeterminate && (
-          <span className="absolute font-mono text-xs font-semibold tabular-nums text-foreground tracking-tight">
+          <span className="absolute font-mono text-xs font-semibold tracking-tight text-foreground tabular-nums">
             {Math.round(clampedValue)}%
           </span>
         )}

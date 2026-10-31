@@ -68,7 +68,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {/* Toast viewport placed safely above home indicator / navigation bar */}
       <div
         aria-live="polite"
-        className="fixed bottom-0 right-0 z-50 p-4 sm:p-6 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none pb-[env(safe-area-inset-bottom,20px)]"
+        className="pointer-events-none fixed right-0 bottom-0 z-50 flex w-full max-w-sm flex-col gap-2.5 p-4 pb-[env(safe-area-inset-bottom,20px)] sm:p-6"
       >
         <AnimatePresence mode="popLayout">
           {toasts.map((t) => (
@@ -81,23 +81,23 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               exit={{ opacity: 0, scale: 0.92, y: 8 }}
               transition={springs.snappy}
               className={cn(
-                "pointer-events-auto flex items-start gap-3 p-3.5 rounded-2xl glass-regular specular-rim shadow-xl text-foreground text-xs select-none",
+                "glass-regular specular-rim pointer-events-auto flex items-start gap-3 rounded-2xl p-3.5 text-xs text-foreground shadow-xl select-none",
                 "border border-border/70"
               )}
             >
               {t.type === "success" && (
-                <CheckCircle2Icon className="size-4 shrink-0 text-emerald-500 mt-0.5" />
+                <CheckCircle2Icon className="mt-0.5 size-4 shrink-0 text-emerald-500" />
               )}
               {t.type === "error" && (
-                <AlertCircleIcon className="size-4 shrink-0 text-rose-500 mt-0.5" />
+                <AlertCircleIcon className="mt-0.5 size-4 shrink-0 text-rose-500" />
               )}
 
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-foreground tracking-tight leading-snug">
+              <div className="min-w-0 flex-1">
+                <p className="leading-snug font-semibold tracking-tight text-foreground">
                   {t.title}
                 </p>
                 {t.description && (
-                  <p className="text-muted-foreground mt-0.5 leading-relaxed truncate">
+                  <p className="mt-0.5 truncate leading-relaxed text-muted-foreground">
                     {t.description}
                   </p>
                 )}
@@ -111,7 +111,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                     t.undoAction?.();
                     dismiss(t.id);
                   }}
-                  className="h-7 px-2.5 rounded-lg text-xs font-semibold shrink-0 gap-1"
+                  className="h-7 shrink-0 gap-1 rounded-lg px-2.5 text-xs font-semibold"
                 >
                   <RotateCcwIcon size={12} />
                   <span>{t.undoLabel || "Undo"}</span>
@@ -123,7 +123,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 variant="ghost"
                 onClick={() => dismiss(t.id)}
                 aria-label="Dismiss notification"
-                className="size-7 rounded-lg text-muted-foreground hover:text-foreground shrink-0 after:-inset-2"
+                className="size-7 shrink-0 rounded-lg text-muted-foreground after:-inset-2 hover:text-foreground"
               >
                 <XIcon size={14} />
               </Button>

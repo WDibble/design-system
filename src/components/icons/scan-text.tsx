@@ -22,8 +22,16 @@ const FRAME_VARIANTS: Variants = {
 };
 
 const LINE_VARIANTS: Variants = {
-  visible: { scaleX: 1, originX: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 } },
-  hidden: { scaleX: 0.75, originX: 0, transition: { type: "spring" as const, stiffness: 500, damping: 25 } },
+  visible: {
+    scaleX: 1,
+    originX: 0,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
+  hidden: {
+    scaleX: 0.75,
+    originX: 0,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
 };
 
 const ScanTextIcon = forwardRef<ScanTextIconHandle, ScanTextIconProps>(
@@ -98,10 +106,7 @@ const ScanTextIcon = forwardRef<ScanTextIconHandle, ScanTextIconProps>(
         >
           <motion.path d="M3 7V5a2 2 0 0 1 2-2h2" variants={FRAME_VARIANTS} />
           <motion.path d="M17 3h2a2 2 0 0 1 2 2v2" variants={FRAME_VARIANTS} />
-          <motion.path
-            d="M21 17v2a2 2 0 0 1-2 2h-2"
-            variants={FRAME_VARIANTS}
-          />
+          <motion.path d="M21 17v2a2 2 0 0 1-2 2h-2" variants={FRAME_VARIANTS} />
           <motion.path d="M7 21H5a2 2 0 0 1-2-2v-2" variants={FRAME_VARIANTS} />
           <motion.path
             animate={controls}

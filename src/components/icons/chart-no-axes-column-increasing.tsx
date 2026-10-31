@@ -12,14 +12,21 @@ export interface ChartNoAxesColumnIncreasingIconHandle {
   stopAnimation: () => void;
 }
 
-interface ChartNoAxesColumnIncreasingIconProps
-  extends HTMLAttributes<HTMLDivElement> {
+interface ChartNoAxesColumnIncreasingIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
 const LINE_VARIANTS: Variants = {
-  visible: { scaleY: 1, originY: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 } },
-  hidden: { scaleY: 0.75, originY: 1, transition: { type: "spring" as const, stiffness: 500, damping: 25 } },
+  visible: {
+    scaleY: 1,
+    originY: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
+  hidden: {
+    scaleY: 0.75,
+    originY: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
 };
 
 const ChartNoAxesColumnIncreasingIcon = forwardRef<

@@ -15,7 +15,9 @@ export interface ResizablePanelGroupContextValue {
   activeHandleIndex: number | null;
 }
 
-const ResizablePanelGroupContext = React.createContext<ResizablePanelGroupContextValue | null>(null);
+const ResizablePanelGroupContext = React.createContext<ResizablePanelGroupContextValue | null>(
+  null
+);
 
 export interface ResizablePanelGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   direction?: "horizontal" | "vertical";
@@ -125,7 +127,8 @@ export function ResizablePanelGroup({
     }
     if (child.type === ResizableHandle) {
       const hIndex = (child.props as ResizableHandleProps).handleIndex ?? handleCount++;
-      return React.cloneElement(child, { handleIndex: hIndex } as React.Attributes & ResizableHandleProps);
+      return React.cloneElement(child, { handleIndex: hIndex } as React.Attributes &
+        ResizableHandleProps);
     }
     return child;
   });
@@ -178,7 +181,7 @@ export function ResizablePanel({
         flexShrink: 0,
         ...style,
       }}
-      className={cn("min-w-0 min-h-0 overflow-auto", className)}
+      className={cn("min-h-0 min-w-0 overflow-auto", className)}
       {...props}
     >
       {children}
@@ -243,15 +246,18 @@ export function ResizableHandle({
       role="separator"
       tabIndex={0}
       aria-orientation={direction}
+      aria-valuenow={Math.round(context.panelSizes[handleIndex] || 50)}
+      aria-valuemin={0}
+      aria-valuemax={100}
       aria-label="Resize panel divider"
       onPointerDown={handlePointerDown}
       onKeyDown={handleKeyDown}
       className={cn(
-        "relative flex items-center justify-center transition-colors select-none shrink-0",
+        "relative flex shrink-0 items-center justify-center transition-colors select-none",
         direction === "horizontal"
-          ? "w-2.5 -mx-1 hover:w-2.5 cursor-col-resize z-10"
-          : "h-2.5 -my-1 hover:h-2.5 cursor-row-resize z-10",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+          ? "z-10 -mx-1 w-2.5 cursor-col-resize hover:w-2.5"
+          : "z-10 -my-1 h-2.5 cursor-row-resize hover:h-2.5",
+        "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:outline-none",
         className
       )}
       {...props}
@@ -261,9 +267,9 @@ export function ResizableHandle({
         className={cn(
           "transition-all duration-150 ease-out",
           direction === "horizontal"
-            ? "h-full w-px bg-border/80 group-hover:bg-primary group-hover:w-0.5"
-            : "w-full h-px bg-border/80 group-hover:bg-primary group-hover:h-0.5",
-          isThisHandleActive && "bg-primary w-0.5"
+            ? "h-full w-px bg-border/80 group-hover:w-0.5 group-hover:bg-primary"
+            : "h-px w-full bg-border/80 group-hover:h-0.5 group-hover:bg-primary",
+          isThisHandleActive && "w-0.5 bg-primary"
         )}
       />
 
@@ -271,9 +277,11 @@ export function ResizableHandle({
       {withHandle && (
         <div
           className={cn(
-            "z-20 flex items-center justify-center rounded-sm border border-border/80 bg-muted text-muted-foreground shadow-xs transition-transform duration-150 specular-rim",
+            "specular-rim z-20 flex items-center justify-center rounded-sm border border-border/80 bg-muted text-muted-foreground shadow-xs transition-transform duration-150",
             direction === "horizontal" ? "h-6 w-3.5" : "h-3.5 w-6",
-            isThisHandleActive ? "scale-110 bg-primary text-primary-foreground border-primary" : "hover:scale-105"
+            isThisHandleActive
+              ? "scale-110 border-primary bg-primary text-primary-foreground"
+              : "hover:scale-105"
           )}
         >
           {direction === "horizontal" ? (

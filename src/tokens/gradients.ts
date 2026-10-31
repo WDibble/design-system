@@ -113,7 +113,8 @@ export const ambientGradients = {
     name: "Cosmic Fusion",
     palette: "Magenta to Indigo",
     css: "linear-gradient(135deg in oklch, oklch(0.65 0.28 335) 0%, oklch(0.35 0.18 280) 100%)",
-    subtleCss: "linear-gradient(135deg in oklch, oklch(0.65 0.28 335 / 0.18) 0%, oklch(0.35 0.18 280 / 0.18) 100%)",
+    subtleCss:
+      "linear-gradient(135deg in oklch, oklch(0.65 0.28 335 / 0.18) 0%, oklch(0.35 0.18 280 / 0.18) 100%)",
     category: "Atmospheric Glass Orb",
     dominantHues: ["Magenta", "Indigo"],
   },
@@ -122,7 +123,8 @@ export const ambientGradients = {
     name: "Sublime Light",
     palette: "Coral to Periwinkle",
     css: "linear-gradient(135deg in oklch, oklch(0.68 0.22 15) 0%, oklch(0.64 0.20 265) 100%)",
-    subtleCss: "linear-gradient(135deg in oklch, oklch(0.68 0.22 15 / 0.18) 0%, oklch(0.64 0.20 265 / 0.18) 100%)",
+    subtleCss:
+      "linear-gradient(135deg in oklch, oklch(0.68 0.22 15 / 0.18) 0%, oklch(0.64 0.20 265 / 0.18) 100%)",
     category: "Atmospheric Glass Orb",
     dominantHues: ["Coral Rose", "Periwinkle Blue"],
   },
@@ -131,7 +133,8 @@ export const ambientGradients = {
     name: "Quepal",
     palette: "Teal to Emerald",
     css: "linear-gradient(135deg in oklch, oklch(0.60 0.16 185) 0%, oklch(0.85 0.22 145) 100%)",
-    subtleCss: "linear-gradient(135deg in oklch, oklch(0.60 0.16 185 / 0.18) 0%, oklch(0.85 0.22 145 / 0.18) 100%)",
+    subtleCss:
+      "linear-gradient(135deg in oklch, oklch(0.60 0.16 185 / 0.18) 0%, oklch(0.85 0.22 145 / 0.18) 100%)",
     category: "Atmospheric Glass Orb",
     dominantHues: ["Deep Teal", "Spring Emerald"],
   },
@@ -140,7 +143,8 @@ export const ambientGradients = {
     name: "Shroom Haze",
     palette: "Violet to Cyan",
     css: "linear-gradient(135deg in oklch, oklch(0.38 0.18 310) 0%, oklch(0.58 0.10 215) 100%)",
-    subtleCss: "linear-gradient(135deg in oklch, oklch(0.38 0.18 310 / 0.18) 0%, oklch(0.58 0.10 215 / 0.18) 100%)",
+    subtleCss:
+      "linear-gradient(135deg in oklch, oklch(0.38 0.18 310 / 0.18) 0%, oklch(0.58 0.10 215 / 0.18) 100%)",
     category: "Atmospheric Glass Orb",
     dominantHues: ["Deep Violet", "Muted Cyan"],
   },
@@ -149,7 +153,8 @@ export const ambientGradients = {
     name: "Emerald Water",
     palette: "Jade to Cerulean",
     css: "linear-gradient(135deg in oklch, oklch(0.58 0.14 150) 0%, oklch(0.72 0.12 215) 100%)",
-    subtleCss: "linear-gradient(135deg in oklch, oklch(0.58 0.14 150 / 0.18) 0%, oklch(0.72 0.12 215 / 0.18) 100%)",
+    subtleCss:
+      "linear-gradient(135deg in oklch, oklch(0.58 0.14 150 / 0.18) 0%, oklch(0.72 0.12 215 / 0.18) 100%)",
     category: "Atmospheric Glass Orb",
     dominantHues: ["Forest Jade", "Cerulean"],
   },
@@ -158,7 +163,8 @@ export const ambientGradients = {
     name: "Bourbon Dusk",
     palette: "Terracotta to Amber",
     css: "linear-gradient(135deg in oklch, oklch(0.66 0.18 30) 0%, oklch(0.77 0.12 50) 100%)",
-    subtleCss: "linear-gradient(135deg in oklch, oklch(0.66 0.18 30 / 0.18) 0%, oklch(0.77 0.12 50 / 0.18) 100%)",
+    subtleCss:
+      "linear-gradient(135deg in oklch, oklch(0.66 0.18 30 / 0.18) 0%, oklch(0.77 0.12 50 / 0.18) 100%)",
     category: "Atmospheric Glass Orb",
     dominantHues: ["Warm Terracotta", "Peach Amber"],
   },

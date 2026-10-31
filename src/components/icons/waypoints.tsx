@@ -18,10 +18,14 @@ interface WaypointsIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const VARIANTS: Variants = {
   normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: (custom: number) => ({
-    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
+    y: -2,
+    scale: 1.1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
   }),
 };
 
@@ -87,12 +91,7 @@ const WaypointsIcon = forwardRef<WaypointsIconHandle, WaypointsIconProps>(
             r="2.5"
             variants={VARIANTS}
           />
-          <motion.path
-            animate={controls}
-            custom={1}
-            d="m10.2 6.3-3.9 3.9"
-            variants={VARIANTS}
-          />
+          <motion.path animate={controls} custom={1} d="m10.2 6.3-3.9 3.9" variants={VARIANTS} />
           <motion.circle
             animate={controls}
             custom={0}
@@ -101,12 +100,7 @@ const WaypointsIcon = forwardRef<WaypointsIconHandle, WaypointsIconProps>(
             r="2.5"
             variants={VARIANTS}
           />
-          <motion.path
-            animate={controls}
-            custom={2}
-            d="M7 12h10"
-            variants={VARIANTS}
-          />
+          <motion.path animate={controls} custom={2} d="M7 12h10" variants={VARIANTS} />
           <motion.circle
             animate={controls}
             custom={0}
@@ -115,12 +109,7 @@ const WaypointsIcon = forwardRef<WaypointsIconHandle, WaypointsIconProps>(
             r="2.5"
             variants={VARIANTS}
           />
-          <motion.path
-            animate={controls}
-            custom={3}
-            d="m13.8 17.7 3.9-3.9"
-            variants={VARIANTS}
-          />
+          <motion.path animate={controls} custom={3} d="m13.8 17.7 3.9-3.9" variants={VARIANTS} />
           <motion.circle
             animate={controls}
             custom={0}

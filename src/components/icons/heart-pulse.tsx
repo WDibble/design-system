@@ -29,10 +29,12 @@ const HEART_PULSE_VARIANTS: Variants = {
 
 const LINE_VARIANTS: Variants = {
   normal: {
-    y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    y: -1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+    y: -1.5,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 

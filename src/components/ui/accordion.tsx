@@ -14,10 +14,7 @@ export const AccordionItem = React.forwardRef<
   return (
     <AccordionPrimitive.Item
       ref={ref}
-      className={cn(
-        "border-b border-border/40 last:border-b-0 transition-colors",
-        className
-      )}
+      className={cn("border-b border-border/40 transition-colors last:border-b-0", className)}
       {...props}
     />
   );
@@ -28,13 +25,7 @@ export const AccordionHeader = React.forwardRef<
   HTMLHeadingElement,
   React.ComponentProps<typeof AccordionPrimitive.Header>
 >(({ className, ...props }, ref) => {
-  return (
-    <AccordionPrimitive.Header
-      ref={ref}
-      className={cn("flex", className)}
-      {...props}
-    />
-  );
+  return <AccordionPrimitive.Header ref={ref} className={cn("flex", className)} {...props} />;
 });
 AccordionHeader.displayName = "AccordionHeader";
 
@@ -49,8 +40,8 @@ export const AccordionTrigger = React.forwardRef<
       <AccordionPrimitive.Trigger
         ref={ref}
         className={cn(
-          "group flex flex-1 items-center justify-between py-4 text-left text-sm font-medium text-foreground cursor-pointer select-none",
-          "transition-all duration-150 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg",
+          "group flex flex-1 cursor-pointer items-center justify-between py-4 text-left text-sm font-medium text-foreground select-none",
+          "rounded-lg transition-all duration-150 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
           "hover:text-primary active:scale-[0.99]",
           "disabled:pointer-events-none disabled:opacity-50",
           className
@@ -83,14 +74,12 @@ export const AccordionContent = React.forwardRef<
       className={cn(
         "overflow-hidden text-sm text-muted-foreground transition-[height] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)]",
         "h-[var(--accordion-panel-height)]",
-        "data-[starting-style]:h-0 data-[ending-style]:h-0",
+        "data-[ending-style]:h-0 data-[starting-style]:h-0",
         className
       )}
       {...props}
     >
-      <div className="pb-4 pt-1 leading-relaxed min-h-0 text-sm">
-        {children}
-      </div>
+      <div className="min-h-0 pt-1 pb-4 text-sm leading-relaxed">{children}</div>
     </AccordionPrimitive.Panel>
   );
 });

@@ -33,8 +33,7 @@ function DigitColumn({ digit }: DigitColumnProps) {
   );
 }
 
-export interface NumberTickerProps
-  extends React.HTMLAttributes<HTMLSpanElement> {
+export interface NumberTickerProps extends React.HTMLAttributes<HTMLSpanElement> {
   value: number;
   decimalPlaces?: number;
   prefix?: string;
@@ -63,7 +62,7 @@ export function NumberTicker({
   return (
     <span
       className={cn(
-        "inline-flex items-center tabular-nums font-mono tracking-tight select-none",
+        "inline-flex items-center font-mono tracking-tight tabular-nums select-none",
         className
       )}
       {...props}

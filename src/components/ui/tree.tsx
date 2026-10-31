@@ -28,9 +28,7 @@ export function Tree({
   className,
   ...props
 }: TreeProps) {
-  const [expandedIds, setExpandedIds] = React.useState<Set<string>>(
-    new Set(defaultExpandedIds)
-  );
+  const [expandedIds, setExpandedIds] = React.useState<Set<string>>(new Set(defaultExpandedIds));
 
   const toggleExpand = (id: string) => {
     setExpandedIds((prev) => {
@@ -48,7 +46,7 @@ export function Tree({
     <div
       role="tree"
       aria-label={props["aria-label"] || "File hierarchy tree"}
-      className={cn("flex flex-col gap-0.5 select-none text-xs", className)}
+      className={cn("flex flex-col gap-0.5 text-xs select-none", className)}
       {...props}
     >
       {data.map((node) => (
@@ -113,7 +111,11 @@ function TreeNodeItem({
   };
 
   return (
-    <div role="treeitem" aria-expanded={hasChildren ? isExpanded : undefined} aria-selected={isSelected}>
+    <div
+      role="treeitem"
+      aria-expanded={hasChildren ? isExpanded : undefined}
+      aria-selected={isSelected}
+    >
       <button
         type="button"
         tabIndex={0}
@@ -123,15 +125,15 @@ function TreeNodeItem({
         aria-label={`${node.label}${hasChildren ? (isExpanded ? ", folder expanded" : ", folder collapsed") : ", file"}`}
         style={{ paddingLeft: `${Math.max(8, level * 16 + 8)}px` }}
         className={cn(
-          "flex w-full items-center gap-2 py-1.5 pr-2.5 rounded-md text-left font-medium outline-none",
-          "text-foreground/80 hover:text-foreground hover:bg-muted/50",
+          "flex w-full items-center gap-2 rounded-md py-1.5 pr-2.5 text-left font-medium outline-none",
+          "text-foreground/80 hover:bg-muted/50 hover:text-foreground",
           "transition-[background-color,color,transform] duration-100 ease-out",
           // Focus ring:
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
           // Directive 1: Tactile yield:
           "active:scale-[0.985]",
           isSelected && "bg-primary/10 text-primary hover:bg-primary/15",
-          node.disabled && "opacity-40 cursor-not-allowed pointer-events-none"
+          node.disabled && "pointer-events-none cursor-not-allowed opacity-40"
         )}
       >
         {/* Chevron Affordance */}
@@ -150,12 +152,24 @@ function TreeNodeItem({
         )}
 
         {/* Node Icon */}
-        <span aria-hidden="true" className="shrink-0 text-muted-foreground flex items-center justify-center">
-          {node.icon || (hasChildren ? (isExpanded ? <FolderOpenIcon size={14} /> : <FoldersIcon size={14} />) : <FileTextIcon size={14} />)}
+        <span
+          aria-hidden="true"
+          className="flex shrink-0 items-center justify-center text-muted-foreground"
+        >
+          {node.icon ||
+            (hasChildren ? (
+              isExpanded ? (
+                <FolderOpenIcon size={14} />
+              ) : (
+                <FoldersIcon size={14} />
+              )
+            ) : (
+              <FileTextIcon size={14} />
+            ))}
         </span>
 
         {/* Node Label */}
-        <span className="truncate flex-1 text-xs">{node.label}</span>
+        <span className="flex-1 truncate text-xs">{node.label}</span>
 
         {/* Optional Badge */}
         {node.badge && <span className="ml-auto shrink-0">{node.badge}</span>}
@@ -163,7 +177,7 @@ function TreeNodeItem({
 
       {/* Child Nodes */}
       {hasChildren && isExpanded && (
-        <div className="flex flex-col gap-0.5">
+        <div role="group" className="flex flex-col gap-0.5">
           {node.children!.map((child) => (
             <TreeNodeItem
               key={child.id}

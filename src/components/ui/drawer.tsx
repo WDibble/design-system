@@ -29,108 +29,93 @@ export const DrawerBackdrop = React.forwardRef<
 });
 DrawerBackdrop.displayName = "DrawerBackdrop";
 
-export interface DrawerHandleProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface DrawerHandleProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   preventCloseOnClick?: boolean;
 }
 
-export const DrawerHandle = React.forwardRef<
-  HTMLButtonElement,
-  DrawerHandleProps
->(({ className, preventCloseOnClick = false, onClick, ...props }, ref) => {
-  return (
-    <DrawerClose
-      render={
-        <button
-          ref={ref}
-          type="button"
-          aria-label="Drag down or click to close drawer"
-          className={cn(
-            "group mx-auto flex h-8 w-full cursor-grab active:cursor-grabbing items-center justify-center pt-2.5 pb-1 outline-none touch-none select-none",
-            className
-          )}
-          onClick={(e) => {
-            if (preventCloseOnClick) {
-              e.preventDefault();
-              e.stopPropagation();
-            }
-            onClick?.(e);
-          }}
-          {...props}
-        >
-          <span className="h-1.5 w-12 rounded-full bg-muted-foreground/30 transition-all duration-150 group-hover:w-16 group-hover:bg-muted-foreground/50 group-active:scale-95" />
-        </button>
-      }
-    />
-  );
-});
+export const DrawerHandle = React.forwardRef<HTMLButtonElement, DrawerHandleProps>(
+  ({ className, preventCloseOnClick = false, onClick, ...props }, ref) => {
+    return (
+      <DrawerClose
+        render={
+          <button
+            ref={ref}
+            type="button"
+            aria-label="Drag down or click to close drawer"
+            className={cn(
+              "group mx-auto flex h-8 w-full cursor-grab touch-none items-center justify-center pt-2.5 pb-1 outline-none select-none active:cursor-grabbing",
+              className
+            )}
+            onClick={(e) => {
+              if (preventCloseOnClick) {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+              onClick?.(e);
+            }}
+            {...props}
+          >
+            <span className="h-1.5 w-12 rounded-full bg-muted-foreground/30 transition-all duration-150 group-hover:w-16 group-hover:bg-muted-foreground/50 group-active:scale-95" />
+          </button>
+        }
+      />
+    );
+  }
+);
 DrawerHandle.displayName = "DrawerHandle";
 
-export interface DrawerContentProps
-  extends React.ComponentProps<typeof DrawerPrimitive.Popup> {
+export interface DrawerContentProps extends React.ComponentProps<typeof DrawerPrimitive.Popup> {
   hideHandle?: boolean;
 }
 
-export const DrawerContent = React.forwardRef<
-  HTMLDivElement,
-  DrawerContentProps
->(({ className, children, hideHandle = false, ...props }, ref) => {
-  return (
-    <DrawerPortal>
-      <DrawerBackdrop />
-      <DrawerPrimitive.Viewport className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
-        <DrawerPrimitive.Popup
-          ref={ref}
-          className={cn(
-            "pointer-events-auto relative w-full sm:max-w-xl flex flex-col rounded-t-[20px] border-t sm:border-x border-border/80 bg-background outline-none",
-            "shadow-[0_-12px_40px_-8px_oklch(0_0_0/0.18)] dark:shadow-[0_-12px_40px_-8px_oklch(0_0_0/0.45)]",
-            "specular-rim",
-            "touch-auto overscroll-contain select-none",
-            "[--bleed:12rem]",
-            "max-h-[calc(85vh+var(--bleed))]",
-            "mb-[calc(-1*var(--bleed))]",
-            "pb-[calc(env(safe-area-inset-bottom,0px)+var(--bleed))]",
-            "[transform:translateY(var(--drawer-swipe-movement-y,0px))]",
-            "transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
-            "data-swiping:transition-none data-swiping:select-none",
-            "data-[starting-style]:[transform:translateY(calc(100%-var(--bleed)+2px))]",
-            "data-[ending-style]:[transform:translateY(calc(100%-var(--bleed)+2px))]",
-            "data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*300ms)]",
-            className
-          )}
-          {...props}
-        >
-          {!hideHandle && <DrawerHandle />}
-          <DrawerPrimitive.Content className="flex flex-col flex-1 overflow-y-auto px-6 py-4">
-            {children}
-          </DrawerPrimitive.Content>
-        </DrawerPrimitive.Popup>
-      </DrawerPrimitive.Viewport>
-    </DrawerPortal>
-  );
-});
+export const DrawerContent = React.forwardRef<HTMLDivElement, DrawerContentProps>(
+  ({ className, children, hideHandle = false, ...props }, ref) => {
+    return (
+      <DrawerPortal>
+        <DrawerBackdrop />
+        <DrawerPrimitive.Viewport className="pointer-events-none fixed inset-0 z-50 flex items-end justify-center">
+          <DrawerPrimitive.Popup
+            ref={ref}
+            className={cn(
+              "pointer-events-auto relative flex w-full flex-col rounded-t-[20px] border-t border-border/80 bg-background outline-none sm:max-w-xl sm:border-x",
+              "shadow-[0_-12px_40px_-8px_oklch(0_0_0/0.18)] dark:shadow-[0_-12px_40px_-8px_oklch(0_0_0/0.45)]",
+              "specular-rim",
+              "touch-auto overscroll-contain select-none",
+              "[--bleed:12rem]",
+              "max-h-[calc(85vh+var(--bleed))]",
+              "mb-[calc(-1*var(--bleed))]",
+              "pb-[calc(env(safe-area-inset-bottom,0px)+var(--bleed))]",
+              "[transform:translateY(var(--drawer-swipe-movement-y,0px))]",
+              "transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+              "data-swiping:transition-none data-swiping:select-none",
+              "data-[starting-style]:[transform:translateY(calc(100%-var(--bleed)+2px))]",
+              "data-[ending-style]:[transform:translateY(calc(100%-var(--bleed)+2px))]",
+              "data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*300ms)]",
+              className
+            )}
+            {...props}
+          >
+            {!hideHandle && <DrawerHandle />}
+            <DrawerPrimitive.Content className="flex flex-1 flex-col overflow-y-auto px-6 py-4">
+              {children}
+            </DrawerPrimitive.Content>
+          </DrawerPrimitive.Popup>
+        </DrawerPrimitive.Viewport>
+      </DrawerPortal>
+    );
+  }
+);
 DrawerContent.displayName = "DrawerContent";
 
-export function DrawerHeader({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn("grid gap-1.5 text-center sm:text-left pb-4", className)}
-      {...props}
-    />
-  );
+export function DrawerHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn("grid gap-1.5 pb-4 text-center sm:text-left", className)} {...props} />;
 }
 DrawerHeader.displayName = "DrawerHeader";
 
-export function DrawerFooter({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function DrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("mt-auto flex flex-col gap-2 pt-4 border-t border-border/40", className)}
+      className={cn("mt-auto flex flex-col gap-2 border-t border-border/40 pt-4", className)}
       {...props}
     />
   );
@@ -144,7 +129,10 @@ export const DrawerTitle = React.forwardRef<
   return (
     <DrawerPrimitive.Title
       ref={ref}
-      className={cn("text-base font-semibold leading-none tracking-tight text-foreground", className)}
+      className={cn(
+        "text-base leading-none font-semibold tracking-tight text-foreground",
+        className
+      )}
       {...props}
     />
   );
@@ -158,7 +146,7 @@ export const DrawerDescription = React.forwardRef<
   return (
     <DrawerPrimitive.Description
       ref={ref}
-      className={cn("text-xs text-muted-foreground leading-relaxed", className)}
+      className={cn("text-xs leading-relaxed text-muted-foreground", className)}
       {...props}
     />
   );

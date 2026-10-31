@@ -110,11 +110,7 @@ const HatGlassesIcon = forwardRef<HatGlassesIconHandle, HatGlassesIconProps>(
             <path d="M2 11h20" />
           </motion.g>
 
-          <motion.g
-            animate={controls}
-            initial="normal"
-            variants={GLASSES_VARIANTS}
-          >
+          <motion.g animate={controls} initial="normal" variants={GLASSES_VARIANTS}>
             <path d="M14 18a2 2 0 0 0-4 0" />
             <circle cx="17" cy="18" r="3" />
             <circle cx="7" cy="18" r="3" />

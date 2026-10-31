@@ -13,8 +13,10 @@ export interface FileItem {
   status?: "pending" | "uploading" | "complete" | "error";
 }
 
-export interface FileUploadProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "title"> {
+export interface FileUploadProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "onChange" | "title"
+> {
   value?: FileItem[];
   onChange?: (files: FileItem[]) => void;
   accept?: string;
@@ -101,7 +103,9 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           });
 
           if (!matches) {
-            setErrorMessage(`"${file.name}" has an unsupported format. Please provide ${formatAcceptedTypes(accept)}.`);
+            setErrorMessage(
+              `"${file.name}" has an unsupported format. Please provide ${formatAcceptedTypes(accept)}.`
+            );
             return;
           }
         }
@@ -142,7 +146,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
     };
 
     return (
-      <div ref={ref} className={cn("flex flex-col gap-3 w-full", className)} {...props}>
+      <div ref={ref} className={cn("flex w-full flex-col gap-3", className)} {...props}>
         {/* Hidden Native File Input */}
         <input
           ref={inputRef}
@@ -173,35 +177,38 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
           aria-label="Upload files dropzone"
           aria-disabled={disabled}
           className={cn(
-            "group relative flex flex-col items-center justify-center p-6 sm:p-7 rounded-xl border border-dashed text-center cursor-pointer select-none",
+            "group relative flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed p-6 text-center select-none sm:p-7",
             "transition-[background-color,border-color,box-shadow,transform] duration-150 ease-out outline-none",
-            "bg-muted/15 border-border/80 hover:bg-muted/30 hover:border-foreground/40",
+            "border-border/80 bg-muted/15 hover:border-foreground/40 hover:bg-muted/30",
             "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             // Directive 1: Tactile yield on pointerdown
             "active:scale-[0.99]",
-            isDragging && "border-primary bg-primary/5 ring-2 ring-primary/20 scale-[1.005]",
-            disabled && "pointer-events-none opacity-50 cursor-not-allowed"
+            isDragging && "scale-[1.005] border-primary bg-primary/5 ring-2 ring-primary/20",
+            disabled && "pointer-events-none cursor-not-allowed opacity-50"
           )}
         >
           <div
             className={cn(
-              "flex size-11 items-center justify-center rounded-full bg-card border border-border/80 text-muted-foreground shadow-xs mb-3",
+              "mb-3 flex size-11 items-center justify-center rounded-full border border-border/80 bg-card text-muted-foreground shadow-xs",
               "transition-transform duration-200 ease-out group-hover:scale-105 group-hover:text-primary",
-              isDragging && "scale-110 text-primary border-primary/50 shadow-sm"
+              isDragging && "scale-110 border-primary/50 text-primary shadow-sm"
             )}
           >
             <UploadIcon size={18} />
           </div>
 
-          <p className="text-xs font-semibold text-foreground tracking-tight">
+          <p className="text-xs font-semibold tracking-tight text-foreground">
             {title || (
               <>
-                Drag and drop files here, or <span className="text-primary underline underline-offset-4 font-semibold">browse</span>
+                Drag and drop files here, or{" "}
+                <span className="font-semibold text-primary underline underline-offset-4">
+                  browse
+                </span>
               </>
             )}
           </p>
 
-          <p className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed max-w-sm">
+          <p className="mt-1.5 max-w-sm text-[11px] leading-relaxed text-muted-foreground">
             {description || (
               <>
                 <span>Supports {formatAcceptedTypes(accept)}</span>
@@ -220,9 +227,7 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
 
         {/* Error Feedback */}
         {errorMessage && (
-          <p className="text-xs text-destructive font-medium px-1">
-            {errorMessage}
-          </p>
+          <p className="px-1 text-xs font-medium text-destructive">{errorMessage}</p>
         )}
 
         {/* Uploaded File List */}
@@ -231,20 +236,18 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
             {value.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between gap-3 p-2.5 rounded-lg border border-border/60 bg-card shadow-xs text-xs"
+                className="flex items-center justify-between gap-3 rounded-lg border border-border/60 bg-card p-2.5 text-xs shadow-xs"
               >
-                <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                <div className="flex min-w-0 flex-1 items-center gap-2.5">
                   <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground">
                     <FileTextIcon size={16} />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-foreground truncate">
-                      {item.file.name}
-                    </p>
+                    <p className="truncate font-medium text-foreground">{item.file.name}</p>
                     <div className="flex items-center gap-2 text-[10px] text-muted-foreground tabular-nums">
                       <span>{formatFileSize(item.file.size)}</span>
                       <span>•</span>
-                      <span className="text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
+                      <span className="flex items-center gap-1 font-medium text-emerald-600 dark:text-emerald-400">
                         <CircleCheckIcon size={11} /> Ready
                       </span>
                     </div>

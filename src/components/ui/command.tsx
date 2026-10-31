@@ -16,18 +16,14 @@ const CommandContext = React.createContext<CommandContextValue>({
   setSearch: () => {},
 });
 
-export function Command({
-  children,
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function Command({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const [search, setSearch] = React.useState("");
 
   return (
     <CommandContext.Provider value={{ search, setSearch }}>
       <div
         className={cn(
-          "flex h-full w-full flex-col overflow-hidden rounded-2xl glass-regular specular-rim text-popover-foreground select-none",
+          "glass-regular specular-rim flex h-full w-full flex-col overflow-hidden rounded-2xl text-popover-foreground select-none",
           className
         )}
         {...props}
@@ -51,9 +47,7 @@ export function CommandDialog({ open, onOpenChange, children }: CommandDialogPro
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         const target = e.target as HTMLElement;
         const isInputField =
-          target.tagName === "INPUT" ||
-          target.tagName === "TEXTAREA" ||
-          target.isContentEditable;
+          target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable;
 
         // Detail #4: Do not trigger shortcut when user is already typing inside a form field
         if (isInputField && !target.closest("[role='dialog']")) {
@@ -75,15 +69,13 @@ export function CommandDialog({ open, onOpenChange, children }: CommandDialogPro
         <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-black/40 backdrop-blur-md transition-opacity duration-200 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0" />
         <DialogPrimitive.Popup
           className={cn(
-            "fixed left-1/2 top-1/3 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl glass-regular specular-rim shadow-2xl p-0 outline-none",
+            "glass-regular specular-rim fixed top-1/3 left-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl p-0 shadow-2xl outline-none",
             "transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]",
             "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
             "data-[ending-style]:scale-95 data-[ending-style]:opacity-0"
           )}
         >
-          <Command className="border-0 shadow-none bg-transparent">
-            {children}
-          </Command>
+          <Command className="border-0 bg-transparent shadow-none">{children}</Command>
         </DialogPrimitive.Popup>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
@@ -97,7 +89,7 @@ export const CommandInput = React.forwardRef<
   const { search, setSearch } = React.useContext(CommandContext);
 
   return (
-    <div className="flex items-center px-4 border-b border-border/60">
+    <div className="flex items-center border-b border-border/60 px-4">
       <SearchIcon className="mr-3 size-4 shrink-0 text-muted-foreground opacity-70" />
       <input
         ref={ref}
@@ -106,7 +98,7 @@ export const CommandInput = React.forwardRef<
         placeholder="Type a command or search..."
         aria-label={props["aria-label"] || "Search commands"}
         className={cn(
-          "flex h-12 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground text-foreground",
+          "flex h-12 w-full rounded-md bg-transparent py-3 text-sm text-foreground outline-none placeholder:text-muted-foreground",
           "disabled:cursor-not-allowed disabled:opacity-50",
           className
         )}
@@ -118,7 +110,7 @@ export const CommandInput = React.forwardRef<
           variant="ghost"
           onClick={() => setSearch("")}
           aria-label="Clear search query"
-          className="size-7 rounded-lg text-muted-foreground hover:text-foreground shrink-0 after:-inset-2"
+          className="size-7 shrink-0 rounded-lg text-muted-foreground after:-inset-2 hover:text-foreground"
         >
           <XIcon size={14} />
         </Button>
@@ -128,48 +120,42 @@ export const CommandInput = React.forwardRef<
 });
 CommandInput.displayName = "CommandInput";
 
-export const CommandList = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("max-h-72 sm:max-h-80 overflow-y-auto overflow-x-hidden p-2", className)}
-    {...props}
-  />
-));
-CommandList.displayName = "CommandList";
-
-export const CommandEmpty = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...props }, ref) => {
-  const { search } = React.useContext(CommandContext);
-  if (!search) return null;
-
-  return (
+export const CommandList = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("py-6 text-center text-xs text-muted-foreground", className)}
+      className={cn("max-h-72 overflow-x-hidden overflow-y-auto p-2 sm:max-h-80", className)}
       {...props}
-    >
-      {children || `No results found for "${search}"`}
-    </div>
-  );
-});
+    />
+  )
+);
+CommandList.displayName = "CommandList";
+
+export const CommandEmpty = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, children, ...props }, ref) => {
+    const { search } = React.useContext(CommandContext);
+    if (!search) return null;
+
+    return (
+      <div
+        ref={ref}
+        className={cn("py-6 text-center text-xs text-muted-foreground", className)}
+        {...props}
+      >
+        {children || `No results found for "${search}"`}
+      </div>
+    );
+  }
+);
 CommandEmpty.displayName = "CommandEmpty";
 
 export const CommandGroup = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { heading?: string }
 >(({ className, heading, children, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("overflow-hidden p-1 text-foreground", className)}
-    {...props}
-  >
+  <div ref={ref} className={cn("overflow-hidden p-1 text-foreground", className)} {...props}>
     {heading && (
-      <div className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/80">
+      <div className="px-2 py-1.5 text-[10px] font-semibold tracking-wider text-muted-foreground/80 uppercase">
         {heading}
       </div>
     )}
@@ -182,11 +168,7 @@ export const CommandSeparator = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-border/60", className)}
-    {...props}
-  />
+  <div ref={ref} className={cn("-mx-1 my-1 h-px bg-border/60", className)} {...props} />
 ));
 CommandSeparator.displayName = "CommandSeparator";
 
@@ -207,10 +189,10 @@ export const CommandItem = React.forwardRef<
       }
     }}
     className={cn(
-      "relative flex cursor-pointer select-none items-center gap-2 rounded-xl px-2.5 py-2 text-xs font-medium outline-none",
+      "relative flex cursor-pointer items-center gap-2 rounded-xl px-2.5 py-2 text-xs font-medium outline-none select-none",
       "transition-all duration-100",
       "hover:bg-accent hover:text-accent-foreground active:scale-[0.98]",
-      "focus-visible:ring-2 focus-visible:ring-ring focus-visible:bg-accent focus-visible:text-accent-foreground",
+      "focus-visible:bg-accent focus-visible:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring",
       className
     )}
     {...props}
@@ -220,13 +202,10 @@ export const CommandItem = React.forwardRef<
 ));
 CommandItem.displayName = "CommandItem";
 
-export const CommandShortcut = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement>) => (
+export const CommandShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => (
   <span
     className={cn(
-      "ml-auto text-[10px] tracking-widest text-muted-foreground font-mono bg-muted/60 px-1.5 py-0.5 rounded-md border border-border/40",
+      "ml-auto rounded-md border border-border/40 bg-muted/60 px-1.5 py-0.5 font-mono text-[10px] tracking-widest text-muted-foreground",
       className
     )}
     {...props}

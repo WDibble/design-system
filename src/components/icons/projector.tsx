@@ -20,7 +20,9 @@ const RAY_LINE_VARIANTS: Variants = {
     opacity: 0,
   },
   animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+    y: -1.5,
+    scale: 1.04,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
   visible: {
     opacity: 1,
@@ -136,11 +138,7 @@ const ProjectorIcon = forwardRef<ProjectorIconHandle, ProjectorIconProps>(
             initial="visible"
             variants={RAY_LINE_VARIANTS}
           />
-          <motion.g
-            animate={bodyControls}
-            initial="normal"
-            variants={PROJECTOR_BODY_VARIANTS}
-          >
+          <motion.g animate={bodyControls} initial="normal" variants={PROJECTOR_BODY_VARIANTS}>
             <circle cx="9" cy="13" r="3" />
             <path d="M11.83 12H20a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h2.17" />
             <path d="M16 16h2" />

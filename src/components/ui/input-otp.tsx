@@ -24,8 +24,10 @@ function useOTPContext() {
   return context;
 }
 
-export interface InputOTPProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value"> {
+export interface InputOTPProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "onChange" | "value"
+> {
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
@@ -101,7 +103,7 @@ export const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(
       >
         <div
           className={cn(
-            "relative inline-flex items-center select-none cursor-pointer",
+            "relative inline-flex cursor-pointer items-center select-none",
             disabled && "cursor-not-allowed opacity-50",
             containerClassName
           )}
@@ -127,7 +129,7 @@ export const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(
             onBlur={() => setIsFocused(false)}
             aria-label={props["aria-label"] || "One-time verification code"}
             className={cn(
-              "absolute inset-0 w-full h-full opacity-0 pointer-events-auto cursor-pointer z-10",
+              "pointer-events-auto absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0",
               "disabled:cursor-not-allowed",
               className
             )}
@@ -149,13 +151,7 @@ export interface InputOTPGroupProps extends React.HTMLAttributes<HTMLDivElement>
 
 export const InputOTPGroup = React.forwardRef<HTMLDivElement, InputOTPGroupProps>(
   ({ className, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn("flex items-center gap-1.5", className)}
-        {...props}
-      />
-    );
+    return <div ref={ref} className={cn("flex items-center gap-1.5", className)} {...props} />;
   }
 );
 InputOTPGroup.displayName = "InputOTPGroup";
@@ -169,7 +165,8 @@ export const InputOTPSlot = React.forwardRef<HTMLDivElement, InputOTPSlotProps>(
     const { value, focusedIndex, isFocused, mask, disabled } = useOTPContext();
 
     const char = value[index];
-    const isCurrentActive = isFocused && (focusedIndex === index || (index === value.length && index === focusedIndex));
+    const isCurrentActive =
+      isFocused && (focusedIndex === index || (index === value.length && index === focusedIndex));
     const isFilled = Boolean(char);
 
     return (
@@ -182,7 +179,8 @@ export const InputOTPSlot = React.forwardRef<HTMLDivElement, InputOTPSlotProps>(
           // Hover state
           !disabled && "hover:border-foreground/40",
           // Active focused slot state: High-precision focus ring with zero dimensional change
-          isCurrentActive && "border-ring ring-2 ring-ring ring-offset-2 ring-offset-background z-20",
+          isCurrentActive &&
+            "z-20 border-ring ring-2 ring-ring ring-offset-2 ring-offset-background",
           // Disabled
           disabled && "pointer-events-none opacity-50",
           className
@@ -197,7 +195,7 @@ export const InputOTPSlot = React.forwardRef<HTMLDivElement, InputOTPSlotProps>(
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.5, opacity: 0 }}
               transition={springs.snappy}
-              className="font-mono text-base font-semibold tabular-nums tracking-tight"
+              className="font-mono text-base font-semibold tracking-tight tabular-nums"
             >
               {mask ? "•" : char}
             </motion.span>
@@ -230,7 +228,10 @@ export const InputOTPSeparator = React.forwardRef<HTMLDivElement, InputOTPSepara
       <div
         ref={ref}
         role="separator"
-        className={cn("flex items-center justify-center px-1 text-muted-foreground select-none", className)}
+        className={cn(
+          "flex items-center justify-center px-1 text-muted-foreground select-none",
+          className
+        )}
         {...props}
       >
         {children || <div className="h-1 w-2 rounded-full bg-muted-foreground/40" />}

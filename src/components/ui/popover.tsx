@@ -9,8 +9,7 @@ export const PopoverTrigger = PopoverPrimitive.Trigger;
 export const PopoverPortal = PopoverPrimitive.Portal;
 export const PopoverClose = PopoverPrimitive.Close;
 
-export interface PopoverContentProps
-  extends React.ComponentProps<typeof PopoverPrimitive.Popup> {
+export interface PopoverContentProps extends React.ComponentProps<typeof PopoverPrimitive.Popup> {
   anchor?: PopoverPrimitive.Positioner.Props["anchor"];
   side?: PopoverPrimitive.Positioner.Props["side"];
   align?: PopoverPrimitive.Positioner.Props["align"];
@@ -21,10 +20,7 @@ export interface PopoverContentProps
   portalProps?: PopoverPrimitive.Portal.Props;
 }
 
-export const PopoverContent = React.forwardRef<
-  HTMLDivElement,
-  PopoverContentProps
->(
+export const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
   (
     {
       className,
@@ -56,7 +52,7 @@ export const PopoverContent = React.forwardRef<
           <PopoverPrimitive.Popup
             ref={ref}
             className={cn(
-              "relative w-72 rounded-2xl glass-regular specular-rim p-4 text-popover-foreground select-auto outline-none",
+              "glass-regular specular-rim relative w-72 rounded-2xl p-4 text-popover-foreground outline-none select-auto",
               // Deterministic anchor origin from Base UI positioner:
               "origin-(--transform-origin)",
               // Apple HIG micro-spring transition (scale, transform, and opacity):
@@ -76,13 +72,10 @@ export const PopoverContent = React.forwardRef<
 );
 PopoverContent.displayName = "PopoverContent";
 
-export function PopoverHeader({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function PopoverHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("flex flex-col gap-1 pb-3 text-left border-b border-border/40 mb-3", className)}
+      className={cn("mb-3 flex flex-col gap-1 border-b border-border/40 pb-3 text-left", className)}
       {...props}
     />
   );
@@ -110,7 +103,7 @@ export const PopoverDescription = React.forwardRef<
   return (
     <PopoverPrimitive.Description
       ref={ref}
-      className={cn("text-xs text-muted-foreground leading-relaxed", className)}
+      className={cn("text-xs leading-relaxed text-muted-foreground", className)}
       {...props}
     />
   );

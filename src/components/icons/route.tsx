@@ -24,10 +24,14 @@ const CIRCLE_TRANSITION: Transition = {
 
 const CIRCLE_VARIANTS: Variants = {
   normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+    y: -2,
+    scale: 1.1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
@@ -99,11 +103,15 @@ const RouteIcon = forwardRef<RouteIconHandle, RouteIconProps>(
             transition={{ duration: 0.7, delay: 0.5, opacity: { delay: 0.5 } }}
             variants={{
               normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+                y: 0,
+                scale: 1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+              },
               animate: {
-    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+                y: -2,
+                scale: 1.1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+              },
             }}
           />
           <motion.circle

@@ -20,12 +20,29 @@
     "oklch"
   ],
   "type": "module",
+  "main": "./dist-lib/index.js",
+  "module": "./dist-lib/index.js",
+  "types": "./dist-lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist-lib/index.d.ts",
+      "import": "./dist-lib/index.js"
+    },
+    "./styles.css": "./src/index.css"
+  },
+  "files": [
+    "dist-lib",
+    "src",
+    "public"
+  ],
   "sideEffects": [
     "**/*.css"
   ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:app": "tsc -b && vite build",
+    "build:lib": "vite build --config vite.config.lib.ts && tsc -p tsconfig.lib.json",
     "preview": "vite preview",
     "lint": "oxlint src",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",
@@ -36,6 +53,18 @@
     "test:watch": "vitest",
     "check": "npm run invariants && npm run lint && npm run test && npm run build",
     "prepare": "simple-git-hooks"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "simple-git-hooks": {
     "pre-commit": "npx nano-staged"

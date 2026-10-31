@@ -40,7 +40,7 @@
     /* Borders, Inputs, Focus Rings & Radii (WCAG 2.2 SC 1.4.11 >= 3:1 focus ring) */
     --border: oklch(0.922 0 0);
     --input: oklch(0.922 0 0);
-    --ring: oklch(0.50 0 0);
+    --ring: oklch(0.5 0 0);
     --radius: 0.625rem;
 
     /* Sidebar Hierarchy */
@@ -61,17 +61,18 @@
     --chart-5: oklch(0.769 0.188 70.08);
 
     /* Typography Defaults (Geist Sans & Geist Mono) */
-    --font-sans: "Geist Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans:
+      "Geist Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-display: "Geist Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
     /* Apple Materials & Vibrancy Extensions */
     --material-ultra-thin: oklch(1 0 0 / 0.55);
-    --material-thin: oklch(1 0 0 / 0.70);
+    --material-thin: oklch(1 0 0 / 0.7);
     --material-regular: oklch(1 0 0 / 0.82);
     --material-thick: oklch(1 0 0 / 0.92);
-    --material-glass: oklch(1 0 0 / 0.80);
+    --material-glass: oklch(1 0 0 / 0.8);
     --material-glass-border: oklch(0 0 0 / 0.08);
     --specular-rim: inset 0 1px 0 0 oklch(1 0 0 / 0.16), 0 4px 16px -2px oklch(0 0 0 / 0.06);
   }
@@ -119,10 +120,10 @@
     --sidebar-ring: oklch(0.439 0 0);
 
     --material-ultra-thin: oklch(0.145 0 0 / 0.55);
-    --material-thin: oklch(0.145 0 0 / 0.70);
+    --material-thin: oklch(0.145 0 0 / 0.7);
     --material-regular: oklch(0.17 0 0 / 0.82);
     --material-thick: oklch(0.17 0 0 / 0.92);
-    --material-glass: oklch(0.17 0 0 / 0.80);
+    --material-glass: oklch(0.17 0 0 / 0.8);
     --material-glass-border: oklch(1 0 0 / 0.12);
     --specular-rim: inset 0 1px 0 0 oklch(1 0 0 / 0.12), 0 4px 16px -2px oklch(0 0 0 / 0.28);
   }
@@ -207,11 +208,18 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     text-wrap: balance;
   }
 
-  p, li, figcaption {
+  p,
+  li,
+  figcaption {
     text-wrap: pretty;
   }
 
@@ -338,7 +346,8 @@
 
 /* Breathing line pulse along timeline connectors (compositor only) */
 @keyframes line-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.35;
   }
   50% {
@@ -348,7 +357,9 @@
 
 /* Telemetry heartbeat LED dual-beat pulse (compositor only, zero filter repaints) */
 @keyframes heartbeat-led {
-  0%, 65%, 100% {
+  0%,
+  65%,
+  100% {
     transform: scale(1) translateZ(0);
     opacity: 0.75;
   }

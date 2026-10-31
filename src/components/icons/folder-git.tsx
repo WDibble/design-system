@@ -18,10 +18,14 @@ interface FolderGitIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const COMMIT_VARIANTS: Variants = {
   normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: (custom: number) => ({
-    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
+    y: -2,
+    scale: 1.1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
   }),
 };
 
@@ -87,18 +91,8 @@ const FolderGitIcon = forwardRef<FolderGitIconHandle, FolderGitIconProps>(
             r="2"
             variants={COMMIT_VARIANTS}
           />
-          <motion.path
-            animate={controls}
-            custom={2}
-            d="M14 13h3"
-            variants={COMMIT_VARIANTS}
-          />
-          <motion.path
-            animate={controls}
-            custom={0}
-            d="M7 13h3"
-            variants={COMMIT_VARIANTS}
-          />
+          <motion.path animate={controls} custom={2} d="M14 13h3" variants={COMMIT_VARIANTS} />
+          <motion.path animate={controls} custom={0} d="M7 13h3" variants={COMMIT_VARIANTS} />
         </svg>
       </div>
     );

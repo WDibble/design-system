@@ -18,10 +18,14 @@ interface LanguagesIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const PATH_VARIANTS: Variants = {
   normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: (custom: number) => ({
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
+    y: -1.5,
+    scale: 1.04,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25, delay: custom * 0.08 },
   }),
 };
 
@@ -102,42 +106,22 @@ const LanguagesIcon = forwardRef<LanguagesIconHandle, LanguagesIconProps>(
           width={size}
           xmlns="http://www.w3.org/2000/svg"
         >
-          <motion.path
-            animate={pathControls}
-            custom={3}
-            d="m5 8 6 6"
-            variants={PATH_VARIANTS}
-          />
+          <motion.path animate={pathControls} custom={3} d="m5 8 6 6" variants={PATH_VARIANTS} />
           <motion.path
             animate={pathControls}
             custom={2}
             d="m4 14 6-6 3-3"
             variants={PATH_VARIANTS}
           />
-          <motion.path
-            animate={pathControls}
-            custom={1}
-            d="M2 5h12"
-            variants={PATH_VARIANTS}
-          />
-          <motion.path
-            animate={pathControls}
-            custom={0}
-            d="M7 2h1"
-            variants={PATH_VARIANTS}
-          />
+          <motion.path animate={pathControls} custom={1} d="M2 5h12" variants={PATH_VARIANTS} />
+          <motion.path animate={pathControls} custom={0} d="M7 2h1" variants={PATH_VARIANTS} />
           <motion.path
             animate={pathControls}
             custom={3}
             d="m22 22-5-10-5 10"
             variants={PATH_VARIANTS}
           />
-          <motion.path
-            animate={pathControls}
-            custom={3}
-            d="M14 18h6"
-            variants={PATH_VARIANTS}
-          />
+          <motion.path animate={pathControls} custom={3} d="M14 18h6" variants={PATH_VARIANTS} />
         </motion.svg>
       </div>
     );

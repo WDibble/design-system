@@ -1,0 +1,82 @@
+# Antigravity Design System
+
+> An agent-native, human-centric design system built at the intersection of visual precision, physical intuition, and robust engineering. Powered by React 19, Base UI, Motion, and Tailwind CSS v4.
+
+## Core Architectural Directives
+
+- [Directive 1: Physical Yield on pointerdown](file:///AGENTS.md): Interactive controls compress immediately (scale 0.97 to 0.98) on touch or pointer down without waiting for release.
+- [Directive 2: Zero Layout Shifts](file:///AGENTS.md): Layout geometry never alters across dynamic states (hover, focus, active, selected).
+- [Directive 3: Tabular Numerals](file:///AGENTS.md): All counters, metrics, dates, and prices declare `tabular-nums` to eliminate glyph jitter.
+- [Directive 4: Accessible Invariants](file:///AGENTS.md): Full WCAG 2.2 Level AA compliance, explicit aria-labels on icon controls, and keyboard focus trapping.
+- [Directive 6: Concentric Corner Radii](file:///AGENTS.md): Inner radius calculated mathematically as R_inner = max(0, R_outer - Padding).
+- [Directive 7: Anti-Crush Responsive Page Architecture](file:///AGENTS.md): Strict minimum column widths and non-collapsing navigation bars.
+- [Directive 8: Reversible Kinetic Affordances](file:///AGENTS.md): Kinetic icons only animate when mechanical affordance returns to origin.
+- [Directive 11: Perceptual OKLCH Gradient Engineering](file:///AGENTS.md): All gradient ramps interpolate in perceptual color spaces (`in oklch`) with WCAG 2.2 AA and WCAG 3 APCA contrast floors.
+- [Directive 12: British English](file:///AGENTS.md): Interface prose and tokens strictly use British English spelling.
+
+## UI Primitives Matrix (51 Components)
+
+### Actions & Toggles
+- `Button` (`@/components/ui/button`): Tactile button with 7 visual variants, 4 sizing constraints, async loading state, and pointerdown yield.
+- `Toggle` (`@/components/ui/toggle`): Two-state pressed button with tactile physical feedback.
+- `ToggleGroup` (`@/components/ui/toggle-group`): Grouped multi-option or single-option toggle toolbar.
+- `CopyButton` (`@/components/ui/copy-button`): Clipboard copy button with morphing checkmark feedback.
+- `ThemeToggle` (`@/components/ui/theme-toggle`): Instant dark/light mode toggle with transition suppression.
+- `SegmentedControl` (`@/components/ui/segmented-control`): iOS-style sliding pill segmented switcher with spring indicator.
+- `Toolbar` (`@/components/ui/toolbar`): Compound desktop-grade toolbar container with button groups and separators.
+- `MarkdownToolbar` (`@/components/ui/markdown-toolbar`): Full-featured rich markdown authoring toolbar with 20 actions and table generator.
+
+### Forms & Input
+- `Input` (`@/components/ui/input`): 16px iOS zoom prevention text input with specular rims and prefix/suffix slots.
+- `Textarea` (`@/components/ui/textarea`): Auto-resizing multi-line text input with character counters.
+- `Checkbox` (`@/components/ui/checkbox`): Accessible checkbox with check and indeterminate minus icons.
+- `Switch` (`@/components/ui/switch`): 44px accessible touch target fluid toggle switch with spring thumb easing.
+- `Slider` (`@/components/ui/slider`): Single and dual-thumb range slider with live floating tooltip pills.
+- `Stepper` (`@/components/ui/stepper`): Tactile numeric counter with hold-to-accelerate repeat behavior.
+- `InputOTP` (`@/components/ui/input-otp`): Segmented PIN verification input with native SMS autofill parsing.
+- `Select` (`@/components/ui/select`): Headless Base UI select with liquid glass dropdown menu.
+- `Combobox` (`@/components/ui/combobox`): Autocomplete search combobox with keyboard navigation.
+- `RadioGroup` (`@/components/ui/radio-group`): WAI-ARIA compliant radio group with animated selection dot.
+- `Field` (`@/components/ui/field`): Compound field container coordinating label, description, control, and validation errors.
+- `FileUpload` (`@/components/ui/file-upload`): Drag-and-drop file upload zone with progress indicators and file validation.
+
+### Navigation & Menus
+- `NavigationBar` (`@/components/ui/navigation-bar`): Top navigation bar with mega menu, categorized columns, and mobile sheet drawer.
+- `Breadcrumb` (`@/components/ui/breadcrumb`): Hierarchical navigation breadcrumb trail with kinetic chevrons.
+- `Pagination` (`@/components/ui/pagination`): Sliding page indicator with worded and compact icon controls.
+- `Tabs` (`@/components/ui/tabs`): Fluid tabs with spring layout indicator glide and zero layout shift.
+
+### Overlays & Surfaces
+- `Dialog` (`@/components/ui/dialog`): Modal dialogue with focus trapping, backdrop blur, and escape dismissal.
+- `AlertDialog` (`@/components/ui/alert-dialog`): High-friction confirmation modal for destructive operations.
+- `Sheet` (`@/components/ui/sheet`): Slide-over drawer from any viewport edge (left, right, top, bottom).
+- `Drawer` (`@/components/ui/drawer`): Mobile swipeable bottom sheet with tactile drag handle.
+- `Popover` (`@/components/ui/popover`): Floating anchored surface with collision detection.
+- `DropdownMenu` (`@/components/ui/dropdown-menu`): Nested context menus with checkbox items, radio groups, and shortcuts.
+- `ContextMenu` (`@/components/ui/context-menu`): Secondary right-click desktop menu with submenus.
+- `HoverCard` (`@/components/ui/hover-card`): Rich preview card triggered on pointer hover.
+- `Tooltip` (`@/components/ui/tooltip`): Micro contextual hint with configurable delay.
+- `Command` (`@/components/ui/command`): Global command palette dialog (⌘K) with instant item filtering.
+
+### Data & Feedback
+- `Table` (`@/components/ui/table`): Quiet chrome data table with strict tabular numerals.
+- `Card` (`@/components/ui/card`): Concentric rounded surface with specular rim lighting and inner card nesting.
+- `Badge` (`@/components/ui/badge`): Shrink-wrapped status indicator pill with live pulsing telemetry dots.
+- `Avatar` (`@/components/ui/avatar`): User avatar with deterministic OKLCH fallback and presence status pips.
+- `Calendar` (`@/components/ui/calendar`): Interactive month grid with spring slide transitions and date pickers.
+- `Chart` (`@/components/ui/chart`): Zero-dependency vector Sparklines, AreaCharts, and BarCharts in perceptual OKLCH.
+- `ProgressiveImage` (`@/components/ui/image`): Zero-CLS progressive image loader with low-res preview decoding.
+- `Kbd` (`@/components/ui/kbd`): Tactile physical keycap micro-primitive.
+- `Timeline` (`@/components/ui/timeline`): Chronological audit trail with glowing nodes and pulse indicators.
+- `Tree` (`@/components/ui/tree`): Hierarchical recursive folder and file tree with expand/collapse animations.
+- `NumberTicker` (`@/components/ui/number-ticker`): Tabular rolling numeral counter with spring deceleration.
+- `Progress` (`@/components/ui/progress`): Linear progress bar and circular radial gauge with indeterminate states.
+- `Skeleton` (`@/components/ui/skeleton`): Zero-CLS dimensionally stable placeholder loader.
+- `Toast` (`@/components/ui/toast`): Non-blocking alert notification with 5-second reversible undo action.
+- `Accordion` (`@/components/ui/accordion`): Smooth CSS height accordion with concealed focus sequence.
+- `Resizable` (`@/components/ui/resizable`): Split-pane viewport layout with keyboard and drag resize handles.
+- `ScrollArea` (`@/components/ui/scroll-area`): Custom styled scrollbar container with cross-browser parity.
+
+## Kinetic Icons (470 Primitives)
+
+Access 470 mechanical animated icons in `@/components/icons`. Every icon exports a canonical mechanical affordance bound to parent hover and press lifecycles.

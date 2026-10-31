@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const avatarVariants = cva(
-  "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-border/40 select-none bg-muted font-medium",
+  "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-border/40 bg-muted font-medium select-none",
   {
     variants: {
       size: {
@@ -24,8 +24,7 @@ const avatarVariants = cva(
 );
 
 export interface AvatarProps
-  extends React.ComponentProps<typeof AvatarPrimitive.Root>,
-    VariantProps<typeof avatarVariants> {}
+  extends React.ComponentProps<typeof AvatarPrimitive.Root>, VariantProps<typeof avatarVariants> {}
 
 export const Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
   ({ className, size, ...props }, ref) => {
@@ -66,8 +65,7 @@ function getDeterministicHue(str: string): number {
   return Math.abs(hash) % 360;
 }
 
-export interface AvatarFallbackProps
-  extends React.ComponentProps<typeof AvatarPrimitive.Fallback> {
+export interface AvatarFallbackProps extends React.ComponentProps<typeof AvatarPrimitive.Fallback> {
   autoColor?: boolean;
 }
 
@@ -88,7 +86,7 @@ export const AvatarFallback = React.forwardRef<HTMLSpanElement, AvatarFallbackPr
         ref={ref}
         style={colorStyle}
         className={cn(
-          "flex size-full items-center justify-center bg-muted text-muted-foreground uppercase font-medium",
+          "flex size-full items-center justify-center bg-muted font-medium text-muted-foreground uppercase",
           className
         )}
         {...props}
@@ -125,6 +123,7 @@ export const AvatarBadge = React.forwardRef<HTMLSpanElement, AvatarBadgeProps>(
     return (
       <span
         ref={ref}
+        role="status"
         aria-label={`Status: ${status}`}
         className={cn(
           "absolute rounded-full ring-background",
@@ -160,7 +159,7 @@ export const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
       <div
         ref={ref}
         className={cn(
-          "flex items-center isolate [&>span]:ring-2 [&>span]:ring-background",
+          "isolate flex items-center [&>span]:ring-2 [&>span]:ring-background",
           spacingClasses[spacing],
           className
         )}
@@ -168,7 +167,7 @@ export const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
       >
         {visibleItems}
         {excess > 0 && (
-          <span className="relative flex size-8 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground ring-2 ring-background tabular-nums">
+          <span className="relative flex size-8 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground tabular-nums ring-2 ring-background">
             +{excess}
           </span>
         )}

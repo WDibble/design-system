@@ -33,94 +33,95 @@ const CIGARETTE_VARIANTS: Variants = {
 
 const PATH_VARIANTS: Variants = {
   normal: {
-    scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    scale: [1, 0.9, 1], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
+    scale: [1, 0.9, 1],
+    transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 
-const CigaretteOffIcon = forwardRef<
-  CigaretteOffIconHandle,
-  CigaretteOffIconProps
->(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-  const controls = useAnimation();
-  const isControlledRef = useRef(false);
+const CigaretteOffIcon = forwardRef<CigaretteOffIconHandle, CigaretteOffIconProps>(
+  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
+    const controls = useAnimation();
+    const isControlledRef = useRef(false);
 
-  useImperativeHandle(ref, () => {
-    isControlledRef.current = true;
-    return {
-      startAnimation: () => controls.start("animate"),
-      stopAnimation: () => controls.start("normal"),
-    };
-  });
+    useImperativeHandle(ref, () => {
+      isControlledRef.current = true;
+      return {
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      };
+    });
 
-  const handleMouseEnter = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (isControlledRef.current) {
-        onMouseEnter?.(e);
-      } else {
-        controls.start("animate");
-      }
-    },
-    [controls, onMouseEnter]
-  );
+    const handleMouseEnter = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (isControlledRef.current) {
+          onMouseEnter?.(e);
+        } else {
+          controls.start("animate");
+        }
+      },
+      [controls, onMouseEnter]
+    );
 
-  const handleMouseLeave = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (isControlledRef.current) {
-        onMouseLeave?.(e);
-      } else {
-        controls.start("normal");
-      }
-    },
-    [controls, onMouseLeave]
-  );
+    const handleMouseLeave = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (isControlledRef.current) {
+          onMouseLeave?.(e);
+        } else {
+          controls.start("normal");
+        }
+      },
+      [controls, onMouseLeave]
+    );
 
-  return (
-    <div
-      className={cn(className)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      {...props}
-    >
-      <motion.svg
-        fill="none"
-        height={size}
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        style={{ overflow: "visible" }}
-        viewBox="0 0 24 24"
-        width={size}
-        xmlns="http://www.w3.org/2000/svg"
+    return (
+      <div
+        className={cn(className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...props}
       >
-        <path d="M12 12H3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h13" />
-        <motion.path
-          animate={controls}
-          d="M18 8c0-2.5-2-2.5-2-5"
-          initial="normal"
-          variants={CIGARETTE_VARIANTS}
-        />
-        <motion.path
-          animate={controls}
-          d="m2 2 20 20"
-          initial="normal"
-          variants={PATH_VARIANTS}
-        />
-        <motion.path d="M21 12a1 1 0 0 1 1 1v2a1 1 0 0 1-.5.866" />
-        <motion.path
-          animate={controls}
-          d="M22 8c0-2.5-2-2.5-2-5"
-          initial="normal"
-          variants={CIGARETTE_VARIANTS}
-        />
-        <path d="M7 12v4" />
-      </motion.svg>
-    </div>
-  );
-});
+        <motion.svg
+          fill="none"
+          height={size}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          style={{ overflow: "visible" }}
+          viewBox="0 0 24 24"
+          width={size}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M12 12H3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h13" />
+          <motion.path
+            animate={controls}
+            d="M18 8c0-2.5-2-2.5-2-5"
+            initial="normal"
+            variants={CIGARETTE_VARIANTS}
+          />
+          <motion.path
+            animate={controls}
+            d="m2 2 20 20"
+            initial="normal"
+            variants={PATH_VARIANTS}
+          />
+          <motion.path d="M21 12a1 1 0 0 1 1 1v2a1 1 0 0 1-.5.866" />
+          <motion.path
+            animate={controls}
+            d="M22 8c0-2.5-2-2.5-2-5"
+            initial="normal"
+            variants={CIGARETTE_VARIANTS}
+          />
+          <path d="M7 12v4" />
+        </motion.svg>
+      </div>
+    );
+  }
+);
 
 CigaretteOffIcon.displayName = "CigaretteOffIcon";
 

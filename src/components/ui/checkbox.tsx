@@ -5,8 +5,7 @@ import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import { CheckIcon, MinusIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
-export interface CheckboxProps
-  extends React.ComponentProps<typeof BaseCheckbox.Root> {
+export interface CheckboxProps extends React.ComponentProps<typeof BaseCheckbox.Root> {
   size?: "sm" | "default";
 }
 
@@ -18,17 +17,17 @@ export const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(
         disabled={disabled}
         className={cn(
           "group relative inline-flex shrink-0 cursor-pointer items-center justify-center rounded-[5px] border select-none",
-          "border-border/80 hover:border-foreground/50 bg-card text-primary-foreground shadow-xs",
+          "border-border/80 bg-card text-primary-foreground shadow-xs hover:border-foreground/50",
           "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08)]",
           "transition-[background-color,border-color,box-shadow,transform] duration-150 ease-out",
           // Checked & Indeterminate states:
-          "data-[checked]:bg-primary data-[checked]:border-primary",
-          "data-[indeterminate]:bg-primary data-[indeterminate]:border-primary",
+          "data-[checked]:border-primary data-[checked]:bg-primary",
+          "data-[indeterminate]:border-primary data-[indeterminate]:bg-primary",
           // Focus ring:
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none",
           // Directive #1: Instant physical yield on pointerdown/active:
           "active:scale-90",
-          "disabled:cursor-not-allowed disabled:opacity-50 disabled:pointer-events-none",
+          "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
           // 44px touch target expansion:
           "after:absolute after:-inset-2 after:content-['']",
           size === "sm" ? "size-4" : "size-[18px]",
@@ -38,7 +37,7 @@ export const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(
       >
         <BaseCheckbox.Indicator
           className={cn(
-            "flex items-center justify-center text-current pointer-events-none",
+            "pointer-events-none flex items-center justify-center text-current",
             "transition-transform duration-150 ease-out",
             "data-[starting-style]:scale-50 data-[starting-style]:opacity-0"
           )}

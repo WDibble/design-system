@@ -85,20 +85,20 @@ const BluetoothConnectedIcon = forwardRef<
         width={size}
         xmlns="http://www.w3.org/2000/svg"
       >
-        <motion.path
-          animate={controls}
-          d="m7 7 10 10-5 5V2l5 5L7 17"
-          variants={PATH_VARIANTS}
-        />
+        <motion.path animate={controls} d="m7 7 10 10-5 5V2l5 5L7 17" variants={PATH_VARIANTS} />
         <motion.line
           animate={controls}
           variants={{
             normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+              y: 0,
+              scale: 1,
+              transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+            },
             animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+              y: -1.5,
+              scale: 1.04,
+              transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+            },
           }}
           x1="18"
           x2="21"
@@ -109,11 +109,15 @@ const BluetoothConnectedIcon = forwardRef<
           animate={controls}
           variants={{
             normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+              y: 0,
+              scale: 1,
+              transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+            },
             animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+              y: -1.5,
+              scale: 1.04,
+              transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+            },
           }}
           x1="3"
           x2="6"

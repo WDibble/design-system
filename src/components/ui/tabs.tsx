@@ -16,12 +16,12 @@ export const TabsList = React.forwardRef<
     <TabsPrimitive.List
       ref={ref}
       className={cn(
-        "relative inline-flex items-center gap-1 select-none isolate",
+        "relative isolate inline-flex items-center gap-1 select-none",
         variant === "default" &&
-          "bg-muted/60 p-1 rounded-xl border border-border/40 text-muted-foreground shadow-xs",
-        variant === "pills" && "gap-1.5 p-0 bg-transparent text-muted-foreground",
+          "rounded-xl border border-border/40 bg-muted/60 p-1 text-muted-foreground shadow-xs",
+        variant === "pills" && "gap-1.5 bg-transparent p-0 text-muted-foreground",
         variant === "line" &&
-          "gap-4 p-0 border-b border-border/60 text-muted-foreground rounded-none",
+          "gap-4 rounded-none border-b border-border/60 p-0 text-muted-foreground",
         className
       )}
       {...props}
@@ -42,7 +42,7 @@ export const TabsIndicator = React.forwardRef<
     <TabsPrimitive.Indicator
       ref={ref}
       className={cn(
-        "absolute z-0 pointer-events-none",
+        "pointer-events-none absolute z-0",
         // Apple HIG spring glide across active tab bounds:
         "transition-[translate,width,height] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
         variant === "default" && [
@@ -60,7 +60,7 @@ export const TabsIndicator = React.forwardRef<
         variant === "line" && [
           "bottom-0 left-0 h-0.5 w-[var(--active-tab-width)]",
           "translate-x-[var(--active-tab-left)]",
-          "bg-primary rounded-full",
+          "rounded-full bg-primary",
         ],
         className
       )}
@@ -81,21 +81,21 @@ export const TabsTrigger = React.forwardRef<
       ref={ref}
       className={cn(
         // Invariant: NEVER switch font-weight or tracking on active state (Directive #2: Zero Layout Shifts)
-        "relative z-10 inline-flex items-center justify-center whitespace-nowrap text-xs font-medium cursor-pointer",
-        "transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        "disabled:pointer-events-none disabled:opacity-50 select-none shrink-0",
+        "relative z-10 inline-flex cursor-pointer items-center justify-center text-xs font-medium whitespace-nowrap",
+        "transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none",
+        "shrink-0 select-none disabled:pointer-events-none disabled:opacity-50",
         // Tactile micro-yield on pointerdown
         "active:scale-[0.98]",
         variant === "default" && [
-          "h-8 px-3 rounded-lg text-muted-foreground hover:text-foreground",
+          "h-8 rounded-lg px-3 text-muted-foreground hover:text-foreground",
           "data-[active]:text-foreground",
         ],
         variant === "pills" && [
-          "h-8 px-3.5 rounded-full text-muted-foreground hover:text-foreground",
+          "h-8 rounded-full px-3.5 text-muted-foreground hover:text-foreground",
           "data-[active]:text-primary-foreground",
         ],
         variant === "line" && [
-          "h-9 px-1 pb-2 border-b-2 border-transparent text-muted-foreground hover:text-foreground",
+          "h-9 border-b-2 border-transparent px-1 pb-2 text-muted-foreground hover:text-foreground",
           "data-[active]:text-foreground",
         ],
         className
@@ -114,11 +114,11 @@ export const TabsContent = React.forwardRef<
     <TabsPrimitive.Panel
       ref={ref}
       className={cn(
-        "col-start-1 row-start-1 w-full outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-xl",
+        "col-start-1 row-start-1 w-full rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         // Fluid Apple HIG crossfade & micro-glide
         "transition-[opacity,transform] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
-        "data-[starting-style]:opacity-0 data-[starting-style]:translate-y-1.5 data-[starting-style]:scale-[0.99]",
-        "data-[ending-style]:opacity-0 data-[ending-style]:translate-y-[-2px] data-[ending-style]:scale-[0.99]",
+        "data-[starting-style]:translate-y-1.5 data-[starting-style]:scale-[0.99] data-[starting-style]:opacity-0",
+        "data-[ending-style]:translate-y-[-2px] data-[ending-style]:scale-[0.99] data-[ending-style]:opacity-0",
         className
       )}
       {...props}

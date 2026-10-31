@@ -9,8 +9,7 @@ export const Tooltip = TooltipPrimitive.Root;
 export const TooltipTrigger = TooltipPrimitive.Trigger;
 export const TooltipPortal = TooltipPrimitive.Portal;
 
-export interface TooltipContentProps
-  extends React.ComponentProps<typeof TooltipPrimitive.Popup> {
+export interface TooltipContentProps extends React.ComponentProps<typeof TooltipPrimitive.Popup> {
   side?: TooltipPrimitive.Positioner.Props["side"];
   align?: TooltipPrimitive.Positioner.Props["align"];
   sideOffset?: TooltipPrimitive.Positioner.Props["sideOffset"];
@@ -18,10 +17,7 @@ export interface TooltipContentProps
   showArrow?: boolean;
 }
 
-export const TooltipContent = React.forwardRef<
-  HTMLDivElement,
-  TooltipContentProps
->(
+export const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(
   (
     {
       className,
@@ -41,7 +37,7 @@ export const TooltipContent = React.forwardRef<
           side={side}
           align={align}
           sideOffset={sideOffset}
-          className="z-50 pointer-events-none select-none"
+          className="pointer-events-none z-50 select-none"
         >
           <TooltipPrimitive.Popup
             ref={ref}
@@ -57,9 +53,7 @@ export const TooltipContent = React.forwardRef<
             {...props}
           >
             {children}
-            {showArrow && (
-              <TooltipPrimitive.Arrow className="fill-foreground" />
-            )}
+            {showArrow && <TooltipPrimitive.Arrow className="fill-foreground" />}
           </TooltipPrimitive.Popup>
         </TooltipPrimitive.Positioner>
       </TooltipPortal>

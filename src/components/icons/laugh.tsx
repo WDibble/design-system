@@ -68,11 +68,15 @@ const LaughIcon = forwardRef<LaughIconHandle, LaughIconProps>(
 
     const mouthVariants: Variants = {
       normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+        y: 0,
+        scale: 1,
+        transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+      },
       animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+        y: -1.5,
+        scale: 1.04,
+        transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+      },
     };
 
     const eyeVariants: Variants = {
@@ -114,11 +118,7 @@ const LaughIcon = forwardRef<LaughIconHandle, LaughIconProps>(
           xmlns="http://www.w3.org/2000/svg"
         >
           <circle cx="12" cy="12" r="10" />
-          <motion.path
-            animate={controls}
-            initial="normal"
-            variants={mouthVariants}
-          />
+          <motion.path animate={controls} initial="normal" variants={mouthVariants} />
           <motion.line
             animate={controls}
             initial="normal"

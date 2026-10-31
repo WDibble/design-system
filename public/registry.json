@@ -1,0 +1,216 @@
+{
+  "$schema": "https://design-system.edge.internal/registry-schema.json",
+  "name": "antigravity-design-system",
+  "version": "0.1.0",
+  "framework": "react-19",
+  "styling": "tailwindcss-v4",
+  "primitives": {
+    "button": {
+      "path": "src/components/ui/button.tsx",
+      "dependencies": ["@base-ui/react", "motion"],
+      "variants": ["default", "secondary", "destructive", "outline", "ghost", "link", "pill"],
+      "sizes": ["default", "sm", "lg", "icon", "icon-sm", "icon-lg"]
+    },
+    "toggle": {
+      "path": "src/components/ui/toggle.tsx",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "variants": ["default", "outline", "surface"]
+    },
+    "toggle-group": {
+      "path": "src/components/ui/toggle-group.tsx",
+      "dependencies": ["@base-ui/react", "class-variance-authority"]
+    },
+    "copy-button": {
+      "path": "src/components/ui/copy-button.tsx",
+      "dependencies": ["motion"]
+    },
+    "theme-toggle": {
+      "path": "src/components/ui/theme-toggle.tsx",
+      "dependencies": ["motion"]
+    },
+    "segmented-control": {
+      "path": "src/components/ui/segmented-control.tsx",
+      "dependencies": ["motion"]
+    },
+    "toolbar": {
+      "path": "src/components/ui/toolbar.tsx",
+      "dependencies": ["@base-ui/react", "class-variance-authority"]
+    },
+    "markdown-toolbar": {
+      "path": "src/components/ui/markdown-toolbar/index.ts",
+      "dependencies": ["@base-ui/react", "lucide-react"]
+    },
+    "input": {
+      "path": "src/components/ui/input.tsx",
+      "dependencies": ["@base-ui/react", "class-variance-authority"]
+    },
+    "textarea": {
+      "path": "src/components/ui/textarea.tsx",
+      "dependencies": []
+    },
+    "checkbox": {
+      "path": "src/components/ui/checkbox.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "switch": {
+      "path": "src/components/ui/switch.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "slider": {
+      "path": "src/components/ui/slider.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "stepper": {
+      "path": "src/components/ui/stepper.tsx",
+      "dependencies": ["motion"]
+    },
+    "input-otp": {
+      "path": "src/components/ui/input-otp.tsx",
+      "dependencies": ["motion"]
+    },
+    "select": {
+      "path": "src/components/ui/select.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "combobox": {
+      "path": "src/components/ui/combobox.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "radio-group": {
+      "path": "src/components/ui/radio-group.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "field": {
+      "path": "src/components/ui/field.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "file-upload": {
+      "path": "src/components/ui/file-upload.tsx",
+      "dependencies": []
+    },
+    "navigation-bar": {
+      "path": "src/components/ui/navigation-bar/index.ts",
+      "dependencies": ["@base-ui/react", "motion"]
+    },
+    "breadcrumb": {
+      "path": "src/components/ui/breadcrumb.tsx",
+      "dependencies": []
+    },
+    "pagination": {
+      "path": "src/components/ui/pagination.tsx",
+      "dependencies": ["motion"]
+    },
+    "tabs": {
+      "path": "src/components/ui/tabs.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "dialog": {
+      "path": "src/components/ui/dialog.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "alert-dialog": {
+      "path": "src/components/ui/alert-dialog.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "sheet": {
+      "path": "src/components/ui/sheet.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "drawer": {
+      "path": "src/components/ui/drawer.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "popover": {
+      "path": "src/components/ui/popover.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "dropdown-menu": {
+      "path": "src/components/ui/dropdown-menu.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "context-menu": {
+      "path": "src/components/ui/context-menu.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "hover-card": {
+      "path": "src/components/ui/hover-card.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "tooltip": {
+      "path": "src/components/ui/tooltip.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "command": {
+      "path": "src/components/ui/command.tsx",
+      "dependencies": ["@base-ui/react", "lucide-react"]
+    },
+    "table": {
+      "path": "src/components/ui/table.tsx",
+      "dependencies": []
+    },
+    "card": {
+      "path": "src/components/ui/card.tsx",
+      "dependencies": []
+    },
+    "badge": {
+      "path": "src/components/ui/badge.tsx",
+      "dependencies": ["class-variance-authority"]
+    },
+    "avatar": {
+      "path": "src/components/ui/avatar.tsx",
+      "dependencies": ["@base-ui/react", "class-variance-authority"]
+    },
+    "calendar": {
+      "path": "src/components/ui/calendar.tsx",
+      "dependencies": ["motion"]
+    },
+    "chart": {
+      "path": "src/components/ui/chart.tsx",
+      "dependencies": ["motion"]
+    },
+    "image": {
+      "path": "src/components/ui/image.tsx",
+      "dependencies": ["motion"]
+    },
+    "kbd": {
+      "path": "src/components/ui/kbd.tsx",
+      "dependencies": []
+    },
+    "timeline": {
+      "path": "src/components/ui/timeline/index.ts",
+      "dependencies": ["motion"]
+    },
+    "tree": {
+      "path": "src/components/ui/tree.tsx",
+      "dependencies": []
+    },
+    "number-ticker": {
+      "path": "src/components/ui/number-ticker.tsx",
+      "dependencies": ["motion"]
+    },
+    "progress": {
+      "path": "src/components/ui/progress.tsx",
+      "dependencies": ["@base-ui/react", "motion"]
+    },
+    "skeleton": {
+      "path": "src/components/ui/skeleton.tsx",
+      "dependencies": []
+    },
+    "toast": {
+      "path": "src/components/ui/toast.tsx",
+      "dependencies": ["motion"]
+    },
+    "accordion": {
+      "path": "src/components/ui/accordion.tsx",
+      "dependencies": ["@base-ui/react"]
+    },
+    "resizable": {
+      "path": "src/components/ui/resizable.tsx",
+      "dependencies": []
+    },
+    "scroll-area": {
+      "path": "src/components/ui/scroll-area.tsx",
+      "dependencies": ["@base-ui/react"]
+    }
+  }
+}

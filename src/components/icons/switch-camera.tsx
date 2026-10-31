@@ -16,98 +16,101 @@ interface SwitchCameraIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const PATH_VARIANTS: Variants = {
   normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+    y: -1.5,
+    scale: 1.04,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
-const SwitchCameraIcon = forwardRef<
-  SwitchCameraIconHandle,
-  SwitchCameraIconProps
->(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-  const controls = useAnimation();
-  const isControlledRef = useRef(false);
+const SwitchCameraIcon = forwardRef<SwitchCameraIconHandle, SwitchCameraIconProps>(
+  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
+    const controls = useAnimation();
+    const isControlledRef = useRef(false);
 
-  useImperativeHandle(ref, () => {
-    isControlledRef.current = true;
-    return {
-      startAnimation: () => controls.start("animate"),
-      stopAnimation: () => controls.start("normal"),
-    };
-  });
+    useImperativeHandle(ref, () => {
+      isControlledRef.current = true;
+      return {
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      };
+    });
 
-  const handleMouseEnter = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (isControlledRef.current) {
-        onMouseEnter?.(e);
-      } else {
-        controls.start("animate");
-      }
-    },
-    [controls, onMouseEnter]
-  );
+    const handleMouseEnter = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (isControlledRef.current) {
+          onMouseEnter?.(e);
+        } else {
+          controls.start("animate");
+        }
+      },
+      [controls, onMouseEnter]
+    );
 
-  const handleMouseLeave = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (isControlledRef.current) {
-        onMouseLeave?.(e);
-      } else {
-        controls.start("normal");
-      }
-    },
-    [controls, onMouseLeave]
-  );
+    const handleMouseLeave = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (isControlledRef.current) {
+          onMouseLeave?.(e);
+        } else {
+          controls.start("normal");
+        }
+      },
+      [controls, onMouseLeave]
+    );
 
-  return (
-    <div
-      className={cn(className)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      {...props}
-    >
-      <motion.svg
-        animate={controls}
-        fill="none"
-        height="24"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        viewBox="0 0 24 24"
-        width="24"
-        xmlns="http://www.w3.org/2000/svg"
+    return (
+      <div
+        className={cn(className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...props}
       >
-        <motion.path
+        <motion.svg
           animate={controls}
-          d="M11 19H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"
-          initial="normal"
-          variants={PATH_VARIANTS}
-        />
-        <motion.path
-          animate={controls}
-          d="M13 5h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-5"
-          initial="normal"
-          variants={PATH_VARIANTS}
-        />
-        <circle cx="12" cy="12" r="3" />
-        <motion.path
-          animate={controls}
-          d="m18 22-3-3 3-3"
-          initial="normal"
-          variants={PATH_VARIANTS}
-        />
-        <motion.path
-          animate={controls}
-          d="m6 2 3 3-3 3"
-          initial="normal"
-          variants={PATH_VARIANTS}
-        />
-      </motion.svg>
-    </div>
-  );
-});
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <motion.path
+            animate={controls}
+            d="M11 19H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"
+            initial="normal"
+            variants={PATH_VARIANTS}
+          />
+          <motion.path
+            animate={controls}
+            d="M13 5h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-5"
+            initial="normal"
+            variants={PATH_VARIANTS}
+          />
+          <circle cx="12" cy="12" r="3" />
+          <motion.path
+            animate={controls}
+            d="m18 22-3-3 3-3"
+            initial="normal"
+            variants={PATH_VARIANTS}
+          />
+          <motion.path
+            animate={controls}
+            d="m6 2 3 3-3 3"
+            initial="normal"
+            variants={PATH_VARIANTS}
+          />
+        </motion.svg>
+      </div>
+    );
+  }
+);
 
 SwitchCameraIcon.displayName = "SwitchCameraIcon";
 

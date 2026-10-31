@@ -18,15 +18,29 @@ import { cn } from "@/lib/utils";
 interface IconMeta {
   name: string;
   displayName: string;
-  component: React.ComponentType<{ size?: number; className?: string; ref?: React.Ref<unknown>; [key: string]: unknown }>;
+  component: React.ComponentType<{
+    size?: number;
+    className?: string;
+    ref?: React.Ref<unknown>;
+    [key: string]: unknown;
+  }>;
 }
 
 const ALL_ICONS_LIST: IconMeta[] = Object.entries(AllIcons)
-  .filter(([key, val]) => key.endsWith("Icon") && (typeof val === "function" || (typeof val === "object" && val !== null)))
+  .filter(
+    ([key, val]) =>
+      key.endsWith("Icon") &&
+      (typeof val === "function" || (typeof val === "object" && val !== null))
+  )
   .map(([key, val]) => ({
     name: key,
     displayName: key.replace(/Icon$/, ""),
-    component: val as React.ComponentType<{ size?: number; className?: string; ref?: React.Ref<unknown>; [key: string]: unknown }>,
+    component: val as React.ComponentType<{
+      size?: number;
+      className?: string;
+      ref?: React.Ref<unknown>;
+      [key: string]: unknown;
+    }>,
   }))
   .sort((a, b) => a.displayName.localeCompare(b.displayName));
 
@@ -35,15 +49,19 @@ const CATEGORIES: { label: string; match: (name: string) => boolean }[] = [
   {
     label: "Actions & Status",
     match: (n) =>
-      /check|plus|minus|x|ban|alert|info|help|cross|trash|bookmark|star|pin|flag|heart|thumbs/i.test(n),
+      /check|plus|minus|x|ban|alert|info|help|cross|trash|bookmark|star|pin|flag|heart|thumbs/i.test(
+        n
+      ),
   },
   {
     label: "Arrows & Nav",
-    match: (n) => /arrow|chevron|corner|undo|redo|rotate|expand|shrink|move|navigation|compass/i.test(n),
+    match: (n) =>
+      /arrow|chevron|corner|undo|redo|rotate|expand|shrink|move|navigation|compass/i.test(n),
   },
   {
     label: "Git & Developer",
-    match: (n) => /git|branch|commit|merge|pull|terminal|code|cpu|server|database|webhook|workflow/i.test(n),
+    match: (n) =>
+      /git|branch|commit|merge|pull|terminal|code|cpu|server|database|webhook|workflow/i.test(n),
   },
   {
     label: "Charts & Analytics",
@@ -56,7 +74,9 @@ const CATEGORIES: { label: string; match: (name: string) => boolean }[] = [
   {
     label: "Commerce & Finance",
     match: (n) =>
-      /dollar|euro|rupee|pound|yen|franc|ruble|lira|lari|peso|currency|cent|receipt|wallet|shopping|cart|credit/i.test(n),
+      /dollar|euro|rupee|pound|yen|franc|ruble|lira|lari|peso|currency|cent|receipt|wallet|shopping|cart|credit/i.test(
+        n
+      ),
   },
   {
     label: "Communication",
@@ -71,7 +91,9 @@ interface IconCardTileProps {
 }
 
 function IconCardTile({ icon, isCopied, onCopy }: IconCardTileProps) {
-  const iconRef = React.useRef<{ startAnimation?: () => void; stopAnimation?: () => void } | null>(null);
+  const iconRef = React.useRef<{ startAnimation?: () => void; stopAnimation?: () => void } | null>(
+    null
+  );
   const IconComponent = icon.component;
 
   const handleMouseEnter = React.useCallback(() => {
@@ -99,7 +121,7 @@ function IconCardTile({ icon, isCopied, onCopy }: IconCardTileProps) {
             onMouseLeave={handleMouseLeave}
             onClick={() => onCopy(icon)}
             className={cn(
-              "group relative flex items-center justify-center size-9 sm:size-10 rounded-lg border border-border/50 bg-card hover:bg-muted/70 hover:border-foreground/20 transition-colors cursor-pointer select-none text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 shrink-0",
+              "group relative flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-border/50 bg-card text-foreground transition-colors select-none hover:border-foreground/20 hover:bg-muted/70 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:outline-none sm:size-10",
               isCopied && "border-primary bg-primary/10 ring-1 ring-primary/40"
             )}
             aria-label={`Copy ${icon.displayName} icon code`}
@@ -107,7 +129,7 @@ function IconCardTile({ icon, isCopied, onCopy }: IconCardTileProps) {
         }
       >
         {/* Dynamic Icon */}
-        <div className="flex size-5 items-center justify-center text-foreground group-hover:text-primary transition-colors pointer-events-none">
+        <div className="pointer-events-none flex size-5 items-center justify-center text-foreground transition-colors group-hover:text-primary">
           <IconComponent ref={iconRef} size={18} />
         </div>
 
@@ -119,14 +141,14 @@ function IconCardTile({ icon, isCopied, onCopy }: IconCardTileProps) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={springs.snappy}
-              className="absolute inset-0 flex items-center justify-center rounded-lg bg-background/95 backdrop-blur-xs text-primary font-medium z-10"
+              className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-background/95 font-medium text-primary backdrop-blur-xs"
             >
               <CheckIcon size={13} />
             </motion.div>
           )}
         </AnimatePresence>
       </TooltipTrigger>
-      <TooltipContent side="top" className="text-xs font-mono">
+      <TooltipContent side="top" className="font-mono text-xs">
         &lt;{icon.name} /&gt; · Click to copy
       </TooltipContent>
     </Tooltip>
@@ -180,29 +202,34 @@ export function IconGallery() {
   };
 
   return (
-    <Card className="flex flex-col gap-4 p-4 sm:p-5 overflow-hidden">
-      <CardHeader className="p-0 flex flex-col gap-3">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <Card className="flex flex-col gap-4 overflow-hidden p-4 sm:p-5">
+      <CardHeader className="flex flex-col gap-3 p-0">
+        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
           <div>
             <div className="flex items-center gap-2">
               <SparklesIcon size={16} className="text-primary" />
               <CardTitle className="text-base font-bold tracking-tight">
                 Kinetic Icon Directory
               </CardTitle>
-              <Badge variant="outline" className="font-mono text-[11px] tabular-nums font-semibold">
+              <Badge variant="outline" className="font-mono text-[11px] font-semibold tabular-nums">
                 {ALL_ICONS_LIST.length} Animated Primitives
               </Badge>
             </div>
-            <CardDescription className="text-xs mt-0.5 text-muted-foreground">
-              Every icon features mechanical spring physics on hover with zero stroke-erasure gimmicks. Click any icon to copy its import snippet.
+            <CardDescription className="mt-0.5 text-xs text-muted-foreground">
+              Every icon features mechanical spring physics on hover with zero stroke-erasure
+              gimmicks. Click any icon to copy its import snippet.
             </CardDescription>
           </div>
 
-          <div className="flex items-center gap-1.5 self-start sm:self-auto" role="group" aria-label="Page density selector">
+          <div
+            className="flex items-center gap-1.5 self-start sm:self-auto"
+            role="group"
+            aria-label="Page density selector"
+          >
             <Button
               variant={pageSize === 60 ? "secondary" : "ghost"}
               size="sm"
-              className="text-xs h-7 px-2.5"
+              className="h-7 px-2.5 text-xs"
               aria-pressed={pageSize === 60}
               onClick={() => setPageSize(60)}
             >
@@ -211,7 +238,7 @@ export function IconGallery() {
             <Button
               variant={pageSize === 120 ? "secondary" : "ghost"}
               size="sm"
-              className="text-xs h-7 px-2.5"
+              className="h-7 px-2.5 text-xs"
               aria-pressed={pageSize === 120}
               onClick={() => setPageSize(120)}
             >
@@ -220,7 +247,7 @@ export function IconGallery() {
             <Button
               variant={pageSize === "all" ? "secondary" : "ghost"}
               size="sm"
-              className="text-xs h-7 px-2.5"
+              className="h-7 px-2.5 text-xs"
               aria-pressed={pageSize === "all"}
               onClick={() => setPageSize("all")}
             >
@@ -230,26 +257,26 @@ export function IconGallery() {
         </div>
 
         {/* Filter Controls Row */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+        <div className="flex flex-col items-stretch gap-2.5 sm:flex-row sm:items-center">
           {/* Search Input */}
           <div className="relative flex-1">
             <SearchIcon
               size={14}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+              className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
             />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by icon name (e.g. check, git, arrow, send)..."
               aria-label="Search icons by name"
-              className="pl-8.5 pr-8 text-xs h-8.5 bg-muted/20"
+              className="h-8.5 bg-muted/20 pr-8 pl-8.5 text-xs"
             />
             {search && (
               <button
                 type="button"
                 onClick={() => setSearch("")}
                 aria-label="Clear search query"
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground p-0.5 cursor-pointer"
+                className="absolute top-1/2 right-2.5 -translate-y-1/2 cursor-pointer p-0.5 text-xs text-muted-foreground hover:text-foreground"
               >
                 ✕
               </button>
@@ -257,13 +284,21 @@ export function IconGallery() {
           </div>
 
           {/* Results Count Pill */}
-          <div className="text-xs text-muted-foreground font-mono shrink-0 self-center">
-            Found <span className="font-semibold text-foreground tabular-nums">{filteredIcons.length}</span> icons
+          <div className="shrink-0 self-center font-mono text-xs text-muted-foreground">
+            Found{" "}
+            <span className="font-semibold text-foreground tabular-nums">
+              {filteredIcons.length}
+            </span>{" "}
+            icons
           </div>
         </div>
 
         {/* Category Pills Bar */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-0.5" role="group" aria-label="Icon categories">
+        <div
+          className="flex flex-wrap items-center gap-1.5 pt-0.5"
+          role="group"
+          aria-label="Icon categories"
+        >
           {CATEGORIES.map((cat) => {
             const isSelected = category === cat.label;
             return (
@@ -273,10 +308,10 @@ export function IconGallery() {
                 onClick={() => setCategory(cat.label)}
                 aria-pressed={isSelected}
                 className={cn(
-                  "px-2.5 py-0.5 rounded-full text-[11px] font-medium transition-colors border select-none cursor-pointer",
+                  "cursor-pointer rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-colors select-none",
                   isSelected
-                    ? "bg-primary text-primary-foreground border-primary shadow-xs"
-                    : "bg-muted/30 text-muted-foreground border-border/50 hover:bg-muted hover:text-foreground"
+                    ? "border-primary bg-primary text-primary-foreground shadow-xs"
+                    : "border-border/50 bg-muted/30 text-muted-foreground hover:bg-muted hover:text-foreground"
                 )}
               >
                 {cat.label}
@@ -289,7 +324,7 @@ export function IconGallery() {
       <CardContent className="p-0">
         {/* Compact Icon Grid: Fixed-height container to guarantee zero scroll jumps during pagination */}
         {displayedIcons.length === 0 ? (
-          <div className="py-12 text-center text-muted-foreground flex flex-col items-center gap-2 h-[180px] justify-center border border-dashed border-border/60 rounded-xl bg-muted/10">
+          <div className="flex h-[180px] flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border/60 bg-muted/10 py-12 text-center text-muted-foreground">
             <SearchIcon size={24} className="opacity-40" />
             <p className="text-sm font-medium">No icons match &ldquo;{search}&rdquo;</p>
             <p className="text-xs">Try searching for a different keyword or category.</p>
@@ -298,10 +333,8 @@ export function IconGallery() {
           <TooltipProvider>
             <div
               className={cn(
-                "flex flex-wrap gap-1.5 p-3 rounded-xl border border-border/50 bg-muted/10 content-start select-none",
-                pageSize === "all"
-                  ? "max-h-96 overflow-y-auto"
-                  : "min-h-40 sm:min-h-36"
+                "flex flex-wrap content-start gap-1.5 rounded-xl border border-border/50 bg-muted/10 p-3 select-none",
+                pageSize === "all" ? "max-h-96 overflow-y-auto" : "min-h-40 sm:min-h-36"
               )}
             >
               {displayedIcons.map((icon) => (
@@ -318,15 +351,15 @@ export function IconGallery() {
 
         {/* Dynamic Pagination Footer */}
         {pageSize !== "all" && totalPages > 1 && (
-          <div className="pt-3 mt-2 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <span className="text-xs text-muted-foreground font-mono">
-              Page <span className="font-semibold text-foreground tabular-nums">{currentPage}</span> of{" "}
-              <span className="font-semibold text-foreground tabular-nums">{totalPages}</span> (
+          <div className="mt-2 flex flex-col items-center justify-between gap-3 border-t border-border/50 pt-3 sm:flex-row">
+            <span className="font-mono text-xs text-muted-foreground">
+              Page <span className="font-semibold text-foreground tabular-nums">{currentPage}</span>{" "}
+              of <span className="font-semibold text-foreground tabular-nums">{totalPages}</span> (
               {filteredIcons.length} items)
             </span>
 
             <Pagination
-              className="w-auto mx-0"
+              className="mx-0 w-auto"
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={setCurrentPage}

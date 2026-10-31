@@ -5,17 +5,13 @@ import { motion, AnimatePresence } from "motion/react";
 import { ImageOff as ImageOffIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export interface ProgressiveImageProps
-  extends React.ImgHTMLAttributes<HTMLImageElement> {
+export interface ProgressiveImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   placeholderSrc?: string;
   aspectRatio?: string;
   containerClassName?: string;
 }
 
-export const ProgressiveImage = React.forwardRef<
-  HTMLImageElement,
-  ProgressiveImageProps
->(
+export const ProgressiveImage = React.forwardRef<HTMLImageElement, ProgressiveImageProps>(
   (
     {
       src,
@@ -56,7 +52,7 @@ export const ProgressiveImage = React.forwardRef<
             src={placeholderSrc}
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 size-full object-cover filter blur-lg scale-110 opacity-70 transition-opacity duration-300"
+            className="absolute inset-0 size-full scale-110 object-cover opacity-70 blur-lg filter transition-opacity duration-300"
           />
         )}
 
@@ -68,14 +64,14 @@ export const ProgressiveImage = React.forwardRef<
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="absolute inset-0 size-full bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"
+              className="absolute inset-0 size-full -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"
             />
           )}
         </AnimatePresence>
 
         {/* 3. Error Fallback State */}
         {hasError ? (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-muted-foreground p-4 text-center">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center text-muted-foreground">
             <ImageOffIcon size={24} className="opacity-50" />
             <span className="text-xs font-medium">Failed to load media</span>
           </div>

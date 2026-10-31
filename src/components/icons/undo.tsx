@@ -95,11 +95,13 @@ const UndoIcon = forwardRef<UndoIconHandle, UndoIconProps>(
             }}
             variants={{
               normal: {
-    x: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+                x: 0,
+                transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+              },
               animate: {
-    x: -1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+                x: -1.5,
+                transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+              },
             }}
           />
         </svg>

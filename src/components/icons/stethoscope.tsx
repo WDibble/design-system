@@ -83,11 +83,15 @@ const StethoscopeIcon = forwardRef<StethoscopeIconHandle, StethoscopeIconProps>(
             }}
             variants={{
               normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+                y: 0,
+                scale: 1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+              },
               animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+                y: -1.5,
+                scale: 1.04,
+                transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+              },
             }}
           />
           <motion.path
@@ -100,11 +104,15 @@ const StethoscopeIcon = forwardRef<StethoscopeIconHandle, StethoscopeIconProps>(
             }}
             variants={{
               normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+                y: 0,
+                scale: 1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+              },
               animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+                y: -1.5,
+                scale: 1.04,
+                transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+              },
             }}
           />
           <motion.path
@@ -117,11 +125,15 @@ const StethoscopeIcon = forwardRef<StethoscopeIconHandle, StethoscopeIconProps>(
             }}
             variants={{
               normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+                y: 0,
+                scale: 1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+              },
               animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+                y: -1.5,
+                scale: 1.04,
+                transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+              },
             }}
           />
           <motion.path
@@ -134,11 +146,15 @@ const StethoscopeIcon = forwardRef<StethoscopeIconHandle, StethoscopeIconProps>(
             }}
             variants={{
               normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+                y: 0,
+                scale: 1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+              },
               animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+                y: -1.5,
+                scale: 1.04,
+                transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+              },
             }}
           />
           <motion.circle
@@ -153,11 +169,15 @@ const StethoscopeIcon = forwardRef<StethoscopeIconHandle, StethoscopeIconProps>(
             }}
             variants={{
               normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+                y: 0,
+                scale: 1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+              },
               animate: {
-    y: -1.5, scale: 1.04, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+                y: -1.5,
+                scale: 1.04,
+                transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+              },
             }}
           />
         </svg>

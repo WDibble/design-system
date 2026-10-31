@@ -1,0 +1,74 @@
+# Antigravity Design System — Full Reference Manual
+
+> An agent-native, human-centric design system standard built for high visual precision, physical intuition, and robust software engineering.
+
+## 1. Core Manifesto & Invariants
+
+1. Physical Yield on pointerdown: Interactive surfaces compress (scale 0.97 to 0.98) on touch or pointer down. Never wait for pointer release.
+2. Zero Layout Shifts: Never change border-width, font-weight, letter-spacing, margin, or padding across any dynamic state. Always declare transparent borders on resting states.
+3. Tabular Numerals: All counters, prices, dates, and metrics declare font-variant-numeric: tabular-nums (tabular-nums).
+4. Accessible Invariants: Every icon-only button possesses an explicit aria-label. Dialogues trap focus and dismiss on Escape.
+5. Quiet Chrome: Avoid bordered cards reflexively. Let typography, spatial rhythm, and baseline alignment carry visual hierarchy. No decorative eyebrow pill badges above titles.
+6. Concentric Corner Radii: Compute inner radius mathematically: R_inner = max(0, R_outer - Padding).
+7. Anti-Crush Responsive Page Architecture: Layout columns guarantee minimum viable widths (>= 340px). Status badges declare shrink-0 and whitespace-nowrap.
+8. Reversible Kinetic Affordances: Icons only animate when possessing a mechanical affordance that glides back to resting origin. No spinning operational icons or vanishing glyphs.
+9. Component Dimension Invariants: Never merge multi-axis utility shorthands (size-full, p-0) after single-axis dimensions (h-9, px-4) in cn().
+10. Component-Unified Kinetic Affinity: Nested icons react synchronously with parent button or card hover/press lifecycle. Icons maintain optical ratios between 40% and 50% of parent container height.
+11. Perceptual OKLCH Gradient Engineering: Linear gradients interpolate in modern perceptual color spaces (in oklch). Text text-contrast achieves WCAG 2.2 AA (>= 4.5:1) and WCAG 3 APCA (|Lc| >= 60).
+12. British English: Prose, comments, documentation, and tooltips strictly use British English spelling. No em dashes in text.
+13. Origin Anonymity: All standards, tokens, and components are presented as self-contained standards of this design system.
+14. Telemetry Indicator Cadence: Pulsing indicators maintain >= 60% resting window between impulses and animate exclusively compositor properties (transform, opacity).
+
+## 2. Token Architecture
+
+### Perceptual OKLCH Color Engine
+- Background: `oklch(0.99 0.002 240)` (light) / `oklch(0.14 0.005 260)` (dark)
+- Foreground: `oklch(0.18 0.005 260)` (light) / `oklch(0.98 0.002 240)` (dark)
+- Primary: `oklch(0.20 0.01 260)` (light) / `oklch(0.98 0.005 240)` (dark)
+- Primary Foreground: `oklch(0.99 0.002 240)` (light) / `oklch(0.14 0.01 260)` (dark)
+- Accent: `oklch(0.96 0.005 260)` (light) / `oklch(0.22 0.008 260)` (dark)
+- Border: `oklch(0.88 0.005 260)` (light) / `oklch(0.28 0.008 260)` (dark)
+- Destructive: `oklch(0.55 0.22 25)`
+- Success: `oklch(0.62 0.18 145)`
+- Warning: `oklch(0.75 0.16 75)`
+
+### Fluid Motion Springs
+- Tactile: `{ type: "spring", stiffness: 600, damping: 30, mass: 0.8 }`
+- Dialog: `{ type: "spring", stiffness: 350, damping: 35, mass: 1.0 }`
+- Snappy: `{ type: "spring", stiffness: 550, damping: 35, mass: 0.6 }`
+- Micro: `{ type: "spring", stiffness: 700, damping: 40 }`
+- Squishy: `{ type: "spring", stiffness: 420, damping: 24, mass: 0.8 }`
+
+### Liquid Glass Shaders
+- Ultra-Thin: `backdrop-filter: blur(28px)`, 55% alpha
+- Thin: `backdrop-filter: blur(20px)`, 70% alpha
+- Regular: `backdrop-filter: blur(16px)`, 82% alpha
+- Thick: `backdrop-filter: blur(12px)`, 92% alpha
+
+## 3. Component Usage Guide
+
+Import primitives from `@/components/ui`:
+```tsx
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { SparklesIcon } from "@/components/icons";
+
+export function ExampleCard() {
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle>Autonomous Cluster</CardTitle>
+          <Badge variant="success" dot>Active</Badge>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <Button variant="default" leftIcon={<SparklesIcon size={16} />}>
+          Execute Deployment
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+```

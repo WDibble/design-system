@@ -33,8 +33,7 @@ export function useStepperContext() {
   return context;
 }
 
-export interface StepperRootProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+export interface StepperRootProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   value: number;
   onValueChange?: (value: number) => void;
   step?: number;
@@ -158,7 +157,7 @@ export function StepperValue({
     <div
       role="status"
       aria-live="polite"
-      className={cn("tabular-nums font-mono tracking-tight min-w-0", className)}
+      className={cn("min-w-0 font-mono tracking-tight tabular-nums", className)}
       {...props}
     >
       <NumberTicker
@@ -177,7 +176,7 @@ export function StepperControls({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("flex items-center gap-1.5 shrink-0", className)} {...props}>
+    <div className={cn("flex shrink-0 items-center gap-1.5", className)} {...props}>
       {children}
     </div>
   );

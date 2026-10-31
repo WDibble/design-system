@@ -19,17 +19,13 @@ export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
  * - Carries role="status" and aria-label="Loading..." for assistive technologies.
  * - Only displayed when async loading exceeds ~300ms to avoid flicker on fast networks.
  */
-export function Skeleton({
-  className,
-  shimmer = false,
-  ...props
-}: SkeletonProps) {
+export function Skeleton({ className, shimmer = false, ...props }: SkeletonProps) {
   return (
     <div
       role="status"
       aria-label="Loading content..."
       className={cn(
-        "animate-pulse rounded-lg bg-muted/70 select-none pointer-events-none",
+        "pointer-events-none animate-pulse rounded-lg bg-muted/70 select-none",
         shimmer &&
           "relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_1.8s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent",
         className

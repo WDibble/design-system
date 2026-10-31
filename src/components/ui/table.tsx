@@ -17,7 +17,7 @@ export const Table = React.forwardRef<
   >
     <table
       ref={ref}
-      className={cn("w-full caption-bottom text-sm border-collapse", className)}
+      className={cn("w-full caption-bottom border-collapse text-sm", className)}
       {...props}
     />
   </div>
@@ -28,11 +28,7 @@ export const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead
-    ref={ref}
-    className={cn("border-b border-border/60 bg-muted/30", className)}
-    {...props}
-  />
+  <thead ref={ref} className={cn("border-b border-border/60 bg-muted/30", className)} {...props} />
 ));
 TableHeader.displayName = "TableHeader";
 
@@ -40,11 +36,7 @@ export const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <tbody
-    ref={ref}
-    className={cn("[&_tr:last-child]:border-0", className)}
-    {...props}
-  />
+  <tbody ref={ref} className={cn("[&_tr:last-child]:border-0", className)} {...props} />
 ));
 TableBody.displayName = "TableBody";
 
@@ -108,7 +100,7 @@ export const TableCell = React.forwardRef<
     ref={ref}
     className={cn(
       "p-4 align-middle text-sm text-foreground",
-      numeric && "text-right tabular-nums font-mono text-xs",
+      numeric && "text-right font-mono text-xs tabular-nums",
       className
     )}
     {...props}
@@ -120,10 +112,6 @@ export const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,
   React.HTMLAttributes<HTMLTableCaptionElement>
 >(({ className, ...props }, ref) => (
-  <caption
-    ref={ref}
-    className={cn("mt-4 text-xs text-muted-foreground", className)}
-    {...props}
-  />
+  <caption ref={ref} className={cn("mt-4 text-xs text-muted-foreground", className)} {...props} />
 ));
 TableCaption.displayName = "TableCaption";

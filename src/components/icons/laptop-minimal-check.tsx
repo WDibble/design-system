@@ -18,10 +18,14 @@ interface LaptopMinimalCheckIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const CHECK_VARIANTS: Variants = {
   normal: {
-    scale: 1, y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    scale: 1,
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    scale: [1, 1.15, 1], y: [0, -1, 0], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
+    scale: [1, 1.15, 1],
+    y: [0, -1, 0],
+    transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 

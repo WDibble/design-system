@@ -88,11 +88,15 @@ const GitCompareIcon = forwardRef<GitCompareIconHandle, GitCompareIconProps>(
             }}
             variants={{
               normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+                y: 0,
+                scale: 1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+              },
               animate: {
-    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+                y: -2,
+                scale: 1.1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+              },
             }}
           />
 
@@ -106,11 +110,15 @@ const GitCompareIcon = forwardRef<GitCompareIconHandle, GitCompareIconProps>(
             }}
             variants={{
               normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+                y: 0,
+                scale: 1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+              },
               animate: {
-    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+                y: -2,
+                scale: 1.1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+              },
             }}
           />
 
@@ -124,11 +132,15 @@ const GitCompareIcon = forwardRef<GitCompareIconHandle, GitCompareIconProps>(
             }}
             variants={{
               normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+                y: 0,
+                scale: 1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+              },
               animate: {
-    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+                y: -2,
+                scale: 1.1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+              },
             }}
           />
 
@@ -144,11 +156,15 @@ const GitCompareIcon = forwardRef<GitCompareIconHandle, GitCompareIconProps>(
             }}
             variants={{
               normal: {
-    y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
-  },
+                y: 0,
+                scale: 1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+              },
               animate: {
-    y: -2, scale: 1.1, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
-  },
+                y: -2,
+                scale: 1.1,
+                transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+              },
             }}
           />
         </svg>

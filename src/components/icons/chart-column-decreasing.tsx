@@ -12,14 +12,21 @@ export interface ChartColumnDecreasingIconHandle {
   stopAnimation: () => void;
 }
 
-interface ChartColumnDecreasingIconProps
-  extends HTMLAttributes<HTMLDivElement> {
+interface ChartColumnDecreasingIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
 const LINE_VARIANTS: Variants = {
-  visible: { scaleY: 1, originY: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 } },
-  hidden: { scaleY: 0.75, originY: 1, transition: { type: "spring" as const, stiffness: 500, damping: 25 } },
+  visible: {
+    scaleY: 1,
+    originY: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+  },
+  hidden: {
+    scaleY: 0.75,
+    originY: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+  },
 };
 
 const ChartColumnDecreasingIcon = forwardRef<

@@ -142,11 +142,7 @@ const PaletteIcon = forwardRef<PaletteIconHandle, PaletteIconProps>(
             strokeDasharray={DASH_LENGTH}
             variants={OUTLINE_VARIANTS}
           />
-          <motion.g
-            animate={controls}
-            initial="normal"
-            variants={DOTS_GROUP_VARIANTS}
-          >
+          <motion.g animate={controls} initial="normal" variants={DOTS_GROUP_VARIANTS}>
             {DOTS.map((dot) => (
               <motion.circle
                 cx={dot.cx}

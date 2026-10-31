@@ -19,10 +19,12 @@ const DURATION = 0.3;
 
 const SCREEN_VARIANTS = {
   normal: {
-    x: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    x: 0,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    x: 1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+    x: 1.5,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
@@ -105,11 +107,7 @@ const AirplayIcon = forwardRef<AirplayIconHandle, AirplayIconProps>(
             d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"
             variants={SCREEN_VARIANTS}
           />
-          <motion.path
-            animate={controls}
-            d="M12 15l5 6H7z"
-            variants={TRIANGLE_VARIANTS}
-          />
+          <motion.path animate={controls} d="M12 15l5 6H7z" variants={TRIANGLE_VARIANTS} />
         </svg>
       </div>
     );

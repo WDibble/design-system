@@ -16,100 +16,103 @@ interface ReceiptSwissFrancIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const FRANC_MAIN_VARIANTS: Variants = {
   normal: {
-    y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    y: -1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+    y: -1.5,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
 const FRANC_SECONDARY_VARIANTS: Variants = {
   normal: {
-    y: 0, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    y: -1.5, transition: { type: "spring" as const, stiffness: 500, damping: 25 },
+    y: -1.5,
+    transition: { type: "spring" as const, stiffness: 500, damping: 25 },
   },
 };
 
-const ReceiptSwissFrancIcon = forwardRef<
-  ReceiptSwissFrancIconHandle,
-  ReceiptSwissFrancIconProps
->(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-  const controls = useAnimation();
-  const isControlledRef = useRef(false);
+const ReceiptSwissFrancIcon = forwardRef<ReceiptSwissFrancIconHandle, ReceiptSwissFrancIconProps>(
+  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
+    const controls = useAnimation();
+    const isControlledRef = useRef(false);
 
-  useImperativeHandle(ref, () => {
-    isControlledRef.current = true;
-    return {
-      startAnimation: () => controls.start("animate"),
-      stopAnimation: () => controls.start("normal"),
-    };
-  });
+    useImperativeHandle(ref, () => {
+      isControlledRef.current = true;
+      return {
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      };
+    });
 
-  const handleMouseEnter = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (isControlledRef.current) {
-        onMouseEnter?.(e);
-      } else {
-        controls.start("animate");
-      }
-    },
-    [controls, onMouseEnter]
-  );
+    const handleMouseEnter = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (isControlledRef.current) {
+          onMouseEnter?.(e);
+        } else {
+          controls.start("animate");
+        }
+      },
+      [controls, onMouseEnter]
+    );
 
-  const handleMouseLeave = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (isControlledRef.current) {
-        onMouseLeave?.(e);
-      } else {
-        controls.start("normal");
-      }
-    },
-    [controls, onMouseLeave]
-  );
+    const handleMouseLeave = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (isControlledRef.current) {
+          onMouseLeave?.(e);
+        } else {
+          controls.start("normal");
+        }
+      },
+      [controls, onMouseLeave]
+    );
 
-  return (
-    <div
-      className={cn(className)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      {...props}
-    >
-      <motion.svg
-        fill="none"
-        height="24"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        viewBox="0 0 24 24"
-        width="24"
-        xmlns="http://www.w3.org/2000/svg"
+    return (
+      <div
+        className={cn(className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...props}
       >
-        <motion.path
-          animate={controls}
-          d="M10 11h4"
-          initial="normal"
-          variants={FRANC_SECONDARY_VARIANTS}
-        />
-        <motion.path
-          animate={controls}
-          d="M10 17V7h5"
-          initial="normal"
-          variants={FRANC_MAIN_VARIANTS}
-        />
-        <path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" />
-        <motion.path
-          animate={controls}
-          d="M8 15h5"
-          initial="normal"
-          variants={FRANC_SECONDARY_VARIANTS}
-        />
-      </motion.svg>
-    </div>
-  );
-});
+        <motion.svg
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <motion.path
+            animate={controls}
+            d="M10 11h4"
+            initial="normal"
+            variants={FRANC_SECONDARY_VARIANTS}
+          />
+          <motion.path
+            animate={controls}
+            d="M10 17V7h5"
+            initial="normal"
+            variants={FRANC_MAIN_VARIANTS}
+          />
+          <path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" />
+          <motion.path
+            animate={controls}
+            d="M8 15h5"
+            initial="normal"
+            variants={FRANC_SECONDARY_VARIANTS}
+          />
+        </motion.svg>
+      </div>
+    );
+  }
+);
 
 ReceiptSwissFrancIcon.displayName = "ReceiptSwissFrancIcon";
 

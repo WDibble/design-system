@@ -19,7 +19,7 @@ export const AlertDialogBackdrop = React.forwardRef<
       className={cn(
         "fixed inset-0 z-50 bg-black/45 backdrop-blur-xs",
         "transition-opacity duration-200 ease-out",
-        "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0",
+        "data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
         className
       )}
       {...props}
@@ -35,7 +35,7 @@ export const AlertDialogContent = React.forwardRef<
   return (
     <AlertDialogPortal>
       <AlertDialogBackdrop />
-      <AlertDialogPrimitive.Viewport className="fixed inset-0 z-50 grid place-items-center p-4 sm:p-6 overflow-y-auto">
+      <AlertDialogPrimitive.Viewport className="fixed inset-0 z-50 grid place-items-center overflow-y-auto p-4 sm:p-6">
         <AlertDialogPrimitive.Popup
           ref={ref}
           role="alertdialog"
@@ -58,27 +58,16 @@ export const AlertDialogContent = React.forwardRef<
 });
 AlertDialogContent.displayName = "AlertDialogContent";
 
-export function AlertDialogHeader({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn("flex flex-col gap-2 p-6 pb-2 text-left", className)}
-      {...props}
-    />
-  );
+export function AlertDialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn("flex flex-col gap-2 p-6 pb-2 text-left", className)} {...props} />;
 }
 AlertDialogHeader.displayName = "AlertDialogHeader";
 
-export function AlertDialogFooter({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function AlertDialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
-        "flex flex-col-reverse sm:flex-row sm:justify-end gap-2 p-6 pt-4 border-t border-border/40",
+        "flex flex-col-reverse gap-2 border-t border-border/40 p-6 pt-4 sm:flex-row sm:justify-end",
         className
       )}
       {...props}
@@ -108,7 +97,7 @@ export const AlertDialogDescription = React.forwardRef<
   return (
     <AlertDialogPrimitive.Description
       ref={ref}
-      className={cn("text-sm text-muted-foreground leading-relaxed", className)}
+      className={cn("text-sm leading-relaxed text-muted-foreground", className)}
       {...props}
     />
   );

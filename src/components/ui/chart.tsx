@@ -47,8 +47,8 @@ export function Sparkline({
     trend === "up" || (trend === "auto" && isUp)
       ? "var(--color-chart-2, oklch(0.6 0.118 184.704))"
       : trend === "down"
-      ? "var(--color-destructive, oklch(0.577 0.245 27.325))"
-      : color;
+        ? "var(--color-destructive, oklch(0.577 0.245 27.325))"
+        : color;
 
   const points = data.map((val, idx) => {
     const x = (idx / (data.length - 1)) * width;
@@ -71,7 +71,7 @@ export function Sparkline({
       width={width}
       height={height}
       viewBox={`0 0 ${width} ${height}`}
-      className={cn("overflow-visible select-none shrink-0 inline-block", className)}
+      className={cn("inline-block shrink-0 overflow-visible select-none", className)}
       aria-hidden="true"
     >
       <defs>
@@ -224,7 +224,7 @@ export function AreaChart({
   return (
     <div
       ref={containerRef}
-      className={cn("relative w-full select-none font-sans", className)}
+      className={cn("relative w-full font-sans select-none", className)}
       style={{ height }}
     >
       <svg
@@ -232,7 +232,7 @@ export function AreaChart({
         height={height}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
-        className="overflow-visible cursor-crosshair"
+        className="cursor-crosshair overflow-visible"
       >
         <defs>
           <linearGradient id={`primary-grad-${id}`} x1="0" y1="0" x2="0" y2="1">
@@ -242,7 +242,7 @@ export function AreaChart({
 
           {hasSecondary && (
             <linearGradient id={`secondary-grad-${id}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={secondaryColor} stopOpacity={0.20} />
+              <stop offset="0%" stopColor={secondaryColor} stopOpacity={0.2} />
               <stop offset="100%" stopColor={secondaryColor} stopOpacity={0.0} />
             </linearGradient>
           )}
@@ -269,7 +269,7 @@ export function AreaChart({
                     x={paddingLeft - 8}
                     y={y + 3}
                     textAnchor="end"
-                    className="text-[10px] font-mono fill-muted-foreground tabular-nums select-none"
+                    className="fill-muted-foreground font-mono text-[10px] tabular-nums select-none"
                   >
                     {valueFormatter(val)}
                   </text>
@@ -318,7 +318,7 @@ export function AreaChart({
                 x={x}
                 y={height - 8}
                 textAnchor="middle"
-                className="text-[10px] font-mono fill-muted-foreground select-none"
+                className="fill-muted-foreground font-mono text-[10px] select-none"
               >
                 {d.label}
               </text>
@@ -378,21 +378,21 @@ export function AreaChart({
             left: Math.min(Math.max(activeX, 90), containerWidth - 90),
             top: 2,
           }}
-          className="absolute -translate-x-1/2 pointer-events-none z-20 px-2.5 py-1.5 rounded-lg border border-border/80 bg-popover text-popover-foreground shadow-lg glass-thick specular-rim text-xs"
+          className="glass-thick specular-rim pointer-events-none absolute z-20 -translate-x-1/2 rounded-lg border border-border/80 bg-popover px-2.5 py-1.5 text-xs text-popover-foreground shadow-lg"
         >
-          <div className="flex items-center justify-between gap-3 text-[11px] mb-0.5">
+          <div className="mb-0.5 flex items-center justify-between gap-3 text-[11px]">
             <span className="font-medium text-foreground">{activePoint.label}</span>
           </div>
           <div className="flex items-center gap-2">
             <span
-              className="size-2 rounded-full shrink-0"
+              className="size-2 shrink-0 rounded-full"
               style={{ backgroundColor: primaryColor }}
             />
-            <span className="font-mono tabular-nums font-semibold text-xs text-foreground">
+            <span className="font-mono text-xs font-semibold text-foreground tabular-nums">
               {valueFormatter(activePoint.value)}
             </span>
             {activePoint.secondaryValue !== undefined && (
-              <span className="font-mono tabular-nums text-[10px] text-muted-foreground ml-1">
+              <span className="ml-1 font-mono text-[10px] text-muted-foreground tabular-nums">
                 / {valueFormatter(activePoint.secondaryValue)}
               </span>
             )}
@@ -434,10 +434,10 @@ export function BarChart({
 
   return (
     <div
-      className={cn("w-full flex flex-col justify-end gap-2 select-none", className)}
+      className={cn("flex w-full flex-col justify-end gap-2 select-none", className)}
       style={{ height }}
     >
-      <div className="flex-1 flex items-end justify-between gap-1.5 sm:gap-2.5 pt-4">
+      <div className="flex flex-1 items-end justify-between gap-1.5 pt-4 sm:gap-2.5">
         {data.map((item, idx) => {
           const heightPercent = Math.max(6, (item.value / max) * 100);
           const isHovered = hoveredIdx === idx;
@@ -448,11 +448,11 @@ export function BarChart({
               key={idx}
               onPointerEnter={() => setHoveredIdx(idx)}
               onPointerLeave={() => setHoveredIdx(null)}
-              className="flex-1 h-full flex flex-col items-center justify-end group relative cursor-pointer min-w-0"
+              className="group relative flex h-full min-w-0 flex-1 cursor-pointer flex-col items-center justify-end"
             >
               {/* Tooltip callout */}
               {isHovered && (
-                <div className="absolute -top-7 px-1.5 py-0.5 rounded-md bg-popover text-popover-foreground border border-border/80 shadow-md text-[10px] font-mono tabular-nums z-20 whitespace-nowrap">
+                <div className="absolute -top-7 z-20 rounded-md border border-border/80 bg-popover px-1.5 py-0.5 font-mono text-[10px] whitespace-nowrap text-popover-foreground tabular-nums shadow-md">
                   {valueFormatter(item.value)}
                 </div>
               )}
@@ -460,8 +460,8 @@ export function BarChart({
               {/* Bar pillar */}
               <div
                 className={cn(
-                  "w-full rounded-t-md transition-all duration-200 ease-out specular-rim",
-                  isHovered ? "brightness-110 -translate-y-0.5 shadow-sm" : "opacity-90"
+                  "specular-rim w-full rounded-t-md transition-all duration-200 ease-out",
+                  isHovered ? "-translate-y-0.5 shadow-sm brightness-110" : "opacity-90"
                 )}
                 style={{
                   height: `${heightPercent}%`,
@@ -474,11 +474,11 @@ export function BarChart({
       </div>
 
       {/* Axis labels */}
-      <div className="flex items-center justify-between gap-1.5 sm:gap-2.5 pt-1 border-t border-border/40">
+      <div className="flex items-center justify-between gap-1.5 border-t border-border/40 pt-1 sm:gap-2.5">
         {data.map((item, idx) => (
           <div
             key={idx}
-            className="flex-1 text-center font-mono tabular-nums text-[10px] text-muted-foreground truncate"
+            className="flex-1 truncate text-center font-mono text-[10px] text-muted-foreground tabular-nums"
           >
             {item.label}
           </div>

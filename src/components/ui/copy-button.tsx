@@ -6,8 +6,7 @@ import { CopyIcon, CheckIcon } from "@/components/icons";
 import { springs } from "@/tokens/motion";
 import { cn } from "@/lib/utils";
 
-export interface CopyButtonProps
-  extends Omit<HTMLMotionProps<"button">, "children" | "onCopy"> {
+export interface CopyButtonProps extends Omit<HTMLMotionProps<"button">, "children" | "onCopy"> {
   /** The text string to copy to clipboard */
   value?: string;
   /** Controlled copied state */
@@ -52,8 +51,7 @@ export const CopyButton = React.forwardRef<HTMLButtonElement, CopyButtonProps>(
     const timerRef = React.useRef<NodeJS.Timeout | null>(null);
 
     // Derived icon size
-    const effectiveIconSize =
-      iconSize ?? (size === "sm" ? 13 : size === "lg" ? 18 : 15);
+    const effectiveIconSize = iconSize ?? (size === "sm" ? 13 : size === "lg" ? 18 : 15);
 
     // Cleanup timer on unmount
     React.useEffect(() => {
@@ -128,8 +126,8 @@ export const CopyButton = React.forwardRef<HTMLButtonElement, CopyButtonProps>(
         onClick={handleCopy}
         aria-label={isCopied ? "Copied" : "Copy to clipboard"}
         className={cn(
-          "relative inline-flex items-center justify-center font-medium select-none shrink-0 border cursor-pointer",
-          "transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          "relative inline-flex shrink-0 cursor-pointer items-center justify-center border font-medium select-none",
+          "transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
           variantStyles[variant],
           sizeStyles[size],
           className

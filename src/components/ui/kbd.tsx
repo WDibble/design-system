@@ -18,16 +18,16 @@ export const Kbd = React.forwardRef<HTMLElement, KbdProps>(
       <kbd
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center font-mono font-medium tabular-nums select-none shrink-0",
-          "rounded-[4px] shadow-xs transition-colors duration-150 leading-none",
+          "inline-flex shrink-0 items-center justify-center font-mono font-medium tabular-nums select-none",
+          "rounded-[4px] leading-none shadow-xs transition-colors duration-150",
           variant === "default" &&
-            "border border-border/80 border-b-[2px] bg-muted/60 text-muted-foreground",
+            "border border-b-[2px] border-border/80 bg-muted/60 text-muted-foreground",
           variant === "inverted" &&
-            "border border-background/25 border-b-[2px] border-b-background/40 bg-background/15 text-background",
-          size === "xs" && "text-[9px] px-1 py-0.5 min-h-[16px] min-w-[16px]",
-          size === "sm" && "text-[10px] px-1.5 py-0.5 min-h-[18px] min-w-[18px]",
-          size === "default" && "text-[11px] px-2 py-0.5 min-h-[22px] min-w-[22px]",
-          size === "lg" && "text-xs px-2.5 py-1 min-h-[26px] min-w-[26px]",
+            "border border-b-[2px] border-background/25 border-b-background/40 bg-background/15 text-background",
+          size === "xs" && "min-h-[16px] min-w-[16px] px-1 py-0.5 text-[9px]",
+          size === "sm" && "min-h-[18px] min-w-[18px] px-1.5 py-0.5 text-[10px]",
+          size === "default" && "min-h-[22px] min-w-[22px] px-2 py-0.5 text-[11px]",
+          size === "lg" && "min-h-[26px] min-w-[26px] px-2.5 py-1 text-xs",
           className
         )}
         {...props}

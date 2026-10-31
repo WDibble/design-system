@@ -18,10 +18,12 @@ interface FolderMinusIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const PATH_VARIANTS: Variants = {
   normal: {
-    scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    scale: [1, 0.9, 1], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
+    scale: [1, 0.9, 1],
+    transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 
@@ -79,12 +81,7 @@ const FolderMinusIcon = forwardRef<FolderMinusIconHandle, FolderMinusIconProps>(
           xmlns="http://www.w3.org/2000/svg"
         >
           <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
-          <motion.path
-            animate={controls}
-            d="M9 13h6"
-            initial="normal"
-            variants={PATH_VARIANTS}
-          />
+          <motion.path animate={controls} d="M9 13h6" initial="normal" variants={PATH_VARIANTS} />
         </svg>
       </div>
     );

@@ -18,10 +18,12 @@ interface EyeOffIconProps extends HTMLAttributes<HTMLDivElement> {
 
 const PATH_VARIANTS: Variants = {
   normal: {
-    scale: 1, transition: { type: "spring" as const, stiffness: 500, damping: 30 },
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 500, damping: 30 },
   },
   animate: {
-    scale: [1, 0.9, 1], transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
+    scale: [1, 0.9, 1],
+    transition: { type: "spring" as const, stiffness: 500, damping: 25, duration: 0.3 },
   },
 };
 
@@ -82,11 +84,7 @@ const EyeOffIcon = forwardRef<EyeOffIconHandle, EyeOffIconProps>(
           <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
           <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
           <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
-          <motion.path
-            animate={controls}
-            d="m2 2 20 20"
-            variants={PATH_VARIANTS}
-          />
+          <motion.path animate={controls} d="m2 2 20 20" variants={PATH_VARIANTS} />
         </svg>
       </div>
     );
