@@ -40,7 +40,7 @@ import { cn } from "@/lib/utils";
 
 export interface MarkdownActionHelpers {
   wrapSelection: (prefix: string, suffix?: string, placeholder?: string) => void;
-  toggleLinePrefix: (prefix: string | ((line: string, index: number) => string)) => void;
+  toggleLinePrefix: (prefixOrType: string | "orderedList") => void;
   insertBlock: (block: string, selectRange?: [number, number]) => void;
   insertTable: (rows?: number, cols?: number) => void;
   undo: () => void;
@@ -159,7 +159,7 @@ export const MarkdownToolbar = React.forwardRef<
     );
 
     const toggleLinePrefix = React.useCallback(
-      (prefixOrFn: string | ((line: string, index: number) => string)) => {
+      (prefixOrType: string | "orderedList") => {
         const textarea = getTextarea();
         if (!textarea) return;
 
@@ -175,22 +175,67 @@ export const MarkdownToolbar = React.forwardRef<
         const selectedLines = value.substring(lineStart, lineEnd).split("\n");
 
         let newLines: string[];
-        if (typeof prefixOrFn === "string") {
-          const prefix = prefixOrFn;
-          // If every line already has the prefix, remove it
-          const allHavePrefix = selectedLines.every((l) => l.startsWith(prefix));
-          if (allHavePrefix) {
-            newLines = selectedLines.map((l) => l.substring(prefix.length));
+
+        if (prefixOrType === "orderedList") {
+          const numberRegex = /^\d+\.\s+/;
+          const allHaveNumbers = selectedLines.every((l) => numberRegex.test(l.trimStart()));
+          if (allHaveNumbers) {
+            // Toggle OFF: strip the numbers cleanly
+            newLines = selectedLines.map((l) => l.replace(numberRegex, ""));
           } else {
-            // Strip any existing alternative headings if adding heading
-            const isHeading = prefix.startsWith("#");
-            newLines = selectedLines.map((l) => {
-              const clean = isHeading ? l.replace(/^#{1,6}\s+/, "") : l;
-              return `${prefix}${clean}`;
+            // Toggle ON: strip bullet/checklist/existing numbers if present, then add ordered numbers
+            newLines = selectedLines.map((l, idx) => {
+              const clean = l
+                .replace(/^(\s*)-\s+(\[[ x]\]\s+)?/, "$1")
+                .replace(/^(\s*)\d+\.\s+/, "$1");
+              return `${idx + 1}. ${clean}`;
             });
           }
         } else {
-          newLines = selectedLines.map(prefixOrFn);
+          const prefix = prefixOrType;
+          const isHeading = prefix.startsWith("#");
+          const headingRegex = /^#{1,6}\s+/;
+          const isBullet = prefix === "- ";
+          const isChecklist = prefix === "- [ ] ";
+          const bulletRegex = /^-\s+/;
+          const checklistRegex = /^-\s+\[[ x]\]\s+/;
+          const numberRegex = /^\d+\.\s+/;
+
+          if (isHeading) {
+            const allHaveExactHeading = selectedLines.every((l) => l.startsWith(prefix));
+            if (allHaveExactHeading) {
+              newLines = selectedLines.map((l) => l.replace(headingRegex, ""));
+            } else {
+              newLines = selectedLines.map((l) => `${prefix}${l.replace(headingRegex, "")}`);
+            }
+          } else if (isChecklist) {
+            const allHaveChecklist = selectedLines.every((l) => checklistRegex.test(l));
+            if (allHaveChecklist) {
+              newLines = selectedLines.map((l) => l.replace(checklistRegex, ""));
+            } else {
+              newLines = selectedLines.map((l) => {
+                const clean = l.replace(checklistRegex, "").replace(bulletRegex, "").replace(numberRegex, "");
+                return `${prefix}${clean}`;
+              });
+            }
+          } else if (isBullet) {
+            const allHaveBullet = selectedLines.every((l) => bulletRegex.test(l) && !checklistRegex.test(l));
+            if (allHaveBullet) {
+              newLines = selectedLines.map((l) => l.replace(bulletRegex, ""));
+            } else {
+              newLines = selectedLines.map((l) => {
+                const clean = l.replace(checklistRegex, "").replace(bulletRegex, "").replace(numberRegex, "");
+                return `${prefix}${clean}`;
+              });
+            }
+          } else {
+            const allHavePrefix = selectedLines.every((l) => l.startsWith(prefix));
+            if (allHavePrefix) {
+              newLines = selectedLines.map((l) => l.substring(prefix.length));
+            } else {
+              newLines = selectedLines.map((l) => `${prefix}${l}`);
+            }
+          }
         }
 
         const replacement = newLines.join("\n");
@@ -454,10 +499,7 @@ export const MarkdownToolbar = React.forwardRef<
                   aria-label="Numbered list"
                   onClick={() =>
                     executeAction("orderedList", () =>
-                      toggleLinePrefix((line, idx) => {
-                        const clean = line.replace(/^\d+\.\s+/, "");
-                        return `${idx + 1}. ${clean}`;
-                      })
+                      toggleLinePrefix("orderedList")
                     )
                   }
                 >
