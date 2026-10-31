@@ -49,7 +49,7 @@ export interface MarkdownActionHelpers {
 
 /**
  * Perform a selection-aware text mutation on a HTMLTextAreaElement while preserving
- * the browser's native undo/redo stack via setRangeText.
+ * the browser's native undo/redo stack via setRangeText and synchronising React controlled state.
  */
 function applyTextMutation(
   textarea: HTMLTextAreaElement,
@@ -60,15 +60,46 @@ function applyTextMutation(
 ) {
   const start = customStart ?? textarea.selectionStart;
   const end = customEnd ?? textarea.selectionEnd;
+  const scrollTop = textarea.scrollTop;
 
   textarea.focus();
   // Using setRangeText preserves the browser undo/redo history in modern engines
   textarea.setRangeText(replacement, start, end, selectionMode);
 
-  // Dispatch synthetic input event for React controlled state synchronization
+  // Synchronise React controlled state via native prototype value setter descriptor
+  const nativeSetter = Object.getOwnPropertyDescriptor(
+    window.HTMLTextAreaElement.prototype,
+    "value"
+  )?.set;
+  if (nativeSetter) {
+    nativeSetter.call(textarea, textarea.value);
+  }
+
+  // Dispatch synthetic input event for React controlled state synchronisation
   const event = new Event("input", { bubbles: true });
   textarea.dispatchEvent(event);
+
+  textarea.scrollTop = scrollTop;
 }
+
+/**
+ * Specialised action button that intercepts pointerdown and mousedown to prevent
+ * the button click from blurring the textarea or dismissing mobile virtual keyboards.
+ */
+const ActionButton = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentProps<typeof ToolbarButton>
+>(({ onMouseDown, ...props }, ref) => (
+  <ToolbarButton
+    ref={ref}
+    onMouseDown={(e) => {
+      e.preventDefault();
+      onMouseDown?.(e);
+    }}
+    {...props}
+  />
+));
+ActionButton.displayName = "ActionButton";
 
 export interface MarkdownToolbarProps
   extends Omit<React.ComponentProps<typeof Toolbar>, "children"> {
@@ -130,18 +161,92 @@ export const MarkdownToolbar = React.forwardRef<
         const end = textarea.selectionEnd;
         const value = textarea.value;
         const selected = value.substring(start, end);
-
-        // Toggle unwrapping if already cleanly wrapped
         const prefixLen = prefix.length;
         const suffixLen = suffix.length;
-        const beforeText = value.substring(start - prefixLen, start);
-        const afterText = value.substring(end, end + suffixLen);
 
-        if (beforeText === prefix && afterText === suffix) {
-          // Unwrap outer symbols
+        // Multi-line inline code conversion to fenced block
+        if (prefix === "`" && suffix === "`" && selected.includes("\n")) {
+          const codeFence = "```\n" + selected + "\n```";
+          applyTextMutation(textarea, codeFence, "select");
+          return;
+        }
+
+        // Multi-line formatting across paragraphs/lines
+        if (selected.includes("\n") && selected.length > 0) {
+          const lines = selected.split("\n");
+          const wrappedLines = lines.map((line) => {
+            if (line.trim().length === 0) return line;
+            const leadingWs = line.match(/^(\s*)/)?.[1] ?? "";
+            const trailingWs = line.match(/(\s*)$/)?.[1] ?? "";
+            const core = line.substring(leadingWs.length, line.length - trailingWs.length);
+            return `${leadingWs}${prefix}${core}${suffix}${trailingWs}`;
+          });
+          applyTextMutation(textarea, wrappedLines.join("\n"), "select");
+          return;
+        }
+
+        // Delimiter unwrapping when selection encompasses delimiters
+        if (
+          selected.startsWith(prefix) &&
+          selected.endsWith(suffix) &&
+          selected.length >= prefixLen + suffixLen
+        ) {
+          const unwrapped = selected.slice(prefixLen, selected.length - suffixLen);
+          applyTextMutation(textarea, unwrapped, "select");
+          return;
+        }
+
+        // Delimiter unwrapping when outer adjacent text matches delimiters
+        const beforeText = value.substring(Math.max(0, start - prefixLen), start);
+        const afterText = value.substring(end, Math.min(value.length, end + suffixLen));
+        const isBoldDelimCollision =
+          prefix === "*" &&
+          (value.substring(Math.max(0, start - 2), start) === "**" ||
+            value.substring(end, Math.min(value.length, end + 2)) === "**");
+
+        if (beforeText === prefix && afterText === suffix && !isBoldDelimCollision) {
           textarea.setSelectionRange(start - prefixLen, end + suffixLen);
           applyTextMutation(textarea, selected, "select");
           return;
+        }
+
+        // Delimiter unwrapping when cursor is collapsed inside a formatted word (e.g. `**bo|ld**`)
+        if (start === end) {
+          const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+          const lineEndIndex = value.indexOf("\n", start);
+          const lineEnd = lineEndIndex === -1 ? value.length : lineEndIndex;
+          const lineBefore = value.substring(lineStart, start);
+          const lineAfter = value.substring(start, lineEnd);
+
+          const lastPrefixIdx = lineBefore.lastIndexOf(prefix);
+          const nextSuffixIdx = lineAfter.indexOf(suffix);
+
+          if (lastPrefixIdx !== -1 && nextSuffixIdx !== -1 && !isBoldDelimCollision) {
+            const fullStart = lineStart + lastPrefixIdx;
+            const fullEnd = start + nextSuffixIdx + suffixLen;
+            const enclosed = value.substring(fullStart + prefixLen, fullEnd - suffixLen);
+            textarea.setSelectionRange(fullStart, fullEnd);
+            applyTextMutation(textarea, enclosed, "select");
+            return;
+          }
+        }
+
+        // Whitespace-padded selection trim (CommonMark requires delimiters tight against words)
+        if (selected.length > 0) {
+          const leadingWs = selected.match(/^(\s*)/)?.[1] ?? "";
+          const trailingWs = selected.match(/(\s*)$/)?.[1] ?? "";
+
+          if (leadingWs.length > 0 || trailingWs.length > 0) {
+            const core = selected.substring(leadingWs.length, selected.length - trailingWs.length);
+            if (core.length > 0) {
+              const replacement = `${leadingWs}${prefix}${core}${suffix}${trailingWs}`;
+              applyTextMutation(textarea, replacement, "preserve");
+              const newStart = start + leadingWs.length + prefixLen;
+              const newEnd = newStart + core.length;
+              textarea.setSelectionRange(newStart, newEnd);
+              return;
+            }
+          }
         }
 
         const textToWrap = selected.length > 0 ? selected : placeholder;
@@ -286,11 +391,31 @@ export const MarkdownToolbar = React.forwardRef<
         const start = textarea.selectionStart;
         const value = textarea.value;
 
-        // Ensure boundary spacing around blocks
-        const needsLeadingNewline = start > 0 && value[start - 1] !== "\n";
-        const prefix = needsLeadingNewline ? "\n" : "";
-        const replacement = `${prefix}${block}\n`;
+        // Ensure boundary spacing around blocks to prevent Setext Heading conversion
+        let leadingNewlines = "";
+        if (start > 0) {
+          if (value[start - 1] === "\n") {
+            if (start > 1 && value[start - 2] !== "\n") {
+              leadingNewlines = "\n";
+            }
+          } else {
+            leadingNewlines = "\n\n";
+          }
+        }
 
+        const after = value.substring(start);
+        let trailingNewlines = "\n";
+        if (after.length > 0) {
+          if (after.startsWith("\n\n")) {
+            trailingNewlines = "";
+          } else if (after.startsWith("\n")) {
+            trailingNewlines = "\n";
+          } else {
+            trailingNewlines = "\n\n";
+          }
+        }
+
+        const replacement = `${leadingNewlines}${block}${trailingNewlines}`;
         applyTextMutation(textarea, replacement, "end");
       },
       [getTextarea]
@@ -304,11 +429,67 @@ export const MarkdownToolbar = React.forwardRef<
           Array.from({ length: cols }, (_, i) => `Data ${i + 1}`).join(" | ")
         ).join("\n| ") + " |";
 
-        const table = `\n| ${headers} |\n| ${dividers} |\n| ${rowContent}\n`;
+        const table = `| ${headers} |\n| ${dividers} |\n| ${rowContent}`;
         insertBlock(table);
       },
       [insertBlock]
     );
+
+    const insertLink = React.useCallback(() => {
+      const textarea = getTextarea();
+      if (!textarea) return;
+
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+      const selected = value.substring(start, end).trim();
+
+      const isUrl = /^https?:\/\//i.test(selected);
+
+      if (isUrl) {
+        const replacement = `[link title](${selected})`;
+        applyTextMutation(textarea, replacement, "preserve");
+        textarea.setSelectionRange(start + 1, start + 11);
+      } else if (selected.length > 0) {
+        const replacement = `[${selected}](https://example.com)`;
+        applyTextMutation(textarea, replacement, "preserve");
+        const urlStart = start + selected.length + 3;
+        const urlEnd = urlStart + 19;
+        textarea.setSelectionRange(urlStart, urlEnd);
+      } else {
+        const replacement = `[link title](https://example.com)`;
+        applyTextMutation(textarea, replacement, "preserve");
+        textarea.setSelectionRange(start + 1, start + 11);
+      }
+    }, [getTextarea]);
+
+    const insertImage = React.useCallback(() => {
+      const textarea = getTextarea();
+      if (!textarea) return;
+
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+      const selected = value.substring(start, end).trim();
+
+      const isUrl = /^https?:\/\//i.test(selected);
+
+      if (isUrl) {
+        const replacement = `![alt text](${selected})`;
+        applyTextMutation(textarea, replacement, "preserve");
+        textarea.setSelectionRange(start + 2, start + 10);
+      } else if (selected.length > 0) {
+        const replacement = `![${selected}](https://image-url.png)`;
+        applyTextMutation(textarea, replacement, "preserve");
+        const urlStart = start + selected.length + 4;
+        const urlEnd = urlStart + 21;
+        textarea.setSelectionRange(urlStart, urlEnd);
+      } else {
+        const replacement = `![alt text](https://image-url.png)`;
+        applyTextMutation(textarea, replacement, "preserve");
+        textarea.setSelectionRange(start + 2, start + 10);
+      }
+    }, [getTextarea]);
 
     const [activeFormats, setActiveFormats] = React.useState({
       bold: false,
@@ -355,7 +536,7 @@ export const MarkdownToolbar = React.forwardRef<
 
       const isBold = (before2 === "**" && after2 === "**") || (selected.startsWith("**") && selected.endsWith("**") && selected.length >= 4);
       const isStrike = (before2 === "~~" && after2 === "~~") || (selected.startsWith("~~") && selected.endsWith("~~") && selected.length >= 4);
-      const isItalic = (before1 === "*" && after1 === "*") || (selected.startsWith("*") && selected.endsWith("*") && selected.length >= 2);
+      const isItalic = !isBold && ((before1 === "*" && after1 === "*") || (selected.startsWith("*") && selected.endsWith("*") && selected.length >= 2 && !selected.startsWith("**")));
       const isCode = (before1 === "`" && after1 === "`") || (selected.startsWith("`") && selected.endsWith("`") && selected.length >= 2);
 
       setActiveFormats((prev) => {
@@ -390,6 +571,15 @@ export const MarkdownToolbar = React.forwardRef<
       });
     }, [getTextarea]);
 
+    const executeAction = React.useCallback(
+      (name: string, handler: () => void) => {
+        handler();
+        onAction?.(name);
+        setTimeout(updateActiveFormats, 0);
+      },
+      [onAction, updateActiveFormats]
+    );
+
     React.useEffect(() => {
       const textarea = getTextarea();
       if (!textarea) return;
@@ -398,11 +588,128 @@ export const MarkdownToolbar = React.forwardRef<
         updateActiveFormats();
       };
 
+      const handleKeyDown = (e: KeyboardEvent) => {
+        const isMac = typeof navigator !== "undefined" && /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+        const modKey = isMac ? e.metaKey : e.ctrlKey;
+
+        // Mod+B: Bold
+        if (modKey && !e.shiftKey && e.key.toLowerCase() === "b") {
+          e.preventDefault();
+          executeAction("bold", () => wrapSelection("**", "**", "bold text"));
+          return;
+        }
+
+        // Mod+I: Italic
+        if (modKey && !e.shiftKey && e.key.toLowerCase() === "i") {
+          e.preventDefault();
+          executeAction("italic", () => wrapSelection("*", "*", "italic text"));
+          return;
+        }
+
+        // Mod+E: Inline Code
+        if (modKey && !e.shiftKey && e.key.toLowerCase() === "e") {
+          e.preventDefault();
+          executeAction("inlineCode", () => wrapSelection("`", "`", "code"));
+          return;
+        }
+
+        // Mod+K: Hyperlink
+        if (modKey && !e.shiftKey && e.key.toLowerCase() === "k") {
+          e.preventDefault();
+          executeAction("link", insertLink);
+          return;
+        }
+
+        // Shift+Mod+X: Strikethrough
+        if (modKey && e.shiftKey && e.key.toLowerCase() === "x") {
+          e.preventDefault();
+          executeAction("strikethrough", () => wrapSelection("~~", "~~", "strikethrough text"));
+          return;
+        }
+
+        // Tab / Shift+Tab for list indentation
+        if (e.key === "Tab") {
+          const start = textarea.selectionStart;
+          const end = textarea.selectionEnd;
+          const value = textarea.value;
+
+          const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+          const lineEndIndex = value.indexOf("\n", end);
+          const lineEnd = lineEndIndex === -1 ? value.length : lineEndIndex;
+          const lines = value.substring(lineStart, lineEnd).split("\n");
+
+          const isListSelection = lines.some((l) => /^\s*(?:-\s+|-\s+\[[ x]\]\s+|\d+\.\s+)/.test(l));
+
+          if (isListSelection || start !== end) {
+            e.preventDefault();
+            if (e.shiftKey) {
+              const outdented = lines.map((l) => l.replace(/^ {1,2}/, ""));
+              applyTextMutation(textarea, outdented.join("\n"), "select", lineStart, lineEnd);
+            } else {
+              const indented = lines.map((l) => `  ${l}`);
+              applyTextMutation(textarea, indented.join("\n"), "select", lineStart, lineEnd);
+            }
+            setTimeout(updateActiveFormats, 0);
+            return;
+          }
+        }
+
+        // Enter on list items: auto-continue or exit on empty item
+        if (e.key === "Enter" && !e.shiftKey) {
+          const start = textarea.selectionStart;
+          const end = textarea.selectionEnd;
+          if (start === end) {
+            const value = textarea.value;
+            const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+            const currentLine = value.substring(lineStart, start);
+
+            const emptyBulletMatch = currentLine.match(/^(\s*)-\s+$/);
+            const emptyChecklistMatch = currentLine.match(/^(\s*)-\s+\[[ x]\]\s+$/);
+            const emptyNumberMatch = currentLine.match(/^(\s*)\d+\.\s+$/);
+
+            if (emptyBulletMatch || emptyChecklistMatch || emptyNumberMatch) {
+              // Exit list mode by clearing prefix
+              e.preventDefault();
+              const indent = (emptyBulletMatch || emptyChecklistMatch || emptyNumberMatch)![1];
+              applyTextMutation(textarea, indent, "end", lineStart, start);
+              setTimeout(updateActiveFormats, 0);
+              return;
+            }
+
+            const bulletMatch = currentLine.match(/^(\s*)-\s+(.+)$/);
+            const checklistMatch = currentLine.match(/^(\s*)-\s+\[[ x]\]\s+(.+)$/);
+            const numberMatch = currentLine.match(/^(\s*)(\d+)\.\s+(.+)$/);
+
+            if (checklistMatch) {
+              e.preventDefault();
+              const indent = checklistMatch[1];
+              applyTextMutation(textarea, `\n${indent}- [ ] `, "end");
+              setTimeout(updateActiveFormats, 0);
+              return;
+            } else if (bulletMatch) {
+              e.preventDefault();
+              const indent = bulletMatch[1];
+              applyTextMutation(textarea, `\n${indent}- `, "end");
+              setTimeout(updateActiveFormats, 0);
+              return;
+            } else if (numberMatch) {
+              e.preventDefault();
+              const indent = numberMatch[1];
+              const nextNum = parseInt(numberMatch[2], 10) + 1;
+              applyTextMutation(textarea, `\n${indent}${nextNum}. `, "end");
+              setTimeout(updateActiveFormats, 0);
+              return;
+            }
+          }
+        }
+      };
+
       textarea.addEventListener("select", handleSelection);
       textarea.addEventListener("keyup", handleSelection);
       textarea.addEventListener("mouseup", handleSelection);
       textarea.addEventListener("input", handleSelection);
       textarea.addEventListener("focus", handleSelection);
+      textarea.addEventListener("keydown", handleKeyDown);
       document.addEventListener("selectionchange", handleSelection);
 
       updateActiveFormats();
@@ -413,15 +720,10 @@ export const MarkdownToolbar = React.forwardRef<
         textarea.removeEventListener("mouseup", handleSelection);
         textarea.removeEventListener("input", handleSelection);
         textarea.removeEventListener("focus", handleSelection);
+        textarea.removeEventListener("keydown", handleKeyDown);
         document.removeEventListener("selectionchange", handleSelection);
       };
-    }, [getTextarea, updateActiveFormats]);
-
-    const executeAction = (name: string, handler: () => void) => {
-      handler();
-      onAction?.(name);
-      setTimeout(updateActiveFormats, 0);
-    };
+    }, [getTextarea, updateActiveFormats, executeAction, wrapSelection, insertLink]);
 
     return (
       <TooltipProvider delay={200}>
@@ -439,7 +741,7 @@ export const MarkdownToolbar = React.forwardRef<
               <ToolbarGroup aria-label="History">
                 <Tooltip>
                   <TooltipTrigger render={
-                    <ToolbarButton
+                    <ActionButton
                       type="button"
                       aria-label="Undo last change"
                       onClick={() =>
@@ -450,7 +752,7 @@ export const MarkdownToolbar = React.forwardRef<
                       }
                     >
                       <Undo2Icon className="size-3.5" />
-                    </ToolbarButton>
+                    </ActionButton>
                   } />
                   <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                     <span>Undo</span>
@@ -460,7 +762,7 @@ export const MarkdownToolbar = React.forwardRef<
 
                 <Tooltip>
                   <TooltipTrigger render={
-                    <ToolbarButton
+                    <ActionButton
                       type="button"
                       aria-label="Redo last change"
                       onClick={() =>
@@ -471,7 +773,7 @@ export const MarkdownToolbar = React.forwardRef<
                       }
                     >
                       <Redo2Icon className="size-3.5" />
-                    </ToolbarButton>
+                    </ActionButton>
                   } />
                   <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                     <span>Redo</span>
@@ -487,14 +789,14 @@ export const MarkdownToolbar = React.forwardRef<
           <ToolbarGroup aria-label="Text styling">
             <Tooltip>
               <TooltipTrigger render={
-                <ToolbarButton
+                <ActionButton
                   type="button"
                   isActive={activeFormats.bold}
                   aria-label="Bold text"
                   onClick={() => executeAction("bold", () => wrapSelection("**", "**", "bold text"))}
                 >
                   <BoldIcon className="size-3.5" />
-                </ToolbarButton>
+                </ActionButton>
               } />
               <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                 <span>Bold</span>
@@ -504,14 +806,14 @@ export const MarkdownToolbar = React.forwardRef<
 
             <Tooltip>
               <TooltipTrigger render={
-                <ToolbarButton
+                <ActionButton
                   type="button"
                   isActive={activeFormats.italic}
                   aria-label="Italic text"
                   onClick={() => executeAction("italic", () => wrapSelection("*", "*", "italic text"))}
                 >
                   <ItalicIcon className="size-3.5" />
-                </ToolbarButton>
+                </ActionButton>
               } />
               <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                 <span>Italic</span>
@@ -521,14 +823,14 @@ export const MarkdownToolbar = React.forwardRef<
 
             <Tooltip>
               <TooltipTrigger render={
-                <ToolbarButton
+                <ActionButton
                   type="button"
                   isActive={activeFormats.strikethrough}
                   aria-label="Strikethrough text"
                   onClick={() => executeAction("strikethrough", () => wrapSelection("~~", "~~", "strikethrough text"))}
                 >
                   <StrikethroughIcon className="size-3.5" />
-                </ToolbarButton>
+                </ActionButton>
               } />
               <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                 <span>Strikethrough</span>
@@ -538,14 +840,14 @@ export const MarkdownToolbar = React.forwardRef<
 
             <Tooltip>
               <TooltipTrigger render={
-                <ToolbarButton
+                <ActionButton
                   type="button"
                   isActive={activeFormats.inlineCode}
                   aria-label="Inline code"
                   onClick={() => executeAction("inlineCode", () => wrapSelection("`", "`", "code"))}
                 >
                   <CodeIcon className="size-3.5" />
-                </ToolbarButton>
+                </ActionButton>
               } />
               <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                 <span>Inline Code</span>
@@ -560,14 +862,14 @@ export const MarkdownToolbar = React.forwardRef<
           <ToolbarGroup aria-label="Structure and headings">
             <Tooltip>
               <TooltipTrigger render={
-                <ToolbarButton
+                <ActionButton
                   type="button"
                   isActive={activeFormats.h1}
                   aria-label="Heading 1"
                   onClick={() => executeAction("h1", () => toggleLinePrefix("# "))}
                 >
                   <Heading1Icon className="size-3.5" />
-                </ToolbarButton>
+                </ActionButton>
               } />
               <TooltipContent side="top" className="text-[11px]">
                 <span>Heading 1</span>
@@ -576,14 +878,14 @@ export const MarkdownToolbar = React.forwardRef<
 
             <Tooltip>
               <TooltipTrigger render={
-                <ToolbarButton
+                <ActionButton
                   type="button"
                   isActive={activeFormats.h2}
                   aria-label="Heading 2"
                   onClick={() => executeAction("h2", () => toggleLinePrefix("## "))}
                 >
                   <Heading2Icon className="size-3.5" />
-                </ToolbarButton>
+                </ActionButton>
               } />
               <TooltipContent side="top" className="text-[11px]">
                 <span>Heading 2</span>
@@ -592,14 +894,14 @@ export const MarkdownToolbar = React.forwardRef<
 
             <Tooltip>
               <TooltipTrigger render={
-                <ToolbarButton
+                <ActionButton
                   type="button"
                   isActive={activeFormats.h3}
                   aria-label="Heading 3"
                   onClick={() => executeAction("h3", () => toggleLinePrefix("### "))}
                 >
                   <Heading3Icon className="size-3.5" />
-                </ToolbarButton>
+                </ActionButton>
               } />
               <TooltipContent side="top" className="text-[11px]">
                 <span>Heading 3</span>
@@ -608,14 +910,14 @@ export const MarkdownToolbar = React.forwardRef<
 
             <Tooltip>
               <TooltipTrigger render={
-                <ToolbarButton
+                <ActionButton
                   type="button"
                   isActive={activeFormats.quote}
                   aria-label="Blockquote"
                   onClick={() => executeAction("quote", () => toggleLinePrefix("> "))}
                 >
                   <QuoteIcon className="size-3.5" />
-                </ToolbarButton>
+                </ActionButton>
               } />
               <TooltipContent side="top" className="text-[11px]">
                 <span>Blockquote</span>
@@ -629,14 +931,14 @@ export const MarkdownToolbar = React.forwardRef<
           <ToolbarGroup aria-label="Lists and tasks">
             <Tooltip>
               <TooltipTrigger render={
-                <ToolbarButton
+                <ActionButton
                   type="button"
                   isActive={activeFormats.bulletList}
                   aria-label="Bullet list"
                   onClick={() => executeAction("bulletList", () => toggleLinePrefix("- "))}
                 >
                   <ListIcon className="size-3.5" />
-                </ToolbarButton>
+                </ActionButton>
               } />
               <TooltipContent side="top" className="text-[11px]">
                 <span>Bullet List</span>
@@ -645,7 +947,7 @@ export const MarkdownToolbar = React.forwardRef<
 
             <Tooltip>
               <TooltipTrigger render={
-                <ToolbarButton
+                <ActionButton
                   type="button"
                   isActive={activeFormats.orderedList}
                   aria-label="Numbered list"
@@ -656,7 +958,7 @@ export const MarkdownToolbar = React.forwardRef<
                   }
                 >
                   <ListOrderedIcon className="size-3.5" />
-                </ToolbarButton>
+                </ActionButton>
               } />
               <TooltipContent side="top" className="text-[11px]">
                 <span>Numbered List</span>
@@ -665,14 +967,14 @@ export const MarkdownToolbar = React.forwardRef<
 
             <Tooltip>
               <TooltipTrigger render={
-                <ToolbarButton
+                <ActionButton
                   type="button"
                   isActive={activeFormats.taskList}
                   aria-label="Task checklist"
                   onClick={() => executeAction("taskList", () => toggleLinePrefix("- [ ] "))}
                 >
                   <ListTodoIcon className="size-3.5" />
-                </ToolbarButton>
+                </ActionButton>
               } />
               <TooltipContent side="top" className="text-[11px]">
                 <span>Task Checklist</span>
@@ -687,20 +989,13 @@ export const MarkdownToolbar = React.forwardRef<
               <ToolbarGroup aria-label="Inserts and elements">
                 <Tooltip>
                   <TooltipTrigger render={
-                    <ToolbarButton
+                    <ActionButton
                       type="button"
                       aria-label="Insert hyperlink"
-                      onClick={() =>
-                        executeAction("link", () => {
-                          const textarea = getTextarea();
-                          const selected = textarea ? textarea.value.substring(textarea.selectionStart, textarea.selectionEnd) : "";
-                          const label = selected.length > 0 ? selected : "link title";
-                          wrapSelection(`[${label}](`, ")", "https://example.com");
-                        })
-                      }
+                      onClick={() => executeAction("link", insertLink)}
                     >
                       <LinkIcon className="size-3.5" />
-                    </ToolbarButton>
+                    </ActionButton>
                   } />
                   <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                     <span>Hyperlink</span>
@@ -710,13 +1005,13 @@ export const MarkdownToolbar = React.forwardRef<
 
                 <Tooltip>
                   <TooltipTrigger render={
-                    <ToolbarButton
+                    <ActionButton
                       type="button"
                       aria-label="Insert image"
-                      onClick={() => executeAction("image", () => wrapSelection("![alt text](", ")", "https://image-url.png"))}
+                      onClick={() => executeAction("image", insertImage)}
                     >
                       <ImageIcon className="size-3.5" />
-                    </ToolbarButton>
+                    </ActionButton>
                   } />
                   <TooltipContent side="top" className="text-[11px]">
                     <span>Image</span>
@@ -725,13 +1020,13 @@ export const MarkdownToolbar = React.forwardRef<
 
                 <Tooltip>
                   <TooltipTrigger render={
-                    <ToolbarButton
+                    <ActionButton
                       type="button"
                       aria-label="Insert table"
                       onClick={() => executeAction("table", () => insertTable(2, 3))}
                     >
                       <TableIcon className="size-3.5" />
-                    </ToolbarButton>
+                    </ActionButton>
                   } />
                   <TooltipContent side="top" className="text-[11px]">
                     <span>Table Grid</span>
@@ -740,13 +1035,13 @@ export const MarkdownToolbar = React.forwardRef<
 
                 <Tooltip>
                   <TooltipTrigger render={
-                    <ToolbarButton
+                    <ActionButton
                       type="button"
                       aria-label="Insert horizontal rule"
                       onClick={() => executeAction("horizontalRule", () => insertBlock("---"))}
                     >
                       <MinusIcon className="size-3.5" />
-                    </ToolbarButton>
+                    </ActionButton>
                   } />
                   <TooltipContent side="top" className="text-[11px]">
                     <span>Horizontal Divider</span>
@@ -763,7 +1058,7 @@ export const MarkdownToolbar = React.forwardRef<
               <ToolbarGroup aria-label="Editor view mode" className="bg-muted/40 p-0.5 rounded-lg border border-border/50">
                 <Tooltip>
                   <TooltipTrigger render={
-                    <ToolbarButton
+                    <ActionButton
                       type="button"
                       size="xs"
                       aria-label="Edit view"
@@ -772,7 +1067,7 @@ export const MarkdownToolbar = React.forwardRef<
                     >
                       <PenLineIcon className="size-3" />
                       <span className="hidden sm:inline text-[11px]">Write</span>
-                    </ToolbarButton>
+                    </ActionButton>
                   } />
                   <TooltipContent side="top" className="text-[11px]">
                     <span>Write Mode</span>
@@ -781,7 +1076,7 @@ export const MarkdownToolbar = React.forwardRef<
 
                 <Tooltip>
                   <TooltipTrigger render={
-                    <ToolbarButton
+                    <ActionButton
                       type="button"
                       size="xs"
                       aria-label="Split editor and preview"
@@ -790,7 +1085,7 @@ export const MarkdownToolbar = React.forwardRef<
                     >
                       <Columns2Icon className="size-3" />
                       <span className="hidden sm:inline text-[11px]">Split</span>
-                    </ToolbarButton>
+                    </ActionButton>
                   } />
                   <TooltipContent side="top" className="text-[11px]">
                     <span>Split View</span>
@@ -799,7 +1094,7 @@ export const MarkdownToolbar = React.forwardRef<
 
                 <Tooltip>
                   <TooltipTrigger render={
-                    <ToolbarButton
+                    <ActionButton
                       type="button"
                       size="xs"
                       aria-label="Preview view"
@@ -808,7 +1103,7 @@ export const MarkdownToolbar = React.forwardRef<
                     >
                       <EyeIcon className="size-3" />
                       <span className="hidden sm:inline text-[11px]">Preview</span>
-                    </ToolbarButton>
+                    </ActionButton>
                   } />
                   <TooltipContent side="top" className="text-[11px]">
                     <span>Rendered Preview</span>
