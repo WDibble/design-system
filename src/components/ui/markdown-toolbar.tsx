@@ -267,7 +267,7 @@ export const MarkdownToolbar = React.forwardRef<
                   } />
                   <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                     <span>Undo</span>
-                    <Kbd size="xs">⌘Z</Kbd>
+                    <Kbd size="xs" variant="inverted">⌘Z</Kbd>
                   </TooltipContent>
                 </Tooltip>
 
@@ -288,7 +288,7 @@ export const MarkdownToolbar = React.forwardRef<
                   } />
                   <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                     <span>Redo</span>
-                    <Kbd size="xs">⇧⌘Z</Kbd>
+                    <Kbd size="xs" variant="inverted">⇧⌘Z</Kbd>
                   </TooltipContent>
                 </Tooltip>
               </ToolbarGroup>
@@ -310,7 +310,7 @@ export const MarkdownToolbar = React.forwardRef<
               } />
               <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                 <span>Bold</span>
-                <Kbd size="xs">⌘B</Kbd>
+                <Kbd size="xs" variant="inverted">⌘B</Kbd>
               </TooltipContent>
             </Tooltip>
 
@@ -326,7 +326,7 @@ export const MarkdownToolbar = React.forwardRef<
               } />
               <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                 <span>Italic</span>
-                <Kbd size="xs">⌘I</Kbd>
+                <Kbd size="xs" variant="inverted">⌘I</Kbd>
               </TooltipContent>
             </Tooltip>
 
@@ -342,7 +342,7 @@ export const MarkdownToolbar = React.forwardRef<
               } />
               <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                 <span>Strikethrough</span>
-                <Kbd size="xs">⇧⌘X</Kbd>
+                <Kbd size="xs" variant="inverted">⇧⌘X</Kbd>
               </TooltipContent>
             </Tooltip>
 
@@ -358,7 +358,7 @@ export const MarkdownToolbar = React.forwardRef<
               } />
               <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                 <span>Inline Code</span>
-                <Kbd size="xs">⌘E</Kbd>
+                <Kbd size="xs" variant="inverted">⌘E</Kbd>
               </TooltipContent>
             </Tooltip>
           </ToolbarGroup>
@@ -509,7 +509,7 @@ export const MarkdownToolbar = React.forwardRef<
                   } />
                   <TooltipContent side="top" className="flex items-center gap-1.5 text-[11px]">
                     <span>Hyperlink</span>
-                    <Kbd size="xs">⌘K</Kbd>
+                    <Kbd size="xs" variant="inverted">⌘K</Kbd>
                   </TooltipContent>
                 </Tooltip>
 

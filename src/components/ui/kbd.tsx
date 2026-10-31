@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 export interface KbdProps extends React.HTMLAttributes<HTMLElement> {
   size?: "xs" | "sm" | "default" | "lg";
+  variant?: "default" | "inverted";
 }
 
 /**
@@ -12,14 +13,17 @@ export interface KbdProps extends React.HTMLAttributes<HTMLElement> {
  * Conforms to Directive 3 (Tabular Numerals) and Directive 2 (Zero Layout Shifts).
  */
 export const Kbd = React.forwardRef<HTMLElement, KbdProps>(
-  ({ className, size = "default", children, ...props }, ref) => {
+  ({ className, size = "default", variant = "default", children, ...props }, ref) => {
     return (
       <kbd
         ref={ref}
         className={cn(
           "inline-flex items-center justify-center font-mono font-medium tabular-nums select-none shrink-0",
-          "rounded-[4px] border border-border/80 border-b-[2px] bg-muted/60 text-muted-foreground shadow-xs",
-          "transition-colors duration-150 leading-none",
+          "rounded-[4px] shadow-xs transition-colors duration-150 leading-none",
+          variant === "default" &&
+            "border border-border/80 border-b-[2px] bg-muted/60 text-muted-foreground",
+          variant === "inverted" &&
+            "border border-background/25 border-b-[2px] border-b-background/40 bg-background/15 text-background",
           size === "xs" && "text-[9px] px-1 py-0.5 min-h-[16px] min-w-[16px]",
           size === "sm" && "text-[10px] px-1.5 py-0.5 min-h-[18px] min-w-[18px]",
           size === "default" && "text-[11px] px-2 py-0.5 min-h-[22px] min-w-[22px]",

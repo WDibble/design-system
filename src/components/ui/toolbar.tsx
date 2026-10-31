@@ -169,7 +169,7 @@ export const ToolbarButton = React.forwardRef<
       ref={ref}
       className={cn(
         toolbarButtonVariants({ variant, size: effectiveSize }),
-        isActive && "bg-muted text-foreground font-semibold shadow-2xs border-border/50",
+        isActive && "bg-muted text-foreground border-border/60 shadow-2xs",
         className
       )}
       {...props}
@@ -239,7 +239,7 @@ export const ToolbarToggleItem = React.forwardRef<
           ref={ref}
           className={cn(
             toolbarButtonVariants({ variant, size: effectiveSize }),
-            "data-[pressed]:bg-muted data-[pressed]:text-foreground data-[pressed]:font-semibold data-[pressed]:border-border/50 shadow-2xs",
+            "data-[pressed]:bg-muted data-[pressed]:text-foreground data-[pressed]:border-border/60 shadow-2xs",
             className
           )}
           {...props}

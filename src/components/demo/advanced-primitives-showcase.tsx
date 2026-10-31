@@ -416,7 +416,7 @@ function SimpleMarkdownPreview({ content }: { content: string }) {
       );
     } else if (line.startsWith("> ")) {
       renderedElements.push(
-        <blockquote key={index} className="border-l-2 border-primary/60 pl-3 py-1 text-xs italic text-muted-foreground my-1.5 bg-muted/20 rounded-r-md">
+        <blockquote key={index} className="border-l-2 border-primary/80 pl-3 py-1 text-xs italic text-muted-foreground my-1.5 bg-muted/20 rounded-r-md">
           {line.replace("> ", "")}
         </blockquote>
       );
