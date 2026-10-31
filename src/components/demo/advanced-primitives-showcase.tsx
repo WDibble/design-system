@@ -25,11 +25,7 @@ import {
   ContextMenuSubTrigger,
   ContextMenuShortcut,
 } from "@/components/ui/context-menu";
-import {
-  HoverCard,
-  HoverCardTrigger,
-  HoverCardContent,
-} from "@/components/ui/hover-card";
+import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 import {
   Drawer,
   DrawerTrigger,
@@ -110,8 +106,24 @@ const treeData: TreeNodeData[] = [
         id: "components",
         label: "components",
         children: [
-          { id: "ui", label: "ui (48 primitives)", badge: <Badge size="sm" variant="secondary" className="tabular-nums">48</Badge> },
-          { id: "icons", label: "icons (470 kinetic)", badge: <Badge size="sm" variant="outline" className="tabular-nums">470</Badge> },
+          {
+            id: "ui",
+            label: "ui (48 primitives)",
+            badge: (
+              <Badge size="sm" variant="secondary" className="tabular-nums">
+                48
+              </Badge>
+            ),
+          },
+          {
+            id: "icons",
+            label: "icons (470 kinetic)",
+            badge: (
+              <Badge size="sm" variant="outline" className="tabular-nums">
+                470
+              </Badge>
+            ),
+          },
           { id: "demo", label: "demo" },
         ],
       },
@@ -296,7 +308,7 @@ const fileDetailsMap: Record<string, FileDetail> = {
     path: "skills/base-ui-primitives/SKILL.md",
     type: "file",
     role: "Headless accessible compound primitives",
-    snippet: `# Base UI Compound Pattern\nComponents separate behavioral state from visual styling. Follows WCAG 2.2 accessibility invariants, Escape/Outside-click parity, and outside focus trap.`,
+    snippet: `# Base UI Compound Pattern\nComponents separate behavioural state from visual styling. Follows WCAG 2.2 accessibility invariants, Escape/Outside-click parity, and outside focus trap.`,
     metrics: [
       { label: "Composition", value: "Compound" },
       { label: "Invariants", value: "WCAG 2.2" },
@@ -354,13 +366,16 @@ function SimpleMarkdownPreview({ content }: { content: string }) {
     if (tableRows.length > 0) {
       const [header, _, ...bodyRows] = tableRows;
       renderedElements.push(
-        <div key={`table-${key}`} className="my-2.5 overflow-x-auto rounded-lg border border-border/70">
-          <table className="w-full text-xs text-left">
+        <div
+          key={`table-${key}`}
+          className="my-2.5 overflow-x-auto rounded-lg border border-border/70"
+        >
+          <table className="w-full text-left text-xs">
             {header && (
-              <thead className="bg-muted/40 border-b border-border/70">
+              <thead className="border-b border-border/70 bg-muted/40">
                 <tr>
                   {header.map((col, idx) => (
-                    <th key={idx} className="px-3 py-1.5 font-semibold text-foreground text-[11px]">
+                    <th key={idx} className="px-3 py-1.5 text-[11px] font-semibold text-foreground">
                       {col.trim()}
                     </th>
                   ))}
@@ -369,9 +384,12 @@ function SimpleMarkdownPreview({ content }: { content: string }) {
             )}
             <tbody>
               {bodyRows.map((row, rIdx) => (
-                <tr key={rIdx} className="border-b border-border/40 last:border-0 hover:bg-muted/20">
+                <tr
+                  key={rIdx}
+                  className="border-b border-border/40 last:border-0 hover:bg-muted/20"
+                >
                   {row.map((cell, cIdx) => (
-                    <td key={cIdx} className="px-3 py-1 text-muted-foreground text-[11px]">
+                    <td key={cIdx} className="px-3 py-1 text-[11px] text-muted-foreground">
                       {cell.trim()}
                     </td>
                   ))}
@@ -398,25 +416,31 @@ function SimpleMarkdownPreview({ content }: { content: string }) {
 
     if (line.startsWith("# ")) {
       renderedElements.push(
-        <h2 key={index} className="text-base font-bold tracking-tight text-foreground mt-2 mb-1">
+        <h2 key={index} className="mt-2 mb-1 text-base font-bold tracking-tight text-foreground">
           {line.replace("# ", "")}
         </h2>
       );
     } else if (line.startsWith("## ")) {
       renderedElements.push(
-        <h3 key={index} className="text-sm font-semibold tracking-tight text-foreground mt-2 mb-1">
+        <h3 key={index} className="mt-2 mb-1 text-sm font-semibold tracking-tight text-foreground">
           {line.replace("## ", "")}
         </h3>
       );
     } else if (line.startsWith("### ")) {
       renderedElements.push(
-        <h4 key={index} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mt-2 mb-0.5">
+        <h4
+          key={index}
+          className="mt-2 mb-0.5 text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+        >
           {line.replace("### ", "")}
         </h4>
       );
     } else if (line.startsWith("> ")) {
       renderedElements.push(
-        <blockquote key={index} className="border-l-2 border-primary/80 pl-3 py-1 text-xs italic text-muted-foreground my-1.5 bg-muted/20 rounded-r-md">
+        <blockquote
+          key={index}
+          className="my-1.5 rounded-r-md border-l-2 border-primary/80 bg-muted/20 py-1 pl-3 text-xs text-muted-foreground italic"
+        >
           {line.replace("> ", "")}
         </blockquote>
       );
@@ -424,14 +448,19 @@ function SimpleMarkdownPreview({ content }: { content: string }) {
       const checked = line.startsWith("- [x] ");
       const text = line.replace(/- \[[ x]\] /, "");
       renderedElements.push(
-        <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground my-0.5">
-          <input type="checkbox" checked={checked} readOnly className="size-3.5 rounded accent-primary pointer-events-none" />
+        <div key={index} className="my-0.5 flex items-center gap-2 text-xs text-muted-foreground">
+          <input
+            type="checkbox"
+            checked={checked}
+            readOnly
+            className="pointer-events-none size-3.5 rounded accent-primary"
+          />
           <span className={checked ? "line-through opacity-70" : "text-foreground"}>{text}</span>
         </div>
       );
     } else if (line.startsWith("- ")) {
       renderedElements.push(
-        <li key={index} className="text-xs text-muted-foreground ml-4 list-disc my-0.5">
+        <li key={index} className="my-0.5 ml-4 list-disc text-xs text-muted-foreground">
           {line.replace("- ", "")}
         </li>
       );
@@ -440,7 +469,7 @@ function SimpleMarkdownPreview({ content }: { content: string }) {
     } else if (line.trim().length > 0) {
       const parts = line.split(/(\*\*.*?\*\*)/g);
       renderedElements.push(
-        <p key={index} className="text-xs text-muted-foreground my-1 leading-relaxed">
+        <p key={index} className="my-1 text-xs leading-relaxed text-muted-foreground">
           {parts.map((part, pIdx) => {
             if (part.startsWith("**") && part.endsWith("**")) {
               return (
@@ -487,7 +516,7 @@ export function AdvancedPrimitivesShowcase() {
   const [genericFormat, setGenericFormat] = React.useState<string[]>(["bold"]);
   const [genericAlign, setGenericAlign] = React.useState<string>("left");
   const [markdownText, setMarkdownText] = React.useState<string>(
-`# Antigravity Design System
+    `# Antigravity Design System
 
 An agent-native, human-centric design system built with **strict visual precision** and physical intuition.
 
@@ -508,25 +537,29 @@ An agent-native, human-centric design system built with **strict visual precisio
   const markdownRef = React.useRef<HTMLTextAreaElement>(null);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+    <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
       {/* 1. Advanced Selection & Formatting */}
-      <Card className="flex flex-col justify-between h-full">
+      <Card className="flex h-full flex-col justify-between">
         <CardHeader className="flex flex-col gap-1 pb-3">
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
             <SlidersHorizontalIcon size={16} className="text-primary" />
             <span>Selection &amp; Keycap Primitives</span>
           </CardTitle>
           <CardDescription className="text-xs">
-            Combobox autocomplete with instant filtering, accessible radio groups, and tactile physical keycaps.
+            Combobox autocomplete with instant filtering, accessible radio groups, and tactile
+            physical keycaps.
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="space-y-6 flex-1">
+        <CardContent className="flex-1 space-y-6">
           {/* Combobox Autocomplete */}
           <div className="space-y-2">
-            <label htmlFor="combobox-technologies" className="text-xs font-semibold text-foreground flex items-center justify-between">
+            <label
+              htmlFor="combobox-technologies"
+              className="flex items-center justify-between text-xs font-semibold text-foreground"
+            >
               <span>Filterable Combobox</span>
-              <span className="text-[10px] font-mono text-muted-foreground">Base UI Combobox</span>
+              <span className="font-mono text-[10px] text-muted-foreground">Base UI Combobox</span>
             </label>
             <Combobox
               items={frameworks}
@@ -552,10 +585,12 @@ An agent-native, human-centric design system built with **strict visual precisio
           </div>
 
           {/* RadioGroup & Density Selector */}
-          <div className="space-y-2.5 pt-3 border-t border-border/40">
+          <div className="space-y-2.5 border-t border-border/40 pt-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-foreground">Layout Density Radio Group</label>
-              <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
+              <label className="text-xs font-semibold text-foreground">
+                Layout Density Radio Group
+              </label>
+              <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
                 Active: {density}
               </span>
             </div>
@@ -572,7 +607,7 @@ An agent-native, human-centric design system built with **strict visual precisio
               ].map((opt) => (
                 <label
                   key={opt.id}
-                  className="flex items-start gap-2.5 p-2.5 rounded-lg border border-border/70 bg-card hover:bg-muted/40 cursor-pointer transition-colors shadow-xs"
+                  className="flex cursor-pointer items-start gap-2.5 rounded-lg border border-border/70 bg-card p-2.5 shadow-xs transition-colors hover:bg-muted/40"
                 >
                   <RadioGroupItem value={opt.id} aria-label={opt.label} className="mt-0.5" />
                   <div className="flex flex-col">
@@ -585,12 +620,14 @@ An agent-native, human-centric design system built with **strict visual precisio
           </div>
 
           {/* Toggle and Toggle Group */}
-          <div className="space-y-2.5 pt-3 border-t border-border/40">
-            <label className="text-xs font-semibold text-foreground">Interactive Toggle Toolbars</label>
+          <div className="space-y-2.5 border-t border-border/40 pt-3">
+            <label className="text-xs font-semibold text-foreground">
+              Interactive Toggle Toolbars
+            </label>
             <div className="flex flex-wrap items-center justify-between gap-3">
               {/* Multi-toggle formatting */}
               <div className="flex items-center gap-1.5">
-                <span className="text-[11px] text-muted-foreground mr-1">Style:</span>
+                <span className="mr-1 text-[11px] text-muted-foreground">Style:</span>
                 <ToggleGroup
                   value={formatting}
                   onValueChange={(vals) => setFormatting(vals as string[])}
@@ -611,7 +648,7 @@ An agent-native, human-centric design system built with **strict visual precisio
 
               {/* Single-select view switch */}
               <div className="flex items-center gap-1.5">
-                <span className="text-[11px] text-muted-foreground mr-1">View:</span>
+                <span className="mr-1 text-[11px] text-muted-foreground">View:</span>
                 <ToggleGroup
                   value={[viewMode]}
                   onValueChange={(vals) => {
@@ -634,8 +671,10 @@ An agent-native, human-centric design system built with **strict visual precisio
           </div>
 
           {/* Physical Kbd Matrix */}
-          <div className="space-y-2 pt-3 border-t border-border/40">
-            <label className="text-xs font-semibold text-foreground">Physical Keycap Micro-Primitives (Kbd)</label>
+          <div className="space-y-2 border-t border-border/40 pt-3">
+            <label className="text-xs font-semibold text-foreground">
+              Physical Keycap Micro-Primitives (Kbd)
+            </label>
             <div className="flex flex-wrap items-center gap-2">
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                 <span>Palette:</span>
@@ -661,31 +700,36 @@ An agent-native, human-centric design system built with **strict visual precisio
       </Card>
 
       {/* 2. Contextual Surfaces: ContextMenu, HoverCard & Drawer */}
-      <Card className="flex flex-col justify-between h-full">
+      <Card className="flex h-full flex-col justify-between">
         <CardHeader className="flex flex-col gap-1 pb-3">
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
             <CursorClickIcon size={16} className="text-primary" />
             <span>Contextual Floating Surfaces</span>
           </CardTitle>
           <CardDescription className="text-xs">
-            Desktop-grade right-click context menu, rich hover preview cards, and swipeable bottom drawer.
+            Desktop-grade right-click context menu, rich hover preview cards, and swipeable bottom
+            drawer.
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="space-y-6 flex-1">
+        <CardContent className="flex-1 space-y-6">
           {/* Desktop Context Menu */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-foreground flex items-center justify-between">
+            <label className="flex items-center justify-between text-xs font-semibold text-foreground">
               <span>Right-Click Context Menu</span>
-              <span className="text-[10px] font-mono text-muted-foreground">Secondary click / Long press</span>
+              <span className="font-mono text-[10px] text-muted-foreground">
+                Secondary click / Long press
+              </span>
             </label>
             <ContextMenu>
               <ContextMenuTrigger
                 aria-label="Interactive context menu demo surface. Secondary click or press Shift+F10 to trigger menu."
-                className="flex h-28 w-full flex-col items-center justify-center rounded-xl border border-dashed border-border/80 bg-muted/20 text-center select-none cursor-context-menu hover:bg-muted/40 transition-colors p-4"
+                className="flex h-28 w-full cursor-context-menu flex-col items-center justify-center rounded-xl border border-dashed border-border/80 bg-muted/20 p-4 text-center transition-colors select-none hover:bg-muted/40"
               >
-                <CursorClickIcon size={20} className="text-muted-foreground mb-1.5" />
-                <span className="text-xs font-medium text-foreground">Right click inside this area</span>
+                <CursorClickIcon size={20} className="mb-1.5 text-muted-foreground" />
+                <span className="text-xs font-medium text-foreground">
+                  Right click inside this area
+                </span>
                 <span className="text-[11px] text-muted-foreground">
                   Triggers native context menu with keyboard navigation
                 </span>
@@ -724,36 +768,49 @@ An agent-native, human-centric design system built with **strict visual precisio
           </div>
 
           {/* HoverCard Profile Preview */}
-          <div className="space-y-2.5 pt-3 border-t border-border/40">
-            <label className="text-xs font-semibold text-foreground">Rich Hover Preview (HoverCard)</label>
+          <div className="space-y-2.5 border-t border-border/40 pt-3">
+            <label className="text-xs font-semibold text-foreground">
+              Rich Hover Preview (HoverCard)
+            </label>
             <div className="flex items-center gap-3">
               <span className="text-xs text-muted-foreground">Hover over author:</span>
               <HoverCard>
                 <HoverCardTrigger
                   aria-label="View Antigravity engine profile preview"
-                  className="text-xs font-semibold text-primary underline underline-offset-4 cursor-pointer hover:text-primary/80"
+                  className="cursor-pointer text-xs font-semibold text-primary underline underline-offset-4 hover:text-primary/80"
                 >
                   @antigravity
                 </HoverCardTrigger>
                 <HoverCardContent className="w-80 space-y-3">
                   <div className="flex items-start gap-3">
                     <Avatar className="size-10 border border-border/80">
-                      <AvatarFallback className="bg-primary/10 text-primary font-bold text-xs">AG</AvatarFallback>
+                      <AvatarFallback className="bg-primary/10 text-xs font-bold text-primary">
+                        AG
+                      </AvatarFallback>
                     </Avatar>
-                    <div className="space-y-1 min-w-0 flex-1">
+                    <div className="min-w-0 flex-1 space-y-1">
                       <div className="flex items-center justify-between">
                         <p className="text-xs font-bold text-foreground">Antigravity Engine</p>
-                        <Badge size="sm" variant="secondary" className="font-mono text-[9px]">v0.1</Badge>
+                        <Badge size="sm" variant="secondary" className="font-mono text-[9px]">
+                          v0.1
+                        </Badge>
                       </div>
-                      <p className="text-[11px] text-muted-foreground leading-snug">
-                        Human-centric, agent-native design system built with React 19, Base UI, and physical motion springs.
+                      <p className="text-[11px] leading-snug text-muted-foreground">
+                        Human-centric, agent-native design system built with React 19, Base UI, and
+                        physical motion springs.
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 text-[11px] text-muted-foreground tabular-nums pt-1 border-t border-border/40 font-mono">
-                    <div><strong className="text-foreground">48</strong> Primitives</div>
-                    <div><strong className="text-foreground">470</strong> Icons</div>
-                    <div><strong className="text-foreground">100%</strong> WCAG</div>
+                  <div className="flex items-center gap-4 border-t border-border/40 pt-1 font-mono text-[11px] text-muted-foreground tabular-nums">
+                    <div>
+                      <strong className="text-foreground">48</strong> Primitives
+                    </div>
+                    <div>
+                      <strong className="text-foreground">470</strong> Icons
+                    </div>
+                    <div>
+                      <strong className="text-foreground">100%</strong> WCAG
+                    </div>
                   </div>
                 </HoverCardContent>
               </HoverCard>
@@ -761,41 +818,55 @@ An agent-native, human-centric design system built with **strict visual precisio
           </div>
 
           {/* Bottom Sheet Drawer */}
-          <div className="space-y-2.5 pt-3 border-t border-border/40">
-            <label className="text-xs font-semibold text-foreground">Mobile Bottom Sheet (Drawer)</label>
+          <div className="space-y-2.5 border-t border-border/40 pt-3">
+            <label className="text-xs font-semibold text-foreground">
+              Mobile Bottom Sheet (Drawer)
+            </label>
             <div>
               <Drawer>
-                <DrawerTrigger render={
-                  <Button variant="outline" size="sm" aria-label="Open system telemetry bottom drawer" className="gap-2">
-                    <TerminalIcon size={14} />
-                    <span>Open Bottom Drawer</span>
-                  </Button>
-                } />
+                <DrawerTrigger
+                  render={
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      aria-label="Open system telemetry bottom drawer"
+                      className="gap-2"
+                    >
+                      <TerminalIcon size={14} />
+                      <span>Open Bottom Drawer</span>
+                    </Button>
+                  }
+                />
                 <DrawerContent>
                   <DrawerHeader>
                     <DrawerTitle>System Telemetry Drawer</DrawerTitle>
                     <DrawerDescription>
-                      Drag or click the handle, swipe down on touch, or click anywhere outside to dismiss.
+                      Drag or click the handle, swipe down on touch, or click anywhere outside to
+                      dismiss.
                     </DrawerDescription>
                   </DrawerHeader>
                   <div className="space-y-3 py-2 text-xs text-muted-foreground">
-                    <div className="p-3 rounded-lg bg-muted/40 border border-border/60 space-y-1">
+                    <div className="space-y-1 rounded-lg border border-border/60 bg-muted/40 p-3">
                       <div className="flex justify-between font-mono text-[11px]">
                         <span>Fluid Frame Budget</span>
-                        <span className="text-emerald-600 dark:text-emerald-400 font-semibold tabular-nums">16.6ms (60 FPS)</span>
+                        <span className="font-semibold text-emerald-600 tabular-nums dark:text-emerald-400">
+                          16.6ms (60 FPS)
+                        </span>
                       </div>
                       <div className="flex justify-between font-mono text-[11px]">
                         <span>Speculation Pre-render</span>
-                        <span className="text-primary font-semibold">Active</span>
+                        <span className="font-semibold text-primary">Active</span>
                       </div>
                     </div>
                   </div>
                   <DrawerFooter>
-                    <DrawerClose render={
-                      <Button variant="default" size="sm" className="w-full">
-                        Close Drawer
-                      </Button>
-                    } />
+                    <DrawerClose
+                      render={
+                        <Button variant="default" size="sm" className="w-full">
+                          Close Drawer
+                        </Button>
+                      }
+                    />
                   </DrawerFooter>
                 </DrawerContent>
               </Drawer>
@@ -805,9 +876,9 @@ An agent-native, human-centric design system built with **strict visual precisio
       </Card>
 
       {/* 3. Master-Detail Project Architecture Explorer */}
-      <Card className="flex flex-col justify-between h-full">
+      <Card className="flex h-full flex-col justify-between">
         <CardHeader className="flex flex-col gap-1 pb-3">
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
             <FolderOpenIcon size={16} className="text-primary" />
             <span>Project Explorer &amp; Token Inspector</span>
           </CardTitle>
@@ -816,13 +887,13 @@ An agent-native, human-centric design system built with **strict visual precisio
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="space-y-4 flex-1">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-start">
+        <CardContent className="flex-1 space-y-4">
+          <div className="grid grid-cols-1 items-start gap-3.5 md:grid-cols-2">
             {/* Left: Compact Tree (Unconstrained Natural Height, Zero Inner Scrollbars) */}
-            <div className="flex flex-col gap-2 p-2.5 rounded-xl border border-border/80 bg-muted/15">
+            <div className="flex flex-col gap-2 rounded-xl border border-border/80 bg-muted/15 p-2.5">
               <div className="flex items-center justify-between px-1">
                 <span className="text-[11px] font-semibold text-foreground">File System</span>
-                <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
+                <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
                   62 files
                 </span>
               </div>
@@ -836,10 +907,10 @@ An agent-native, human-centric design system built with **strict visual precisio
             </div>
 
             {/* Right: Live File & Token Inspector */}
-            <div className="flex flex-col gap-2.5 p-3 rounded-xl border border-border/80 bg-card shadow-xs">
+            <div className="flex flex-col gap-2.5 rounded-xl border border-border/80 bg-card p-3 shadow-xs">
               {/* Header */}
-              <div className="flex items-start justify-between gap-2 pb-2 border-b border-border/50">
-                <div className="flex items-center gap-2 min-w-0">
+              <div className="flex items-start justify-between gap-2 border-b border-border/50 pb-2">
+                <div className="flex min-w-0 items-center gap-2">
                   <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-muted text-foreground">
                     {activeDetail.type === "directory" ? (
                       <FolderOpenIcon size={14} className="text-primary" />
@@ -848,10 +919,10 @@ An agent-native, human-centric design system built with **strict visual precisio
                     )}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-foreground font-mono truncate">
+                    <p className="truncate font-mono text-xs font-semibold text-foreground">
                       {activeDetail.path}
                     </p>
-                    <p className="text-[10px] text-muted-foreground truncate">
+                    <p className="truncate text-[10px] text-muted-foreground">
                       {activeDetail.role}
                     </p>
                   </div>
@@ -867,19 +938,19 @@ An agent-native, human-centric design system built with **strict visual precisio
               <ScrollArea
                 tabIndex={0}
                 aria-label={`Source preview for ${activeDetail.path}`}
-                className="h-44 w-full rounded-lg border border-border/70 p-2.5 bg-muted/20 font-mono text-[10px] leading-relaxed text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                className="h-44 w-full rounded-lg border border-border/70 bg-muted/20 p-2.5 font-mono text-[10px] leading-relaxed text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
               >
-                <pre className="font-mono whitespace-pre text-[10px] leading-relaxed select-text">
+                <pre className="font-mono text-[10px] leading-relaxed whitespace-pre select-text">
                   {activeDetail.snippet}
                 </pre>
               </ScrollArea>
 
               {/* Telemetry Footer */}
-              <div className="flex items-center justify-between pt-1 border-t border-border/40 font-mono text-[10px] text-muted-foreground tabular-nums">
+              <div className="flex items-center justify-between border-t border-border/40 pt-1 font-mono text-[10px] text-muted-foreground tabular-nums">
                 {activeDetail.metrics.map((m) => (
                   <div key={m.label} className="flex items-center gap-1.5">
                     <span>{m.label}:</span>
-                    <span className="text-foreground font-medium">{m.value}</span>
+                    <span className="font-medium text-foreground">{m.value}</span>
                   </div>
                 ))}
               </div>
@@ -889,71 +960,128 @@ An agent-native, human-centric design system built with **strict visual precisio
       </Card>
 
       {/* 4. Activity Stream & File Staging: Timeline & FileUpload */}
-      <Card className="flex flex-col justify-between h-full">
+      <Card className="flex h-full flex-col justify-between">
         <CardHeader className="flex flex-col gap-1 pb-3">
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
             <SparklesIcon size={16} className="text-primary" />
             <span>Activity Stream &amp; File Staging</span>
           </CardTitle>
           <CardDescription className="text-xs">
-            Chronological audit timeline and tactile drag-and-drop file staging zone with format validation.
+            Chronological audit timeline and tactile drag-and-drop file staging zone with format
+            validation.
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="space-y-6 flex-1">
+        <CardContent className="flex-1 space-y-6">
           {/* Chronological Timeline */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-foreground">Deployment Audit Timeline</label>
+              <label className="text-xs font-semibold text-foreground">
+                Deployment Audit Timeline
+              </label>
               <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
                 4 events recorded
               </span>
             </div>
 
             {/* Specialized Node Archetype Suite Tray */}
-            <div className="p-2.5 rounded-xl border border-border/60 bg-muted/20 space-y-2">
+            <div className="space-y-2 rounded-xl border border-border/60 bg-muted/20 p-2.5">
               <div className="flex items-center justify-between text-[11px]">
                 <span className="font-semibold text-foreground">Specialized Node Palette</span>
-                <span className="font-mono text-muted-foreground text-[10px]">10 Pack Presets</span>
+                <span className="font-mono text-[10px] text-muted-foreground">10 Pack Presets</span>
               </div>
               <div className="flex flex-wrap items-center gap-2 pt-0.5">
-                <TimelineNode.Progress progress={76} pulse interactive aria-label="Progress preview: 76%" />
-                <TimelineNode.Heartbeat status="success" interactive aria-label="Heartbeat probe: Healthy" />
-                <TimelineNode.Pulse status="primary" interactive aria-label="Radar beacon: Active" />
-                <TimelineNode.Step step={1} state="completed" interactive aria-label="Step 1: Completed" />
-                <TimelineNode.Step step={2} state="current" interactive aria-label="Step 2: Current" />
-                <TimelineNode.Step step={3} state="pending" interactive aria-label="Step 3: Pending" />
-                <TimelineNode.Avatar fallback="CI" badgeStatus="success" badgeIcon="✓" interactive aria-label="Author: CI Release Engine" />
-                <TimelineNode.Commit variant="commit" status="primary" interactive aria-label="Git commit node" />
+                <TimelineNode.Progress
+                  progress={76}
+                  pulse
+                  interactive
+                  aria-label="Progress preview: 76%"
+                />
+                <TimelineNode.Heartbeat
+                  status="success"
+                  interactive
+                  aria-label="Heartbeat probe: Healthy"
+                />
+                <TimelineNode.Pulse
+                  status="primary"
+                  interactive
+                  aria-label="Radar beacon: Active"
+                />
+                <TimelineNode.Step
+                  step={1}
+                  state="completed"
+                  interactive
+                  aria-label="Step 1: Completed"
+                />
+                <TimelineNode.Step
+                  step={2}
+                  state="current"
+                  interactive
+                  aria-label="Step 2: Current"
+                />
+                <TimelineNode.Step
+                  step={3}
+                  state="pending"
+                  interactive
+                  aria-label="Step 3: Pending"
+                />
+                <TimelineNode.Avatar
+                  fallback="CI"
+                  badgeStatus="success"
+                  badgeIcon="✓"
+                  interactive
+                  aria-label="Author: CI Release Engine"
+                />
+                <TimelineNode.Commit
+                  variant="commit"
+                  status="primary"
+                  interactive
+                  aria-label="Git commit node"
+                />
                 <TimelineNode.Action label="Approval Gate" status="primary" onClick={() => {}} />
-                <TimelineNode.Dot dotVariant="glow" status="warning" interactive aria-label="Warning status dot" />
+                <TimelineNode.Dot
+                  dotVariant="glow"
+                  status="warning"
+                  interactive
+                  aria-label="Warning status dot"
+                />
               </div>
             </div>
 
             <Timeline className="pt-2">
               {/* 1. Conic Progress Node + Animated Traveling Packet Flow Connector */}
               <TimelineItem connectorVariant="flow">
-                <TimelineNode.Progress progress={76} pulse interactive aria-label="Build progress: 76%" />
+                <TimelineNode.Progress
+                  progress={76}
+                  pulse
+                  interactive
+                  aria-label="Build progress: 76%"
+                />
                 <TimelineContent>
                   <TimelineHeader>
-                    <div className="flex items-center gap-2 min-w-0">
+                    <div className="flex min-w-0 items-center gap-2">
                       <TimelineTitle>Edge Cache Synchronisation</TimelineTitle>
-                      <Badge variant="outline" size="sm" className="font-mono text-[9px] border-primary/40 text-primary py-0 shrink-0">
+                      <Badge
+                        variant="outline"
+                        size="sm"
+                        className="shrink-0 border-primary/40 py-0 font-mono text-[9px] text-primary"
+                      >
                         76% Compiled
                       </Badge>
                     </div>
                     <TimelineTime dateTime="2026-10-30T13:58:00Z">Streaming</TimelineTime>
                   </TimelineHeader>
                   <TimelineDescription>
-                    Streaming distribution bundle across 12 availability zones with live conic stroke telemetry.
+                    Streaming distribution bundle across 12 availability zones with live conic
+                    stroke telemetry.
                   </TimelineDescription>
                   <TimelineBody>
                     <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] text-muted-foreground">
-                      <span className="px-1.5 py-0.5 rounded-md bg-muted/70 border border-border/50 text-foreground font-semibold">
+                      <span className="rounded-md border border-border/50 bg-muted/70 px-1.5 py-0.5 font-semibold text-foreground">
                         sha:7cbf211
                       </span>
                       <span className="text-muted-foreground/50">&bull;</span>
-                      <span className="text-primary font-medium">Flowing to ingest node</span>
+                      <span className="font-medium text-primary">Flowing to ingest node</span>
                     </div>
                   </TimelineBody>
                 </TimelineContent>
@@ -961,33 +1089,49 @@ An agent-native, human-centric design system built with **strict visual precisio
 
               {/* 2. Telemetry Heartbeat LED Node + Fixed Verified Solid Connector */}
               <TimelineItem connectorVariant="solid" connectorStatus="success">
-                <TimelineNode.Heartbeat status="success" interactive aria-label="WebSocket connection healthy" />
+                <TimelineNode.Heartbeat
+                  status="success"
+                  interactive
+                  aria-label="WebSocket connection healthy"
+                />
                 <TimelineContent>
                   <TimelineHeader>
-                    <div className="flex items-center gap-2 min-w-0">
+                    <div className="flex min-w-0 items-center gap-2">
                       <TimelineTitle>WebSocket Telemetry Channel</TimelineTitle>
-                      <Badge variant="outline" size="sm" className="font-mono text-[9px] border-emerald-500/40 text-emerald-600 dark:text-emerald-400 py-0 shrink-0">
+                      <Badge
+                        variant="outline"
+                        size="sm"
+                        className="shrink-0 border-emerald-500/40 py-0 font-mono text-[9px] text-emerald-600 dark:text-emerald-400"
+                      >
                         Healthy
                       </Badge>
                     </div>
                     <TimelineTime dateTime="2026-10-30T13:45:00Z">Just now</TimelineTime>
                   </TimelineHeader>
                   <TimelineDescription>
-                    Active cardiac probe pinging edge listeners at 2.8s hardware-synchronized intervals.
+                    Active cardiac probe pinging edge listeners at 2.8s hardware-synchronised
+                    intervals.
                   </TimelineDescription>
                 </TimelineContent>
               </TimelineItem>
 
               {/* 3. Collaborative Actor Avatar Node + Fixed Architectural Dashed Connector */}
               <TimelineItem connectorVariant="dashed">
-                <TimelineNode.Avatar fallback="WD" badgeStatus="success" badgeIcon="✓" interactive aria-label="Author: William Dibble" />
+                <TimelineNode.Avatar
+                  fallback="WD"
+                  badgeStatus="success"
+                  badgeIcon="✓"
+                  interactive
+                  aria-label="Author: William Dibble"
+                />
                 <TimelineContent>
                   <TimelineHeader>
                     <TimelineTitle>Version 0.1 Tagged &amp; Published</TimelineTitle>
                     <TimelineTime dateTime="2026-10-30T13:30:00Z">18m ago</TimelineTime>
                   </TimelineHeader>
                   <TimelineDescription>
-                    Self-contained origin anonymity enforced across all 13 design engineering directives.
+                    Self-contained origin anonymity enforced across all 13 design engineering
+                    directives.
                   </TimelineDescription>
                   <TimelineFooter>
                     <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
@@ -1002,14 +1146,20 @@ An agent-native, human-centric design system built with **strict visual precisio
 
               {/* 4. Sequential Stepper Numeral Node */}
               <TimelineItem isLast connectorVariant="none">
-                <TimelineNode.Step step={4} state="completed" interactive aria-label="Step 4: Build verified" />
+                <TimelineNode.Step
+                  step={4}
+                  state="completed"
+                  interactive
+                  aria-label="Step 4: Build verified"
+                />
                 <TimelineContent>
                   <TimelineHeader>
                     <TimelineTitle>Automated Build Verification</TimelineTitle>
                     <TimelineTime dateTime="2026-10-30T13:00:00Z">45m ago</TimelineTime>
                   </TimelineHeader>
                   <TimelineDescription>
-                    All 48 component exports passed strict TypeScript compilation and perceptual contrast checks.
+                    All 48 component exports passed strict TypeScript compilation and perceptual
+                    contrast checks.
                   </TimelineDescription>
                 </TimelineContent>
               </TimelineItem>
@@ -1017,10 +1167,10 @@ An agent-native, human-centric design system built with **strict visual precisio
           </div>
 
           {/* Drag & Drop File Upload */}
-          <div className="space-y-2 pt-3 border-t border-border/40">
+          <div className="space-y-2 border-t border-border/40 pt-3">
             <div className="flex items-center justify-between">
               <label className="text-xs font-semibold text-foreground">File Staging Dropzone</label>
-              <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
+              <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
                 {files.length} / 3 staged
               </span>
             </div>
@@ -1036,34 +1186,37 @@ An agent-native, human-centric design system built with **strict visual precisio
       </Card>
 
       {/* 5. Accessible Toolbars & Markdown Authoring Suite */}
-      <Card className="flex flex-col justify-between h-full lg:col-span-2">
-        <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3">
+      <Card className="flex h-full flex-col justify-between lg:col-span-2">
+        <CardHeader className="flex flex-col gap-3 pb-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-1">
-            <CardTitle className="text-base flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-base">
               <PenToolIcon size={16} className="text-primary" />
               <span>Accessible Toolbars &amp; Markdown Authoring Studio</span>
             </CardTitle>
             <CardDescription className="text-xs">
-              Autonomous selection-preserving text engine built on Base UI Toolbar primitives with roving tabindex, keyboard shortcuts, and live split preview.
+              Autonomous selection-preserving text engine built on Base UI Toolbar primitives with
+              roving tabindex, keyboard shortcuts, and live split preview.
             </CardDescription>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex shrink-0 items-center gap-2">
             <Badge variant="outline" size="sm" className="font-mono text-[10px]">
               Last Action: {lastAction}
             </Badge>
           </div>
         </CardHeader>
 
-        <CardContent className="space-y-6 flex-1">
+        <CardContent className="flex-1 space-y-6">
           {/* Sub-section A: Foundational Generic Toolbar */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-foreground">Generic Toolbar Primitive</label>
-              <span className="text-[10px] font-mono text-muted-foreground">
+              <label className="text-xs font-semibold text-foreground">
+                Generic Toolbar Primitive
+              </label>
+              <span className="font-mono text-[10px] text-muted-foreground">
                 Base UI Toolbar · WAI-ARIA role="toolbar"
               </span>
             </div>
-            <div className="p-3 rounded-xl border border-border/60 bg-muted/20 flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 rounded-xl border border-border/60 bg-muted/20 p-3">
               <Toolbar variant="default" size="sm" className="bg-background">
                 <ToolbarToggleGroup
                   value={genericFormat}
@@ -1105,27 +1258,39 @@ An agent-native, human-centric design system built with **strict visual precisio
                 <ToolbarSeparator />
 
                 <ToolbarGroup aria-label="External actions">
-                  <ToolbarButton aria-label="Insert Hyperlink" onClick={() => setLastAction("generic-link")}>
+                  <ToolbarButton
+                    aria-label="Insert Hyperlink"
+                    onClick={() => setLastAction("generic-link")}
+                  >
                     <LinkIcon className="size-3.5" />
                   </ToolbarButton>
-                  <ToolbarButton aria-label="Insert Snippet" onClick={() => setLastAction("generic-code")}>
+                  <ToolbarButton
+                    aria-label="Insert Snippet"
+                    onClick={() => setLastAction("generic-code")}
+                  >
                     <CodeIcon className="size-3.5" />
                   </ToolbarButton>
                 </ToolbarGroup>
               </Toolbar>
 
-              <span className="text-xs text-muted-foreground font-mono">
-                Format: <span className="text-foreground font-semibold">{genericFormat.join(", ") || "none"}</span> · Align: <span className="text-foreground font-semibold">{genericAlign}</span>
+              <span className="font-mono text-xs text-muted-foreground">
+                Format:{" "}
+                <span className="font-semibold text-foreground">
+                  {genericFormat.join(", ") || "none"}
+                </span>{" "}
+                · Align: <span className="font-semibold text-foreground">{genericAlign}</span>
               </span>
             </div>
           </div>
 
           {/* Sub-section B: Live Interactive Markdown Authoring Suite */}
-          <div className="space-y-3 pt-3 border-t border-border/40">
+          <div className="space-y-3 border-t border-border/40 pt-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold text-foreground">Interactive Markdown Editor with Live Preview</label>
+              <label className="text-xs font-semibold text-foreground">
+                Interactive Markdown Editor with Live Preview
+              </label>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
+                <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
                   {markdownText.length} characters · {markdownText.split("\n").length} lines
                 </span>
               </div>
@@ -1143,10 +1308,10 @@ An agent-native, human-centric design system built with **strict visual precisio
             />
 
             {/* Editor & Preview Panels */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {(markdownView === "edit" || markdownView === "split") && (
                 <div className={cn("space-y-1.5", markdownView === "edit" && "md:col-span-2")}>
-                  <div className="flex items-center justify-between text-[11px] text-muted-foreground px-1">
+                  <div className="flex items-center justify-between px-1 text-[11px] text-muted-foreground">
                     <span className="font-semibold text-foreground">Markdown Source</span>
                     <span className="font-mono text-[10px]">HTML &lt;textarea&gt;</span>
                   </div>
@@ -1155,7 +1320,7 @@ An agent-native, human-centric design system built with **strict visual precisio
                     value={markdownText}
                     onChange={(e) => setMarkdownText(e.target.value)}
                     rows={12}
-                    className="font-mono text-xs leading-relaxed resize-y bg-background/80"
+                    className="resize-y bg-background/80 font-mono text-xs leading-relaxed"
                     placeholder="Type or format your markdown here..."
                   />
                 </div>
@@ -1163,11 +1328,11 @@ An agent-native, human-centric design system built with **strict visual precisio
 
               {(markdownView === "preview" || markdownView === "split") && (
                 <div className={cn("space-y-1.5", markdownView === "preview" && "md:col-span-2")}>
-                  <div className="flex items-center justify-between text-[11px] text-muted-foreground px-1">
+                  <div className="flex items-center justify-between px-1 text-[11px] text-muted-foreground">
                     <span className="font-semibold text-foreground">Live Rendered Preview</span>
                     <span className="font-mono text-[10px]">Real-time DOM</span>
                   </div>
-                  <div className="h-[270px] overflow-y-auto p-4 rounded-xl border border-border/80 bg-background/60 specular-rim">
+                  <div className="specular-rim h-[270px] overflow-y-auto rounded-xl border border-border/80 bg-background/60 p-4">
                     <SimpleMarkdownPreview content={markdownText} />
                   </div>
                 </div>

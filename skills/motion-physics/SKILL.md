@@ -5,7 +5,7 @@ description: Apple-grade fluid motion and spring physics specification using mot
 
 # Motion Physics: Apple Fluid Interface Specification
 
-This skill codifies Apple's approach to fluid, physical motion (distilled from WWDC *Designing Fluid Interfaces*) and translates it for the modern web using **`motion`** (`motion/react`) and CSS spring approximations.
+This skill codifies Apple's approach to fluid, physical motion (distilled from WWDC _Designing Fluid Interfaces_) and translates it for the modern web using **`motion`** (`motion/react`) and CSS spring approximations.
 
 The core law: **An interface feels alive when motion starts from the current on-screen value, responds instantaneously on press, inherits the user's velocity, projects momentum forward, and can be interrupted or reversed at any millisecond.**
 
@@ -14,7 +14,9 @@ The core law: **An interface feels alive when motion starts from the current on-
 ## 🏎️ The 4 Laws of Fluid Interface Motion
 
 ### 1. Response: Kill Latency on Press
+
 The moment latency appears, directness falls off a cliff.
+
 - **Respond on `pointerdown`, never on pointer release (`click`).** Highlight or compress the button the instant the finger touches the screen or mouse clicks down.
 - Compress subtly (`scale(0.97)` to `0.98`) using a stiff spring. Waiting for release feels dead.
 - **Zero-Delay on User Action**: Interactive triggers (clicks, taps, toggles) must have **$\mathbf{\text{delay} = 0}$**. Artificial delays (e.g. `delay: 0.1`) on user actions make software feel sluggish and unresponsive. (Micro-staggers $\le 30\text{ms}$ are permitted strictly on passive page-load entrances, never on interactive gestures).
@@ -38,7 +40,9 @@ export function TactileButton({ children, ...props }) {
 ```
 
 ### 2. Direct Manipulation: 1:1 Tracking & Boundary Resistance
+
 When dragging, swiping, or pulling a sheet, slider, or carousel:
+
 - Content must remain glued to the finger or pointer without jumping to center.
 - Always use Pointer Events with `setPointerCapture` so tracking persists even if the pointer strays outside element boundaries.
 - **Rubber Banding**: When pulled beyond bounds, apply logarithmic resistance rather than a hard stop:
@@ -46,15 +50,18 @@ When dragging, swiping, or pulling a sheet, slider, or carousel:
   When released, spring snap back to boundary using `springs.snappy`.
 
 ### 3. Momentum & Velocity Inheritance
+
 - When the user flings or releases a gesture, the resulting transition must inherit the user's exit velocity rather than resetting to a static velocity curve.
 - Springs handle this naturally because they model continuous physical energy:
   $$\text{Energy} = \frac{1}{2}mv^2 + \frac{1}{2}kx^2$$
 
 ### 4. Instant Interruptibility
+
 - Any animation in flight can be grabbed, reversed, or redirected mid-motion without visual snapping or state desync.
 - Never disable user input while an animation runs unless the action is strictly destructive or awaiting a server lock.
 
 ### 5. Component-Unified Kinetic Affinity (Icons as Intrinsic Organs)
+
 - Icons nested inside interactive controls (buttons, selects, tabs, cards, inputs) are **intrinsic organs of the component, not isolated widgets**.
 - **The entire component hit area orchestrates the icon**: Hovering anywhere within the component's boundaries, pressing anywhere on the control, or focusing it via keyboard must trigger the icon's animation synchronously.
 - Never force the user to hunt for or hover directly over a tiny 16px icon glyph to trigger its motion.
@@ -131,6 +138,7 @@ export const springs = {
 All transient surfaces must animate both their entry (`starting-style`) and exit (`ending-style`) with calibrated Apple spring curves, guaranteeing zero layout reflow and immediate responsiveness.
 
 ### 1. Trigger-Anchored Overlays (Popover, DropdownMenu, Select, Tooltip)
+
 - **Transform Origin**: Must dynamically bind to the anchor point using `origin-(--transform-origin)`.
 - **Scale Range**: Enter from `scale-95` to `scale-100`, exit to `scale-95`. Never animate from `scale-0`.
 - **Opacity Range**: Enter from `opacity-0` to `opacity-100`, exit to `opacity-0`.
@@ -146,15 +154,18 @@ All transient surfaces must animate both their entry (`starting-style`) and exit
   ```
 
 ### 2. Centered Modals & Command Dialogs (Dialog, AlertDialog, CommandDialog)
+
 - **Scale Range**: Enter from `scale-95` to `scale-100`, exit to `scale-95`.
 - **Duration**: `transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]`.
 - **Backdrop**: Blur with `backdrop-blur-md` and `transition-opacity duration-200 ease-out` with `data-[starting-style]:opacity-0 data-[ending-style]:opacity-0`.
 
 ### 3. Edge-Anchored Drawers (Sheet)
+
 - **Directional Translation**: Full monotonic slide along active edge (`translate-x-full`, `translate-y-full`).
 - **Duration**: `transition-[translate] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]` with mobile safe-area insets (`pb-[env(safe-area-inset-bottom)]`).
 
 ### 4. Sliding Indicator / Tabs:
+
 - Use `layoutId="active-indicator"` in `motion/react` so the visual pill glides seamlessly between active items with zero manual coordinate math:
 
 ```tsx
@@ -171,7 +182,7 @@ export function SegmentedTabs({ tabs, activeTab, onTabChange }) {
             key={tab.id}
             type="button"
             onClick={() => onTabChange(tab.id)}
-            className="relative z-10 px-3 py-1.5 text-sm font-medium transition-colors text-muted-foreground hover:text-foreground data-[active=true]:text-foreground"
+            className="relative z-10 px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[active=true]:text-foreground"
             data-active={isActive}
           >
             {isActive && (
@@ -197,19 +208,23 @@ export function SegmentedTabs({ tabs, activeTab, onTabChange }) {
 Interfaces must not abruptly snap between states; they must maintain kinetic continuity so the human brain preserves spatial orientation.
 
 ### 1. The Morphing Feedback Loop (Idle ➔ Loading ➔ Success ➔ Idle)
+
 When executing an async trigger (e.g. Save, Deploy, Copy, Submit), do not leave the user wondering if the request resolved. Complete the kinetic narrative within the button:
+
 - **Idle**: Regular label and icon.
 - **Loading**: Intrinsic width locked, label cross-fades to centered spinning loader.
-- **Success**: Button surface tints affirmative green (`bg-emerald-500/15 border-emerald-500/30`), an SVG checkmark springs in with elastic overshoot (`scale: [0, 1.2, 1]`), and label confirms *"Saved!"* or *"Copied!"*.
+- **Success**: Button surface tints affirmative green (`bg-emerald-500/15 border-emerald-500/30`), an SVG checkmark springs in with elastic overshoot (`scale: [0, 1.2, 1]`), and label confirms _"Saved!"_ or _"Copied!"_.
 - **Auto-Restoration**: Holds the success state for $1.5\text{--}2.0\text{s}$, then gently glides back to Idle.
 - **Cohesive Parallel Staging & Invariant Opacity**: Writing, coloring, and sizing must always animate in unified lockstep:
   1. **Zero Disabled Brightness Strobe**: An active async button (`aria-busy="true"`) must NEVER have `disabled:opacity-50` applied while loading. Dimming to 50% and then removing `disabled` on success causes an instantaneous 0ms snap from 50% to 100% brightness, which strobes the original dark idle appearance right before the color finishes interpolating. Always preserve 100% surface opacity during operational async states (`[&:disabled:not([aria-busy='true'])]:opacity-50`).
-  2. **Synchronized State Transitions (`mode="popLayout"`)**: Never make the user stare at an empty button with a blank delay (the `mode="wait"` anti-pattern). Instead, animate exiting and entering content in parallel (`mode="popLayout"` paired with an invisible ghost footprint sizer).
-  3. **Root Stem Isolation & Checkmark Spring**: When transitioning between states sharing a common morphological prefix (e.g. *"Deploy"* in *"Deploying"* and *"Deployed"*), use subtle scale-fading (`initial: scale: 0.95, opacity: 0; animate: scale: 1, opacity: 1; exit: scale: 0.95, opacity: 0`) and spring the checkmark (`scale: [0.5, 1.0]`) into place alongside a crisp `duration-150` background tint transition so the user's eye immediately registers the affirmative green confirmation without any prefix ghosting or lingering idle impressions.
+  2. **Synchronised State Transitions (`mode="popLayout"`)**: Never make the user stare at an empty button with a blank delay (the `mode="wait"` anti-pattern). Instead, animate exiting and entering content in parallel (`mode="popLayout"` paired with an invisible ghost footprint sizer).
+  3. **Root Stem Isolation & Checkmark Spring**: When transitioning between states sharing a common morphological prefix (e.g. _"Deploy"_ in _"Deploying"_ and _"Deployed"_), use subtle scale-fading (`initial: scale: 0.95, opacity: 0; animate: scale: 1, opacity: 1; exit: scale: 0.95, opacity: 0`) and spring the checkmark (`scale: [0.5, 1.0]`) into place alongside a crisp `duration-150` background tint transition so the user's eye immediately registers the affirmative green confirmation without any prefix ghosting or lingering idle impressions.
 - **Minimum State Dwell Time**: Async loading states must remain active for a minimum of $400\text{--}500\text{ms}$. Instantaneous network responses that flash a spinner for $<100\text{ms}$ look like broken visual flickers.
 
 ### 2. The Rolling Odometer Number Ticker (Spring Digit Flip)
+
 When numeric metrics, prices, countdowns, or counter badges update:
+
 - Never let numbers pop abruptly from one integer to another.
 - Use a vertical **rolling digit ticker** where each individual numeric column translates vertically (`translateY`) using `springs.snappy`.
 - **Invariants**:
@@ -217,24 +232,32 @@ When numeric metrics, prices, countdowns, or counter badges update:
   - **Exact Unit-Height Step Invariant**: Never use percentage translation (`y: -${digit * 10}%`) for digit columns. In CSS Flexbox, flex items stretch or shrink to match parent container constraints, causing percentage transforms to evaluate against the parent's `1em` height rather than the 10-digit stack (translating by $1/10\text{th}$ of a digit and leaving numbers visually sliced and stuck halfway). Always enforce `shrink-0 h-[1em] w-full leading-none` on every digit child and translate the column via `y: -${digit}em`, guaranteeing mathematically exact 1-to-1 digit baseline indexing.
 
 ### 3. Directional Micro-Kinetic Icon Intent
+
 Interactive controls that lead to a destination or trigger an action must communicate intent on hover:
+
 - Forward actions (e.g. "Continue", "Explore"): Icon translates $2\text{--}4\text{px}$ in the direction of action (`group-hover:translate-x-1`) with spring recoil.
 - Download / Save actions: Icon dips downward ($2\text{px}$) on hover and rebounds.
 - Dismiss / Close actions: Icon rotates slightly (e.g. $90^\circ$) on hover.
 
 ### 4. Specular Pointer Tracking (Ambient Surface Illumination)
+
 High-craft cards and primary action buttons can track cursor coordinates on mousemove:
+
 - Computes relative mouse position $(x, y)$ inside the container.
 - Renders an ultra-subtle ambient radial highlight (`radial-gradient(circle at ${x}px ${y}px, oklch(1 0 0 / 0.08), transparent 60%)`).
 - Grounds the surface with physical, directional light without artificial neon glow.
 
 ### 5. Shared Layout Indicators (`layoutId`)
+
 When toggling between segmented buttons, tabs, or radio options, never fade the active indicator in and out:
+
 - Attach `layoutId="active-indicator"` to the selection pill.
 - The indicator physically slides, squishes slightly during flight, and settles into the new position via `springs.snappy`.
 
 ### 6. Kinetic Stepper Hold-to-Repeat (The Momentum Ramp)
+
 When designing numeric steppers, counters, or quantity controls, clicking dozens of times causes interaction fatigue. Wrap stepping logic into self-contained primitives adhering to the **4 Laws of Press-and-Hold**:
+
 1. **Immediate Initial Tick (`0ms`)**: The first increment/decrement executes synchronously on `pointerdown` (Directive #1: instant physical yield).
 2. **Dwell Threshold ($400\text{ms}$)**: Single clicks never trigger auto-repeat; continuous stepping only initiates after holding for a $400\text{ms}$ dwell period.
 3. **Kinetic Acceleration Ramp**: The repeat loop begins with a deliberate, precision cadence ($140\text{ms}$) and smoothly accelerates down to peak speed ($35\text{ms}$) via an exponential decay factor ($\approx 0.88$ per tick).
@@ -242,15 +265,16 @@ When designing numeric steppers, counters, or quantity controls, clicking dozens
 5. **Self-Contained Encapsulation**: Expose the stepper as a plug-and-play compound component (`<Stepper>`) that packages state management, boundary clamping (`min`/`max`), rolling odometer physics, and hold-to-repeat buttons natively.
 
 ### 7. Kinetic Icon Invariants: The Reversible Mechanical Affordance Doctrine
+
 Never animate an icon simply because it is technically possible. Most animated icons in the wild feel like cheap gimmicks. Enforce high-taste kinetic selection:
 
 1. **The Reversible Mechanical Test**:
    - An icon is permitted to be kinetic **only if** it exhibits a physical, mechanical affordance that glides along an axis or hinges open, and **smoothly returns to its exact resting position** upon pointer leave (`onMouseLeave`) or release (`onPointerUp`).
    - ✅ **Permitted Kinetic Affordances**:
-     - *Sliders / Filter (`SlidersHorizontalIcon`)*: Knobs physically slide along rails on spring dynamics, then glide back.
-     - *Vehicle / Delivery (`SendIcon`)*: Paper plane banks up-right on trajectory, then returns smoothly to resting position.
-     - *Physical Lids / Hinges (`Trash2Icon` / `DeleteIcon`)*: Can lid pops open on hover/press and snaps shut on release.
-     - *Depth / Separation (`CopyIcon`)*: Foreground sheet lifts away with tactile depth and springs back into place.
+     - _Sliders / Filter (`SlidersHorizontalIcon`)_: Knobs physically slide along rails on spring dynamics, then glide back.
+     - _Vehicle / Delivery (`SendIcon`)_: Paper plane banks up-right on trajectory, then returns smoothly to resting position.
+     - _Physical Lids / Hinges (`Trash2Icon` / `DeleteIcon`)_: Can lid pops open on hover/press and snaps shut on release.
+     - _Depth / Separation (`CopyIcon`)_: Foreground sheet lifts away with tactile depth and springs back into place.
 2. **Strict Negative Bans on Gimmick Icon Motion**:
    - 🚫 **No Vanishing / Path Redrawing from Nothing**: Never animate `opacity: [0, 1]` or `pathLength: [0, 1]` on steady-state or interactive icons (e.g. checkmarks disappearing into thin air and redrawing themselves). This looks like a visual glitch, not high craft.
    - 🚫 **No Symmetrical Spinning in Circles**: Never rotate symmetrical operational glyphs (e.g. spinning a plus icon `+` $180^\circ$ or $360^\circ$). Spinning a crosshair or plus sign flips its arms pointlessly and creates visual noise.
@@ -272,9 +296,19 @@ When JavaScript motion is not required or when rendering SSR/static HTML, use ca
 :root {
   /* Apple-calibrated CSS spring curve */
   --ease-spring: linear(
-    0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%,
-    0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%,
-    0.991 45.7%, 1.002 50.1%, 1.003 56.4%, 1
+    0,
+    0.006,
+    0.025 2.8%,
+    0.101 6.1%,
+    0.539 18.9%,
+    0.721 25.3%,
+    0.849 31.5%,
+    0.937 38.1%,
+    0.968 41.8%,
+    0.991 45.7%,
+    1.002 50.1%,
+    1.003 56.4%,
+    1
   );
 }
 
@@ -331,11 +365,17 @@ To maintain 60–120 FPS performance:
    - When an element changes size or position (e.g. expandable pills, accordions, dynamic search bars), **never animate `width: auto` or `padding` directly**.
    - Instead, attach the `layout` prop from `motion/react`:
      ```tsx
-     {/* Motion's layout projection converts bounding box changes into GPU transforms */}
+     {
+       /* Motion's layout projection converts bounding box changes into GPU transforms */
+     }
      <m.button layout transition={springs.snappy}>
        <Icon />
-       {isExpanded && <m.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>Label</m.span>}
-     </m.button>
+       {isExpanded && (
+         <m.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+           Label
+         </m.span>
+       )}
+     </m.button>;
      ```
    - Motion uses the FLIP technique (First, Last, Invert, Play) to invert the dimension change into an instantaneous `transform: scale()` matrix, executing the expansion on the GPU at 120 FPS without a single CPU layout reflow.
 3. **Respect `prefers-reduced-motion`**:
@@ -355,10 +395,11 @@ const transition = shouldReduceMotion
 ## 📋 Motion Review Checklist
 
 When auditing animations in code:
-- [ ] Is there any `transition: all`? *(Replace with specific properties).*
-- [ ] Is feedback instant on `pointerdown`? *(Ensure active state yields on press).*
-- [ ] Does any dialog animate from `scale(0)`? *(Fix to `scale(0.95)`).*
+
+- [ ] Is there any `transition: all`? _(Replace with specific properties)._
+- [ ] Is feedback instant on `pointerdown`? _(Ensure active state yields on press)._
+- [ ] Does any dialog animate from `scale(0)`? _(Fix to `scale(0.95)`)._
 - [ ] Are tabs or segment controls animating via `layoutId`?
-- [ ] Does theme switching trigger unintended color transitions? *(Suppress transitions during theme toggle).*
+- [ ] Does theme switching trigger unintended color transitions? _(Suppress transitions during theme toggle)._
 - [ ] Does it respect `prefers-reduced-motion`?
-- [ ] Does any animated icon violate the Reversible Mechanical Affordance Doctrine? *(Reject spinning plus signs, disappearing checkmarks, and path-shriveling arrows; ensure static operational glyphs).*
+- [ ] Does any animated icon violate the Reversible Mechanical Affordance Doctrine? _(Reject spinning plus signs, disappearing checkmarks, and path-shriveling arrows; ensure static operational glyphs)._

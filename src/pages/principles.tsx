@@ -7,24 +7,28 @@ export interface PrinciplesPageProps {
 
 export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
   return (
-    <article className="max-w-3xl mx-auto space-y-16 py-6 sm:py-10 text-foreground animate-in fade-in duration-300">
+    <article className="animate-in fade-in mx-auto max-w-3xl space-y-16 py-6 text-foreground duration-300 sm:py-10">
       {/* Editorial Hero Header */}
-      <header className="space-y-6 text-center sm:text-left border-b border-border/50 pb-10">
+      <header className="space-y-6 border-b border-border/50 pb-10 text-center sm:text-left">
         <div className="space-y-3">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground leading-[1.12]">
+          <h1 className="text-3xl leading-[1.12] font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
             The Art of Human Software
           </h1>
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
-            A codified manifesto against apathy in software. Teaching human engineers and autonomous agents how to build interfaces grounded in physical intuition, typographic permanence, and emotional dignity.
+          <p className="max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            A codified manifesto against apathy in software. Teaching human engineers and autonomous
+            agents how to build interfaces grounded in physical intuition, typographic permanence,
+            and emotional dignity.
           </p>
         </div>
 
-        <blockquote className="border-l-2 border-primary/60 pl-4 py-1 text-sm italic text-muted-foreground leading-relaxed">
-          &ldquo;When we align the interface to the way we think and move, something magical happens: it stops feeling like a computer and starts feeling like a seamless extension of us.&rdquo;
+        <blockquote className="border-l-2 border-primary/60 py-1 pl-4 text-sm leading-relaxed text-muted-foreground italic">
+          &ldquo;When we align the interface to the way we think and move, something magical
+          happens: it stops feeling like a computer and starts feeling like a seamless extension of
+          us.&rdquo;
         </blockquote>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-xs font-mono text-muted-foreground">
-          <span className="text-foreground font-semibold">Version 0.1 (Working Draft)</span>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 font-mono text-xs text-muted-foreground">
+          <span className="font-semibold text-foreground">Version 0.1 (Working Draft)</span>
           <span className="text-border">&bull;</span>
           <span>Human-Centric Architecture</span>
           <span className="text-border">&bull;</span>
@@ -39,23 +43,30 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
       {/* Part 1: The Human Sensory Manifesto */}
       <section className="space-y-6">
         <div className="space-y-1.5 border-b border-border/40 pb-4">
-          <div className="text-xs font-mono uppercase tracking-widest text-primary font-semibold">
+          <div className="font-mono text-xs font-semibold tracking-widest text-primary uppercase">
             Chapter I
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Beyond the Robotic Average
           </h2>
         </div>
 
-        <div className="space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
+        <div className="space-y-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
           <p>
-            Generative systems frequently assemble user interfaces defensively, calculating the statistical median of the internet: generic card grids, screaming accent badges, and rigid linear transitions that halt abruptly like a stalled engine.
+            Generative systems frequently assemble user interfaces defensively, calculating the
+            statistical median of the internet: generic card grids, screaming accent badges, and
+            rigid linear transitions that halt abruptly like a stalled engine.
           </p>
           <p>
-            This is visual assembly, not design. True design lives at the disciplined intersection of human psychology, physical mechanics, and visual restraint. Software is not merely an abstraction over data; it is a sensory environment where people spend hours creating, communicating, and thinking.
+            This is visual assembly, not design. True design lives at the disciplined intersection
+            of human psychology, physical mechanics, and visual restraint. Software is not merely an
+            abstraction over data; it is a sensory environment where people spend hours creating,
+            communicating, and thinking.
           </p>
           <p>
-            Every primitive in this system is shaped by negative constraints: deliberate boundaries against synthetic tropes, balanced by principles of geometric harmony, structural stability, and immediate physical resonance.
+            Every primitive in this system is shaped by negative constraints: deliberate boundaries
+            against synthetic tropes, balanced by principles of geometric harmony, structural
+            stability, and immediate physical resonance.
           </p>
         </div>
       </section>
@@ -63,10 +74,10 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
       {/* Part 2: The Five Core Philosophical Pillars */}
       <section className="space-y-6">
         <div className="space-y-1.5 border-b border-border/40 pb-4">
-          <div className="text-xs font-mono uppercase tracking-widest text-primary font-semibold">
+          <div className="font-mono text-xs font-semibold tracking-widest text-primary uppercase">
             Chapter II
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             The Five Philosophical Pillars
           </h2>
           <p className="text-sm text-muted-foreground">
@@ -76,101 +87,113 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
 
         <div className="divide-y divide-border/40">
           {/* Tenet 1 */}
-          <div className="py-8 first:pt-2 last:pb-0 space-y-3">
+          <div className="space-y-3 py-8 first:pt-2 last:pb-0">
             <div className="flex items-baseline gap-3">
-              <span className="text-xs font-mono font-bold text-primary tracking-wider">
-                01
-              </span>
-              <h3 className="text-lg font-semibold text-foreground tracking-tight">
+              <span className="font-mono text-xs font-bold tracking-wider text-primary">01</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
                 The Law of Physicality (Kinetic Truth)
               </h3>
             </div>
-            <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
+            <div className="space-y-3 pl-7 text-sm leading-relaxed text-muted-foreground sm:text-base">
               <p>
-                In the physical universe, objects possess weight and inertia. Nothing appears instantaneously without momentum, and nothing halts abruptly at a fixed linear velocity. We reject artificial linear timing in favor of natural spring dynamics governed by mass, tension, and damping.
+                In the physical universe, objects possess weight and inertia. Nothing appears
+                instantaneously without momentum, and nothing halts abruptly at a fixed linear
+                velocity. We reject artificial linear timing in favour of natural spring dynamics
+                governed by mass, tension, and damping.
               </p>
               <p>
-                When you strike a piano key or press a camera shutter, the mechanism yields beneath your fingertip the exact moment pressure begins. Controls must respond immediately upon contact, acknowledging touch without waiting for release.
+                When you strike a piano key or press a camera shutter, the mechanism yields beneath
+                your fingertip the exact moment pressure begins. Controls must respond immediately
+                upon contact, acknowledging touch without waiting for release.
               </p>
             </div>
           </div>
 
           {/* Tenet 2 */}
-          <div className="py-8 last:pb-0 space-y-3">
+          <div className="space-y-3 py-8 last:pb-0">
             <div className="flex items-baseline gap-3">
-              <span className="text-xs font-mono font-bold text-primary tracking-wider">
-                02
-              </span>
-              <h3 className="text-lg font-semibold text-foreground tracking-tight">
+              <span className="font-mono text-xs font-bold tracking-wider text-primary">02</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
                 The Discipline of Radical Restraint (Quiet Chrome)
               </h3>
             </div>
-            <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
+            <div className="space-y-3 pl-7 text-sm leading-relaxed text-muted-foreground sm:text-base">
               <p>
-                Software is an exhibition gallery for human thought, not an amusement park. We resist the impulse to enclose every piece of information within a bordered container. Recursive card nesting creates visual noise that distracts from core content.
+                Software is an exhibition gallery for human thought, not an amusement park. We
+                resist the impulse to enclose every piece of information within a bordered
+                container. Recursive card nesting creates visual noise that distracts from core
+                content.
               </p>
               <p>
-                We prioritise spatial rhythm, typographic hierarchy, optical alignment, and subtle hairline separators. Interface chrome steps back quietly so the user&rsquo;s work takes centre stage.
+                We prioritise spatial rhythm, typographic hierarchy, optical alignment, and subtle
+                hairline separators. Interface chrome steps back quietly so the user&rsquo;s work
+                takes centre stage.
               </p>
             </div>
           </div>
 
           {/* Tenet 3 */}
-          <div className="py-8 last:pb-0 space-y-3">
+          <div className="space-y-3 py-8 last:pb-0">
             <div className="flex items-baseline gap-3">
-              <span className="text-xs font-mono font-bold text-primary tracking-wider">
-                03
-              </span>
-              <h3 className="text-lg font-semibold text-foreground tracking-tight">
+              <span className="font-mono text-xs font-bold tracking-wider text-primary">03</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
                 Typographic Permanence &amp; Temporal Rhythm
               </h3>
             </div>
-            <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
+            <div className="space-y-3 pl-7 text-sm leading-relaxed text-muted-foreground sm:text-base">
               <p>
-                Typography provides structural architecture. Headings carry their own weight and natural authority through optical scale and careful tracking, without decorative eyebrow kickers.
+                Typography provides structural architecture. Headings carry their own weight and
+                natural authority through optical scale and careful tracking, without decorative
+                eyebrow kickers.
               </p>
               <p>
-                Numbers must never jitter or dance. In metrics, timers, gauges, and tables, changing digits occupy uniform character widths, ensuring layout baselines remain rock-solid as values update in real time.
+                Numbers must never jitter or dance. In metrics, timers, gauges, and tables, changing
+                digits occupy uniform character widths, ensuring layout baselines remain rock-solid
+                as values update in real time.
               </p>
             </div>
           </div>
 
           {/* Tenet 4 */}
-          <div className="py-8 last:pb-0 space-y-3">
+          <div className="space-y-3 py-8 last:pb-0">
             <div className="flex items-baseline gap-3">
-              <span className="text-xs font-mono font-bold text-primary tracking-wider">
-                04
-              </span>
-              <h3 className="text-lg font-semibold text-foreground tracking-tight">
+              <span className="font-mono text-xs font-bold tracking-wider text-primary">04</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
                 Emotional Dignity &amp; Forgiving States
               </h3>
             </div>
-            <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
+            <div className="space-y-3 pl-7 text-sm leading-relaxed text-muted-foreground sm:text-base">
               <p>
-                Software should offer calm reassurance to the nervous system. We never ambush people with irreversible consequences or interrupt their flow with jarring confirmation modals for routine tasks.
+                Software should offer calm reassurance to the nervous system. We never ambush people
+                with irreversible consequences or interrupt their flow with jarring confirmation
+                modals for routine tasks.
               </p>
               <p>
-                Significant operations provide clear, non-blocking undo affordances. A dignified interface respects human agency, accommodates natural mistakes, and preserves creative momentum.
+                Significant operations provide clear, non-blocking undo affordances. A dignified
+                interface respects human agency, accommodates natural mistakes, and preserves
+                creative momentum.
               </p>
             </div>
           </div>
 
           {/* Tenet 5 */}
-          <div className="py-8 last:pb-0 space-y-3">
+          <div className="space-y-3 py-8 last:pb-0">
             <div className="flex items-baseline gap-3">
-              <span className="text-xs font-mono font-bold text-primary tracking-wider">
-                05
-              </span>
-              <h3 className="text-lg font-semibold text-foreground tracking-tight">
+              <span className="font-mono text-xs font-bold tracking-wider text-primary">05</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
                 The Anti-Slop Conviction &amp; Calibrated Taste
               </h3>
             </div>
-            <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed pl-7">
+            <div className="space-y-3 pl-7 text-sm leading-relaxed text-muted-foreground sm:text-base">
               <p>
-                Autonomous systems require thoughtful negative constraints to avoid predictable boilerplate. We ban synthetic neon gradient text, spinning operational icons, and cramped, overcrowded horizontal layouts.
+                Autonomous systems require thoughtful negative constraints to avoid predictable
+                boilerplate. We ban synthetic neon gradient text, spinning operational icons, and
+                cramped, overcrowded horizontal layouts.
               </p>
               <p>
-                Gradients serve natural optical physics: soft atmospheric occlusion, subtle specular rim lighting, and chromatic lensing, blending smoothly through modern perceptual colour spaces that eliminate muddy midtones.
+                Gradients serve natural optical physics: soft atmospheric occlusion, subtle specular
+                rim lighting, and chromatic lensing, blending smoothly through modern perceptual
+                colour spaces that eliminate muddy midtones.
               </p>
             </div>
           </div>
@@ -180,14 +203,15 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
       {/* Part 3: The 11 Codified Design Engineering Invariants */}
       <section className="space-y-8">
         <div className="space-y-2 border-b border-border/40 pb-5">
-          <div className="text-xs font-mono uppercase tracking-widest text-primary font-semibold">
+          <div className="font-mono text-xs font-semibold tracking-widest text-primary uppercase">
             Chapter III
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             The Eleven Codified Invariants
           </h2>
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-            Universal design engineering directives enforced across every surface and primitive in this system.
+          <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Universal design engineering directives enforced across every surface and primitive in
+            this system.
           </p>
         </div>
 
@@ -262,21 +286,21 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
           ].map((item) => (
             <div
               key={item.num}
-              className="py-8 first:pt-4 last:pb-0 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 items-start"
+              className="grid grid-cols-1 items-start gap-3 py-8 first:pt-4 last:pb-0 md:grid-cols-12 md:gap-8"
             >
-              <div className="md:col-span-5 space-y-1.5">
-                <div className="text-xs font-mono font-bold text-primary tracking-wider">
+              <div className="space-y-1.5 md:col-span-5">
+                <div className="font-mono text-xs font-bold tracking-wider text-primary">
                   Directive #{item.num}
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold text-foreground tracking-tight leading-snug">
+                <h3 className="text-base leading-snug font-semibold tracking-tight text-foreground sm:text-lg">
                   {item.title}
                 </h3>
-                <div className="text-xs font-mono text-muted-foreground/80 leading-relaxed pt-0.5">
+                <div className="pt-0.5 font-mono text-xs leading-relaxed text-muted-foreground/80">
                   {item.concept}
                 </div>
               </div>
               <div className="md:col-span-7 md:pt-1">
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
                   {item.body}
                 </p>
               </div>
@@ -286,13 +310,14 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
       </section>
 
       {/* Part 4: Epilogue & Single Interactive Return CTA */}
-      <footer className="pt-10 border-t border-border/50 text-center space-y-6">
-        <div className="space-y-2 max-w-lg mx-auto">
-          <h3 className="text-lg font-semibold text-foreground tracking-tight">
+      <footer className="space-y-6 border-t border-border/50 pt-10 text-center">
+        <div className="mx-auto max-w-lg space-y-2">
+          <h3 className="text-lg font-semibold tracking-tight text-foreground">
             Experience the Living Design System
           </h3>
-          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            Every headless primitive, kinetic component, and visual token in this system embodies these core tenets.
+          <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
+            Every headless primitive, kinetic component, and visual token in this system embodies
+            these core tenets.
           </p>
         </div>
 

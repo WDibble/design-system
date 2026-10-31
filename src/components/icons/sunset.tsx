@@ -95,11 +95,7 @@ const SunsetIcon = forwardRef<SunsetIconHandle, SunsetIconProps>(
           width={size}
           xmlns="http://www.w3.org/2000/svg"
         >
-          <motion.g
-            animate={arrowControls}
-            initial="normal"
-            variants={ARROW_VARIANTS}
-          >
+          <motion.g animate={arrowControls} initial="normal" variants={ARROW_VARIANTS}>
             <path d="M12 10V2" />
             <path d="m16 6-4 4-4-4" />
           </motion.g>
@@ -110,7 +106,6 @@ const SunsetIcon = forwardRef<SunsetIconHandle, SunsetIconProps>(
             "M20 18h2",
             "m19.07 10.93-1.41 1.41",
             "M22 22H2",
-            ,
           ].map((d, index) => (
             <motion.path
               animate={raysControls}

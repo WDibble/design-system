@@ -55,7 +55,7 @@ export function useHoldToStep({
   const scheduleNextTick = React.useCallback(() => {
     if (!isHoldingRef.current || disabledRef.current) return;
 
-    intervalRef.current = window.setTimeout(() => {
+    const tick = () => {
       if (!isHoldingRef.current || disabledRef.current) return;
 
       onStepRef.current();
@@ -66,8 +66,10 @@ export function useHoldToStep({
         currentIntervalRef.current * accelerationRate
       );
 
-      scheduleNextTick();
-    }, currentIntervalRef.current);
+      intervalRef.current = window.setTimeout(tick, currentIntervalRef.current);
+    };
+
+    intervalRef.current = window.setTimeout(tick, currentIntervalRef.current);
   }, [minInterval, accelerationRate]);
 
   const handlePointerDown = React.useCallback(
@@ -100,17 +102,14 @@ export function useHoldToStep({
     [cleanup, initialDelay, scheduleNextTick]
   );
 
-  const handleKeyDown = React.useCallback(
-    (e: React.KeyboardEvent) => {
-      if (disabledRef.current) return;
-      if (e.key === "Enter" || e.key === " ") {
-        if (!e.repeat) {
-          onStepRef.current();
-        }
+  const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
+    if (disabledRef.current) return;
+    if (e.key === "Enter" || e.key === " ") {
+      if (!e.repeat) {
+        onStepRef.current();
       }
-    },
-    []
-  );
+    }
+  }, []);
 
   return {
     onPointerDown: handlePointerDown,

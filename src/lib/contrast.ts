@@ -23,7 +23,7 @@ export interface RGB {
  */
 export function parseOklch(str: string): { l: number; c: number; h: number; a?: number } | null {
   if (!str) return null;
-  const match = str.match(/oklch\(\s*([\d\.]+)\s+([\d\.]+)\s+([\d\.]+)(?:\s*\/\s*([\d\.]+))?\s*\)/i);
+  const match = str.match(/oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\s*\)/i);
   if (!match) return null;
   return {
     l: parseFloat(match[1]),
@@ -77,7 +77,10 @@ export function colorToLinearRgb(colorStr: string): RGB {
     const hex = trimmed.slice(1);
     const fullHex =
       hex.length === 3
-        ? hex.split("").map((ch) => ch + ch).join("")
+        ? hex
+            .split("")
+            .map((ch) => ch + ch)
+            .join("")
         : hex;
     const num = parseInt(fullHex, 16);
     const r = ((num >> 16) & 255) / 255;
@@ -149,8 +152,12 @@ export function calcAPCA(textColor: string, bgColor: string): number {
   let yBg = getApcaY(bgColor);
 
   // Soft black clamping
-  yTxt = yTxt > APCA_COEFF.blkThrs ? yTxt : yTxt + Math.pow(APCA_COEFF.blkThrs - yTxt, APCA_COEFF.blkClp);
-  yBg = yBg > APCA_COEFF.blkThrs ? yBg : yBg + Math.pow(APCA_COEFF.blkThrs - yBg, APCA_COEFF.blkClp);
+  yTxt =
+    yTxt > APCA_COEFF.blkThrs
+      ? yTxt
+      : yTxt + Math.pow(APCA_COEFF.blkThrs - yTxt, APCA_COEFF.blkClp);
+  yBg =
+    yBg > APCA_COEFF.blkThrs ? yBg : yBg + Math.pow(APCA_COEFF.blkThrs - yBg, APCA_COEFF.blkClp);
 
   // Insignificant delta cutoff
   if (Math.abs(yBg - yTxt) < 0.0005) {
@@ -160,10 +167,12 @@ export function calcAPCA(textColor: string, bgColor: string): number {
   let sapca = 0;
   if (yBg > yTxt) {
     // Normal polarity (dark on light)
-    sapca = (Math.pow(yBg, APCA_COEFF.normBG) - Math.pow(yTxt, APCA_COEFF.normTXT)) * APCA_COEFF.scale;
+    sapca =
+      (Math.pow(yBg, APCA_COEFF.normBG) - Math.pow(yTxt, APCA_COEFF.normTXT)) * APCA_COEFF.scale;
   } else {
     // Reverse polarity (light on dark)
-    sapca = (Math.pow(yBg, APCA_COEFF.revBG) - Math.pow(yTxt, APCA_COEFF.revTXT)) * APCA_COEFF.scale;
+    sapca =
+      (Math.pow(yBg, APCA_COEFF.revBG) - Math.pow(yTxt, APCA_COEFF.revTXT)) * APCA_COEFF.scale;
   }
 
   return sapca * 100;
@@ -182,7 +191,8 @@ export interface DualContrastResult {
     polarity: "dark-on-light" | "light-on-dark";
     pass: boolean;
     threshold: number;
-    rating: "Superlative (90+)" | "Preferred (75+)" | "Standard (60+)" | "Large/UI (45+)" | "Fail (<45)";
+    rating:
+      "Superlative (90+)" | "Preferred (75+)" | "Standard (60+)" | "Large/UI (45+)" | "Fail (<45)";
   };
   wcag2: {
     ratio: number;
@@ -268,10 +278,10 @@ export function getPassingLightnessBounds(
   const txtColor = polarity === "white" ? whiteText : darkText;
 
   if (polarity === "white") {
-    const minL = 0.20;
-    let maxL = 0.20;
+    const minL = 0.2;
+    let maxL = 0.2;
     // Step upwards to find the highest passing lightness
-    for (let l = 0.20; l <= 0.65; l += 0.01) {
+    for (let l = 0.2; l <= 0.65; l += 0.01) {
       const dual = evaluateDualContrast(txtColor, `oklch(${l.toFixed(2)} ${c} ${h})`, "button");
       if (dual.dualPassed) {
         maxL = +l.toFixed(2);
@@ -284,7 +294,7 @@ export function getPassingLightnessBounds(
     const maxL = 0.88;
     let minL = 0.88;
     // Step downwards to find the lowest passing lightness
-    for (let l = 0.88; l >= 0.60; l -= 0.01) {
+    for (let l = 0.88; l >= 0.6; l -= 0.01) {
       const dual = evaluateDualContrast(txtColor, `oklch(${l.toFixed(2)} ${c} ${h})`, "button");
       if (dual.dualPassed) {
         minL = +l.toFixed(2);
