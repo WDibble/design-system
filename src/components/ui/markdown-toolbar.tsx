@@ -174,64 +174,98 @@ export const MarkdownToolbar = React.forwardRef<
 
         const selectedLines = value.substring(lineStart, lineEnd).split("\n");
 
+        // Helper to strip competing structural block prefixes (headings, bullet, checklist, ordered numbers)
+        const stripStructuralPrefix = (line: string) => {
+          const match = line.match(/^(\s*)(?:#{1,6}\s+|-\s+\[[ x]\]\s+|-\s+|\d+\.\s+)?(.*)$/);
+          if (!match) return { indent: "", content: line };
+          return { indent: match[1], content: match[2] };
+        };
+
+        const headingRegex = /^(\s*)#{1,6}\s+/;
+        const bulletRegex = /^(\s*)-\s+/;
+        const checklistRegex = /^(\s*)-\s+\[[ x]\]\s+/;
+        const numberRegex = /^(\s*)\d+\.\s+/;
+
         let newLines: string[];
 
         if (prefixOrType === "orderedList") {
-          const numberRegex = /^\d+\.\s+/;
-          const allHaveNumbers = selectedLines.every((l) => numberRegex.test(l.trimStart()));
-          if (allHaveNumbers) {
-            // Toggle OFF: strip the numbers cleanly
-            newLines = selectedLines.map((l) => l.replace(numberRegex, ""));
+          const allHaveNumbers = selectedLines.every(
+            (l) => l.trim().length === 0 || numberRegex.test(l)
+          );
+          if (allHaveNumbers && selectedLines.some((l) => numberRegex.test(l))) {
+            // Toggle OFF: strip numbers cleanly
+            newLines = selectedLines.map((l) => l.replace(numberRegex, "$1"));
           } else {
-            // Toggle ON: strip bullet/checklist/existing numbers if present, then add ordered numbers
-            newLines = selectedLines.map((l, idx) => {
-              const clean = l
-                .replace(/^(\s*)-\s+(\[[ x]\]\s+)?/, "$1")
-                .replace(/^(\s*)\d+\.\s+/, "$1");
-              return `${idx + 1}. ${clean}`;
+            // Toggle ON: strip existing structural prefixes (headings, bullets, checklists) and apply numbers
+            let itemIndex = 1;
+            newLines = selectedLines.map((l) => {
+              if (selectedLines.length > 1 && l.trim().length === 0) return l;
+              const { indent, content } = stripStructuralPrefix(l);
+              const num = itemIndex++;
+              return `${indent}${num}. ${content}`;
             });
           }
         } else {
           const prefix = prefixOrType;
           const isHeading = prefix.startsWith("#");
-          const headingRegex = /^#{1,6}\s+/;
           const isBullet = prefix === "- ";
           const isChecklist = prefix === "- [ ] ";
-          const bulletRegex = /^-\s+/;
-          const checklistRegex = /^-\s+\[[ x]\]\s+/;
-          const numberRegex = /^\d+\.\s+/;
 
           if (isHeading) {
-            const allHaveExactHeading = selectedLines.every((l) => l.startsWith(prefix));
-            if (allHaveExactHeading) {
-              newLines = selectedLines.map((l) => l.replace(headingRegex, ""));
+            const allHaveExactHeading = selectedLines.every(
+              (l) => l.trim().length === 0 || l.trimStart().startsWith(prefix)
+            );
+            if (allHaveExactHeading && selectedLines.some((l) => l.trimStart().startsWith(prefix))) {
+              // Toggle OFF: strip heading
+              newLines = selectedLines.map((l) => l.replace(headingRegex, "$1"));
             } else {
-              newLines = selectedLines.map((l) => `${prefix}${l.replace(headingRegex, "")}`);
+              // Toggle ON: strip any competing block prefix (headings, bullets, numbers, checklists) and apply new heading
+              newLines = selectedLines.map((l) => {
+                if (selectedLines.length > 1 && l.trim().length === 0) return l;
+                const { indent, content } = stripStructuralPrefix(l);
+                return `${indent}${prefix}${content}`;
+              });
             }
           } else if (isChecklist) {
-            const allHaveChecklist = selectedLines.every((l) => checklistRegex.test(l));
-            if (allHaveChecklist) {
-              newLines = selectedLines.map((l) => l.replace(checklistRegex, ""));
+            const allHaveChecklist = selectedLines.every(
+              (l) => l.trim().length === 0 || checklistRegex.test(l)
+            );
+            if (allHaveChecklist && selectedLines.some((l) => checklistRegex.test(l))) {
+              // Toggle OFF: strip checklist
+              newLines = selectedLines.map((l) => l.replace(checklistRegex, "$1"));
             } else {
+              // Toggle ON: strip competing block prefixes (headings, bullets, numbers) and apply checklist
               newLines = selectedLines.map((l) => {
-                const clean = l.replace(checklistRegex, "").replace(bulletRegex, "").replace(numberRegex, "");
-                return `${prefix}${clean}`;
+                if (selectedLines.length > 1 && l.trim().length === 0) return l;
+                const { indent, content } = stripStructuralPrefix(l);
+                return `${indent}${prefix}${content}`;
               });
             }
           } else if (isBullet) {
-            const allHaveBullet = selectedLines.every((l) => bulletRegex.test(l) && !checklistRegex.test(l));
-            if (allHaveBullet) {
-              newLines = selectedLines.map((l) => l.replace(bulletRegex, ""));
+            const allHaveBullet = selectedLines.every(
+              (l) => l.trim().length === 0 || (bulletRegex.test(l) && !checklistRegex.test(l))
+            );
+            if (allHaveBullet && selectedLines.some((l) => bulletRegex.test(l) && !checklistRegex.test(l))) {
+              // Toggle OFF: strip bullet
+              newLines = selectedLines.map((l) => l.replace(bulletRegex, "$1"));
             } else {
+              // Toggle ON: strip competing block prefixes (headings, numbers, checklists) and apply bullet
               newLines = selectedLines.map((l) => {
-                const clean = l.replace(checklistRegex, "").replace(bulletRegex, "").replace(numberRegex, "");
-                return `${prefix}${clean}`;
+                if (selectedLines.length > 1 && l.trim().length === 0) return l;
+                const { indent, content } = stripStructuralPrefix(l);
+                return `${indent}${prefix}${content}`;
               });
             }
           } else {
-            const allHavePrefix = selectedLines.every((l) => l.startsWith(prefix));
-            if (allHavePrefix) {
-              newLines = selectedLines.map((l) => l.substring(prefix.length));
+            // Generic line prefix (e.g., quote "> ")
+            const allHavePrefix = selectedLines.every(
+              (l) => l.trim().length === 0 || l.trimStart().startsWith(prefix)
+            );
+            if (allHavePrefix && selectedLines.some((l) => l.trimStart().startsWith(prefix))) {
+              newLines = selectedLines.map((l) => {
+                const idx = l.indexOf(prefix);
+                return idx !== -1 ? l.substring(0, idx) + l.substring(idx + prefix.length) : l;
+              });
             } else {
               newLines = selectedLines.map((l) => `${prefix}${l}`);
             }
@@ -304,13 +338,13 @@ export const MarkdownToolbar = React.forwardRef<
       const lineEnd = lineEndIndex === -1 ? value.length : lineEndIndex;
       const currentLines = value.substring(lineStart, lineEnd).split("\n").filter((l) => l.length > 0);
 
-      const isBullet = currentLines.length > 0 && currentLines.every((l) => /^-\s+/.test(l) && !/^-\s+\[[ x]\]\s+/.test(l));
+      const isBullet = currentLines.length > 0 && currentLines.every((l) => /^-\s+/.test(l.trimStart()) && !/^-\s+\[[ x]\]\s+/.test(l.trimStart()));
       const isOrdered = currentLines.length > 0 && currentLines.every((l) => /^\d+\.\s+/.test(l.trimStart()));
-      const isTask = currentLines.length > 0 && currentLines.every((l) => /^-\s+\[[ x]\]\s+/.test(l));
-      const isH1 = currentLines.length > 0 && currentLines.every((l) => /^#\s+/.test(l));
-      const isH2 = currentLines.length > 0 && currentLines.every((l) => /^##\s+/.test(l));
-      const isH3 = currentLines.length > 0 && currentLines.every((l) => /^###\s+/.test(l));
-      const isQuote = currentLines.length > 0 && currentLines.every((l) => /^>\s+/.test(l));
+      const isTask = currentLines.length > 0 && currentLines.every((l) => /^-\s+\[[ x]\]\s+/.test(l.trimStart()));
+      const isH1 = currentLines.length > 0 && currentLines.every((l) => /^#\s+/.test(l.trimStart()));
+      const isH2 = currentLines.length > 0 && currentLines.every((l) => /^##\s+/.test(l.trimStart()));
+      const isH3 = currentLines.length > 0 && currentLines.every((l) => /^###\s+/.test(l.trimStart()));
+      const isQuote = currentLines.length > 0 && currentLines.every((l) => /^>\s+/.test(l.trimStart()));
 
       // Inline formatting checks
       const selected = value.substring(start, end);
