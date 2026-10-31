@@ -276,9 +276,117 @@ export const MarkdownToolbar = React.forwardRef<
       [insertBlock]
     );
 
+    const [activeFormats, setActiveFormats] = React.useState({
+      bold: false,
+      italic: false,
+      strikethrough: false,
+      inlineCode: false,
+      h1: false,
+      h2: false,
+      h3: false,
+      quote: false,
+      bulletList: false,
+      orderedList: false,
+      taskList: false,
+    });
+
+    const updateActiveFormats = React.useCallback(() => {
+      const textarea = getTextarea();
+      if (!textarea) return;
+
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+
+      // Expand selection to encompass full lines for line-level checks
+      const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+      const lineEndIndex = value.indexOf("\n", end);
+      const lineEnd = lineEndIndex === -1 ? value.length : lineEndIndex;
+      const currentLines = value.substring(lineStart, lineEnd).split("\n").filter((l) => l.length > 0);
+
+      const isBullet = currentLines.length > 0 && currentLines.every((l) => /^-\s+/.test(l) && !/^-\s+\[[ x]\]\s+/.test(l));
+      const isOrdered = currentLines.length > 0 && currentLines.every((l) => /^\d+\.\s+/.test(l.trimStart()));
+      const isTask = currentLines.length > 0 && currentLines.every((l) => /^-\s+\[[ x]\]\s+/.test(l));
+      const isH1 = currentLines.length > 0 && currentLines.every((l) => /^#\s+/.test(l));
+      const isH2 = currentLines.length > 0 && currentLines.every((l) => /^##\s+/.test(l));
+      const isH3 = currentLines.length > 0 && currentLines.every((l) => /^###\s+/.test(l));
+      const isQuote = currentLines.length > 0 && currentLines.every((l) => /^>\s+/.test(l));
+
+      // Inline formatting checks
+      const selected = value.substring(start, end);
+      const before2 = value.substring(Math.max(0, start - 2), start);
+      const after2 = value.substring(end, Math.min(value.length, end + 2));
+      const before1 = value.substring(Math.max(0, start - 1), start);
+      const after1 = value.substring(end, Math.min(value.length, end + 1));
+
+      const isBold = (before2 === "**" && after2 === "**") || (selected.startsWith("**") && selected.endsWith("**") && selected.length >= 4);
+      const isStrike = (before2 === "~~" && after2 === "~~") || (selected.startsWith("~~") && selected.endsWith("~~") && selected.length >= 4);
+      const isItalic = (before1 === "*" && after1 === "*") || (selected.startsWith("*") && selected.endsWith("*") && selected.length >= 2);
+      const isCode = (before1 === "`" && after1 === "`") || (selected.startsWith("`") && selected.endsWith("`") && selected.length >= 2);
+
+      setActiveFormats((prev) => {
+        if (
+          prev.bold === isBold &&
+          prev.italic === isItalic &&
+          prev.strikethrough === isStrike &&
+          prev.inlineCode === isCode &&
+          prev.h1 === isH1 &&
+          prev.h2 === isH2 &&
+          prev.h3 === isH3 &&
+          prev.quote === isQuote &&
+          prev.bulletList === isBullet &&
+          prev.orderedList === isOrdered &&
+          prev.taskList === isTask
+        ) {
+          return prev;
+        }
+        return {
+          bold: isBold,
+          italic: isItalic,
+          strikethrough: isStrike,
+          inlineCode: isCode,
+          h1: isH1,
+          h2: isH2,
+          h3: isH3,
+          quote: isQuote,
+          bulletList: isBullet,
+          orderedList: isOrdered,
+          taskList: isTask,
+        };
+      });
+    }, [getTextarea]);
+
+    React.useEffect(() => {
+      const textarea = getTextarea();
+      if (!textarea) return;
+
+      const handleSelection = () => {
+        updateActiveFormats();
+      };
+
+      textarea.addEventListener("select", handleSelection);
+      textarea.addEventListener("keyup", handleSelection);
+      textarea.addEventListener("mouseup", handleSelection);
+      textarea.addEventListener("input", handleSelection);
+      textarea.addEventListener("focus", handleSelection);
+      document.addEventListener("selectionchange", handleSelection);
+
+      updateActiveFormats();
+
+      return () => {
+        textarea.removeEventListener("select", handleSelection);
+        textarea.removeEventListener("keyup", handleSelection);
+        textarea.removeEventListener("mouseup", handleSelection);
+        textarea.removeEventListener("input", handleSelection);
+        textarea.removeEventListener("focus", handleSelection);
+        document.removeEventListener("selectionchange", handleSelection);
+      };
+    }, [getTextarea, updateActiveFormats]);
+
     const executeAction = (name: string, handler: () => void) => {
       handler();
       onAction?.(name);
+      setTimeout(updateActiveFormats, 0);
     };
 
     return (
@@ -347,6 +455,7 @@ export const MarkdownToolbar = React.forwardRef<
               <TooltipTrigger render={
                 <ToolbarButton
                   type="button"
+                  isActive={activeFormats.bold}
                   aria-label="Bold text"
                   onClick={() => executeAction("bold", () => wrapSelection("**", "**", "bold text"))}
                 >
@@ -363,6 +472,7 @@ export const MarkdownToolbar = React.forwardRef<
               <TooltipTrigger render={
                 <ToolbarButton
                   type="button"
+                  isActive={activeFormats.italic}
                   aria-label="Italic text"
                   onClick={() => executeAction("italic", () => wrapSelection("*", "*", "italic text"))}
                 >
@@ -379,6 +489,7 @@ export const MarkdownToolbar = React.forwardRef<
               <TooltipTrigger render={
                 <ToolbarButton
                   type="button"
+                  isActive={activeFormats.strikethrough}
                   aria-label="Strikethrough text"
                   onClick={() => executeAction("strikethrough", () => wrapSelection("~~", "~~", "strikethrough text"))}
                 >
@@ -395,6 +506,7 @@ export const MarkdownToolbar = React.forwardRef<
               <TooltipTrigger render={
                 <ToolbarButton
                   type="button"
+                  isActive={activeFormats.inlineCode}
                   aria-label="Inline code"
                   onClick={() => executeAction("inlineCode", () => wrapSelection("`", "`", "code"))}
                 >
@@ -416,6 +528,7 @@ export const MarkdownToolbar = React.forwardRef<
               <TooltipTrigger render={
                 <ToolbarButton
                   type="button"
+                  isActive={activeFormats.h1}
                   aria-label="Heading 1"
                   onClick={() => executeAction("h1", () => toggleLinePrefix("# "))}
                 >
@@ -431,6 +544,7 @@ export const MarkdownToolbar = React.forwardRef<
               <TooltipTrigger render={
                 <ToolbarButton
                   type="button"
+                  isActive={activeFormats.h2}
                   aria-label="Heading 2"
                   onClick={() => executeAction("h2", () => toggleLinePrefix("## "))}
                 >
@@ -446,6 +560,7 @@ export const MarkdownToolbar = React.forwardRef<
               <TooltipTrigger render={
                 <ToolbarButton
                   type="button"
+                  isActive={activeFormats.h3}
                   aria-label="Heading 3"
                   onClick={() => executeAction("h3", () => toggleLinePrefix("### "))}
                 >
@@ -461,6 +576,7 @@ export const MarkdownToolbar = React.forwardRef<
               <TooltipTrigger render={
                 <ToolbarButton
                   type="button"
+                  isActive={activeFormats.quote}
                   aria-label="Blockquote"
                   onClick={() => executeAction("quote", () => toggleLinePrefix("> "))}
                 >
@@ -481,6 +597,7 @@ export const MarkdownToolbar = React.forwardRef<
               <TooltipTrigger render={
                 <ToolbarButton
                   type="button"
+                  isActive={activeFormats.bulletList}
                   aria-label="Bullet list"
                   onClick={() => executeAction("bulletList", () => toggleLinePrefix("- "))}
                 >
@@ -496,6 +613,7 @@ export const MarkdownToolbar = React.forwardRef<
               <TooltipTrigger render={
                 <ToolbarButton
                   type="button"
+                  isActive={activeFormats.orderedList}
                   aria-label="Numbered list"
                   onClick={() =>
                     executeAction("orderedList", () =>
@@ -515,6 +633,7 @@ export const MarkdownToolbar = React.forwardRef<
               <TooltipTrigger render={
                 <ToolbarButton
                   type="button"
+                  isActive={activeFormats.taskList}
                   aria-label="Task checklist"
                   onClick={() => executeAction("taskList", () => toggleLinePrefix("- [ ] "))}
                 >

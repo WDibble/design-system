@@ -167,6 +167,8 @@ export const ToolbarButton = React.forwardRef<
   return (
     <ToolbarPrimitive.Button
       ref={ref}
+      aria-pressed={isActive ? true : undefined}
+      data-active={isActive ? "" : undefined}
       className={cn(
         toolbarButtonVariants({ variant, size: effectiveSize }),
         isActive && "bg-muted text-foreground border-border/60 shadow-2xs",
