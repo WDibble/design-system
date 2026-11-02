@@ -23,6 +23,7 @@ scratch/
 
 # Local research and reference material
 inspiration/
+.inspiration/
 
 # Environment files
 .env

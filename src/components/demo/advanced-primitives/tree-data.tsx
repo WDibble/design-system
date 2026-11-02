@@ -68,7 +68,7 @@ export const treeData: TreeNodeData[] = [
     ],
   },
   { id: "readme", label: "README.md" },
-  { id: "philosophy", label: "PHILOSOPHY.md" },
+  { id: "philosophy", label: "docs/philosophy.md" },
 ];
 
 export interface FileDetail {
@@ -251,7 +251,7 @@ export const fileDetailsMap: Record<string, FileDetail> = {
     ],
   },
   philosophy: {
-    path: "PHILOSOPHY.md",
+    path: "docs/philosophy.md",
     type: "file",
     role: "Human sensory manifesto (v0.1 Draft)",
     snippet: `# The Sensory Manifesto\nSoftware is a cognitive environment. We design interfaces for the human nervous system: their hands on glass, their ocular fatigue, their working memory, and their dignity.`,

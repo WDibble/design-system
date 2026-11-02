@@ -42,7 +42,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "build:app": "tsc -b && vite build",
-    "build:lib": "vite build --config vite.config.lib.ts && tsc -p tsconfig.lib.json",
+    "build:lib": "vite build --mode lib && tsc -p tsconfig.lib.json",
     "preview": "vite preview",
     "lint": "oxlint src",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",

@@ -69,8 +69,12 @@ design-system/
 │   └── setup.ts                  # Testing environment polyfills and axe matchers
 ├── scripts/
 │   └── verify-invariants.mjs     # Automated design invariant verification engine
+├── docs/
+│   ├── architecture.md           # This technical architecture document
+│   ├── philosophy.md             # Sensory manifesto and craft philosophy
+│   └── tooling.md                # Oxlint, Vitest, and verification architecture
 ├── CONTRIBUTING.md               # Contribution rules and design engineering matrix
-├── ARCHITECTURE.md               # This technical architecture document
+├── CHANGELOG.md                  # Release version history
 └── AGENTS.md                     # Agent directives and non-negotiable invariants
 ```
 

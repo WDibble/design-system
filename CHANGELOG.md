@@ -17,5 +17,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Real-time Theme Studio (⌘T)**: Interactive OKLCH color palette editor with live APCA and WCAG 2.2 contrast evaluation.
 - **Agent-Native Manifests**: Machine-readable `llms.txt`, `llms-full.txt`, and `registry.json` for autonomous developer agent workflows.
 - **Modular Monolith Deconstruction**: Deconstructed large components into sub-250-line modules (`navigation-bar`, `timeline`, `markdown-toolbar`, `theme-studio`, `advanced-primitives`, and `workbench-page`).
-- **Comprehensive Public Documentation**: `README.md`, `ARCHITECTURE.md`, `CONTRIBUTING.md`, GitHub issue templates, and pull request template.
+- **Comprehensive Public Documentation**: `README.md`, `docs/architecture.md`, `docs/philosophy.md`, `docs/tooling.md`, `CONTRIBUTING.md`, GitHub issue templates, and pull request template.
 - **Automated Invariant Verification**: `scripts/verify-invariants.mjs` checking concentric radii mathematics, tabular numerals, British English spelling, and zero em dashes.

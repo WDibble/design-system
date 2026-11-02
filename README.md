@@ -352,7 +352,9 @@ Open your `src/index.css` and change `--primary` under `:root`. You can use any 
 
 ## 📚 Technical Documentation & Contributing
 
-- **[System Architecture](ARCHITECTURE.md)**: Deep dive into Base UI composition, OKLCH token math, Motion physics, and Liquid Glass materials.
+- **[System Architecture](docs/architecture.md)**: Deep dive into Base UI composition, OKLCH token math, Motion physics, and Liquid Glass materials.
+- **[Craft Philosophy](docs/philosophy.md)**: The human sensory manifesto, quiet chrome doctrine, and anti-slop mandate.
+- **[Tooling & Quality Gates](docs/tooling.md)**: Oxlint, Vitest, CSpell, and AST verification architecture.
 - **[Contributing Guide](CONTRIBUTING.md)**: Standards, interactive state matrix, verification suite, and pull request workflow.
 - **[Agent Directives](AGENTS.md)**: Core design engineering invariants and rules for autonomous agents.
 

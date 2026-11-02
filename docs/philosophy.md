@@ -2,7 +2,7 @@
 
 > **Specification Status**: Version 0.1 (Working Draft)
 >
-> *"When we align the interface to the way we think and move, something magical happens: it stops feeling like a computer and starts feeling like a seamless extension of us."*
+> _"When we align the interface to the way we think and move, something magical happens: it stops feeling like a computer and starts feeling like a seamless extension of us."_
 
 ---
 
@@ -61,14 +61,16 @@ When software ignores physics, the subconscious mind registers a micro-dissonanc
 
 ### Tenet 2: The Discipline of Radical Restraint (The Quiet Chrome)
 
-> *"Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away."* (Antoine de Saint-Exupéry)
+> _"Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away."_ (Antoine de Saint-Exupéry)
 
 A museum does not paint bright red arrows pointing to a Rembrandt. The museum walls are quiet, neutral, and lit with care so the artwork can speak.
 
 Most modern web apps suffer from visual screaming:
+
 - Cards nested inside cards, bordered by coloured outlines, floating on drop shadows, capped with kicker tags, and illuminated with neon halos.
 
 Our philosophy demands **quiet chrome**:
+
 1. **Cards are a Last Resort**: Grouping should be achieved through spatial proximity, typography, and baseline rhythm before reaching for a rectangular box.
 2. **Depth Without Decoration**: Shadows are not ornaments; they are directional light. A 1px optical inner highlight (`inset 0 1px 0 rgba(255,255,255,0.08)`) reflects reality far more truthfully than a fuzzy neon glow.
 3. **No Decorative Noise**: Background grids, diagonal stripes, and artificial blur layers are forbidden unless they serve a functional spatial anchor. Let surfaces be calm.
@@ -77,7 +79,7 @@ Our philosophy demands **quiet chrome**:
 
 ### Tenet 3: Spatial Rhythm and Typographic Harmony (The Silence Between Notes)
 
-> *"Music is the silence between the notes."* (Claude Debussy)
+> _"Music is the silence between the notes."_ (Claude Debussy)
 
 In interface design, whitespace is not empty screen estate waiting to be filled with features. Whitespace is breathing room for the human brain.
 
@@ -111,6 +113,7 @@ Apple's Human Interface Guidelines outline four fundamental human needs: **Safet
 When AI writes code, it defaults to the middle of the bell curve. It regurgitates boilerplate because it has no eyes, no hands, and no sense of touch.
 
 To make this repository an engine for AI that produces art rather than slop:
+
 - **Negative Constraints are as Vital as Positive Rules**: We do not just tell the AI what to build; we forbid the lazy instincts of generative models.
 - **The Craft Floor is Absolute**: No component may ship without all nine interactive states handled. No component may omit keyboard focus rings. No component may use arbitrary Tailwind utilities when semantic tokens exist.
 - **The Voice is Human**: Code comments, documentation, and error copy must be authored with the cadence of an artisan who cares about their tools.
@@ -120,13 +123,14 @@ To make this repository an engine for AI that produces art rather than slop:
 ## Epilogue: The Living Standard
 
 This philosophy is not an academic essay to be archived and forgotten. It is the architectural foundation that breathes through:
+
 1. Every rule codified in `skills/`.
 2. Every spring parameter calibrated in `tokens/motion.ts`.
 3. Every headless primitive wrapped in Base UI.
 4. Every theme exported to and from semantic token JSON.
 
-When someone opens an app built with this design system, they should not think *"this was built with an AI design kit."*
+When someone opens an app built with this design system, they should not think _"this was built with an AI design kit."_
 
 They should pause, interact with a button, watch a sheet slide into place, feel the rhythm of the typography, and think:
 
-> *"Someone really cared about this."*
+> _"Someone really cared about this."_

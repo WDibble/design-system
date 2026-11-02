@@ -1,6 +1,6 @@
 # Master Implementation Plan: Agent-Native Holistic Design System
 
-> **The Movement & Standard**: This repository is not merely a component library; it is a movement and living philosophy for high-craft, human-centric design engineering. Grounded in [PHILOSOPHY.md](PHILOSOPHY.md) and synthesized from foundational design engineering traditions.
+> **The Movement & Standard**: This repository is not merely a component library; it is a movement and living philosophy for high-craft, human-centric design engineering. Grounded in [docs/philosophy.md](../philosophy.md) and synthesized from foundational design engineering traditions.
 
 ---
 
@@ -29,6 +29,7 @@
 ## 🚦 Component State Machine Requirements
 
 Every interactive component MUST implement and visually handle the complete state spectrum:
+
 - [x] **Default (`idle`)**: Optical baseline alignment, calibrated typography tracking, subtle inner highlight (`inset 0 1px 0 rgba(255,255,255,0.08)`).
 - [x] **Hovered (`hover`)**: Subtle luminance shift, optical elevation lift without layout shift.
 - [x] **Pressed / Active (`pressed`)**: Tactile spring compression (`scale-[0.98]` via `motion`), haptic visual feedback.
@@ -43,6 +44,7 @@ Every interactive component MUST implement and visually handle the complete stat
 ## 📋 Phased Execution Tracker
 
 ### Phase 0: Research & Reference Staging (Completed)
+
 - [x] Synthesised craft floor criteria, anti-slop rules, and OKLCH perceptual palettes.
 - [x] Synthesised fluid motion principles, WWDC guidelines, and physics-based spring curves.
 - [x] Synthesised micro-interaction invariants, touch/iOS safeguards, and gesture boundaries.
@@ -52,6 +54,7 @@ Every interactive component MUST implement and visually handle the complete stat
 - [x] Audited production design system guidelines across modern software engineering standards.
 
 ### Phase 1: Codifying the Living Design Skills & Cognitive Rules (Completed & Stress-Tested)
+
 - [x] Create `AGENTS.md` universal entry point for all AI coding harnesses.
 - [x] Streamline skills architecture (single canonical `skills/` directory following the open standard, DRY, vendor-clutter free).
 - [x] Create `skills/craft-philosophy/SKILL.md`:
@@ -71,6 +74,7 @@ Every interactive component MUST implement and visually handle the complete stat
 - [x] Stress-tested against complex real-world components (`ExpandableTabs`, `Web3Bento`, `BranchedMenu`) and patched all uncovered edge cases.
 
 ### Phase 2: Workspace & Tooling Setup (Completed)
+
 - [x] Initialize clean unified workspace structure (`src/`, `src/components/ui/`, `src/tokens/`, `src/lib/`).
 - [x] Install latest production dependencies:
   - React 19 (`19.3.1`) + TypeScript 5.7 + Vite 8 (`8.3.5`)
@@ -86,11 +90,13 @@ Every interactive component MUST implement and visually handle the complete stat
 - [x] Verified 100% clean production build (`npm run build`, 0 errors, 0 warnings).
 
 ### Phase 3: Core Design Tokens & Motion Physics Engine
+
 - [x] Define motion springs (`tokens/motion.ts`).
 - [x] Define materials & optical border layers (`tokens/materials.css`).
 - [x] Configure typographic tracking & scale.
 
 ### Phase 4: Foundational Component Library (The 9-State Matrix)
+
 - [x] **Batch 1 (Core Action & Surface Primitives)**:
   - `Button` (`src/components/ui/button.tsx`): All variants (`default`, `secondary`, `destructive`, `outline`, `ghost`, `link`), sizes (`sm`, `default`, `lg`, `icon` with 44px touch targets), tactile spring press on `pointerdown` (`scale(0.975)`), zero-dimension-shift loading states, animated compositor underline on links, dual `iconTrigger` (`hover` vs `press`), explicit `type="button"`.
   - `Badge` (`src/components/ui/badge.tsx`): All variants (`default`, `secondary`, `destructive`, `outline`, `success`), optical baseline centering, tabular numerals, live pulsing status dot.
@@ -117,6 +123,7 @@ Every interactive component MUST implement and visually handle the complete stat
   - `Table` with tabular numerals.
 
 ### Phase 5: Interactive Demo Workbench (Completed)
+
 - [x] Scaffold workbench with live component playground.
 - [x] Build **Live Preview Canvas** (dashboard, settings, billing).
 - [x] Build **Theme Customizer Toolbar** (radius, typography, OKLCH sliders).
@@ -124,5 +131,6 @@ Every interactive component MUST implement and visually handle the complete stat
 - [x] Build **State Matrix Inspector** (inspect all 9 states live).
 
 ### Phase 6: Polish & Verification (Active)
+
 - [x] Complete WCAG 2.2 accessibility audit.
 - [x] Complete origin anonymity audit.
