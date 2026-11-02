@@ -1,4 +1,4 @@
-import { AdvancedPrimitivesShowcase } from "@/components/demo/advanced-primitives-showcase";
+import { AdvancedPrimitivesShowcase } from "@/components/demo/advanced-primitives";
 
 export function AdvancedPrimitivesSection() {
   return (

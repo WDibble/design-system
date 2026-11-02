@@ -62,7 +62,7 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 5173,
       watch: {
-        ignored: ["**/.inspiration/**", "**/logs/**"],
+        ignored: ["**/logs/**"],
       },
     },
     optimizeDeps: {
