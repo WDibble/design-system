@@ -4,6 +4,10 @@
 >
 > Crafted at the intersection of visual precision, tactile physics, and zero-shift layout stability. 100% accessible (WCAG 2.2 AA / AAA), copy-paste friendly, with zero heavy npm package lock-in.
 
+<p align="center">
+  <img src="docs/assets/workbench-hero.png" alt="Antigravity Design System Workbench" width="100%" />
+</p>
+
 ---
 
 ## 🚀 60-Second Quick Start (Explore the Interactive Demo)
@@ -115,6 +119,10 @@ export const springs = {
 Copy the theme tokens from [`src/index.css`](src/index.css) into your project's main stylesheet.
 
 These use modern perceptual **OKLCH colour spaces** and compile cleanly with standard design token architectures:
+
+<p align="center">
+  <img src="docs/assets/theme-studio.png" alt="Interactive Theme Studio with OKLCH Calibration" width="100%" />
+</p>
 
 ```css
 @import "tailwindcss";
@@ -286,6 +294,10 @@ All components are located in [`src/components/ui/`](src/components/ui/) and exp
 
 All icons located in [`src/components/icons/`](src/components/icons/) feature reversible mechanical physics on hover/press with zero stroke-erasure gimmicks.
 
+<p align="center">
+  <img src="docs/assets/icon-gallery.png" alt="Kinetic Vector Icon Directory" width="100%" />
+</p>
+
 ---
 
 ## 🤖 Agent-Native & Machine-Readable Manifests
@@ -298,7 +310,7 @@ This repository is engineered for autonomous agent workflows and developer tools
 
 ---
 
-## ⚡ The Fourteen Non-Negotiable Directives
+## ⚡ The Eighteen Non-Negotiable Directives
 
 Every line of code in this repository enforces these core design engineering invariants:
 
@@ -316,6 +328,10 @@ Every line of code in this repository enforces these core design engineering inv
 12. **British English & Ban on AI Em Dashes**: All user-facing prose, document headings, interface descriptions, tooltips, and commit messages must strictly adhere to British English spelling (`prioritise`, `synchronised`, `colour`, `centre`, `behaviour`, `grey`, `dialogue`, `fulfil`, `judgement`). Never use em dashes in prose or titles.
 13. **Origin Anonymity & Self-Contained Integrity**: Present all architectures, primitives, tokens, and guidelines as autonomous, self-contained standards of this design system.
 14. **Telemetry Indicator & Kinetic Cadence Invariant**: Kinetic status beacons must maintain an optically light, quiet resting state (`bg-background`, soft perimeter border, zero static halo blobs). Pulsing keyframes enforce a periodic resting window ($\ge 60\%$ of cycle duration at `opacity: 0`). Keyframes animate exclusively compositor properties (`transform`, `opacity`) with `transform-gpu` and `will-change-transform`.
+15. **Brand Truth & Fact Integrity**: Models must never hallucinate brand hex values or typefaces from training memory. Fictional metrics, mock divs with synthetic browser chrome, and invented case studies are strictly banned.
+16. **Micro-Finish & Layout Stability**: Form helper and validation error slots declare `min-h-[1lh]` to preserve line-height baseline stability. Headings declare `[text-wrap:balance]` and prose enforces `[text-wrap:pretty]`.
+17. **Evidence Before Assertions & Verification Gate**: Never declare work complete, fixed, clean, or passing without executing the fresh verification suite (`npm run check`) and confirming exit code 0 within the current interaction.
+18. **Autonomous Rulings & Continuous Execution Protocol**: Rulings over stalls. The agent delivers authoritative decisions on design-engineering ambiguities without parking the session, stopping only for destructive operations, security boundaries, or remote mutations.
 
 ---
 
