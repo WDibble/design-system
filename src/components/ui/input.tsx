@@ -12,7 +12,7 @@ export const inputVariants = cva(
     "hover:border-foreground/30",
     "[box-shadow:inset_0_1px_0_0_oklch(1_0_0_/_0.08)]",
     "placeholder:text-muted-foreground",
-    // Refined Quiet Chrome focus: seamless 1px accent hugging the border, zero loud offset gap:
+    // Refined Quiet Chrome focus: flush 1px accent hugging the border, zero loud offset gap:
     "focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/40 focus-visible:outline-none",
     "disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-muted/40 disabled:opacity-50",
     // Data attributes driven by Base UI Field context:

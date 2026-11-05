@@ -208,21 +208,17 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
             )}
           </p>
 
-          <p className="mt-1.5 max-w-sm text-[11px] leading-relaxed text-muted-foreground">
-            {description || (
+          <div className="mt-1.5 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 divide-x divide-border/60 text-[11px] text-muted-foreground [&>*:not(:first-child)]:pl-2">
+            {description ? (
+              <span>{description}</span>
+            ) : (
               <>
                 <span>Supports {formatAcceptedTypes(accept)}</span>
-                <span className="mx-1.5 text-border/80">·</span>
                 <span className="tabular-nums">Up to {maxSizeMB} MB per file</span>
-                {maxFiles > 1 && (
-                  <>
-                    <span className="mx-1.5 text-border/80">·</span>
-                    <span className="tabular-nums">Maximum {maxFiles} files</span>
-                  </>
-                )}
+                {maxFiles > 1 && <span className="tabular-nums">Maximum {maxFiles} files</span>}
               </>
             )}
-          </p>
+          </div>
         </div>
 
         {/* Error Feedback */}

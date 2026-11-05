@@ -75,7 +75,7 @@ export const rimHighlights = {
 
 /**
  * 3. Directional Alpha Masks
- * Seamless content fade-out masks for scrollable containers and shimmer skeletons.
+ * Smooth content fade-out masks for scrollable containers and shimmer skeletons.
  */
 export const alphaMasks = {
   fadeRight: {
