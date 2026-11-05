@@ -654,6 +654,52 @@ Ensure custom styling applies to surfaces that browsers render by default:
 
 ---
 
+## 🛡️ Design Engineering Rationalisation Defence Matrix
+
+Autonomous agents and engineers frequently encounter predictable rationalisations when pressured by task velocity. The following table provides an unyielding barrier against compromised craft standards:
+
+| Internal Rationalisation / Excuse                 | Engineering Reality & Mandatory Action                                                                                                                                            |
+| :------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **"This is just a small visual tweak."**          | Visual changes routinely introduce horizontal layout shifts. Check box models, ensure `border-transparent` bases, and confirm only compositor properties animate.                 |
+| **"Should work now / Looks correct."**            | Confidence is not evidence. Run verification commands (`npm run check`, `npm run test`, `npm run invariants`) and inspect exit code 0 and full output before claiming completion. |
+| **"The icon is already small enough."**           | Motion icons default to 28px inline SVG dimensions. Always pass explicit `size={...}` matching the container's optical ratio. Descendant class rules are mandatory.               |
+| **"It looks accessible on my screen."**           | Visual rendering does not equal accessibility. Verify keyboard navigation, focus trap isolation, explicit `aria-label`s on icon controls, and WCAG 3 APCA lightness contrast.     |
+| **"I will fix the layout shift later."**          | Layout shifts compound across parent container trees and destroy perceived quality. Never commit unconstrained geometry. Base controls must declare `border border-transparent`.  |
+| **"Nobody will notice a 1px twitch."**            | A 1px shift triggers full-document layout reflow and invalidates glass sampling buffers. Subconscious human perception registers micro-dissonance instantly.                      |
+| **"It is just a demo fixture or showcase."**      | Demo fixtures and workbenches are the canonical reference implementations that downstream consumers and LLMs replicate. Fixtures must be flawless.                                |
+| **"Linter passed so compilation is guaranteed."** | Linters inspect AST syntax, not type compatibility or runtime bundle health. Full compilation (`tsc -b && vite build`) is strictly required.                                      |
+| **"The user did not ask for tabular numbers."**   | Tabular figures are not an optional decoration. All counters, timers, financial figures, and metrics must declare `tabular-nums` by invariant default.                            |
+| **"Symptom fixed, bug is done."**                 | Symptom patching causes recurring regressions. Always isolate the root cause across component boundaries before modifying production code.                                        |
+
+---
+
+## ⚡ Autonomous Rulings & Problem Isolation Protocol
+
+### 1. The Autonomous Rulings Standard
+
+When executing multi-step implementation plans or complex refactors, human engineering velocity collapses if an agent pauses every few minutes to ask trivial preference questions. When facing ambiguities that do not breach safety boundaries, the agent must deliver authoritative rulings:
+
+- **Empowered Discretion**: The agent makes the principled design engineering call (e.g. semantic token mapping, layout archetype selection, concentric corner radius calculation, responsive breakpoint tuning).
+- **Recorded Transparency**: Every non-trivial architectural decision must be logged clearly in commit notes or task records:
+  ```text
+  Ruling: [Decision made] | Justification: [Physical or craft rationale] | Consequence if reversed: [Cost to alter]
+  ```
+- **Four Strict Cessation Conditions**: An autonomous execution cycle halts if and only if encountering:
+  1. An irreversible or destructive data operation.
+  2. A security, secret, or credential boundary.
+  3. A shared remote side-effect outside the local branch (merging to production or pushing to external remotes).
+  4. A fundamentally contradictory specification where every forward path is guesswork.
+
+### 2. Systematic Problem Isolation
+
+When tests fail, builds break, or interface bugs appear:
+
+1. **Root Cause First**: Never apply speculative cosmetic fixes without identifying why the failure occurred.
+2. **Boundary Tracing**: In multi-component systems (forms, dropdowns, contextual popovers), trace data propagation across component boundaries before altering styles or handlers.
+3. **Red-Green Verification**: Prove the defect by reproducing the failure, apply the minimal structural fix, and verify that the original symptom is resolved while existing invariants remain green.
+
+---
+
 ## 🔍 Code Review Format (Required)
 
 When reviewing code against this craft standard, **always** output your findings in a structured Markdown table:

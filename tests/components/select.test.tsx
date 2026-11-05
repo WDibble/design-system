@@ -47,6 +47,6 @@ describe("Select Primitive Accessibility and Invariants", () => {
     const trigger = screen.getByRole("combobox", { name: "Pick fruit" });
     await user.click(trigger);
 
-    expect(screen.getByRole("option", { name: "Banana" })).toBeInTheDocument();
+    expect(await screen.findByRole("option", { name: "Banana" })).toBeInTheDocument();
   });
 });
