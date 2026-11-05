@@ -6,8 +6,8 @@ export function BadgesSpectrum() {
   return (
     <section className="flex flex-col gap-4">
       <div>
-        <h2 className="flex items-center gap-2 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
-          <ShieldCheckIcon size={16} />
+        <h2 className="flex items-center gap-2.5 text-xl font-bold tracking-tight [text-wrap:balance] text-foreground sm:text-2xl">
+          <ShieldCheckIcon size={18} />
           Badge Spectrum & Status Indicators
         </h2>
       </div>

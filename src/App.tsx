@@ -325,8 +325,16 @@ function AppContent() {
           role="contentinfo"
           className="flex flex-col items-center justify-between gap-4 border-t border-border/60 pt-6 pb-12 text-xs text-muted-foreground sm:flex-row"
         >
-          <p>© Design System · Human-Centric & Agent-Native Standard</p>
-          <p className="font-mono">React 19 · Base UI · Motion · Tailwind CSS v4</p>
+          <div className="flex items-center gap-2 divide-x divide-border/60 [&>*:not(:first-child)]:pl-2">
+            <span>© Design System</span>
+            <span>Human-Centric and Agent-Native Standard</span>
+          </div>
+          <div className="flex items-center gap-2 divide-x divide-border/60 font-mono text-[11px] [&>*:not(:first-child)]:pl-2">
+            <span>React 19</span>
+            <span>Base UI</span>
+            <span>Motion</span>
+            <span>Tailwind CSS v4</span>
+          </div>
         </footer>
 
         {/* Live Theme Studio Drawer */}

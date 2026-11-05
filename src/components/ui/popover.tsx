@@ -89,7 +89,10 @@ export const PopoverTitle = React.forwardRef<
   return (
     <PopoverPrimitive.Title
       ref={ref}
-      className={cn("text-sm font-semibold tracking-tight text-foreground", className)}
+      className={cn(
+        "text-sm font-semibold tracking-tight [text-wrap:balance] text-foreground",
+        className
+      )}
       {...props}
     />
   );
@@ -103,7 +106,7 @@ export const PopoverDescription = React.forwardRef<
   return (
     <PopoverPrimitive.Description
       ref={ref}
-      className={cn("text-xs leading-relaxed text-muted-foreground", className)}
+      className={cn("text-xs leading-relaxed [text-wrap:pretty] text-muted-foreground", className)}
       {...props}
     />
   );

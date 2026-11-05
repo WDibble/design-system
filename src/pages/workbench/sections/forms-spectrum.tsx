@@ -28,11 +28,11 @@ export function FormsSpectrum() {
   return (
     <section className="flex flex-col gap-4">
       <div>
-        <h2 className="flex items-center gap-2 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
-          <SlidersHorizontalIcon size={16} />
+        <h2 className="flex items-center gap-2.5 text-xl font-bold tracking-tight [text-wrap:balance] text-foreground sm:text-2xl">
+          <SlidersHorizontalIcon size={18} />
           Form & Input Primitives (Batch 2)
         </h2>
-        <p className="mt-0.5 text-xs text-muted-foreground">
+        <p className="mt-1 text-sm [text-wrap:pretty] text-muted-foreground">
           Headless Base UI composition, 16px iOS zoom prevention, specular top rims, and fluid
           continuous tracking
         </p>
@@ -42,19 +42,23 @@ export function FormsSpectrum() {
         {/* Column 1: Text Fields & Validation */}
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <Badge variant="outline" size="sm">
-                Directive #2 & #4
-              </Badge>
-              <span className="font-mono text-xs text-muted-foreground">
-                Base UI Field · ARIA Coordination
-              </span>
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <CardTitle>Text Inputs & Accessible Fields</CardTitle>
+                <CardDescription className="mt-1.5">
+                  Inputs enforce 16px font size on mobile viewports (&lt;640px) to prevent iOS
+                  auto-zoom, and feature 1px specular lighting.
+                </CardDescription>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                  Directive #2 & #4
+                </Badge>
+                <span className="font-mono text-xs text-muted-foreground">
+                  Base UI Field (ARIA Coordination)
+                </span>
+              </div>
             </div>
-            <CardTitle className="mt-2">Text Inputs & Accessible Fields</CardTitle>
-            <CardDescription>
-              Inputs enforce 16px font size on mobile viewports (&lt;640px) to prevent iOS
-              auto-zoom, and feature 1px specular lighting.
-            </CardDescription>
           </CardHeader>
 
           <CardContent className="flex flex-col gap-5">
@@ -119,19 +123,23 @@ export function FormsSpectrum() {
         {/* Column 2: Switches, Checkboxes & Sliders */}
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <Badge variant="outline" size="sm">
-                Directive #1 & #3
-              </Badge>
-              <span className="font-mono text-xs text-muted-foreground">
-                Apple HIG Spring Easing
-              </span>
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <CardTitle>Tactile Switches, Checkboxes & Sliders</CardTitle>
+                <CardDescription className="mt-1.5">
+                  44px accessible touch expansion, immediate physical yield on pointerdown, and zero
+                  horizontal jitter tabular numerals.
+                </CardDescription>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                  Directive #1 & #3
+                </Badge>
+                <span className="font-mono text-xs text-muted-foreground">
+                  Apple HIG Spring Easing
+                </span>
+              </div>
             </div>
-            <CardTitle className="mt-2">Tactile Switches, Checkboxes & Sliders</CardTitle>
-            <CardDescription>
-              44px accessible touch expansion, immediate physical yield on pointerdown, and zero
-              horizontal jitter tabular numerals.
-            </CardDescription>
           </CardHeader>
 
           <CardContent className="flex flex-col gap-6">

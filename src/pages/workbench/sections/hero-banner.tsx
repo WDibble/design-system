@@ -37,11 +37,11 @@ export function HeroBanner() {
   return (
     <section className="flex flex-col gap-4">
       <div>
-        <h2 className="flex items-center gap-2 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
-          <ZapIcon size={16} className="text-amber-500" />
+        <h2 className="flex items-center gap-2.5 text-xl font-bold tracking-tight [text-wrap:balance] text-foreground sm:text-2xl">
+          <ZapIcon size={18} className="text-amber-500" />
           Kinetic Storytelling (Living State Transitions)
         </h2>
-        <p className="mt-0.5 text-xs text-muted-foreground">
+        <p className="mt-1 text-sm [text-wrap:pretty] text-muted-foreground">
           Components maintain continuous physical momentum between states rather than abruptly
           snapping.
         </p>
@@ -51,17 +51,23 @@ export function HeroBanner() {
         {/* Spotlight 1: Full Async Feedback Loop */}
         <Card>
           <CardHeader>
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <Badge variant="outline" size="sm">
-                State Morph 01
-              </Badge>
-              <span className="font-mono text-xs text-muted-foreground">Idle ➔ Load ➔ Success</span>
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <CardTitle>The Async Feedback Loop</CardTitle>
+                <CardDescription className="mt-1.5">
+                  Click the button below to witness the complete kinetic loop: press compression,
+                  loading spinner, affirmative spring checkmark, and auto-settle back to idle.
+                </CardDescription>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                  State Morph 01
+                </Badge>
+                <span className="font-mono text-xs text-muted-foreground">
+                  Idle ➔ Load ➔ Success
+                </span>
+              </div>
             </div>
-            <CardTitle className="mt-2">The Async Feedback Loop</CardTitle>
-            <CardDescription>
-              Click the button below to witness the complete kinetic loop: press compression,
-              loading spinner, affirmative spring checkmark, and auto-settle back to idle.
-            </CardDescription>
           </CardHeader>
 
           <CardContent className="flex flex-col gap-4">
@@ -121,17 +127,23 @@ export function HeroBanner() {
         {/* Spotlight 2: The Rolling Odometer Number Ticker */}
         <Card>
           <CardHeader>
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <Badge variant="outline" size="sm">
-                State Morph 02
-              </Badge>
-              <span className="font-mono text-xs text-muted-foreground">Spring Digit Rolling</span>
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <CardTitle>Rolling Odometer Ticker</CardTitle>
+                <CardDescription className="mt-1.5">
+                  When numbers change, individual digit columns roll along the Y-axis using spring
+                  physics. Zero horizontal jitter or layout shift.
+                </CardDescription>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                  State Morph 02
+                </Badge>
+                <span className="font-mono text-xs text-muted-foreground">
+                  Spring Digit Rolling
+                </span>
+              </div>
             </div>
-            <CardTitle className="mt-2">Rolling Odometer Ticker</CardTitle>
-            <CardDescription>
-              When numbers change, individual digit columns roll along the Y-axis using spring
-              physics. Zero horizontal jitter or layout shift.
-            </CardDescription>
           </CardHeader>
 
           <CardContent className="flex flex-col gap-4">
@@ -168,7 +180,7 @@ export function HeroBanner() {
                   Plug & Play Stepper
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  Hold to accelerate · Auto boundary lock
+                  Hold to accelerate, auto boundary lock
                 </p>
               </div>
               <Stepper
@@ -191,17 +203,21 @@ export function HeroBanner() {
         {/* Spotlight 3: The Squishy Fluid Morph */}
         <Card className="md:col-span-2 xl:col-span-1">
           <CardHeader>
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <Badge variant="outline" size="sm">
-                State Morph 03
-              </Badge>
-              <span className="font-mono text-xs text-muted-foreground">springs.squishy</span>
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <CardTitle>Squishy Fluid Morph</CardTitle>
+                <CardDescription className="mt-1.5">
+                  Click to watch the wide button collapse into a compact pill with an underdamped
+                  elastic bounce (FLIP GPU projection).
+                </CardDescription>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                  State Morph 03
+                </Badge>
+                <span className="font-mono text-xs text-muted-foreground">springs.squishy</span>
+              </div>
             </div>
-            <CardTitle className="mt-2">Squishy Fluid Morph</CardTitle>
-            <CardDescription>
-              Click to watch the wide button collapse into a compact pill with an underdamped
-              elastic bounce (FLIP GPU projection).
-            </CardDescription>
           </CardHeader>
 
           <CardContent className="flex flex-col gap-4">

@@ -28,11 +28,11 @@ export function MaterialsFeedbackSpectrum() {
   return (
     <section className="flex flex-col gap-4">
       <div>
-        <h2 className="flex items-center gap-2 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
-          <EyeIcon size={16} />
+        <h2 className="flex items-center gap-2.5 text-xl font-bold tracking-tight [text-wrap:balance] text-foreground sm:text-2xl">
+          <EyeIcon size={18} />
           Spatial Materials & System Feedback (Batch 5)
         </h2>
-        <p className="mt-0.5 text-xs text-muted-foreground">
+        <p className="mt-1 text-sm [text-wrap:pretty] text-muted-foreground">
           Apple HIG 4-tier liquid glass materials, Gmail-style 5s Undo toasts, global ⌘K Command
           palette, and zero-CLS skeleton loaders.
         </p>
@@ -95,10 +95,10 @@ export function MaterialsFeedbackSpectrum() {
                     {previewMaterial} Material
                   </span>
                   <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-                    {previewMaterial === "ultra-thin" && "55% Opacity · 28px Blur"}
-                    {previewMaterial === "thin" && "70% Opacity · 20px Blur"}
-                    {previewMaterial === "regular" && "82% Opacity · 16px Blur"}
-                    {previewMaterial === "thick" && "92% Opacity · 12px Blur"}
+                    {previewMaterial === "ultra-thin" && "55% Opacity, 28px Blur"}
+                    {previewMaterial === "thin" && "70% Opacity, 20px Blur"}
+                    {previewMaterial === "regular" && "82% Opacity, 16px Blur"}
+                    {previewMaterial === "thick" && "92% Opacity, 12px Blur"}
                   </Badge>
                 </div>
                 <p className="text-xs leading-relaxed text-muted-foreground">

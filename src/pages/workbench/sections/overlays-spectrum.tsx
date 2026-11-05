@@ -86,11 +86,11 @@ export function OverlaysSpectrum() {
   return (
     <section className="flex flex-col gap-4">
       <div>
-        <h2 className="flex items-center gap-2 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
-          <LayersIcon size={16} />
+        <h2 className="flex items-center gap-2.5 text-xl font-bold tracking-tight [text-wrap:balance] text-foreground sm:text-2xl">
+          <LayersIcon size={18} />
           Overlays & Floating Surfaces (Batch 3)
         </h2>
-        <p className="mt-0.5 text-xs text-muted-foreground">
+        <p className="mt-1 text-sm [text-wrap:pretty] text-muted-foreground">
           Apple HIG spring physics, trigger-anchored origins, strict Escape and outside-click
           parity, and concentric corner radii
         </p>
@@ -100,19 +100,23 @@ export function OverlaysSpectrum() {
         {/* Column 1: Modals, Alerts & Sheets */}
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <Badge variant="outline" size="sm">
-                Directive #4 & #6
-              </Badge>
-              <span className="font-mono text-xs text-muted-foreground">
-                Focus Trap · Escape Parity
-              </span>
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <CardTitle>Modals, Confirmations & Drawers</CardTitle>
+                <CardDescription className="mt-1.5">
+                  Full focus trapping, smooth backdrop blur, 1px specular lighting, and fluid spring
+                  entrance and exit.
+                </CardDescription>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                  Directive #4 & #6
+                </Badge>
+                <span className="font-mono text-xs text-muted-foreground">
+                  Focus Trap, Escape Parity
+                </span>
+              </div>
             </div>
-            <CardTitle className="mt-2">Modals, Confirmations & Drawers</CardTitle>
-            <CardDescription>
-              Full focus trapping, smooth backdrop blur, 1px specular lighting, and fluid spring
-              entrance and exit.
-            </CardDescription>
           </CardHeader>
 
           <CardContent className="flex flex-wrap items-center gap-3">
@@ -227,19 +231,23 @@ export function OverlaysSpectrum() {
         {/* Column 2: Menus, Popovers & Tooltips */}
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <Badge variant="outline" size="sm">
-                Directive #1 & #8
-              </Badge>
-              <span className="font-mono text-xs text-muted-foreground">
-                Trigger-Anchored Origin
-              </span>
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <CardTitle>Menus, Popovers & Micro Tooltips</CardTitle>
+                <CardDescription className="mt-1.5">
+                  Submenus, keyboard navigation, collision detection, and zero-shift shortcut
+                  indicators.
+                </CardDescription>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <Badge variant="outline" size="sm" className="font-mono text-[10px]">
+                  Directive #1 & #8
+                </Badge>
+                <span className="font-mono text-xs text-muted-foreground">
+                  Trigger-Anchored Origin
+                </span>
+              </div>
             </div>
-            <CardTitle className="mt-2">Menus, Popovers & Micro Tooltips</CardTitle>
-            <CardDescription>
-              Submenus, keyboard navigation, collision detection, and zero-shift shortcut
-              indicators.
-            </CardDescription>
           </CardHeader>
 
           <CardContent className="flex flex-wrap items-center gap-3">

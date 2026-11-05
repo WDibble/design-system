@@ -130,7 +130,7 @@ export const DrawerTitle = React.forwardRef<
     <DrawerPrimitive.Title
       ref={ref}
       className={cn(
-        "text-base leading-none font-semibold tracking-tight text-foreground",
+        "text-base leading-none font-semibold tracking-tight [text-wrap:balance] text-foreground",
         className
       )}
       {...props}
@@ -146,7 +146,7 @@ export const DrawerDescription = React.forwardRef<
   return (
     <DrawerPrimitive.Description
       ref={ref}
-      className={cn("text-xs leading-relaxed text-muted-foreground", className)}
+      className={cn("text-sm leading-relaxed [text-wrap:pretty] text-muted-foreground", className)}
       {...props}
     />
   );

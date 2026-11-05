@@ -18,11 +18,11 @@ export function ButtonSpectrum() {
   return (
     <section className="flex flex-col gap-4">
       <div>
-        <h2 className="flex items-center gap-2 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
-          <LayersIcon size={16} />
+        <h2 className="flex items-center gap-2.5 text-xl font-bold tracking-tight [text-wrap:balance] text-foreground sm:text-2xl">
+          <LayersIcon size={18} />
           Button Variants &amp; Kinetic Icon Intent
         </h2>
-        <p className="mt-0.5 text-xs text-muted-foreground">
+        <p className="mt-1 text-sm [text-wrap:pretty] text-muted-foreground">
           Directional action icons with reversible kinetic affordance and hover or press physics.
         </p>
       </div>

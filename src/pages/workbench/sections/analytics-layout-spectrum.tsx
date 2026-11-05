@@ -181,7 +181,7 @@ export function AnalyticsLayoutSpectrum() {
                 size="sm"
                 className="shrink-0 self-start font-mono text-[10px] sm:self-auto"
               >
-                Spring Slide &bull; ARIA Grid
+                Spring Slide (ARIA Grid)
               </Badge>
             </div>
             <CardDescription className="text-xs">
@@ -267,7 +267,7 @@ export function AnalyticsLayoutSpectrum() {
                 size="sm"
                 className="shrink-0 self-start font-mono text-[10px] sm:self-auto"
               >
-                Quiet Chrome &bull; ARIA Nav
+                Quiet Chrome (ARIA Nav)
               </Badge>
             </div>
             <CardDescription className="text-xs">

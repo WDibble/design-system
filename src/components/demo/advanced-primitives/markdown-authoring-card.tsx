@@ -75,7 +75,7 @@ An agent-native, human-centric design system built with **strict visual precisio
               Generic Toolbar Primitive
             </label>
             <span className="font-mono text-[10px] text-muted-foreground">
-              Base UI Toolbar · WAI-ARIA role="toolbar"
+              Base UI Toolbar (WAI-ARIA role="toolbar")
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-4 rounded-xl border border-border/60 bg-muted/20 p-3">
@@ -139,8 +139,8 @@ An agent-native, human-centric design system built with **strict visual precisio
               Format:{" "}
               <span className="font-semibold text-foreground">
                 {genericFormat.join(", ") || "none"}
-              </span>{" "}
-              · Align: <span className="font-semibold text-foreground">{genericAlign}</span>
+              </span>
+              , Align: <span className="font-semibold text-foreground">{genericAlign}</span>
             </span>
           </div>
         </div>
@@ -153,7 +153,7 @@ An agent-native, human-centric design system built with **strict visual precisio
             </label>
             <div className="flex items-center gap-2">
               <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
-                {markdownText.length} characters · {markdownText.split("\n").length} lines
+                {markdownText.length} characters, {markdownText.split("\n").length} lines
               </span>
             </div>
           </div>

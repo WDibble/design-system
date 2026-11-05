@@ -273,7 +273,7 @@ export function ThemeStudio({ isDark, onToggleDark }: ThemeStudioProps) {
           {/* Footer */}
           <SheetFooter className="flex items-center justify-between border-t border-border/60 bg-muted/10 p-4">
             <span className="font-mono text-[10px] text-muted-foreground">
-              Tailwind CSS v4 · @theme inline
+              Tailwind CSS v4 (@theme inline)
             </span>
             <SheetClose render={<Button size="sm" variant="outline" />}>Done</SheetClose>
           </SheetFooter>

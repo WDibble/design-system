@@ -244,9 +244,8 @@ export const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-medium text-foreground">{item.file.name}</p>
-                    <div className="flex items-center gap-2 text-[10px] text-muted-foreground tabular-nums">
+                    <div className="flex items-center gap-2 divide-x divide-border/60 text-[10px] text-muted-foreground tabular-nums [&>*:not(:first-child)]:pl-2">
                       <span>{formatFileSize(item.file.size)}</span>
-                      <span>•</span>
                       <span className="flex items-center gap-1 font-medium text-emerald-600 dark:text-emerald-400">
                         <CircleCheckIcon size={11} /> Ready
                       </span>

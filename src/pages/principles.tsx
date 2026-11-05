@@ -23,20 +23,16 @@ export function PrinciplesPage({ onBackToWorkbench }: PrinciplesPageProps) {
 
         <blockquote className="border-l-2 border-primary/60 py-1 pl-4 text-sm leading-relaxed text-muted-foreground italic">
           &ldquo;When we align the interface to the way we think and move, something magical
-          happens: it stops feeling like a computer and starts feeling like a seamless extension of
+          happens: it stops feeling like a computer and starts feeling like a natural extension of
           us.&rdquo;
         </blockquote>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 font-mono text-xs text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-y-1 divide-x divide-border/60 pt-1 font-mono text-xs text-muted-foreground [&>*:not(:first-child)]:pl-3">
           <span className="font-semibold text-foreground">Version 0.1 (Working Draft)</span>
-          <span className="text-border">&bull;</span>
           <span>Human-Centric Architecture</span>
-          <span className="text-border">&bull;</span>
           <span>Kinetic Truth</span>
-          <span className="text-border">&bull;</span>
-          <span>Eleven Core Invariants</span>
-          <span className="text-border">&bull;</span>
-          <span>Five Philosophical Pillars</span>
+          <span>Sixteen Core Invariants</span>
+          <span>Six Philosophical Pillars</span>
         </div>
       </header>
 

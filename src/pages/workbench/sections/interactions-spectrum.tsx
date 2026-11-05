@@ -303,7 +303,7 @@ export function InteractionsSpectrum() {
                 </div>
 
                 <div className="flex-1 text-right text-xs text-muted-foreground">
-                  <span>Online · Busy · Away</span>
+                  <span>Online, Busy, Away</span>
                 </div>
               </div>
             </div>

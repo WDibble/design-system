@@ -149,7 +149,7 @@ function IconCardTile({ icon, isCopied, onCopy }: IconCardTileProps) {
         </AnimatePresence>
       </TooltipTrigger>
       <TooltipContent side="top" className="font-mono text-xs">
-        &lt;{icon.name} /&gt; · Click to copy
+        &lt;{icon.name} /&gt; (Click to copy)
       </TooltipContent>
     </Tooltip>
   );

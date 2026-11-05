@@ -110,11 +110,11 @@ export function NavigationDataSpectrum({
   return (
     <section className="flex flex-col gap-4">
       <div>
-        <h2 className="flex items-center gap-2 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
-          <ServerIcon size={16} />
+        <h2 className="flex items-center gap-2.5 text-xl font-bold tracking-tight [text-wrap:balance] text-foreground sm:text-2xl">
+          <ServerIcon size={18} />
           Navigation, Structure & Data Display (Batch 4)
         </h2>
-        <p className="mt-0.5 text-xs text-muted-foreground">
+        <p className="mt-1 text-sm [text-wrap:pretty] text-muted-foreground">
           Apple HIG fluid tabs with zero glyphic twitching, Base UI CSS height accordion with
           concealed focus, and quiet data tables with tabular numerals.
         </p>
@@ -135,7 +135,7 @@ export function NavigationDataSpectrum({
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-              Turnkey &bull; 5 Archetypes
+              Turnkey (5 Archetypes)
             </Badge>
           </div>
         </CardHeader>
@@ -315,7 +315,7 @@ export function NavigationDataSpectrum({
                   <div className="flex flex-col gap-2 rounded-xl border border-border/40 bg-zinc-950 p-3.5 font-mono text-xs text-zinc-300">
                     <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
                       <span className="text-[11px] text-zinc-500">
-                        release-v2.4.0 · edge-deployment.log
+                        release-v2.4.0 / edge-deployment.log
                       </span>
                       <CopyButton
                         size="sm"
@@ -489,7 +489,7 @@ export function NavigationDataSpectrum({
         <CardContent className="p-0">
           <Table>
             <TableCaption>
-              Synchronised across 5 edge clusters · High availability active-active multi-region
+              Synchronised across 5 edge clusters, high availability active-active multi-region
               topology
             </TableCaption>
             <TableHeader>

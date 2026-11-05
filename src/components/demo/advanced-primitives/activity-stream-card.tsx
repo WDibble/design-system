@@ -137,7 +137,7 @@ export function ActivityStreamCard() {
                     <span className="rounded-md border border-border/50 bg-muted/70 px-1.5 py-0.5 font-semibold text-foreground">
                       sha:7cbf211
                     </span>
-                    <span className="text-muted-foreground/50">&bull;</span>
+                    <span className="text-muted-foreground/50">/</span>
                     <span className="font-medium text-primary">Flowing to ingest node</span>
                   </div>
                 </TimelineBody>
