@@ -1,6 +1,6 @@
 # Antigravity Design System
 
-> An agent-native, human-centric design system built at the intersection of visual precision, physical intuition, and robust engineering. Powered by React 19, Base UI, Motion, and Tailwind CSS v4.
+> An agent-native, human-centric design system built at the intersection of visual precision, physical intuition, and rigorous engineering. Powered by React 19, Base UI, Motion, and Tailwind CSS v4.
 
 ## Core Architectural Directives
 

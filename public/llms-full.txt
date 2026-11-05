@@ -1,6 +1,6 @@
-# Antigravity Design System — Full Reference Manual
+# Antigravity Design System: Full Reference Manual
 
-> An agent-native, human-centric design system standard built for high visual precision, physical intuition, and robust software engineering.
+> An agent-native, human-centric design system standard built for high visual precision, physical intuition, and rigorous software engineering.
 
 ## 1. Core Manifesto & Invariants
 

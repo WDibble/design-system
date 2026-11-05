@@ -10,7 +10,9 @@ function reportError(filePath, line, message) {
 }
 
 // 1. Scan for forbidden Em Dashes in documentation, markdown, and source files
-const filesToScanForEmDashes = globSync(["src/**/*.{ts,tsx}", "skills/**/*.md", "*.md"], {
+const filesToScanForEmDashes = globSync(
+  ["src/**/*.{ts,tsx}", "skills/**/*.md", "docs/**/*.md", "public/**/*.txt", "*.md"],
+  {
   ignore: [
     "node_modules/**",
     "dist/**",

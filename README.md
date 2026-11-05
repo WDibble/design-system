@@ -114,7 +114,7 @@ export const springs = {
 
 Copy the theme tokens from [`src/index.css`](src/index.css) into your project's main stylesheet.
 
-These use modern perceptual **OKLCH colour spaces** and compile seamlessly with standard design token architectures:
+These use modern perceptual **OKLCH colour spaces** and compile cleanly with standard design token architectures:
 
 ```css
 @import "tailwindcss";
