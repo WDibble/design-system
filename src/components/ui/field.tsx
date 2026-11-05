@@ -57,7 +57,10 @@ export const FieldDescription = React.forwardRef<
   return (
     <BaseField.Description
       ref={ref}
-      className={cn("text-xs leading-normal text-muted-foreground", className)}
+      className={cn(
+        "min-h-[1lh] text-xs leading-normal [text-wrap:pretty] text-muted-foreground",
+        className
+      )}
       {...props}
     />
   );
@@ -72,7 +75,7 @@ export const FieldError = React.forwardRef<
     <BaseField.Error
       ref={ref}
       className={cn(
-        "flex items-center gap-1.5 text-xs leading-normal font-medium text-destructive",
+        "flex min-h-[1lh] items-center gap-1.5 text-xs leading-normal font-medium [text-wrap:pretty] text-destructive",
         className
       )}
       {...props}

@@ -95,7 +95,7 @@ In interface design, whitespace is not empty screen estate waiting to be filled 
 
 ### Tenet 4: Emotional Dignity (Safety, Reassurance, and Joy)
 
-Apple's Human Interface Guidelines outline four fundamental human needs: **Safety, Understanding, Achievement, and Joy.** Every interactive component exists to fulfill one of these emotional states.
+Apple's Human Interface Guidelines outline four fundamental human needs: **Safety, Understanding, Achievement, and Joy.** Every interactive component exists to fulfil one of these emotional states.
 
 1. **Safety & Forgiveness**:
    - The user must never fear that clicking a button will destroy their work. Destructive actions demand tactile friction (`AlertDialog`), clear undo states, and explicit semantic signaling.
@@ -117,6 +117,21 @@ To make this repository an engine for AI that produces art rather than slop:
 - **Negative Constraints are as Vital as Positive Rules**: We do not just tell the AI what to build; we forbid the lazy instincts of generative models.
 - **The Craft Floor is Absolute**: No component may ship without all nine interactive states handled. No component may omit keyboard focus rings. No component may use arbitrary Tailwind utilities when semantic tokens exist.
 - **The Voice is Human**: Code comments, documentation, and error copy must be authored with the cadence of an artisan who cares about their tools.
+
+---
+
+### Tenet 6: Intent-Driven Anatomy & Anti-Convergence Architecture
+
+Layout must emerge directly from human purpose rather than generative convenience. Standard generative AI outputs converge on the same monotonous template: a split hero with an abstract illustration, three identical icon-above-heading card columns, numbered process steps, pricing cards, and an email banner above a boilerplate footer.
+
+We dismantle this template through three core disciplines:
+
+1. **Category Intent and the Visitor's Job**:
+   A page is built from what the human visitor came to accomplish (`subscribe`, `book`, `visit`, `attend`, `buy`, `try`, `sign up`, `hire`, `join`, `listen`). The primary action sits where the category demands it (in the hero, sticky, or beside the core offering). The page concludes on its native operational goal, strictly rejecting the lazy reflex of placing an email signup form at the foot of pages where a newsletter is not the core medium.
+2. **The Twenty-One Macrostructural Archetypes**:
+   Rather than repeating uniform card grids, layouts draw from twenty-one distinct macrostructures (such as _Workbench, Manifesto, Bento Grid, Long Document, Split Studio, Specimen, Stat-Led, Index-First, Feature Stack_). Freshness and diversity stem from varied spatial rhythms and authentic material proofs.
+3. **The Editorial Swap Test & Word Budgets**:
+   Copy is an architectural material, not marketing filler. Every headline must pass the Swap Test: if a competitor's name can be substituted without sounding incongruous, the copy is rejected and rewritten with concrete, domain-specific nouns and verified metrics. Fullness is achieved through typographic authority and interactive mass within a strict word budget ($\le 80$ words per screen, $\le 450$ words for complete pages).
 
 ---
 

@@ -80,6 +80,14 @@ When evaluating or generating UI, **strictly refuse** the following AI cliches:
 | **Continuous Non-Resting Kinetic Loops**                      | Animating telemetry indicators in endless 0%-to-100% cycles without a resting window. Destroys readability and eliminates contrast headroom.                                                                                                                    | Enforce the **Kinetic Cadence & Resting Plateau Invariant**: at least 60% of the loop duration must rest at `opacity: 0` so the indicator displays in its calm, light, legible normal state between physical impulses.                                                                                                  |
 | **Non-Compositor Layout & Filter Keyframes**                  | Animating `top`, `left`, `margin`, or `filter: drop-shadow` in continuous loops. Triggers document-wide layout reflows and invalidates `backdrop-filter` sampling buffers on sticky/fixed glass surfaces (causing navbar and floating button flicker).          | Animate exclusively compositor properties (`transform`, `opacity`) paired with `transform-gpu` and `will-change-transform`. Promote floating glass surfaces to dedicated hardware layers using `transform: translateZ(0)` and `isolation: isolate`.                                                                     |
 | **Indicator Data Cramming**                                   | Squeezing multi-character data strings, currency pairs, or raw emojis into a 28px indicator circle.                                                                                                                                                             | Indicators are structural punctuation (status, sequence, progress, actor identity). Operational telemetry belongs in the adjacent content area or badge chip.                                                                                                                                                           |
+| **AI Rebuttal Cadence**                                       | Pseudo-poetic synthetic phrasing (_"Not a tool. A revolution."_, _"Not just software. An experience."_). Unmistakable hallmark of generative models.                                                                                                            | State directly what the product executes using concrete domain nouns and active verbs.                                                                                                                                                                                                                                  |
+| **Generic Situational Openers**                               | Lazy contextual filler (_"Built for the modern team"_, _"In today's fast-paced digital landscape"_, _"Whether you're an X or a Y"_).                                                                                                                            | Lead immediately with the primary user capability, operational workflow, or concrete system metric.                                                                                                                                                                                                                     |
+| **AI Buzzword Soup**                                          | Inflationary buzzwords (_seamless, robust, empower, supercharge, elevate, effortless, unlock, unleash, next-generation, world-class, best-in-class, mission-critical, future-proof, game-changer, journey, reinvent, reimagined_).                              | Ban buzzwords outright. Describe verifiable mechanics, numerical performance, or physical architecture.                                                                                                                                                                                                                 |
+| **Template Punctuation & Meta-Dot Clutter**                   | Joining metadata strings with middle dots (`A · B · C`), gluing decorative arrows to action labels (`Learn more →`), or using status dots before non-telemetry text.                                                                                            | Use semantic borders, column divisions, hairline rules, or dedicated operational status badges.                                                                                                                                                                                                                         |
+| **The Fake Form Send & Mock Success**                         | Form controls printing synthetic confirmation ("Sent!", "You're on the list!") with zero operational endpoint or network request behind them.                                                                                                                   | Leave endpoint unconfirmed or wire to genuine handlers; never simulate artificial success states.                                                                                                                                                                                                                       |
+| **Mock Browser Divs & Fake Product Screenshots**              | Drawing simulated browser title bars with traffic-light circles or OS chrome using styled `div`s.                                                                                                                                                               | Render the real working component fixture inside a clean frame or capture genuine application screenshots.                                                                                                                                                                                                              |
+| **Hallucinated Brand Tokens**                                 | Guessing brand hex values or typefaces from generative LLM training memory. Model memory is confidently wrong.                                                                                                                                                  | Inspect live stylesheets, design tokens, or require explicit user confirmation.                                                                                                                                                                                                                                         |
+| **Unstable Helper & Error Slots**                             | Form descriptions and validation messages without reserved height, causing vertical layout jumps on toggle.                                                                                                                                                     | Enforce `min-h-[1lh]` on all helper text and error message slots to preserve vertical baseline stability.                                                                                                                                                                                                               |
 
 ---
 
@@ -436,6 +444,143 @@ In this design system, gradients are strictly engineered through physical optics
    ```
 
 ---
+
+## 🏛️ The Twenty-One Anti-Convergence Macrostructural Archetypes
+
+When constructing full-page layouts, showcase views, and marketing surfaces, agents must reject the single generic generative AI reflex: a split hero image, three identical icon-above-heading card columns, numbered process steps, pricing cards, and an email input band above a generic four-column footer.
+
+Instead, every screen must adopt an explicit, intentional macrostructural archetype suited to the content:
+
+1. **Bento Grid**: Asymmetric modular hierarchy with varied container dimensions and row spans. Visual rhythm stems from intentional scale contrast rather than uniform card repetition.
+2. **Long Document**: Continuous editorial prose structure resembling an authoritative whitepaper, memo, or journal. Section titles sit inline with the text flow rather than isolated marketing headers.
+3. **Marquee Hero**: Expansive full-viewport statement or singular primary graphic above the fold ($1440 \times 900$). Below the fold, the layout transitions immediately into structured lists or high-density indices.
+4. **Stat-Led**: A single verified, authentic metric anchored at graphic scale with its qualitative explanation directly beneath. All supporting content qualifies or elaborates this primary proof.
+5. **Workbench**: Guided exploration of the software in active use. Primary real estate is allocated to authentic interactive component fixtures and genuine UI captures with concise technical annotations.
+6. **Conversational FAQ**: Inverted interrogative structure addressing operational questions, technical constraints, and genuine objections directly, using clean disclosure triggers.
+7. **Manifesto**: Bold typographic conviction establishing philosophy and architectural principles before presenting operational details.
+8. **Photographic**: Full-bleed authentic visual immersion with minimalist typographic captions and hairline dividers.
+9. **Quote-Led**: Verified external quotation with exact attribution acting as the primary headline, letting an authentic stakeholder voice introduce the system.
+10. **Specimen**: High-refinement typographic editorial layout with asymmetric column spans, hairline rules, generous margins, and deliberate whitespace.
+11. **Catalogue**: High-density uniform index displaying variations of inventory, design tokens, or primitives with tabular specifications.
+12. **Letter**: First-person narrative from the creator or engineering team, framed with personal address and signature closure.
+13. **Index-First**: Directory-driven navigational architecture where dense structured rows and metadata form the primary visual surface.
+14. **Narrative Workflow**: Chronological process timeline mapping human progress through discrete, authentic phases.
+15. **Split Studio**: Strict asymmetric diptych dividing the viewport; one column maintains editorial argument while the opposite column delivers corresponding technical proof.
+16. **Feature Stack**: Sticky vertical left rail anchoring section context while the right column scrolls through synchronised interactive fixtures or captures.
+17. **Type Specimen**: Dedicated typographic showcase celebrating character sets, optical weights, and tabular figures.
+18. **Portfolio Grid**: Dynamic filterable matrix of completed projects, case studies, or design artifacts.
+19. **Map / Diagram**: Spatial architecture driven by an expansive node-link graph, pipeline flowchart, or system schema.
+20. **Ecosystem Index**: Multi-surface discovery architecture prioritising browsing, taxonomy tags, and search filtering over static declaration.
+21. **Component Playground**: Interactive code-and-preview fixtures where live controls, properties, and copy buttons form the core content.
+
+---
+
+## 🎯 Category Intent & The Ten Visitor Jobs
+
+Layout architecture must be derived directly from what the human visitor came to accomplish. The category job determines where the primary action sits, which sections are native, and how the layout concludes:
+
+1. **`subscribe` (Newsletter, Dispatch, Release Feed)**:
+   - **Primary Action**: Positioned directly in the hero block, often forming the hero itself alongside the latest edition.
+   - **Native Sections**: Sample dispatch or latest release notes; archive directory; editorial byline.
+   - **Closure**: Secondary archive exploration or footer link. This is the only category where an email input close is native.
+2. **`book` (Studio, Clinic, Workshop, Consultation)**:
+   - **Primary Action**: Direct booking picker (date, time, party) in the hero and navigation bar, repeated beside the core offering.
+   - **Native Sections**: High-fidelity environmental photography; itemised menu or schedule with verified pricing; location and operating hours.
+   - **Closure**: Practical address, operating hours, and instant reservation trigger.
+3. **`visit` (Exhibition, Venue, Physical Archive)**:
+   - **Primary Action**: Current operating hours and physical address in the hero or navigation.
+   - **Native Sections**: Current exhibition lead visual; upcoming dated calendar; transit and access guide.
+   - **Closure**: Practical access guide and transit directions.
+4. **`attend` (Conference, Symposium, Festival)**:
+   - **Primary Action**: Direct ticket reservation in the navigation and hero; date and venue form the headline.
+   - **Native Sections**: Chronological schedule index; speaker or participant roster; ticket tiers with plain terms.
+   - **Closure**: Registration confirmation and travel logistics.
+5. **`buy` (Physical Goods, Crafted Objects)**:
+   - **Primary Action**: The item itself with price, variants, and direct purchase control in the hero or sticky rail.
+   - **Native Sections**: Macro detail photography; craft methodology; material specifications; dispatch and return terms.
+   - **Closure**: Purchase trigger or guarantee specifications. Never close with an email newsletter banner.
+6. **`try` (Native Application, Desktop Utility)**:
+   - **Primary Action**: Direct platform download triggers immediately beneath the lead value statement.
+   - **Native Sections**: Working application captured in active state; key workflow moments; platform compatibility matrix.
+   - **Closure**: Download trigger paired with release version.
+7. **`sign up` (Developer Tool, Infrastructure, API Platform)**:
+   - **Primary Action**: Immediate terminal installation command or direct authentication trigger.
+   - **Native Sections**: Interactive code fixtures and terminal workflows; architectural diagrams; transparent pricing matrix.
+   - **Closure**: Installation command repetition or technical documentation link. Never close with an email newsletter.
+8. **`hire` (Engineering Practice, Architecture Atelier)**:
+   - **Primary Action**: Direct communication link (email, phone, direct enquiry trigger) in navigation and footer.
+   - **Native Sections**: Chronological case study index (project, client, year, outcome); technical methodology; studio locations.
+   - **Closure**: Direct contact coordinates.
+9. **`join` (Guild, Collective, Membership Cohort)**:
+   - **Primary Action**: Application or induction registration in the hero.
+   - **Native Sections**: Real session previews; calendar timetable; transparent tier contributions; onboarding guide.
+   - **Closure**: Induction registration or tier overview.
+10. **`listen` (Publication, Broadcast, Audio Library)**:
+    - **Primary Action**: Current release with embedded audio playback controls.
+    - **Native Sections**: Track directory and timestamps; production credits; upcoming tour or broadcast dates.
+    - **Closure**: Release directory or performance schedule.
+
+---
+
+## ✍️ Editorial Cadence, Copy Hygiene & The Swap Test
+
+Copy is an intrinsic architectural material of the interface. When text sounds like generic marketing boilerplate, the integrity of the design collapses.
+
+### 1. The Editorial Swap Test
+
+Every headline, value claim, and section title must pass the **Swap Test**:
+
+- Take the headline and substitute the name of a direct competitor.
+- If the statement still reads as plausible and coherent, the headline has failed. It is generic fluff.
+- Rewrite the copy using concrete domain nouns, physical mechanisms, verified numbers, and operations unique to this system.
+
+### 2. Screen Word Budget Invariant
+
+Fullness and authority come from typographic weight, spatial scale, and authentic interactive mass, never from explanatory text walls:
+
+- **Hero Headline**: Maximum 7 words (50 characters).
+- **Hero Subtitle / Lead**: Maximum 12 words in a single sentence.
+- **Section Titles**: Maximum 6 words.
+- **Viewport Word Density**: Maximum 80 visible words within any single $1440 \times 900$ viewport.
+- **Full Page Total**: Maximum 450 visible words across a complete landing or marketing view.
+
+### 3. Banned AI Cadences & The Negative Copy Lexicon
+
+- **The Rebuttal Cadence**: Strictly ban pseudo-poetic contrasts (_"Not a tool. A revolution."_, _"Not just software. An experience."_). State what the tool does simply and directly.
+- **Generic Situational Openers**: Strictly ban lazy filler (_"Built for the modern team"_, _"In today's fast-paced digital landscape"_, _"Whether you're an X or a Y"_).
+- **Colon Titles**: Strictly ban formulaic colon titles (_"Focus: the app for..."_).
+- **Banned Buzzwords**: Strictly ban _seamless, robust, empower, supercharge, elevate, effortless, unlock, unleash, next-generation, world-class, best-in-class, industry-leading, mission-critical, future-proof, game-changer, journey, reinvent, reimagined_.
+- **Template Punctuation**: Strictly ban decorative middle-dot metadata chains (`A · B · C`), arrows glued to button labels (`Learn more →`), and decorative status dots before plain text. Use semantic borders, column divisions, or dedicated telemetry badges.
+
+---
+
+## 🛡️ Brand Truth, Factual Authenticity & Licenced Imagery
+
+1. **No Hallucinated Brand Assets ("Memory Hex = Fail")**:
+   Generative AI models consistently hallucinate brand colours and typefaces from statistical memory. Never guess brand hex codes or font stacks. Extract tokens mechanically from live stylesheets, design tokens, or explicit user specifications.
+2. **Factual Integrity & No Invented Telemetry**:
+   Never fabricate user testimonials, synthetic case studies, fictional client logo walls, or simulated uptime metrics (e.g. "99.9% uptime" or "trusted by 10,000+ teams" without real data). If metrics are absent, omit the section or render an explicit empty slot container with clear asset instructions.
+3. **Real Product Proof Over Mock Divs**:
+   Never render styled-div "mock interfaces" with fake browser title bars (traffic-light dots, synthetic URL pills) where a real screenshot or working interactive component fixture belongs.
+4. **Authentic Photography & Licencing Invariants**:
+   Stand-in photography must be authentically sourced from verified open-licence archives with explicit author attribution in the footer colophon. Strictly ban fake stock human portrait hotlinks or generic stock illustrations.
+
+---
+
+## 📐 Micro-Finish & Layout Stability Invariants
+
+1. **Form Helper & Error Slot Stability**:
+   Helper descriptions and validation error slots must declare `min-h-[1lh]` to preserve line-height baseline stability. This guarantees that when validation errors appear or disappear dynamically, adjacent form rows experience zero vertical layout shift.
+2. **Typographic Balance & Anti-Widow Invariant**:
+   All display headings (`h1`, `h2`, `h3`, `CardTitle`, `DialogTitle`) must declare `[text-wrap:balance]` to balance line lengths optically. Body copy and descriptions must declare `[text-wrap:pretty]` to prevent single-word stubs (widows) on trailing lines.
+3. **Container Capping at 1920px**:
+   At $1920 \times 1080$, content containers must remain capped (typically $1360\text{px}$ to $1440\text{px}$). Outer gutters expand smoothly while reading measure and grid track allocations remain bounded.
+4. **Browser Surface Theming Invariant**:
+   Every theme must explicitly style native browser surfaces: `::selection` (tinted primary ground with matching text), `caret-color` (primary brand accent), and custom theme-tinted scrollbars.
+
+---
+
+## 🛠️ The 7-Point Component Quality Checklist
 
 When creating any new component from scratch or auditing an existing one, run through this rigorous 7-point checklist:
 
