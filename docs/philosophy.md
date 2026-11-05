@@ -104,7 +104,7 @@ Apple's Human Interface Guidelines outline four fundamental human needs: **Safet
    - When data is loading, the interface must never twitch or jump. Structural skeletons hold the exact dimensions of the incoming content, guaranteeing visual stability.
    - Active processes announce themselves subtly (`aria-busy="true"`, tactile spinner), assuring the user that the system is working on their behalf.
 3. **Joy in the Micro-Details**:
-   - The delight of software does not come from confetti or playful mascots. It comes from the unexpected precision of a toggle that snaps into place with the exact resistance of an electric switch; a tab bar where the pill glides seamlessly beneath the selection; a dropdown that opens from its trigger rather than falling arbitrarily from the ceiling.
+   - The delight of software does not come from confetti or playful mascots. It comes from the unexpected precision of a toggle that snaps into place with the exact resistance of an electric switch; a tab bar where the pill glides fluidly beneath the selection; a dropdown that opens from its trigger rather than falling arbitrarily from the ceiling.
 
 ---
 

@@ -1,6 +1,6 @@
 # System Architecture
 
-This document describes the architectural philosophy, technical foundation, and directory organization of the design system.
+This document describes the architectural philosophy, technical foundation, and directory organisation of the design system.
 
 ---
 
@@ -31,7 +31,7 @@ This design system is constructed upon five core architectural pillars:
 
 ---
 
-## 📁 Repository Organization
+## 📁 Repository Organisation
 
 The repository enforces strict separation of concerns and file budgets (keeping source files under 250 lines):
 
@@ -89,21 +89,21 @@ Every complex interactive primitive delegates state, accessibility attributes, a
 - **Zero Style Presumptions**: Clean separation between DOM structure, accessible behavior, and visual presentation.
 - **WAI-ARIA Compliance**: Automatic management of `aria-expanded`, `aria-haspopup`, `aria-controls`, and `aria-selected`.
 - **Roving Tabindex**: Standardised keyboard navigation across menus, toolbars, tabs, and radio groups.
-- **Portal & Positioning**: Robust floating element positioning with collision detection and viewport flipping without manual coordinate calculations.
+- **Portal & Positioning**: Deterministic floating element positioning with collision detection and viewport flipping without manual coordinate calculations.
 
 ---
 
-## 🎨 2. Styling System & Perceptual Color Engine
+## 🎨 2. Styling System & Perceptual Colour Engine
 
 ### Tailwind CSS v4 `@theme inline`
 
 The design system adopts Tailwind CSS v4, utilizing CSS variables bound directly through the `@theme inline` directive in [`src/index.css`](src/index.css). This eliminates JavaScript-based theme configs and delivers instant styling compiles.
 
-### OKLCH Perceptual Color Space
+### OKLCH Perceptual Colour Space
 
-Traditional sRGB and HSL color models suffer from non-uniform perceived brightness, causing yellow to appear blindingly bright and blue to appear dark at identical lightness values.
+Traditional sRGB and HSL colour models suffer from non-uniform perceived brightness, causing yellow to appear blindingly bright and blue to appear dark at identical lightness values.
 
-We construct all design tokens in the **OKLCH** color space:
+We construct all design tokens in the **OKLCH** colour space:
 
 - **L (Lightness)**: Directly corresponds to human perceptual brightness.
 - **C (Chroma)**: Purity and saturation without clipping.

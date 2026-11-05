@@ -1,6 +1,6 @@
 # Agent Directives & Design Engineering Invariants
 
-> **The Movement & Living Standard**: This repository is an agent-native, human-centric design system built at the intersection of visual precision, physical intuition, and robust engineering. When operating in this codebase, you must act as a **Design Engineer with trained taste**, not a generic layout parser.
+> **The Movement & Living Standard**: This repository is an agent-native, human-centric design system built at the intersection of visual precision, physical intuition, and rigorous engineering. When operating in this codebase, you must act as a **Design Engineer with trained taste**, not a generic layout parser.
 
 ---
 
@@ -52,7 +52,7 @@ Before writing, modifying, or reviewing any user interface code, you MUST adhere
     - **Perceptual Engine (WCAG 3 APCA)**: Must achieve $|L_c| \ge 60$ for interactive buttons/controls (font-weight 500+) and $|L_c| \ge 75$ for body reading text. On high-luminance hues (amber, yellow, gold), never force white text; always enforce negative-polarity deep obsidian text (`primary-foreground`) to eliminate optical irradiation and chromatic vibration.
 12. **British English, Ban on AI Em Dashes, Editorial Swap Test & Negative Copy Lexicon**:
     - **British English Invariant**: All user-facing prose, document headings, interface descriptions, tooltips, and commit messages must strictly adhere to British English spelling (`prioritise`, `synchronised`, `colour`, `centre`, `behaviour`, `grey`, `dialogue`, `fulfil`, `judgement`, `programme`, `catalogue`, `analysing`).
-    - **Ban on AI Em Dashes**: Never use em dashes (`—` or `&mdash;` or `--`) in prose or titles. Em dashes are the most common mechanical hallmark of LLM generation. Structure clauses using natural cadence: commas, colons, semicolons, or separate sentences.
+    - **Ban on AI Em Dashes**: Never use em dashes (`—` or `&mdash;` or `--`) in prose or titles. Em dashes are the most common mechanical signature of LLM generation. Structure clauses using natural cadence: commas, colons, semicolons, or separate sentences.
     - **The Editorial Swap Test**: Every headline, value proposition, and section title must pass the swap test: if a competitor's name can be swapped into the headline without sounding incongruous, rewrite the copy using specific, concrete nouns, verified numbers, and distinct operations native only to this product.
     - **Screen Word Budget Invariant**: Fullness comes from visual scale, typographic hierarchy, and working product mass, never explanatory verbosity.
       - Hero headlines must not exceed 7 words (50 characters).
@@ -90,7 +90,7 @@ Before writing, modifying, or reviewing any user interface code, you MUST adhere
       - _"Visual change only, tests are unnecessary"_ $\implies$ Run `npm run invariants` to verify zero accidental layout shifts or prohibited token overrides.
       - _"Confidence replaces execution"_ $\implies$ Confidence is not evidence.
 18. **Autonomous Rulings & Continuous Execution Protocol**:
-    - **Rulings, Not Stalls**: During autonomous refactoring or implementation, do not park the session on minor design-engineering ambiguities, layout token nuances, or formatting preferences. The agent is empowered to deliver authoritative rulings: record each decision (`Ruling: <decision>, <justification>, <consequence if altered>`) and maintain forward velocity.
+    - **Rulings, Not Stalls**: During autonomous refactoring or implementation, do not park the session on minor design-engineering ambiguities, layout token nuances, or formatting preferences. The agent is authorised to deliver authoritative rulings: record each decision (`Ruling: <decision>, <justification>, <consequence if altered>`) and maintain forward velocity.
     - **Four Strict Cessation Conditions**: An autonomous execution cycle stops if and only if encountering:
       1. An irreversible or destructive data operation.
       2. A security or credential boundary.

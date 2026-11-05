@@ -31,23 +31,23 @@ Place this script tag in your document `<head>` or inject dynamically:
 
 ```html
 <script type="speculationrules">
-{
-  "prerender": [
-    {
-      "where": {
-        "and": [
-          { "href_matches": "/*" },
-          { "not": { "href_matches": "/api/*" } },
-          { "not": { "href_matches": "/auth/*" } },
-          { "not": { "href_matches": "/checkout/*" } },
-          { "not": { "href_matches": "/*logout*" } },
-          { "not": { "selector_matches": "[data-no-prerender]" } }
-        ]
-      },
-      "eagerness": "moderate"
-    }
-  ]
-}
+  {
+    "prerender": [
+      {
+        "where": {
+          "and": [
+            { "href_matches": "/*" },
+            { "not": { "href_matches": "/api/*" } },
+            { "not": { "href_matches": "/auth/*" } },
+            { "not": { "href_matches": "/checkout/*" } },
+            { "not": { "href_matches": "/*logout*" } },
+            { "not": { "selector_matches": "[data-no-prerender]" } }
+          ]
+        },
+        "eagerness": "moderate"
+      }
+    ]
+  }
 </script>
 ```
 
@@ -60,7 +60,7 @@ Place this script tag in your document `<head>` or inject dynamically:
 
 ## 🎬 2. Native View Transitions API
 
-Provide seamless app-like transitions between pages and states without bloated JavaScript SPA transition libraries.
+Provide fluid, app-like transitions between pages and states without bloated JavaScript SPA transition libraries.
 
 ### Cross-Document Navigation (CSS)
 
@@ -117,6 +117,7 @@ Cache-Control: public, s-maxage=60, stale-while-revalidate=86400
 
 > [!CAUTION]
 > **The SWR Exclusion Law**: Never apply `stale-while-revalidate` to:
+>
 > - Account balances or billing checkout totals
 > - Real-time seat reservations / inventory availability
 > - Authentication tokens, CSRF tokens, or user session profiles
@@ -128,6 +129,7 @@ Cache-Control: public, s-maxage=60, stale-while-revalidate=86400
 On iPhone, iPad, and modern Android flagships, the notch, Dynamic Island, and bottom home swipe indicator occlude edge content if unconfigured.
 
 ### 1. Viewport Meta Configuration
+
 Always include `viewport-fit=cover` in `index.html`:
 
 ```html
@@ -138,13 +140,17 @@ Always include `viewport-fit=cover` in `index.html`:
 
 ```html
 <!-- Fixed Mobile Header -->
-<header class="fixed top-0 inset-x-0 pt-[env(safe-area-inset-top,0px)] bg-background/80 backdrop-blur-md z-40">
-  <div class="h-14 px-4 flex items-center">...</div>
+<header
+  class="fixed inset-x-0 top-0 z-40 bg-background/80 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md"
+>
+  <div class="flex h-14 items-center px-4">...</div>
 </header>
 
 <!-- Bottom Navigation / Floating Sheets -->
-<nav class="fixed bottom-0 inset-x-0 pb-[env(safe-area-inset-bottom,0px)] bg-background/80 backdrop-blur-md z-40">
-  <div class="h-16 px-4 flex items-center justify-around">...</div>
+<nav
+  class="fixed inset-x-0 bottom-0 z-40 bg-background/80 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-md"
+>
+  <div class="flex h-16 items-center justify-around px-4">...</div>
 </nav>
 ```
 
@@ -157,10 +163,7 @@ Prevent double charges, duplicate records, or ghost deployments during network t
 ### Client Implementation Contract
 
 ```ts
-export async function sendIdempotentRequest(
-  url: string,
-  options: RequestInit = {}
-) {
+export async function sendIdempotentRequest(url: string, options: RequestInit = {}) {
   // Generate RFC 4122 v4 UUID
   const idempotencyKey = crypto.randomUUID();
 
@@ -191,14 +194,9 @@ export function AspectImage({ src, alt, aspectRatio = "16/9", blurhash, classNam
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   return (
-    <div
-      className={cn("relative overflow-hidden bg-muted", className)}
-      style={{ aspectRatio }}
-    >
+    <div className={cn("relative overflow-hidden bg-muted", className)} style={{ aspectRatio }}>
       {/* Optional ThumbHash / BlurHash SVG canvas */}
-      {!isLoaded && (
-        <div className="absolute inset-0 animate-pulse bg-muted/80" />
-      )}
+      {!isLoaded && <div className="absolute inset-0 animate-pulse bg-muted/80" />}
       <img
         src={src}
         alt={alt}

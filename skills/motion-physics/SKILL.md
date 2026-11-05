@@ -166,7 +166,7 @@ All transient surfaces must animate both their entry (`starting-style`) and exit
 
 ### 4. Sliding Indicator / Tabs:
 
-- Use `layoutId="active-indicator"` in `motion/react` so the visual pill glides seamlessly between active items with zero manual coordinate math:
+- Use `layoutId="active-indicator"` in `motion/react` so the visual pill glides fluidly between active items with zero manual coordinate math:
 
 ```tsx
 import * as React from "react";
