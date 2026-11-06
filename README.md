@@ -2,7 +2,7 @@
 
 > A human-centric, agent-native design system built with **React 19**, **Base UI (`@base-ui/react`)**, **Tailwind CSS v4**, and **Motion (`motion/react`)**.
 >
-> Crafted at the intersection of visual precision, tactile physics, and zero-shift layout stability. 100% accessible (WCAG 2.2 AA / AAA), copy-paste friendly, with zero heavy npm package lock-in.
+> Crafted at the intersection of visual precision, tactile physics, and mathematical layout stability. 100% accessible (WCAG 2.2 AA / AAA), copy-paste friendly, with zero heavy npm package lock-in.
 
 <p align="center">
   <img src="docs/assets/workbench-hero.png" alt="Antigravity Design System Workbench" width="100%" />
@@ -10,203 +10,166 @@
 
 ---
 
-## 🚀 60-Second Quick Start (Explore the Interactive Demo)
+## 🏛️ The Manifesto: The Art of Human Software
 
-If you have Node.js installed, you can launch the living interactive workbench right now:
+### Prologue: Beyond the Robotic Average
 
-```bash
-# 1. Clone this repository
-git clone https://github.com/WDibble/design-system.git
-cd design-system
+Generative AI models assemble interfaces the way a compiler parses an abstract syntax tree: mathematically, defensively, and without feeling. They calculate the statistical average of the internet. The average of the internet is a blue-to-purple gradient, three identical cards with generic icons, a kicker label shouting above a heading, and linear transitions that stop abruptly like a stalled engine.
 
-# 2. Install dependencies
-npm install
+This is not design; this is visual assembly.
 
-# 3. Start the local dev server
-npm run dev
-```
+**Design is an art form.** It is the disciplined intersection of human psychology, physical intuition, typographic harmony, and kinetic grace. Software is not merely a tool to manipulate a database: it is a sensory environment where people spend hours of their lives thinking, creating, communicating, and building.
 
-Open [`http://localhost:5173`](http://localhost:5173) in your browser. You will see all 51 primitives, the real-time Theme Studio (⌘T), 470+ kinetic animated icons, and living interactive state transitions.
-
-To verify TypeScript, invariants, and bundle a production build:
-
-```bash
-npm run check
-```
+This design system is a manifesto against apathy in software. It is a codified standard that teaches both humans and autonomous agents how to craft software that feels alive, intentional, and deeply respectful of the human on the other side of the glass.
 
 ---
 
-## 👶 Day 1 with React? Start Here!
+### The Six Tenets of Human-Centric Craft
 
-Welcome to React! If you have never used a component library before, do not worry. This design system does not require complex configurations or black-box npm packages. You own the code.
-
-### What is a "Component"?
-
-In React, a component is like a custom LEGO brick. Instead of writing raw HTML `<button class="...">` with hundreds of styling classes everywhere, you simply import `<Button>` and use it:
-
-```tsx
-import { Button } from "@/components/ui/button";
-
-export default function MyFirstApp() {
-  return (
-    <div className="flex gap-3 p-8">
-      <Button variant="default">Get Started</Button>
-      <Button variant="outline">Learn More</Button>
-    </div>
-  );
-}
 ```
+                      ┌────────────────────────┐
+                      │      THE HUMAN EYE     │
+                      │   (Spatial & Typo)     │
+                      └───────────┬────────────┘
+                                  │
+         ┌────────────────────────┼────────────────────────┐
+         │                        │                        │
+         ▼                        ▼                        ▼
+┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+│  PHYSICAL TRUTH  │    │ RADICAL RESTRAINT│    │ EMOTIONAL DIGNITY│
+│ (Kinetic & Touch)│    │ (Quiet Chrome)   │    │ (Reassurance)    │
+└──────────────────┘    └──────────────────┘    └──────────────────┘
+                                  │
+         ┌────────────────────────┴────────────────────────┐
+         │                                                 │
+         ▼                                                 ▼
+┌──────────────────┐                              ┌──────────────────┐
+│ ANTI-SLOP CRAFT  │                              │ INTENT ANATOMY   │
+│ (9-State Matrix) │                              │ (Anti-Template)  │
+└──────────────────┘                              └──────────────────┘
+```
+
+#### 1. Physical Truth (Kinetic Intuition)
+
+In the real world, no object teleports. Nothing appears from a mathematical zero. Nothing moves at a constant, linear speed and then halts without momentum.
+
+When software ignores physics, the subconscious mind registers a micro-dissonance. The user does not know why, but the software feels stiff, synthetic, or disconnected.
+
+- **Calibrated Springs**: Movement carries weight and elasticity. We reject arbitrary duration timers (`300ms ease-in-out`). Everything moves via calibrated springs with mass, stiffness, and damping (`springs.tactile`, `springs.snappy`, `springs.squishy`).
+- **Direct Physical Yield on `pointerdown`**: When you press a key on a grand piano or the mechanical shutter of a camera, the mechanism yields beneath your finger the exact millisecond pressure is applied. Buttons and interactive surfaces must yield on `pointerdown`, compressing slightly (`scale(0.97)` to `0.98`) to acknowledge human contact instantly. Waiting for `click` (finger release) betrays tactile trust.
+- **Interruptibility as Respect**: The human mind moves quickly. If a user swipes a sheet or dismisses a dialog while it is mid-flight, the interface must allow them to catch it, redirect it, or fling it back. Software that locks the screen while an animation finishes treats the human as an observer rather than a pilot.
+
+#### 2. The Quiet Chrome (Radical Restraint)
+
+A gallery does not paint bright neon arrows pointing to a painting. The gallery walls are quiet, neutral, and lit with care so the work itself can speak.
+
+Most modern web applications suffer from visual screaming: cards nested inside cards, bordered by saturated outlines, floating on drop shadows, capped with kicker tags, and illuminated with neon halos.
+
+Our philosophy demands **quiet chrome**:
+
+- **Cards as a Last Resort**: Grouping is achieved through spatial proximity, typography, and baseline rhythm before reaching for a rectangular box.
+- **Depth Without Decoration**: Shadows represent directional physical light. A subtle 1px optical inner highlight reflects physical reality far more truthfully than a fuzzy neon glow.
+- **Zero Decorative Slop**: Background grids, diagonal stripes, and artificial blur layers are avoided unless they serve a functional spatial anchor. Let surfaces be calm.
+
+#### 3. Typographic Decorum & Spatial Rhythm
+
+Whitespace is not empty screen estate waiting to be filled with features: whitespace is breathing room for the human brain.
+
+- **Typographic Authority**: Type is the voice of the software. If every heading is accompanied by an uppercase kicker, a badge, and an exclamation, the software is shouting. We ban section eyebrows by default. Headings command presence through weight, optical scale, and natural tracking (`-0.02em` to `-0.04em`).
+- **Reading Measure**: Body prose is constrained to `65–75ch` with balanced text wrap (`[text-wrap:pretty]`) so the human eye never loses its place at line breaks.
+- **Tabular Numerals**: Numbers and metrics declare tabular figures (`tabular-nums`). Numbers that jitter horizontally when incrementing undermine craftsmanship.
+
+#### 4. Emotional Dignity (Safety, Reassurance, and Joy)
+
+Human beings interact with software through fundamental emotional needs: safety, understanding, and confidence.
+
+- **Safety and Forgiveness**: Destructive actions demand tactile friction (`AlertDialog`), clear undo states, and explicit semantic signalling. An interface must never punish a user for a mistake. Error messages state reality without condescension, position themselves directly where the action occurred, and offer an immediate path to recovery.
+- **Reassurance in the Void**: When data is loading, the interface must never twitch or jump. Structural skeletons preserve the exact dimensions of incoming content, preventing cumulative layout shift.
+- **Joy in the Micro-Details**: Software delight does not come from confetti or playful mascots. It comes from the mechanical certainty of a toggle snapping into place with tactile resistance, a tab bar where the pill glides fluidly beneath the selection, or a dropdown that emerges from its trigger rather than falling arbitrarily from the ceiling.
+
+#### 5. The Anti-Slop Conviction (Teaching AI Human Taste)
+
+When AI writes code, it defaults to the middle of the bell curve. It regurgitates boilerplate because it lacks eyes, hands, and physical intuition.
+
+To make this design system an engine that produces living craft rather than synthetic boilerplate:
+
+- **Negative Constraints are as Vital as Positive Directives**: We do not just describe what to build; we explicitly forbid the lazy reflexes of generative models.
+- **The Mandatory 9-State Interactive Matrix**: Every interactive primitive must handle resting, hover, active compression, focused, focus-visible, selected/pressed, disabled, loading, and success states.
+- **Strict Compositor Purity**: Transitions animate exclusively compositor properties (`transform`, `opacity`) paired with GPU acceleration. Animating layout dimensions or CPU paint filters that flicker ancestor backdrop blurs is strictly prohibited.
+
+#### 6. Intent-Driven Macrostructures & Anti-Convergence Architecture
+
+Layout must emerge directly from human purpose rather than generative convenience. Standard generative AI outputs converge on the same monotonous template: a split hero with an abstract illustration, three identical icon-above-heading card columns, numbered process steps, pricing cards, and an email banner above a boilerplate footer.
+
+We dismantle this template through three core disciplines:
+
+- **Category Intent and the Visitor's Job**: A page is built around what the human visitor came to accomplish (`subscribe`, `book`, `visit`, `attend`, `buy`, `try`, `sign up`, `hire`, `join`, `listen`). The primary action sits where the category demands it: in the hero, sticky, or beside the core offering. The page concludes on its native operational goal, strictly rejecting the lazy reflex of placing an email signup form at the foot of pages where a newsletter is not the core medium.
+- **The Twenty-One Macrostructural Archetypes**: Rather than repeating uniform card grids, layouts draw from twenty-one distinct macrostructures (such as _Workbench, Manifesto, Bento Grid, Long Document, Split Studio, Specimen, Stat-Led, Index-First, Feature Stack_). Diversity stems from varied spatial rhythms and authentic material proofs.
+- **The Editorial Swap Test & Word Budgets**: Copy is an architectural material, not marketing filler. Every headline must pass the Swap Test: if a competitor's name can be substituted without sounding incongruous, the copy is rewritten with concrete, domain-specific nouns and verified metrics. Fullness is achieved through typographic authority and interactive mass within a strict word budget ($\le 80$ words per screen, $\le 450$ words for complete pages).
 
 ---
 
-## 📋 How to Add These Components to Your Own Project
+## ⚡ The Eighteen Non-Negotiable Directives
 
-Whether you are using **Next.js (App Router / Pages)**, **Vite**, **Remix**, or **Astro**, here is the 4-step guide to dropping any component into your project:
+Every line of code and component in this repository enforces these eighteen codified invariants:
 
-### Step 1: Install the Dependencies
-
-In your project folder, open your terminal and install these helper packages:
-
-```bash
-npm install @base-ui/react motion clsx tailwind-merge class-variance-authority lucide-react
-```
-
-| Package                    | What it does                                                                                    |
-| :------------------------- | :---------------------------------------------------------------------------------------------- |
-| `@base-ui/react`           | Accessible, headless primitives (menus, popovers, dialogs, sliders) by the creators of Base UI. |
-| `motion`                   | Apple HIG fluid spring physics for smooth presses, sliding tabs, and enters.                    |
-| `class-variance-authority` | Manages component variants (e.g. `variant="default" \| "outline" \| "destructive"`).            |
-| `clsx` & `tailwind-merge`  | Safely combines Tailwind CSS classes without style conflicts.                                   |
-| `lucide-react`             | Clean, modern vector icons.                                                                     |
-
----
-
-### Step 2: Add the Two Helper Files
-
-Every component uses two tiny helper files. Copy them into your project:
-
-#### 1. Class Utility (`src/lib/utils.ts`)
-
-Creates the `cn()` helper used to merge Tailwind classes cleanly:
-
-```ts
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-```
-
-#### 2. Motion Physics Constants (`src/tokens/motion.ts`)
-
-Contains the calibrated Apple HIG spring physics settings:
-
-```ts
-export const springs = {
-  tactile: { type: "spring", stiffness: 600, damping: 30, mass: 0.8 },
-  dialog: { type: "spring", stiffness: 350, damping: 35, mass: 1.0 },
-  snappy: { type: "spring", stiffness: 550, damping: 35, mass: 0.6 },
-  micro: { type: "spring", stiffness: 700, damping: 40 },
-  squishy: { type: "spring", stiffness: 420, damping: 24, mass: 0.8 },
-} as const;
-```
+1. **Physical Yield on `pointerdown`**: Interactive controls compress (`scale(0.97)` to `0.98`) the millisecond touch or mouse down occurs. Never wait for pointer release (`click`).
+2. **Zero Layout Shifts**: Dynamic states (`hover`, `focus`, `active`, `selected`, `pressed`) never alter `border-width`, `font-weight`, `letter-spacing`, `margin`, or `padding`. Outline states alter colour only (`border border-transparent` base). Selection is signalled via background pills or indicators; never by switching font weight or tracking.
+3. **Tabular Numerals**: All counters, prices, timestamps, metrics, and data tables declare `font-variant-numeric: tabular-nums` (`tabular-nums`) to prevent horizontal digit jitter.
+4. **Accessible Invariants**: 100% WCAG 2.2 AA / AAA compliance. Every icon-only button carries an explicit `aria-label`. Dialogs trap focus, maintain focus guards, and dismiss on `Escape`.
+5. **Quiet Chrome & Anti-Pill Proliferation**: Avoid the reflex of placing everything in bordered cards. Rely first on spatial rhythm, typographic hierarchy, and baseline alignment. Decorative eyebrow pills above headings are strictly banned. Badges and pills are reserved exclusively for functional operational telemetry.
+6. **Concentric Corner Radii**: Nested rounded surfaces compute their inner curve mathematically: $R_{\text{inner}} = \max(0, R_{\text{outer}} - \text{Padding})$ to eliminate bulging, lumpy corners.
+7. **Anti-Crush Responsive Page Architecture**: Minimum viable column width ($W_{\text{col}} \ge 340\text{px}$). All badges, chips, and pills declare `shrink-0 whitespace-nowrap`. Primary navigation titles, dropdown menu labels, and command palette items must never truncate primary text labels, maintaining `whitespace-nowrap font-semibold` with wrapping badge clusters and minimum column widths ($W_{\text{col}} \ge 220\text{px}$).
+8. **Reversible Kinetic Affordances (No Gimmick Icon Animation)**: Icons only animate if they have a reversible mechanical affordance that glides back to its resting origin on pointer leave (such as sliding filter knobs, gliding paper plane, separating sheets). Confirmation and operational icons (`+`, `-`, `✓`, `→`) remain static by default.
+9. **Component Dimension Invariants & Atomic Class Collision Defence**: Never merge multi-axis shorthand utilities (`size-full`, `p-0`) after single-axis variant sizes (`h-9`, `px-4`) inside `cn()` / `twMerge()`. Preview fixtures center components along the vertical cross-axis without arbitrary conflicting `min-h-[...]` values.
+10. **Component-Unified Kinetic Affinity & Optical Icon Proportion**: Icons inside interactive components trigger synchronously with the parent component on hover, press, or focus (`group-hover`/`group-active`). Always pass an explicit `size={...}` parameter matching the container optical target (40% to 50% container height).
+11. **Perceptual Gradient Engineering & Dual-Engine Contrast**: Neon gradient text is strictly banned. All CSS gradient ramps interpolate in modern perceptual colour spaces (`linear-gradient(in oklch, ...)`). Text and interactive boundaries satisfy both WCAG 2.2 Level AA ($\ge 4.5:1$) and WCAG 3 APCA ($|L_c| \ge 60/75$).
+12. **British English, Ban on AI Em Dashes, Editorial Swap Test & Negative Copy Lexicon**: All prose and interface text strictly adheres to British English spelling (`prioritise`, `synchronised`, `colour`, `centre`, `behaviour`, `grey`, `dialogue`, `fulfil`, `judgement`). Never use em dashes in prose or titles. Eliminate generic buzzwords (_seamless, robust, empower, supercharge, elevate, effortless, unlock, unleash_).
+13. **Origin Anonymity & Self-Contained Integrity**: Present all architectures, primitives, tokens, and guidelines as autonomous, self-contained standards of this design system.
+14. **Telemetry Indicator & Kinetic Cadence Invariant**: Kinetic status beacons maintain an optically light, quiet resting state (`bg-background`, soft perimeter border, zero static halo blobs). Pulsing keyframes enforce a periodic resting window ($\ge 60\%$ of cycle duration at `opacity: 0`). Keyframes animate exclusively compositor properties (`transform`, `opacity`) with `transform-gpu` and `will-change-transform`.
+15. **Brand Truth & Fact Integrity**: Models must never hallucinate brand hex values or typefaces from training memory. Fictional metrics, mock divs with synthetic browser chrome, and invented case studies are strictly banned.
+16. **Micro-Finish & Layout Stability**: Form helper and validation error slots declare `min-h-[1lh]` to preserve line-height baseline stability. Headings declare `[text-wrap:balance]` and prose enforces `[text-wrap:pretty]`. Containers cap at 1920px ($1360\text{px}$ to $1440\text{px}$ content width).
+17. **Evidence Before Assertions & Verification Gate**: Never declare work complete, fixed, clean, or passing without executing the fresh verification suite (`npm run check`) and confirming exit code 0 within the current interaction.
+18. **Autonomous Rulings & Continuous Execution Protocol**: Rulings over stalls. The agent delivers authoritative decisions on design-engineering ambiguities without parking the session, stopping only for destructive operations, security boundaries, or remote mutations.
 
 ---
 
-### Step 3: Add the Theme Colours to Your CSS (`src/index.css`)
+## 🎨 Living Visual Proof: Material & Spatial Precision
 
-Copy the theme tokens from [`src/index.css`](src/index.css) into your project's main stylesheet.
+Every visual surface in this repository is captured directly from the running production engine, demonstrating pure physical materials and optical calibration:
 
-These use modern perceptual **OKLCH colour spaces** and compile cleanly with standard design token architectures:
+### 1. Perceptual OKLCH Colour Engine & Dual-Engine Contrast
+
+All tokens interpolate in perceptual OKLCH color space, verified live against both WCAG 2.2 contrast ratios and WCAG 3 APCA perceptual lightness algorithms.
 
 <p align="center">
   <img src="docs/assets/theme-studio.png" alt="Interactive Theme Studio with OKLCH Calibration" width="100%" />
 </p>
 
-```css
-@import "tailwindcss";
+- **Liquid Glass Materials**: Real-time specular highlights (`backdrop-filter: blur(20px)`), 1px interior perimeter specular rim lighting (`inset 0 1px 0 rgba(255, 255, 255, 0.1)`), and dark mode ambient absorption.
+- **Automatic Polarity Flipping**: High-luminance hues (amber, yellow, gold) automatically enforce negative-polarity deep obsidian foreground text to eliminate optical irradiation.
 
-@layer base {
-  :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.54 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.985 0 0);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.5 0 0);
-    --radius: 0.625rem;
-  }
+### 2. Kinetic Vector Iconography (470+ Primitives)
 
-  .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.17 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --destructive: oklch(0.396 0.141 25.723);
-    --destructive-foreground: oklch(0.985 0 0);
-    --border: oklch(0.269 0 0);
-    --input: oklch(0.269 0 0);
-    --ring: oklch(0.58 0 0);
-  }
-}
-```
+Every icon features calibrated physical spring kinematics, reversible mechanical affordances, and zero stroke-erasure gimmicks.
 
-> **Using Tailwind CSS v3 instead of v4?**
-> If your project uses `tailwind.config.js`, simply map the colours under `theme.extend.colors`:
-> `colors: { primary: "var(--primary)", background: "var(--background)", ... }`.
+<p align="center">
+  <img src="docs/assets/icon-gallery.png" alt="Kinetic Vector Icon Directory" width="100%" />
+</p>
+
+- **Reversible Mechanics**: Icons glide, tilt, lift, or slide along physical mechanical paths and return smoothly to rest when pointer hover ends.
+- **Parent Lifecycle Binding**: Nested icons respond synchronously to parent control states (`group-hover`, `group-active`) with zero cursor boundary jitter.
 
 ---
 
-### Step 4: Copy Any Component and Use It!
+## 🤖 Agent-Native & Machine-Readable Standards
 
-Copy the component file you want from [`src/components/ui/`](src/components/ui/) into your project's `src/components/ui/` folder.
+This repository is built for autonomous agent workflows and developer tools:
 
-#### Example: Button with Loading and Success Feedback
-
-```tsx
-import { Button } from "@/components/ui/button";
-
-export function SubmitButton() {
-  return (
-    <Button variant="default" onClick={() => alert("Button clicked!")}>
-      Click Me
-    </Button>
-  );
-}
-```
-
-#### Example: Accessible Text Input with Label and Error
-
-```tsx
-import { Field, FieldLabel, FieldDescription, FieldError } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-
-export function EmailForm() {
-  return (
-    <Field>
-      <FieldLabel requiredIndicator>Work Email</FieldLabel>
-      <Input placeholder="you@company.com" type="email" />
-      <FieldDescription>We will send your account verification link here.</FieldDescription>
-    </Field>
-  );
-}
-```
+- **[`public/llms.txt`](public/llms.txt)**: Standard machine-readable agent index detailing core directives, the 51 primitives catalogue, and kinetic iconography guide.
+- **[`public/llms-full.txt`](public/llms-full.txt)**: Comprehensive single-file reference manual detailing OKLCH colour engine tokens, motion springs, liquid glass shaders, and component usage code snippets.
+- **[`public/registry.json`](public/registry.json)**: Machine-readable JSON component registry specifying file paths, variant lists, and package dependencies.
+- **[`skills/`](skills/)**: Codified agent instruction manuals covering [craft philosophy](skills/craft-philosophy/SKILL.md), [motion physics](skills/motion-physics/SKILL.md), [base UI primitives](skills/base-ui-primitives/SKILL.md), [semantic theming](skills/semantic-theming/SKILL.md), and [production deployment](skills/production-deployment/SKILL.md).
 
 ---
 
@@ -225,7 +188,7 @@ All components are located in [`src/components/ui/`](src/components/ui/) and exp
 | **`MarkdownToolbar`**  | [`src/components/ui/markdown-toolbar/`](src/components/ui/markdown-toolbar/)         | Modular rich-text formatting controls with list toggle logic and heading sanitisation.                                                              |
 | **`SegmentedControl`** | [`src/components/ui/segmented-control.tsx`](src/components/ui/segmented-control.tsx) | Sliding pill segmented toggle with layout animation and arrow key navigation.                                                                       |
 | **`CopyButton`**       | [`src/components/ui/copy-button.tsx`](src/components/ui/copy-button.tsx)             | Clipboard copy button with spring state morph (`"Copy"` to `"Copied!"`).                                                                            |
-| **`ThemeToggle`**      | [`src/components/ui/theme-toggle.tsx`](src/components/ui/theme-toggle.tsx)           | Turnkey dark/light mode toggle with transition flash suppression and localStorage synchronisation.                                                  |
+| **`ThemeToggle`**      | [`src/components/ui/theme-toggle.tsx`](src/components/ui/theme-toggle.tsx)           | Dark and light mode toggle with transition flash suppression and localStorage synchronisation.                                                      |
 | **`Toast`**            | [`src/components/ui/toast.tsx`](src/components/ui/toast.tsx)                         | Accessible notification toasts with undo action support and countdown dismissal.                                                                    |
 
 ### 2. Forms & Inputs
@@ -290,83 +253,162 @@ All components are located in [`src/components/ui/`](src/components/ui/) and exp
 | **`Timeline`**            | [`src/components/ui/timeline/`](src/components/ui/timeline/)                 | Modular telemetry and milestone timeline with status nodes and connecting stems.                      |
 | **`Tree`**                | [`src/components/ui/tree.tsx`](src/components/ui/tree.tsx)                   | Hierarchical directory and node tree with keyboard expanding and aria-level bindings.                 |
 
-### 6. Animated Kinetic Icons (470+ Icons)
+---
 
-All icons located in [`src/components/icons/`](src/components/icons/) feature reversible mechanical physics on hover/press with zero stroke-erasure gimmicks.
+## 🛠️ Workbench Quick Start & Integration Guide
 
-<p align="center">
-  <img src="docs/assets/icon-gallery.png" alt="Kinetic Vector Icon Directory" width="100%" />
-</p>
+All technical setup, development commands, and project integration steps are grouped here to preserve the philosophical focus of the living standard.
+
+### 1. Launching the Interactive Workbench
+
+If you have Node.js installed, launch the interactive workbench locally:
+
+```bash
+# 1. Clone this repository
+git clone https://github.com/WDibble/design-system.git
+cd design-system
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
+npm run dev
+```
+
+Open [`http://localhost:5173`](http://localhost:5173) in your browser. You can inspect all 51 primitives, open the real-time Theme Studio (press **⌘T**), explore 470+ kinetic animated icons, and test living state transitions.
+
+To run the verification suite and check TypeScript, invariants, and production bundling:
+
+```bash
+npm run check
+```
 
 ---
 
-## 🤖 Agent-Native & Machine-Readable Manifests
+### 2. Adding Primitives to Your Own Project
 
-This repository is engineered for autonomous agent workflows and developer tools:
+Whether you are using Next.js, Vite, Remix, or Astro, integrate any component via four steps:
 
-- **[`public/llms.txt`](public/llms.txt)**: Standard machine-readable agent index with core directives, the 51 primitives catalogue, and 470 kinetic icons guide.
-- **[`public/llms-full.txt`](public/llms-full.txt)**: Comprehensive single-file reference manual detailing OKLCH colour engine tokens, motion springs, liquid glass shaders, and component usage code snippets.
-- **[`public/registry.json`](public/registry.json)**: Machine-readable JSON component registry specifying file paths, variant lists, and package dependencies.
+#### Step 1: Install Peer Dependencies
 
----
+```bash
+npm install @base-ui/react motion clsx tailwind-merge class-variance-authority lucide-react
+```
 
-## ⚡ The Eighteen Non-Negotiable Directives
+| Package                    | Role in Architecture                                                                    |
+| :------------------------- | :-------------------------------------------------------------------------------------- |
+| `@base-ui/react`           | Accessible headless primitives (menus, dialogs, popovers, sliders) by the Base UI team. |
+| `motion`                   | Apple HIG fluid spring physics for smooth presses, sliding tabs, and enters.            |
+| `class-variance-authority` | Manages variant matrices (e.g. `variant="default" \| "outline" \| "destructive"`).      |
+| `clsx` & `tailwind-merge`  | Safely combines Tailwind CSS utility classes without style conflicts.                   |
+| `lucide-react`             | Clean, modern vector icons.                                                             |
 
-Every line of code in this repository enforces these core design engineering invariants:
+#### Step 2: Add the Two Helper Utilities
 
-1. **Physical Yield on `pointerdown`**: Interactive controls compress (`scale(0.97)` to `0.98`) the millisecond touch or mouse down occurs. Never wait for pointer release (`click`).
-2. **Zero Layout Shifts**: Dynamic states (`hover`, `focus`, `active`, `selected`, `pressed`) never alter `border-width`, `font-weight`, `letter-spacing`, `margin`, or `padding`. Outline states alter colour only. Selection is signalled via background pills or indicators; never by switching font weight or tracking.
-3. **Tabular Numerals**: All counters, prices, timestamps, metrics, and data tables declare `font-variant-numeric: tabular-nums` (`tabular-nums`) to prevent horizontal digit jitter.
-4. **Accessible Invariants**: 100% WCAG 2.2 AA / AAA compliance. Every icon-only button carries an explicit `aria-label`. Dialogs trap focus, maintain focus guards, and dismiss on `Escape`.
-5. **Quiet Chrome & Anti-Pill Proliferation**: Avoid the reflex of placing everything in bordered cards. Rely first on spatial rhythm, typographic hierarchy, and baseline alignment. Decorative eyebrow pills above headings are strictly banned. Badges and pills are reserved exclusively for functional operational telemetry.
-6. **Concentric Corner Radii**: Nested rounded surfaces compute their inner curve mathematically: $R_{\text{inner}} = \max(0, R_{\text{outer}} - \text{Padding})$ to eliminate bulging, lumpy corners.
-7. **Anti-Crush Responsive Page Architecture**: Minimum viable column width ($W_{\text{col}} \ge 340\text{px}$). All badges, chips, and pills declare `shrink-0 whitespace-nowrap`. Primary navigation titles, dropdown menu labels, and command palette items must never truncate primary text labels, maintaining `whitespace-nowrap font-semibold` with wrapping badge clusters and minimum column widths ($W_{\text{col}} \ge 220\text{px}$).
-8. **Reversible Kinetic Affordances (No Gimmick Icon Animation)**: Icons only animate if they have a reversible mechanical affordance that glides back to its resting origin on pointer leave (such as sliding filter knobs, gliding paper plane, separating sheets). Confirmation and operational icons (`+`, `-`, `✓`, `→`) remain static by default.
-9. **Component Dimension Invariants & Atomic Class Collision Defence**: Never merge multi-axis shorthand utilities (`size-full`, `p-0`) after single-axis variant sizes (`h-9`, `px-4`) inside `cn()` / `twMerge()`.
-10. **Component-Unified Kinetic Affinity & Optical Icon Proportion**: Icons inside interactive components trigger synchronously with the parent component on hover, press, or focus (`group-hover`/`group-active`). Always pass an explicit `size={...}` parameter matching the container optical target.
-11. **Perceptual Gradient Engineering & Dual-Engine Contrast**: Neon gradient text is strictly banned. All CSS gradient ramps interpolate in modern perceptual colour spaces (`linear-gradient(in oklch, ...)`). Text and interactive boundaries satisfy both WCAG 2.2 Level AA ($\ge 4.5:1$) and WCAG 3 APCA ($|L_c| \ge 60/75$).
-12. **British English & Ban on AI Em Dashes**: All user-facing prose, document headings, interface descriptions, tooltips, and commit messages must strictly adhere to British English spelling (`prioritise`, `synchronised`, `colour`, `centre`, `behaviour`, `grey`, `dialogue`, `fulfil`, `judgement`). Never use em dashes in prose or titles.
-13. **Origin Anonymity & Self-Contained Integrity**: Present all architectures, primitives, tokens, and guidelines as autonomous, self-contained standards of this design system.
-14. **Telemetry Indicator & Kinetic Cadence Invariant**: Kinetic status beacons must maintain an optically light, quiet resting state (`bg-background`, soft perimeter border, zero static halo blobs). Pulsing keyframes enforce a periodic resting window ($\ge 60\%$ of cycle duration at `opacity: 0`). Keyframes animate exclusively compositor properties (`transform`, `opacity`) with `transform-gpu` and `will-change-transform`.
-15. **Brand Truth & Fact Integrity**: Models must never hallucinate brand hex values or typefaces from training memory. Fictional metrics, mock divs with synthetic browser chrome, and invented case studies are strictly banned.
-16. **Micro-Finish & Layout Stability**: Form helper and validation error slots declare `min-h-[1lh]` to preserve line-height baseline stability. Headings declare `[text-wrap:balance]` and prose enforces `[text-wrap:pretty]`.
-17. **Evidence Before Assertions & Verification Gate**: Never declare work complete, fixed, clean, or passing without executing the fresh verification suite (`npm run check`) and confirming exit code 0 within the current interaction.
-18. **Autonomous Rulings & Continuous Execution Protocol**: Rulings over stalls. The agent delivers authoritative decisions on design-engineering ambiguities without parking the session, stopping only for destructive operations, security boundaries, or remote mutations.
+Copy these two helper files into your project:
 
----
+1. **Class Merger Utility (`src/lib/utils.ts`)**:
 
-## ❓ Frequently Asked Questions (Beginner Troubleshooting)
+```ts
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-#### Q: Why am I getting `Cannot find module '@/components/ui/button'`?
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
 
-In TypeScript, `@/` is a path alias pointing to your `src/` directory. To enable it, verify your `tsconfig.json` has `baseUrl` and `paths` configured:
+2. **Motion Physics Constants (`src/tokens/motion.ts`)**:
 
-```json
-{
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+```ts
+export const springs = {
+  tactile: { type: "spring", stiffness: 600, damping: 30, mass: 0.8 },
+  dialog: { type: "spring", stiffness: 350, damping: 35, mass: 1.0 },
+  snappy: { type: "spring", stiffness: 550, damping: 35, mass: 0.6 },
+  micro: { type: "spring", stiffness: 700, damping: 40 },
+  squishy: { type: "spring", stiffness: 420, damping: 24, mass: 0.8 },
+} as const;
+```
+
+#### Step 3: Add OKLCH Semantic Tokens to Your CSS (`src/index.css`)
+
+Copy the semantic tokens from [`src/index.css`](src/index.css) into your project's stylesheet:
+
+```css
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.54 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.985 0 0);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.5 0 0);
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.17 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --destructive: oklch(0.396 0.141 25.723);
+    --destructive-foreground: oklch(0.985 0 0);
+    --border: oklch(0.269 0 0);
+    --input: oklch(0.269 0 0);
+    --ring: oklch(0.58 0 0);
   }
 }
 ```
 
-#### Q: Does this work with Next.js App Router Server Components?
+#### Step 4: Copy and Use Components
 
-**Yes.** Every interactive component and icon declares `"use client";` at the top of the file. You can import them directly into any Server Component or Client Component page without error.
+Copy the component file you need from [`src/components/ui/`](src/components/ui/) directly into your project:
 
-#### Q: Can I use this with React 18?
+```tsx
+import { Button } from "@/components/ui/button";
 
-**Yes.** All components use standard `React.forwardRef` and support React 18 and React 19 equally.
-
-#### Q: How do I change the primary colour?
-
-Open your `src/index.css` and change `--primary` under `:root`. You can use any hex, rgb, or oklch colour. You can also press **⌘T** in the demo app to launch the real-time Theme Studio and test colour contrasts live.
+export function SubmitButton() {
+  return (
+    <Button
+      variant="default"
+      onClick={async () => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }}
+    >
+      Save Changes
+    </Button>
+  );
+}
+```
 
 ---
 
-## 📚 Technical Documentation & Contributing
+### 3. Technical Notes & Troubleshooting
+
+- **Path Aliasing**: Verify your `tsconfig.json` contains `"baseUrl": "."` and `"paths": { "@/*": ["./src/*"] }` so that `@/components/...` imports resolve cleanly.
+- **Server Components (Next.js App Router)**: Every interactive primitive declares `"use client";` at the file head. You can import them directly into server or client components without bundler errors.
+- **React 18 & 19 Support**: All components use standard `React.forwardRef` and support React 18 and React 19 equally.
+
+---
+
+## 📚 Architectural Guides & Standards
 
 - **[System Architecture](docs/architecture.md)**: Deep dive into Base UI composition, OKLCH token math, Motion physics, and Liquid Glass materials.
 - **[Craft Philosophy](docs/philosophy.md)**: The human sensory manifesto, quiet chrome doctrine, and anti-slop mandate.

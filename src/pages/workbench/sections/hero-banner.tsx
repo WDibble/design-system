@@ -51,23 +51,16 @@ export function HeroBanner() {
         {/* Spotlight 1: Full Async Feedback Loop */}
         <Card>
           <CardHeader>
-            <div className="flex flex-wrap items-start justify-between gap-2">
-              <div className="min-w-0 flex-1">
-                <CardTitle>The Async Feedback Loop</CardTitle>
-                <CardDescription className="mt-1.5">
-                  Click the button below to witness the complete kinetic loop: press compression,
-                  loading spinner, affirmative spring checkmark, and auto-settle back to idle.
-                </CardDescription>
-              </div>
-              <div className="flex shrink-0 items-center gap-2">
-                <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-                  State Morph 01
-                </Badge>
-                <span className="font-mono text-xs text-muted-foreground">
-                  Idle ➔ Load ➔ Success
-                </span>
-              </div>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <CardTitle>Async Feedback Loop</CardTitle>
+              <Badge variant="outline" size="sm" className="shrink-0 font-mono text-[10px]">
+                Morph 01
+              </Badge>
             </div>
+            <CardDescription className="mt-1.5">
+              Interactive kinetic feedback with pointerdown compression, async spinner, and spring
+              checkmark.
+            </CardDescription>
           </CardHeader>
 
           <CardContent className="flex flex-col gap-4">
@@ -117,7 +110,7 @@ export function HeroBanner() {
           </CardContent>
 
           <CardFooter className="justify-between border-t border-border/40 pt-4 text-xs text-muted-foreground">
-            <span>Zero UI pop toasts required</span>
+            <span className="font-mono text-[11px]">Idle ➔ Load ➔ Success</span>
             <span className="font-medium text-emerald-600 dark:text-emerald-400">
               Self-Contained Feedback
             </span>
@@ -127,23 +120,16 @@ export function HeroBanner() {
         {/* Spotlight 2: The Rolling Odometer Number Ticker */}
         <Card>
           <CardHeader>
-            <div className="flex flex-wrap items-start justify-between gap-2">
-              <div className="min-w-0 flex-1">
-                <CardTitle>Rolling Odometer Ticker</CardTitle>
-                <CardDescription className="mt-1.5">
-                  When numbers change, individual digit columns roll along the Y-axis using spring
-                  physics. Zero horizontal jitter or layout shift.
-                </CardDescription>
-              </div>
-              <div className="flex shrink-0 items-center gap-2">
-                <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-                  State Morph 02
-                </Badge>
-                <span className="font-mono text-xs text-muted-foreground">
-                  Spring Digit Rolling
-                </span>
-              </div>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <CardTitle>Rolling Odometer Ticker</CardTitle>
+              <Badge variant="outline" size="sm" className="shrink-0 font-mono text-[10px]">
+                Morph 02
+              </Badge>
             </div>
+            <CardDescription className="mt-1.5">
+              Independent Y-axis digit rolling driven by calibrated spring physics with zero glyph
+              jitter.
+            </CardDescription>
           </CardHeader>
 
           <CardContent className="flex flex-col gap-4">
@@ -156,17 +142,17 @@ export function HeroBanner() {
                 min={0}
                 prefix="$"
                 decimalPlaces={2}
-                className="w-full flex-wrap justify-between gap-3 sm:flex-nowrap"
+                className="w-full flex-wrap items-center justify-between gap-2"
               >
                 <div className="min-w-0">
                   <p className="flex items-center gap-1.5 text-xs font-medium tracking-wider text-muted-foreground uppercase">
                     <ActivityIcon size={14} className="inline-flex items-center text-primary" />
-                    Live Balance Ticker
+                    Balance Ticker
                   </p>
-                  <Stepper.Value className="mt-1 font-mono text-2xl font-bold tracking-tight sm:text-3xl" />
+                  <Stepper.Value className="mt-0.5 font-mono text-xl font-bold tracking-tight sm:text-2xl" />
                 </div>
 
-                <Stepper.Controls>
+                <Stepper.Controls className="shrink-0">
                   <Stepper.Increment aria-label="Increment balance" />
                   <Stepper.Decrement aria-label="Decrement balance" />
                 </Stepper.Controls>
@@ -195,29 +181,23 @@ export function HeroBanner() {
           </CardContent>
 
           <CardFooter className="justify-between border-t border-border/40 pt-4 text-xs text-muted-foreground">
-            <span>Hold +/− to accelerate smoothly</span>
-            <span className="font-mono font-medium text-primary">springs.snappy</span>
+            <span className="font-mono text-[11px]">springs.snappy</span>
+            <span className="font-medium text-primary">Hold to accelerate</span>
           </CardFooter>
         </Card>
 
         {/* Spotlight 3: The Squishy Fluid Morph */}
         <Card className="md:col-span-2 xl:col-span-1">
           <CardHeader>
-            <div className="flex flex-wrap items-start justify-between gap-2">
-              <div className="min-w-0 flex-1">
-                <CardTitle>Squishy Fluid Morph</CardTitle>
-                <CardDescription className="mt-1.5">
-                  Click to watch the wide button collapse into a compact pill with an underdamped
-                  elastic bounce (FLIP GPU projection).
-                </CardDescription>
-              </div>
-              <div className="flex shrink-0 items-center gap-2">
-                <Badge variant="outline" size="sm" className="font-mono text-[10px]">
-                  State Morph 03
-                </Badge>
-                <span className="font-mono text-xs text-muted-foreground">springs.squishy</span>
-              </div>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <CardTitle>Squishy Fluid Morph</CardTitle>
+              <Badge variant="outline" size="sm" className="shrink-0 font-mono text-[10px]">
+                Morph 03
+              </Badge>
             </div>
+            <CardDescription className="mt-1.5">
+              Elastic underdamped morphing between wide button and compact pill via GPU projection.
+            </CardDescription>
           </CardHeader>
 
           <CardContent className="flex flex-col gap-4">
@@ -250,9 +230,9 @@ export function HeroBanner() {
           </CardContent>
 
           <CardFooter className="justify-between border-t border-border/40 pt-4 text-xs text-muted-foreground">
-            <span>FLIP transform: scale() projection</span>
+            <span className="font-mono text-[11px]">springs.squishy</span>
             <span className="font-mono font-medium text-emerald-600 dark:text-emerald-400">
-              Zero Glyph Distortion
+              Zero Layout Reflow
             </span>
           </CardFooter>
         </Card>
