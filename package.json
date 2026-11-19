@@ -48,10 +48,13 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,json}\"",
     "spellcheck": "cspell \"{src,skills}/**/*.{ts,tsx,md}\"",
+    "docs:build": "node scripts/build-docs.mjs",
+    "docs:check": "node scripts/build-docs.mjs --check",
+    "mcp": "node scripts/mcp-server.mjs",
     "invariants": "node scripts/verify-invariants.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run invariants && npm run lint && npm run test && npm run build",
+    "check": "npm run docs:check && npm run invariants && npm run lint && npm run test && npm run build",
     "prepare": "simple-git-hooks"
   },
   "peerDependencies": {

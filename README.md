@@ -166,14 +166,28 @@ Every icon features calibrated physical spring kinematics, reversible mechanical
 
 This repository is built for autonomous agent workflows and developer tools:
 
-- **[`public/llms.txt`](public/llms.txt)**: Standard machine-readable agent index detailing core directives, the 51 primitives catalogue, and kinetic iconography guide.
-- **[`public/llms-full.txt`](public/llms-full.txt)**: Comprehensive single-file reference manual detailing OKLCH colour engine tokens, motion springs, liquid glass shaders, and component usage code snippets.
-- **[`public/registry.json`](public/registry.json)**: Machine-readable JSON component registry specifying file paths, variant lists, and package dependencies.
-- **[`skills/`](skills/)**: Codified agent instruction manuals covering [craft philosophy](skills/craft-philosophy/SKILL.md), [motion physics](skills/motion-physics/SKILL.md), [base UI primitives](skills/base-ui-primitives/SKILL.md), [semantic theming](skills/semantic-theming/SKILL.md), and [production deployment](skills/production-deployment/SKILL.md).
+- **[`public/llms.txt`](public/llms.txt)**: Standard machine-readable agent index detailing all 18 core directives, the decision selector matrix, the 57 primitives catalogue, 8 skills, and kinetic iconography guide.
+- **[`public/docs/components/`](public/docs/components/)**: 57 focused per-component Markdown building-block manuals combining defining constraints, sibling alternatives, AST-extracted TSX recipes, props tables, and Do/Don't guardrails.
+- **[`public/llms-full.txt`](public/llms-full.txt)**: Comprehensive single-file reference manual detailing OKLCH colour engine tokens, live WCAG 2.2 AA and APCA ratios, motion springs, liquid glass shaders, and component usage code snippets.
+- **[`public/registry.json`](public/registry.json)**: Machine-readable JSON component registry specifying file paths, spec paths, usage criteria, variant lists, exports, and package dependencies.
+- **`npm run mcp` ([`scripts/mcp-server.mjs`](scripts/mcp-server.mjs))**: Zero-dependency local stdio MCP server exposing `recommend_components`, `get_component_spec`, `search_icons`, and `validate_snippet` to IDE and CLI agents:
+
+```json
+{
+  "mcpServers": {
+    "design-system": {
+      "command": "node",
+      "args": ["scripts/mcp-server.mjs"]
+    }
+  }
+}
+```
+
+- **[`skills/`](skills/)**: Codified agent instruction manuals covering [app blueprint](skills/app-blueprint/SKILL.md), [craft philosophy](skills/craft-philosophy/SKILL.md), [motion physics](skills/motion-physics/SKILL.md), [base UI primitives](skills/base-ui-primitives/SKILL.md), [semantic theming](skills/semantic-theming/SKILL.md), [production deployment](skills/production-deployment/SKILL.md), [technical documentation](skills/technical-documentation/SKILL.md), and [diagram architecture](skills/diagram-architecture/SKILL.md).
 
 ---
 
-## 🧩 Complete Component Catalogue (All 51 Primitives)
+## 🧩 Complete Component Catalogue (All 57 Primitives)
 
 All components are located in [`src/components/ui/`](src/components/ui/) and exported through [`src/components/ui/index.ts`](src/components/ui/index.ts):
 
@@ -253,6 +267,17 @@ All components are located in [`src/components/ui/`](src/components/ui/) and exp
 | **`Timeline`**            | [`src/components/ui/timeline/`](src/components/ui/timeline/)                 | Modular telemetry and milestone timeline with status nodes and connecting stems.                      |
 | **`Tree`**                | [`src/components/ui/tree.tsx`](src/components/ui/tree.tsx)                   | Hierarchical directory and node tree with keyboard expanding and aria-level bindings.                 |
 
+### 6. Documentation & Schematics
+
+| Component              | Path                                                                                 | Description                                                                                                   |
+| :--------------------- | :----------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
+| **`Callout`**          | [`src/components/ui/callout.tsx`](src/components/ui/callout.tsx)                     | Semantic OKLCH editorial admonition container supporting note, tip, warning, caution, and constraint roles.   |
+| **`CodeBlock`**        | [`src/components/ui/code-block.tsx`](src/components/ui/code-block.tsx)               | Concentric source viewer with tabular line numbers, line highlights, multi-tab switcher, and CopyButton.      |
+| **`ComponentPreview`** | [`src/components/ui/component-preview.tsx`](src/components/ui/component-preview.tsx) | Symmetric interactive stage with Preview/Code toggle, viewport presets (`375px`/`768px`/`100%`), and reset.   |
+| **`DiagramFrame`**     | [`src/components/ui/diagram-frame.tsx`](src/components/ui/diagram-frame.tsx)         | Accessible orthogonal SVG container with semantic `<figcaption>` and full-width zoom dialogue inspector.      |
+| **`DocLayout`**        | [`src/components/ui/doc-layout.tsx`](src/components/ui/doc-layout.tsx)               | Three-column documentation shell with sticky sidebar, `72ch` Markdown-copyable article, and verification TOC. |
+| **`PropTable`**        | [`src/components/ui/prop-table.tsx`](src/components/ui/prop-table.tsx)               | Anti-crush API reference table displaying TypeScript prop names, types, defaults, and required pills.         |
+
 ---
 
 ## 🛠️ Workbench Quick Start & Integration Guide
@@ -275,11 +300,13 @@ npm install
 npm run dev
 ```
 
-Open [`http://localhost:5173`](http://localhost:5173) in your browser. You can inspect all 51 primitives, open the real-time Theme Studio (press **⌘T**), explore 470+ kinetic animated icons, and test living state transitions.
+Open [`http://localhost:5173`](http://localhost:5173) in your browser. You can inspect all 57 primitives, browse the interactive documentation portal (press **⌘D** or navigate to `/docs`), open the real-time Theme Studio (press **⌘T**), explore 470+ kinetic animated icons, and test living state transitions.
 
-To run the verification suite and check TypeScript, invariants, and production bundling:
+To synchronise generated documentation artifacts (`src/generated/docs-manifest.ts`, `public/registry.json`, `public/llms.txt`, `public/llms-full.txt`) and run the complete verification suite:
 
 ```bash
+npm run docs:build
+npm run docs:check
 npm run check
 ```
 
