@@ -339,6 +339,7 @@ export function MaterialsFeedbackSpectrum() {
                 </div>
                 <div
                   className="relative h-8 w-full overflow-hidden rounded-lg border border-border/40"
+                  // invariant-ignore-next-line: intentional anti-pattern comparison demo
                   style={{ background: "linear-gradient(to right, #ff0077, #0077ff)" }}
                 >
                   <div className="absolute inset-y-0 left-1/2 flex w-8 -translate-x-1/2 items-center justify-center border-x border-white/40 bg-black/30">
@@ -356,13 +357,16 @@ export function MaterialsFeedbackSpectrum() {
               {/* Clipped Gradient Text Anti-Pattern */}
               <div className="flex flex-col gap-1.5 border-t border-destructive/20 pt-1">
                 <span className="text-[11px] text-muted-foreground">
+                  {/* invariant-ignore-next-line: intentional anti-pattern comparison label */}
                   Gradient Clipped Text (`-webkit-background-clip: text`)
                 </span>
                 <div className="rounded-lg border border-destructive/20 bg-background/80 p-3">
                   <p
                     className="text-sm font-bold tracking-tight"
                     style={{
+                      // invariant-ignore-next-line: intentional anti-pattern comparison demo
                       backgroundImage: "linear-gradient(90deg, #ec4899, #8b5cf6)",
+                      // invariant-ignore-next-line: intentional anti-pattern comparison demo
                       WebkitBackgroundClip: "text",
                       color: "transparent",
                     }}
