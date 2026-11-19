@@ -3,7 +3,7 @@
  * Conforms to Directive 13 (Origin Anonymity & Self-Contained Integrity).
  */
 
-// UI Component Primitives (48 Accessible Headless Primitives)
+// UI Component Primitives (57 Accessible Headless Primitives)
 export * from "./components/ui";
 
 // Kinetic Icons (470 Reversible Spring Icons)
