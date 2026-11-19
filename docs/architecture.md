@@ -97,7 +97,7 @@ Every complex interactive primitive delegates state, accessibility attributes, a
 
 ### Tailwind CSS v4 `@theme inline`
 
-The design system adopts Tailwind CSS v4, utilizing CSS variables bound directly through the `@theme inline` directive in [`src/index.css`](src/index.css). This eliminates JavaScript-based theme configs and delivers instant styling compiles.
+The design system adopts Tailwind CSS v4, utilizing CSS variables bound directly through the `@theme inline` directive in [`src/index.css`](../src/index.css). This eliminates JavaScript-based theme configs and delivers instant styling compiles.
 
 ### OKLCH Perceptual Colour Space
 

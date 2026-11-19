@@ -1,36 +1,116 @@
 ---
 name: motion-physics
-description: Apple-grade fluid motion and spring physics specification using motion/react. Governs calibrated spring curves, pointerdown tactile response, velocity inheritance, gesture interruptibility, boundary resistance (rubber banding), and reduced motion safety. Use when authoring, animating, or reviewing any transition, gesture, modal, drawer, or interactive state.
+description: Use when animating UI transitions, gestures, modals, or active states with motion/react. Enforces calibrated spring physics, pointerdown yield, and velocity.
+license: MIT
+metadata:
+  author: William Dibble
+  version: "1.0.0"
+  tags: [motion, spring-physics, animation, gestures, hig]
 ---
 
 # Motion Physics: Apple Fluid Interface Specification
 
-This skill codifies Apple's approach to fluid, physical motion (distilled from WWDC _Designing Fluid Interfaces_) and translates it for the modern web using **`motion`** (`motion/react`) and CSS spring approximations.
+This skill codifies fluid, physical motion for the web using **`motion`** (`motion/react`) and CSS spring approximations.
 
-The core law: **An interface feels alive when motion starts from the current on-screen value, responds instantaneously on press, inherits the user's velocity, projects momentum forward, and can be interrupted or reversed at any millisecond.**
+**The Core Law**: An interface feels alive when motion begins from the current on-screen value, responds instantaneously on press, inherits pointer velocity, and remains interruptible at any millisecond.
 
 ---
 
-## 🏎️ The 4 Laws of Fluid Interface Motion
+## Purpose
 
-### 1. Response: Kill Latency on Press
+Govern spring curves, tactile `pointerdown` compression, gesture velocity inheritance, reduced-motion accessibility, and zero-layout-shift compositor transitions across all interactive components.
 
-The moment latency appears, directness falls off a cliff.
+---
 
-- **Respond on `pointerdown`, never on pointer release (`click`).** Highlight or compress the button the instant the finger touches the screen or mouse clicks down.
-- Compress subtly (`scale(0.97)` to `0.98`) using a stiff spring. Waiting for release feels dead.
-- **Zero-Delay on User Action**: Interactive triggers (clicks, taps, toggles) must have **$\mathbf{\text{delay} = 0}$**. Artificial delays (e.g. `delay: 0.1`) on user actions make software feel sluggish and unresponsive. (Micro-staggers $\le 30\text{ms}$ are permitted strictly on passive page-load entrances, never on interactive gestures).
-- Audit out any artificial tap delays, debounces, or layout reflows on the input path.
+## Prerequisites
+
+- **`motion` (`motion/react` / `motion/react-client`)** for physics-driven springs, `layout`, and `layoutId` shared element transitions.
+- **`src/tokens/motion.ts`** exporting calibrated `springs` presets (`tactile`, `dialog`, `snappy`, `micro`, `squishy`).
+- **`prefers-reduced-motion` hook**: Always read `useReducedMotion()` and fall back cleanly when motion reduction is active or invalid spring parameters occur.
+
+---
+
+## Instructions
+
+Follow this sequence whenever authoring or auditing interactive motion:
+
+1. **Use `pointerdown` feedback with zero delay**: Configure `whileTap={{ scale: 0.975 }}` using `springs.tactile` (`delay = 0`); reserve micro-staggers (`<= 30ms`) strictly for initial passive entrance sequences.
+2. **Pass calibrated spring tokens**: Import presets from `src/tokens/motion.ts` rather than writing linear timers or arbitrary cubic-bezier curves.
+3. **Set explicit transform origins on overlays**: Anchor popovers with `origin-(--transform-origin)` scaling between `scale-95` and `scale-100` (never `scale-0`).
+4. **Keep compositor purity strict**: Animate only `transform` and `opacity` (or `motion` `layout` FLIP projection); never keyframe `width`, `height`, `top`, `left`, `margin`, or `filter`.
+5. **Validate error states and reduced motion**: Check `useReducedMotion()` before dispatching spatial displacement and keep interactive animations interruptible on pointer release or error cancellation.
+
+---
+
+## 🏎️ The 5 Laws of Fluid Interface Motion
+
+1. **Kill Latency on Press**: Yield instantaneously on `pointerdown` (`scale(0.97)` to `0.98`), never on `click`. Keep interactive triggers at `delay = 0`.
+2. **Direct Manipulation & Rubber Banding**: Track gestures `1:1` with Pointer Events (`setPointerCapture`). Apply logarithmic resistance beyond boundaries (`dx_visual = dx_pull * 0.35`) and snap back via `springs.snappy`.
+3. **Momentum & Velocity Inheritance**: Spring models inherit exit gesture velocity smoothly via continuous energy (`Energy = 0.5 * m * v^2 + 0.5 * k * x^2`).
+4. **Instant Interruptibility**: Any transition in flight must remain grabbable and reversible without state desync or artificial input locks.
+5. **Component-Unified Kinetic Affinity**: Icons inside controls are intrinsic organs. The entire parent button hit area drives nested icon motion via `pointer-events-none` SVG paths and `group-hover` / `group-active`.
+
+---
+
+## 🎛️ Standard Spring Physics Tokens (`src/tokens/motion.ts`)
+
+```typescript
+export const springs = {
+  // Tactile Button & Toggle Press: instant physical yield on touch
+  tactile: { type: "spring", stiffness: 600, damping: 30, mass: 0.8 },
+  // Dialog, Sheet, and Modal Overlays: controlled descent without jarring overshoot
+  dialog: { type: "spring", stiffness: 350, damping: 35, mass: 1.0 },
+  // Snappy Layout Transitions & Tab Indicators (layoutId)
+  snappy: { type: "spring", stiffness: 550, damping: 35, mass: 0.6 },
+  // Micro-Interactions (Tooltips, Badges, Dropdown Arrows)
+  micro: { type: "spring", stiffness: 700, damping: 40 },
+  // Squishy Fluid Morph (Expanding/Collapsing Action Buttons)
+  squishy: { type: "spring", stiffness: 420, damping: 24, mass: 0.8 },
+} as const;
+```
+
+---
+
+## 📐 Scale & Origin Invariants (Overlays & Tabs)
+
+- **Trigger-Anchored Overlays (`Popover`, `Menu`, `Select`, `Tooltip`)**: Bind `origin-(--transform-origin)`, transition `scale-95 <-> scale-100` and `opacity-0 <-> opacity-100` over `duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]` via `data-[starting-style]` and `data-[ending-style]`.
+- **Centered Modals (`Dialog`, `AlertDialog`, `CommandDialog`)**: Scale between `scale-95` and `scale-100` over `duration-200`, paired with `backdrop-blur-md` fade.
+- **Edge Drawers (`Sheet`)**: Translate monotonically along the anchored edge (`translate-x-full` / `translate-y-full`) with `pb-[env(safe-area-inset-bottom)]`.
+- **Sliding Tab Pills**: Attach `layoutId="active-indicator"` with `springs.snappy` rather than cross-fading active backgrounds.
+
+---
+
+## 🎬 State Transition Mechanics (Kinetic Storytelling)
+
+Detailed implementation specs and edge-case invariants live in [references/kinetic-storytelling.md](references/kinetic-storytelling.md):
+
+| Mechanic                            | Core Constraint                                                                                                                      |
+| :---------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| **Async Button Feedback Loop**      | `Idle -> Loading -> Success -> Idle`, preserve 100% surface opacity under `aria-busy`, use `mode="popLayout"`, minimum `400ms` dwell |
+| **Rolling Odometer Ticker**         | Independent vertical digit columns using `y: -${digit}em` (never percentage shifts) and `tabular-nums`                               |
+| **Directional & Specular Feedback** | Hover vectors (`2px to 4px`), cursor-tracked ambient radial highlights                                                               |
+| **Hold-to-Repeat Stepper**          | `0ms` initial tick, `400ms` dwell gate, exponential cadence ramp (`140ms` down to `35ms`), window cleanup                            |
+| **Reversible Mechanical Icons**     | Icons animate only along physical rails/hinges returning cleanly to origin; static defaults for `+`, `-`, `Check`, arrows            |
+
+---
+
+## Examples
+
+### 1. Tactile Button with Reduced-Motion Fallback
 
 ```tsx
-// React with motion/react
 import * as m from "motion/react-client";
+import { useReducedMotion } from "motion/react";
+import { springs } from "@/tokens/motion";
 
 export function TactileButton({ children, ...props }) {
+  const shouldReduceMotion = useReducedMotion();
+  const transition = shouldReduceMotion ? { duration: 0 } : springs.tactile;
+
   return (
     <m.button
-      whileTap={{ scale: 0.975 }}
-      transition={{ type: "spring", stiffness: 600, damping: 30, mass: 0.8 }}
+      whileTap={shouldReduceMotion ? undefined : { scale: 0.975 }}
+      transition={transition}
       {...props}
     >
       {children}
@@ -39,138 +119,11 @@ export function TactileButton({ children, ...props }) {
 }
 ```
 
-### 2. Direct Manipulation: 1:1 Tracking & Boundary Resistance
-
-When dragging, swiping, or pulling a sheet, slider, or carousel:
-
-- Content must remain glued to the finger or pointer without jumping to center.
-- Always use Pointer Events with `setPointerCapture` so tracking persists even if the pointer strays outside element boundaries.
-- **Rubber Banding**: When pulled beyond bounds, apply logarithmic resistance rather than a hard stop:
-  $$\Delta x_{\text{visual}} = \Delta x_{\text{pull}} \times 0.35$$
-  When released, spring snap back to boundary using `springs.snappy`.
-
-### 3. Momentum & Velocity Inheritance
-
-- When the user flings or releases a gesture, the resulting transition must inherit the user's exit velocity rather than resetting to a static velocity curve.
-- Springs handle this naturally because they model continuous physical energy:
-  $$\text{Energy} = \frac{1}{2}mv^2 + \frac{1}{2}kx^2$$
-
-### 4. Instant Interruptibility
-
-- Any animation in flight can be grabbed, reversed, or redirected mid-motion without visual snapping or state desync.
-- Never disable user input while an animation runs unless the action is strictly destructive or awaiting a server lock.
-
-### 5. Component-Unified Kinetic Affinity (Icons as Intrinsic Organs)
-
-- Icons nested inside interactive controls (buttons, selects, tabs, cards, inputs) are **intrinsic organs of the component, not isolated widgets**.
-- **The entire component hit area orchestrates the icon**: Hovering anywhere within the component's boundaries, pressing anywhere on the control, or focusing it via keyboard must trigger the icon's animation synchronously.
-- Never force the user to hunt for or hover directly over a tiny 16px icon glyph to trigger its motion.
-- Implement deep controller binding across `leftIcon`, `rightIcon`, and nested `children`, and enforce `pointer-events-none` on nested SVG paths with `group-hover` / `group-active` so the component behaves as a single living kinetic entity.
-
----
-
-## 🎛️ Standard Spring Physics Tokens (`tokens/motion.ts`)
-
-Instead of arbitrary `cubic-bezier()` or linear CSS easing, all UI motion is governed by four calibrated spring configurations:
-
-```typescript
-export const springs = {
-  /**
-   * Tactile Button & Toggle Press
-   * High stiffness, moderate damping. Instant physical yield on touch.
-   */
-  tactile: {
-    type: "spring",
-    stiffness: 600,
-    damping: 30,
-    mass: 0.8,
-  },
-
-  /**
-   * Dialog, Sheet, and Modal Overlays
-   * Controlled, smooth descent without jarring overshoot.
-   */
-  dialog: {
-    type: "spring",
-    stiffness: 350,
-    damping: 35,
-    mass: 1.0,
-  },
-
-  /**
-   * Snappy Layout Transitions & Tab Indicators
-   * Fast, responsive tracking of active state switches (layoutId).
-   */
-  snappy: {
-    type: "spring",
-    stiffness: 550,
-    damping: 35,
-    mass: 0.6,
-  },
-
-  /**
-   * Micro-Interactions (Tooltips, Badges, Dropdown Arrows)
-   * Crisp and immediate; completes within ~150ms.
-   */
-  micro: {
-    type: "spring",
-    stiffness: 700,
-    damping: 40,
-  },
-
-  /**
-   * Squishy Fluid Morph (Expanding/Collapsing Action Buttons, Dynamic Island)
-   * Moderate stiffness, slight underdamping for organic rubbery micro-rebound.
-   */
-  squishy: {
-    type: "spring",
-    stiffness: 420,
-    damping: 24,
-    mass: 0.8,
-  },
-} as const;
-```
-
----
-
-## 📐 Scale & Origin Invariants (Popovers, Overlays & Dialogs)
-
-All transient surfaces must animate both their entry (`starting-style`) and exit (`ending-style`) with calibrated Apple spring curves, guaranteeing zero layout reflow and immediate responsiveness.
-
-### 1. Trigger-Anchored Overlays (Popover, DropdownMenu, Select, Tooltip)
-
-- **Transform Origin**: Must dynamically bind to the anchor point using `origin-(--transform-origin)`.
-- **Scale Range**: Enter from `scale-95` to `scale-100`, exit to `scale-95`. Never animate from `scale-0`.
-- **Opacity Range**: Enter from `opacity-0` to `opacity-100`, exit to `opacity-0`.
-- **Snappy Micro-Spring Duration**: `transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]`.
-- **Tailwind v4 Specification**:
-  ```tsx
-  className={cn(
-    "origin-(--transform-origin)",
-    "transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-    "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
-    "data-[ending-style]:scale-95 data-[ending-style]:opacity-0"
-  )}
-  ```
-
-### 2. Centered Modals & Command Dialogs (Dialog, AlertDialog, CommandDialog)
-
-- **Scale Range**: Enter from `scale-95` to `scale-100`, exit to `scale-95`.
-- **Duration**: `transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]`.
-- **Backdrop**: Blur with `backdrop-blur-md` and `transition-opacity duration-200 ease-out` with `data-[starting-style]:opacity-0 data-[ending-style]:opacity-0`.
-
-### 3. Edge-Anchored Drawers (Sheet)
-
-- **Directional Translation**: Full monotonic slide along active edge (`translate-x-full`, `translate-y-full`).
-- **Duration**: `transition-[translate] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]` with mobile safe-area insets (`pb-[env(safe-area-inset-bottom)]`).
-
-### 4. Sliding Indicator / Tabs:
-
-- Use `layoutId="active-indicator"` in `motion/react` so the visual pill glides fluidly between active items with zero manual coordinate math:
+### 2. Shared Layout Segmented Tabs & FLIP Layout Morph
 
 ```tsx
-import * as React from "react";
 import * as m from "motion/react-client";
+import { springs } from "@/tokens/motion";
 
 export function SegmentedTabs({ tabs, activeTab, onTabChange }) {
   return (
@@ -189,7 +142,7 @@ export function SegmentedTabs({ tabs, activeTab, onTabChange }) {
               <m.div
                 layoutId="active-pill"
                 className="absolute inset-0 rounded-md bg-card shadow-sm"
-                transition={{ type: "spring", stiffness: 550, damping: 35, mass: 0.6 }}
+                transition={springs.snappy}
               />
             )}
             <span className="relative z-20">{tab.label}</span>
@@ -201,100 +154,12 @@ export function SegmentedTabs({ tabs, activeTab, onTabChange }) {
 }
 ```
 
----
+### 3. CSS Spring Fallback & Theme-Switch Suppression
 
-## 🎬 The 5 State Transition Mechanics (Kinetic Storytelling)
-
-Interfaces must not abruptly snap between states; they must maintain kinetic continuity so the human brain preserves spatial orientation.
-
-### 1. The Morphing Feedback Loop (Idle ➔ Loading ➔ Success ➔ Idle)
-
-When executing an async trigger (e.g. Save, Deploy, Copy, Submit), do not leave the user wondering if the request resolved. Complete the kinetic narrative within the button:
-
-- **Idle**: Regular label and icon.
-- **Loading**: Intrinsic width locked, label cross-fades to centered spinning loader.
-- **Success**: Button surface tints affirmative green (`bg-emerald-500/15 border-emerald-500/30`), an SVG checkmark springs in with elastic overshoot (`scale: [0, 1.2, 1]`), and label confirms _"Saved!"_ or _"Copied!"_.
-- **Auto-Restoration**: Holds the success state for $1.5\text{--}2.0\text{s}$, then gently glides back to Idle.
-- **Cohesive Parallel Staging & Invariant Opacity**: Writing, coloring, and sizing must always animate in unified lockstep:
-  1. **Zero Disabled Brightness Strobe**: An active async button (`aria-busy="true"`) must NEVER have `disabled:opacity-50` applied while loading. Dimming to 50% and then removing `disabled` on success causes an instantaneous 0ms snap from 50% to 100% brightness, which strobes the original dark idle appearance right before the color finishes interpolating. Always preserve 100% surface opacity during operational async states (`[&:disabled:not([aria-busy='true'])]:opacity-50`).
-  2. **Synchronised State Transitions (`mode="popLayout"`)**: Never make the user stare at an empty button with a blank delay (the `mode="wait"` anti-pattern). Instead, animate exiting and entering content in parallel (`mode="popLayout"` paired with an invisible ghost footprint sizer).
-  3. **Root Stem Isolation & Checkmark Spring**: When transitioning between states sharing a common morphological prefix (e.g. _"Deploy"_ in _"Deploying"_ and _"Deployed"_), use subtle scale-fading (`initial: scale: 0.95, opacity: 0; animate: scale: 1, opacity: 1; exit: scale: 0.95, opacity: 0`) and spring the checkmark (`scale: [0.5, 1.0]`) into place alongside a crisp `duration-150` background tint transition so the user's eye immediately registers the affirmative green confirmation without any prefix ghosting or lingering idle impressions.
-- **Minimum State Dwell Time**: Async loading states must remain active for a minimum of $400\text{--}500\text{ms}$. Instantaneous network responses that flash a spinner for $<100\text{ms}$ look like broken visual flickers.
-
-### 2. The Rolling Odometer Number Ticker (Spring Digit Flip)
-
-When numeric metrics, prices, countdowns, or counter badges update:
-
-- Never let numbers pop abruptly from one integer to another.
-- Use a vertical **rolling digit ticker** where each individual numeric column translates vertically (`translateY`) using `springs.snappy`.
-- **Invariants**:
-  - Must enforce `tabular-nums font-mono` and wrap digits in `overflow-hidden` with a fixed line height (`leading-none`) so the width of the number remains strictly invariant during rolling.
-  - **Exact Unit-Height Step Invariant**: Never use percentage translation (`y: -${digit * 10}%`) for digit columns. In CSS Flexbox, flex items stretch or shrink to match parent container constraints, causing percentage transforms to evaluate against the parent's `1em` height rather than the 10-digit stack (translating by $1/10\text{th}$ of a digit and leaving numbers visually sliced and stuck halfway). Always enforce `shrink-0 h-[1em] w-full leading-none` on every digit child and translate the column via `y: -${digit}em`, guaranteeing mathematically exact 1-to-1 digit baseline indexing.
-
-### 3. Directional Micro-Kinetic Icon Intent
-
-Interactive controls that lead to a destination or trigger an action must communicate intent on hover:
-
-- Forward actions (e.g. "Continue", "Explore"): Icon translates $2\text{--}4\text{px}$ in the direction of action (`group-hover:translate-x-1`) with spring recoil.
-- Download / Save actions: Icon dips downward ($2\text{px}$) on hover and rebounds.
-- Dismiss / Close actions: Icon rotates slightly (e.g. $90^\circ$) on hover.
-
-### 4. Specular Pointer Tracking (Ambient Surface Illumination)
-
-High-craft cards and primary action buttons can track cursor coordinates on mousemove:
-
-- Computes relative mouse position $(x, y)$ inside the container.
-- Renders an ultra-subtle ambient radial highlight (`radial-gradient(circle at ${x}px ${y}px, oklch(1 0 0 / 0.08), transparent 60%)`).
-- Grounds the surface with physical, directional light without artificial neon glow.
-
-### 5. Shared Layout Indicators (`layoutId`)
-
-When toggling between segmented buttons, tabs, or radio options, never fade the active indicator in and out:
-
-- Attach `layoutId="active-indicator"` to the selection pill.
-- The indicator physically slides, squishes slightly during flight, and settles into the new position via `springs.snappy`.
-
-### 6. Kinetic Stepper Hold-to-Repeat (The Momentum Ramp)
-
-When designing numeric steppers, counters, or quantity controls, clicking dozens of times causes interaction fatigue. Wrap stepping logic into self-contained primitives adhering to the **4 Laws of Press-and-Hold**:
-
-1. **Immediate Initial Tick (`0ms`)**: The first increment/decrement executes synchronously on `pointerdown` (Directive #1: instant physical yield).
-2. **Dwell Threshold ($400\text{ms}$)**: Single clicks never trigger auto-repeat; continuous stepping only initiates after holding for a $400\text{ms}$ dwell period.
-3. **Kinetic Acceleration Ramp**: The repeat loop begins with a deliberate, precision cadence ($140\text{ms}$) and smoothly accelerates down to peak speed ($35\text{ms}$) via an exponential decay factor ($\approx 0.88$ per tick).
-4. **Window-Level Pointer Cleanup**: Release listeners (`pointerup`, `pointercancel`) must attach to `window`. If the user drags their finger or mouse outside the control boundary, the stepping loop cancels immediately, preventing runaway counts.
-5. **Self-Contained Encapsulation**: Expose the stepper as a plug-and-play compound component (`<Stepper>`) that packages state management, boundary clamping (`min`/`max`), rolling odometer physics, and hold-to-repeat buttons natively.
-
-### 7. Kinetic Icon Invariants: The Reversible Mechanical Affordance Doctrine
-
-Never animate an icon simply because it is technically possible. Most animated icons in the wild feel like cheap gimmicks. Enforce high-taste kinetic selection:
-
-1. **The Reversible Mechanical Test**:
-   - An icon is permitted to be kinetic **only if** it exhibits a physical, mechanical affordance that glides along an axis or hinges open, and **smoothly returns to its exact resting position** upon pointer leave (`onMouseLeave`) or release (`onPointerUp`).
-   - ✅ **Permitted Kinetic Affordances**:
-     - _Sliders / Filter (`SlidersHorizontalIcon`)_: Knobs physically slide along rails on spring dynamics, then glide back.
-     - _Vehicle / Delivery (`SendIcon`)_: Paper plane banks up-right on trajectory, then returns smoothly to resting position.
-     - _Physical Lids / Hinges (`Trash2Icon` / `DeleteIcon`)_: Can lid pops open on hover/press and snaps shut on release.
-     - _Depth / Separation (`CopyIcon`)_: Foreground sheet lifts away with tactile depth and springs back into place.
-2. **Strict Negative Bans on Gimmick Icon Motion**:
-   - 🚫 **No Vanishing / Path Redrawing from Nothing**: Never animate `opacity: [0, 1]` or `pathLength: [0, 1]` on steady-state or interactive icons (e.g. checkmarks disappearing into thin air and redrawing themselves). This looks like a visual glitch, not high craft.
-   - 🚫 **No Symmetrical Spinning in Circles**: Never rotate symmetrical operational glyphs (e.g. spinning a plus icon `+` $180^\circ$ or $360^\circ$). Spinning a crosshair or plus sign flips its arms pointlessly and creates visual noise.
-   - 🚫 **No Path Shriveling / Twitching**: Never morph or shrink geometry stems (e.g. arrow shafts shortening or compressing backwards on forward CTAs).
-3. **Static Default for Operational & Numerical Glyphs**:
-   - Operational, arithmetic, confirmation, and decorative badge icons (`Check`, `Plus`, `Minus`, `ArrowRight`, `Sun`, `Moon`, `Zap`, `Sparkles`) **must be rock-solid and static**.
-   - Tactile feedback on these controls must come strictly from the button's physical yield (`whileTap={{ scale: 0.975 }}`) and typography motion (rolling odometer), never from glyph gymnastics.
-4. **Choice of Trigger (`hover` vs `press`)**:
-   - On interactive buttons, support explicit choice via `iconTrigger?: "hover" | "press" | "both"`.
-   - When set to `"press"`, the mechanical animation executes on `pointerdown` synchronously with the button yield (Directive #1), providing instant physical feedback under the fingertip.
-
----
-
-## 🌐 Modern CSS Spring Approximation (CSS-Only Fallback)
-
-When JavaScript motion is not required or when rendering SSR/static HTML, use calibrated CSS `linear()` spring easing:
+For static HTML/SSR fallbacks without JS runtime overhead, approximate springs with CSS `linear()`, and always suppress transitions briefly during theme switches to avoid rainbow colour smears:
 
 ```css
 :root {
-  /* Apple-calibrated CSS spring curve */
   --ease-spring: linear(
     0,
     0.006,
@@ -311,7 +176,6 @@ When JavaScript motion is not required or when rendering SSR/static HTML, use ca
     1
   );
 }
-
 .button-press {
   transition: transform 120ms var(--ease-spring);
 }
@@ -320,33 +184,13 @@ When JavaScript motion is not required or when rendering SSR/static HTML, use ca
 }
 ```
 
----
-
-## 🚫 Theme-Switching Transition Suppression (Crucial)
-
-When switching between light and dark modes, browsers attempt to animate color properties on all elements if transitions are set globally. This causes a slow, muddy "rainbow smear."
-
-**Always suppress transitions during theme toggling**:
-
 ```typescript
 export function disableTransitionsTemporarily() {
   const css = document.createElement("style");
-  css.appendChild(
-    document.createTextNode(
-      `* {
-         -webkit-transition: none !important;
-         -moz-transition: none !important;
-         -o-transition: none !important;
-         -ms-transition: none !important;
-         transition: none !important;
-      }`
-    )
-  );
+  css.textContent = "* { transition: none !important; -webkit-transition: none !important; }";
   document.head.appendChild(css);
-
   return () => {
-    // Force reflow to commit DOM class changes before restoring transitions
-    (() => window.getComputedStyle(document.body))();
+    void window.getComputedStyle(document.body);
     document.head.removeChild(css);
   };
 }
@@ -354,52 +198,28 @@ export function disableTransitionsTemporarily() {
 
 ---
 
-## 🚫 Compositing Invariants (Zero Layout Shifts)
+## 🚫 Compositing Invariants & Review Checklist
 
-To maintain 60–120 FPS performance:
-
-1. **Only Animate Compositor Properties**:
-   - ✅ Allowed: `transform` (`translate`, `scale`, `rotate`), `opacity`.
-   - ❌ Strictly Banned: `width`, `height`, `top`, `left`, `margin`, `padding`, `border-width`.
-2. **Use Layout Projection for Spatial Morphing**:
-   - When an element changes size or position (e.g. expandable pills, accordions, dynamic search bars), **never animate `width: auto` or `padding` directly**.
-   - Instead, attach the `layout` prop from `motion/react`:
-     ```tsx
-     {
-       /* Motion's layout projection converts bounding box changes into GPU transforms */
-     }
-     <m.button layout transition={springs.snappy}>
-       <Icon />
-       {isExpanded && (
-         <m.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-           Label
-         </m.span>
-       )}
-     </m.button>;
-     ```
-   - Motion uses the FLIP technique (First, Last, Invert, Play) to invert the dimension change into an instantaneous `transform: scale()` matrix, executing the expansion on the GPU at 120 FPS without a single CPU layout reflow.
-3. **Respect `prefers-reduced-motion`**:
-   - If `prefers-reduced-motion` is enabled, spring animations must instantly resolve or fallback to simple, subtle opacity cross-fades without spatial displacement:
-
-```tsx
-import { useReducedMotion } from "motion/react";
-
-const shouldReduceMotion = useReducedMotion();
-const transition = shouldReduceMotion
-  ? { duration: 0 }
-  : { type: "spring", stiffness: 600, damping: 30 };
-```
+- **Only animate `transform` and `opacity`**: Never animate `width`, `height`, `top`, `left`, `margin`, `padding`, or `filter`. Use `layout` FLIP projection on morphing buttons so dimensions invert cleanly into GPU `scale()` matrices.
+- [ ] Replace any `transition: all` with explicit properties (`transition-[transform,opacity]`).
+- [ ] Confirm immediate physical yield on `pointerdown`, never delayed by `click` or artificial `delay`.
+- [ ] Verify modals open from `scale(0.95)`, tabs animate via `layoutId`, and theme toggles suppress global transitions.
+- [ ] Confirm `useReducedMotion()` is respected and operational glyphs (`+`, `-`, `Check`, arrows) remain static.
 
 ---
 
-## 📋 Motion Review Checklist
+## Limitations
 
-When auditing animations in code:
+- **Client runtime requirement for springs**: `motion/react` `layout` projection and `useReducedMotion` require `"use client";` components and client hydration; CSS-only SSR surfaces should use the `--ease-spring` `linear()` fallback above.
+- **CPU cost of layout invalidation**: Even with GPU transforms, animating `backdrop-filter` nodes inside continuously scrolling or flexing parents degrades frame pacing unless promoted cleanly (`isolation: isolate`).
 
-- [ ] Is there any `transition: all`? _(Replace with specific properties)._
-- [ ] Is feedback instant on `pointerdown`? _(Ensure active state yields on press)._
-- [ ] Does any dialog animate from `scale(0)`? _(Fix to `scale(0.95)`)._
-- [ ] Are tabs or segment controls animating via `layoutId`?
-- [ ] Does theme switching trigger unintended color transitions? _(Suppress transitions during theme toggle)._
-- [ ] Does it respect `prefers-reduced-motion`?
-- [ ] Does any animated icon violate the Reversible Mechanical Affordance Doctrine? _(Reject spinning plus signs, disappearing checkmarks, and path-shriveling arrows; ensure static operational glyphs)._
+---
+
+## Troubleshooting
+
+| Symptom                                                                  | Cause                                                                              | Solution                                                                                                          |
+| :----------------------------------------------------------------------- | :--------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------- |
+| Button flashes bright/dark right before green success state settles      | `disabled:opacity-50` applied during active `aria-busy="true"` loading             | Scope disabled dimming using `[&:disabled:not([aria-busy='true'])]:opacity-50` so async buttons hold 100% opacity |
+| Rolling digits render clipped or half-shifted vertically                 | Percentage translation `y: -${digit * 10}%` evaluates against `1em` flex container | Set `shrink-0 h-[1em] w-full leading-none` on digits and translate by `y: -${digit}em`                            |
+| Theme toggle produces slow grey/muddy smear across cards                 | Global CSS colour transitions animate over 150ms–300ms simultaneously              | Wrap theme class mutations in `disableTransitionsTemporarily()` and force body style computation before cleanup   |
+| Hold-to-repeat stepper continues incrementing after cursor leaves button | Pointer release listener attached only to element instead of `window`              | Register `pointerup` and `pointercancel` cleanup handlers on `window` and validate bounds on every tick           |

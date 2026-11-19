@@ -14,6 +14,9 @@ Before writing, modifying, or reviewing any user interface code, you MUST adhere
 4. **[skills/base-ui-primitives/SKILL.md](skills/base-ui-primitives/SKILL.md)**: Headless compound component composition using Base UI (`@base-ui/react`) and WCAG 2.2 accessibility invariants.
 5. **[skills/semantic-theming/SKILL.md](skills/semantic-theming/SKILL.md)**: Semantic token architecture interoperable with standard design tokens and Tailwind CSS v4 `@theme inline`.
 6. **[skills/production-deployment/SKILL.md](skills/production-deployment/SKILL.md)**: Production deployment architecture, Speculation Rules, View Transitions, safe-area insets, and zero-CLS hydration.
+7. **[skills/technical-documentation/SKILL.md](skills/technical-documentation/SKILL.md)**: Technical documentation architecture, four-quadrant classification, concept grounding, active prose hygiene, and drift verification.
+8. **[skills/diagram-architecture/SKILL.md](skills/diagram-architecture/SKILL.md)**: Editorial technical diagrams, complexity budgets, orthogonal connector geometry, and accessible SVG contracts.
+9. **[skills/app-blueprint/SKILL.md](skills/app-blueprint/SKILL.md)**: End-to-end orchestrator workflow locking macrostructure, OKLCH calibration, primitive wiring, AST documentation generation, and compiler verification gates.
 
 ---
 

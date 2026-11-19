@@ -1,60 +1,79 @@
 ---
 name: semantic-theming
-description: Semantic design token architecture and theme specification interoperable with standard design tokens and Tailwind CSS v4. Governs OKLCH colour spaces, CSS custom properties, @theme inline compilation, Zod validation schema, and two-way import/export. Use when creating, modifying, styling, or auditing themes, colours, radiuses, or visual tokens.
+description: Use when creating, styling, or auditing design tokens and themes. Enforces perceptual OKLCH colour spaces, Tailwind CSS v4 @theme inline, and APCA contrast.
+license: MIT
+metadata:
+  author: William Dibble
+  version: "1.0.0"
+  tags: [theming, oklch, design-tokens, tailwind-v4, contrast]
 ---
 
 # Semantic Theming: Token Architecture & Tailwind v4
 
-This skill codifies the semantic design token architecture for the design system. It maintains **100% two-way compatibility with standard JSON design tokens** and compiles directly into **Tailwind CSS v4** using the modern `@theme inline` directive.
+This skill codifies the semantic design token architecture for the design system. It maintains **100% two-way compatibility with standard JSON design tokens** and compiles directly into **Tailwind CSS v4** using `@theme inline`.
 
 ---
 
-## 🎨 Why OKLCH Color Spaces?
+## Purpose
 
-Traditional color spaces (sRGB, HSL, Hex) suffer from **non-uniform perceptual lightness**:
-- In HSL, pure yellow (`hsl(60, 100%, 50%)`) has a perceptual lightness of ~95%, while pure blue (`hsl(240, 100%, 50%)`) has a perceptual lightness of ~30%.
-- Adjusting hues in HSL distorts contrast ratios and breaks WCAG accessibility without warning.
+Provide a deterministic, perceptually uniform OKLCH colour and surface architecture that supports real-time theme switching, WCAG 2.2 AA and WCAG 3 APCA contrast compliance, and Zod-validated runtime token imports without CSS rebuilds.
 
-**OKLCH solves this fundamentally:**
-- Lightness (`L`), Chroma (`C`), and Hue (`H`) are perceptually uniform.
-- An OKLCH lightness of `0.20` is equally dark regardless of whether the hue is emerald, sapphire, or amber.
-- Themes can be generated, tinted, and inverted mathematically with zero contrast drift.
+---
+
+## Prerequisites
+
+- **Tailwind CSS v4** supporting `@theme inline` and `@custom-variant`.
+- **`zod`** for validating external theme JSON payloads at runtime.
+- **Browser surface baseline**: Explicit `::selection`, `caret-color`, and `scrollbar-color` token bindings in global CSS (`src/index.css`).
+
+---
+
+## Instructions
+
+Follow these steps when authoring, extending, or validating a theme:
+
+1. **Use OKLCH perceptual colour values**: Declare `--background`, `--foreground`, `--primary`, semantic feedback tokens, and materials in `:root` and `.dark` using OKLCH (`oklch(L C H)`).
+2. **Map CSS variables via `@theme inline`**: Bind every `--color-*`, `--font-*`, and relative `--radius-*` token inside `@theme inline` so runtime variable swaps update live without recompilation.
+3. **Pass `in oklch` to `color-mix()`**: Always use `color-mix(in oklch, ...)` for alpha tinting or overlays; never blend gradients or surfaces in `srgb`.
+4. **Keep negative-polarity foregrounds on luminous fills**: On high-luminance amber, yellow, or gold fills (`--warning` in light mode), enforce dark `--warning-foreground` (`oklch(0.205 0 0)`) to satisfy WCAG 3 APCA (`|Lc| >= 60`).
+5. **Validate external theme JSON before applying**: Run `themeExportSchema.safeParse(payload)` to catch malformed or missing tokens before mutating `document.documentElement.style`.
+
+---
+
+## 🎨 Why OKLCH Colour Spaces?
+
+Traditional colour spaces (sRGB, HSL, Hex) suffer from **non-uniform perceptual lightness**:
+
+- In HSL, pure yellow (`hsl(60, 100%, 50%)`) has ~95% perceptual lightness, whereas pure blue (`hsl(240, 100%, 50%)`) has ~30%.
+- **OKLCH solves this**: Lightness (`L`), Chroma (`C`), and Hue (`H`) are perceptually uniform. An OKLCH lightness of `0.20` is equally dark across emerald, sapphire, and amber, eliminating contrast drift during hue shifts.
 
 ---
 
 ## 📐 The Complete Semantic Token Schema
 
-Every theme defines its variables in `:root` (light) and `.dark` (dark/OLED) using standard CSS custom properties:
+Define `:root` (light) and `.dark` (dark/OLED) CSS custom properties in `src/index.css`:
 
 ```css
 @import "tailwindcss";
 
-/* Tailwind CSS v4 dark variant mapping */
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
   :root {
-    /* Surfaces & Text */
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-
-    /* Brand & Role */
     --primary: oklch(0.205 0 0);
     --primary-foreground: oklch(0.985 0 0);
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
-
-    /* Neutral & Muted */
     --muted: oklch(0.97 0 0);
     --muted-foreground: oklch(0.556 0 0);
     --accent: oklch(0.97 0 0);
     --accent-foreground: oklch(0.205 0 0);
-
-    /* Feedback Intents */
     --destructive: oklch(0.577 0.245 27.325);
     --destructive-foreground: oklch(0.985 0 0);
     --success: oklch(0.51 0.16 145);
@@ -63,14 +82,10 @@ Every theme defines its variables in `:root` (light) and `.dark` (dark/OLED) usi
     --warning-foreground: oklch(0.205 0 0);
     --info: oklch(0.52 0.18 245);
     --info-foreground: oklch(0.985 0 0);
-
-    /* Borders, Inputs, Focus Rings & Radii (WCAG 2.2 SC 1.4.11 >= 3:1 focus ring) */
     --border: oklch(0.922 0 0);
     --input: oklch(0.922 0 0);
-    --ring: oklch(0.60 0 0);
+    --ring: oklch(0.6 0 0);
     --radius: 0.625rem;
-
-    /* Sidebar Hierarchy */
     --sidebar: oklch(0.985 0 0);
     --sidebar-foreground: oklch(0.145 0 0);
     --sidebar-primary: oklch(0.205 0 0);
@@ -79,44 +94,33 @@ Every theme defines its variables in `:root` (light) and `.dark` (dark/OLED) usi
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
-
-    /* Chart Data Visualization */
     --chart-1: oklch(0.646 0.222 41.116);
     --chart-2: oklch(0.6 0.118 184.704);
     --chart-3: oklch(0.398 0.07 227.392);
     --chart-4: oklch(0.828 0.189 84.429);
     --chart-5: oklch(0.769 0.188 70.08);
-
-    /* Typography Defaults */
     --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-
-    /* Apple Materials & Vibrancy Extensions */
     --material-glass: oklch(1 0 0 / 0.72);
     --material-glass-border: oklch(1 0 0 / 0.12);
   }
 
   .dark {
-    /* Dark / OLED Canvas */
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.17 0 0);
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.17 0 0);
     --popover-foreground: oklch(0.985 0 0);
-
     --primary: oklch(0.985 0 0);
     --primary-foreground: oklch(0.205 0 0);
     --secondary: oklch(0.269 0 0);
     --secondary-foreground: oklch(0.985 0 0);
-
     --muted: oklch(0.269 0 0);
     --muted-foreground: oklch(0.708 0 0);
     --accent: oklch(0.269 0 0);
     --accent-foreground: oklch(0.985 0 0);
-
-    /* Feedback Intents */
     --destructive: oklch(0.396 0.141 25.723);
     --destructive-foreground: oklch(0.985 0 0);
     --success: oklch(0.42 0.14 145);
@@ -125,11 +129,9 @@ Every theme defines its variables in `:root` (light) and `.dark` (dark/OLED) usi
     --warning-foreground: oklch(0.985 0 0);
     --info: oklch(0.42 0.14 245);
     --info-foreground: oklch(0.985 0 0);
-
     --border: oklch(0.269 0 0);
     --input: oklch(0.269 0 0);
     --ring: oklch(0.52 0 0);
-
     --sidebar: oklch(0.17 0 0);
     --sidebar-foreground: oklch(0.985 0 0);
     --sidebar-primary: oklch(0.985 0 0);
@@ -138,7 +140,6 @@ Every theme defines its variables in `:root` (light) and `.dark` (dark/OLED) usi
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(0.269 0 0);
     --sidebar-ring: oklch(0.439 0 0);
-
     --material-glass: oklch(0.145 0 0 / 0.75);
     --material-glass-border: oklch(1 0 0 / 0.08);
   }
@@ -147,11 +148,7 @@ Every theme defines its variables in `:root` (light) and `.dark` (dark/OLED) usi
 
 ---
 
-## ⚡ Tailwind CSS v4 `@theme inline` Integration
-
-Tailwind CSS v4 introduces `@theme inline`. It tells Tailwind to **reference existing CSS variables directly** inside generated utility classes rather than compiling to hardcoded values.
-
-This is what allows hot-swapping themes in real time without rebuilding CSS:
+## ⚡ Tailwind CSS v4 `@theme inline` & Mixing
 
 ```css
 @theme inline {
@@ -180,7 +177,6 @@ This is what allows hot-swapping themes in real time without rebuilding CSS:
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -189,18 +185,14 @@ This is what allows hot-swapping themes in real time without rebuilding CSS:
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
-
-  /* Relative Radius Token Scale */
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-xl: calc(var(--radius) + 4px);
@@ -211,33 +203,14 @@ This is what allows hot-swapping themes in real time without rebuilding CSS:
 }
 ```
 
-### The Concentric Radius Hierarchy in Practice
-When building nested UI (e.g. an image inside a card, or a badge inside a dialog), always obey the Concentric Corner Radius formula $R_{\text{inner}} = \max(0\text{px}, R_{\text{outer}} - \text{Padding})$:
-- If an outer container uses `rounded-2xl` (`calc(var(--radius) + 8px)`) with `p-2` (`8px` padding), the inner child must use `rounded-lg` (`var(--radius)`), because $(\text{radius} + 8\text{px}) - 8\text{px} = \text{radius}$.
-- For custom padding values, compute the exact concentric radius dynamically via `rounded-[max(0px,calc(var(--radius-2xl)-var(--spacing)*3))]`.
+- **Concentric Radius Formula**: Compute nested corners using `R_inner = max(0px, R_outer - Padding)`. For custom padding, use `rounded-[max(0px,calc(var(--radius-2xl)-var(--spacing)*3))]`.
+- **Perceptual `color-mix()`**: Always interpolate in `oklch` (`color-mix(in oklch, var(--primary) 15%, transparent)` or `oklch(from var(--foreground) l c h / 0.65)`). Blending in `srgb` creates desaturated grey midpoints.
 
 ---
 
-## 🎨 Perceptual Color Mixing & Alpha Interpolation (`color-mix`)
+## Examples
 
-When authoring dynamic tints, surface overlays, or translucent borders in CSS:
-- **Mandatory `in oklch`**: Always declare `in oklch` whenever using `color-mix()`.
-- **Banned `in srgb`**: Mixing colors in `srgb` passes through the "gray dead zone," resulting in desaturated, muddy alpha blends.
-- **Canonical Patterns**:
-  ```css
-  /* ✅ Clean OKLCH alpha mixing against transparent */
-  background-color: color-mix(in oklch, var(--primary) 15%, transparent);
-  border-color: color-mix(in oklch, var(--foreground) 12%, transparent);
-
-  /* ✅ Modern CSS Color Level 4 Relative Syntax */
-  color: oklch(from var(--foreground) l c h / 0.65);
-  ```
-
----
-
-## 📦 Zod Validation Schema for Runtime Theme Imports
-
-Use this schema in the theme customizer to validate imported JSON tokens:
+Validate imported theme JSON payloads with Zod and handle invalid tokens safely before updating CSS variables:
 
 ```typescript
 import { z } from "zod";
@@ -290,34 +263,48 @@ export const themeExportSchema = z.object({
 });
 
 export type ThemeTokenPayload = z.infer<typeof themeExportSchema>;
-```
 
----
+export function applyValidatedTheme(rawInput: unknown) {
+  const parsed = themeExportSchema.safeParse(rawInput);
+  if (!parsed.success) {
+    throw new Error(`Invalid theme token payload: ${parsed.error.message}`);
+  }
 
-## 🔄 Dynamic Theme Applier Utility
-
-```typescript
-export function applyThemeTokens(theme: ThemeTokenPayload) {
+  const theme = parsed.data;
   const root = document.documentElement;
-
-  // Apply light properties to :root
   Object.entries(theme.styles.light).forEach(([key, value]) => {
     if (value) root.style.setProperty(`--${key}`, value);
   });
 
-  // Dynamically update dark mode CSS rule in head
-  let darkStyleSheet = document.getElementById("theme-custom-style") as HTMLStyleElement;
-  if (!darkStyleSheet) {
-    darkStyleSheet = document.createElement("style");
-    darkStyleSheet.id = "theme-custom-style";
-    document.head.appendChild(darkStyleSheet);
+  let darkSheet = document.getElementById("theme-custom-style") as HTMLStyleElement | null;
+  if (!darkSheet) {
+    darkSheet = document.createElement("style");
+    darkSheet.id = "theme-custom-style";
+    document.head.appendChild(darkSheet);
   }
 
   const darkRules = Object.entries(theme.styles.dark)
-    .filter(([_, value]) => !!value)
+    .filter(([, value]) => !!value)
     .map(([key, value]) => `--${key}: ${value};`)
     .join(" ");
-
-  darkStyleSheet.textContent = `.dark { ${darkRules} }`;
+  darkSheet.textContent = `.dark { ${darkRules} }`;
 }
 ```
+
+---
+
+## Limitations
+
+- **Tailwind CSS v4 requirement**: `@theme inline` requires Tailwind CSS v4 (`@tailwindcss/vite` or v4 CLI). Legacy Tailwind v3 setups must map `var(--token)` strings manually inside `tailwind.config.js`.
+- **Gamut clipping on legacy displays**: High-chroma OKLCH colours (`C > 0.25`) may clip to sRGB gamut boundaries on non-P3 displays; always run contrast validation via `src/lib/contrast.ts`.
+
+---
+
+## Troubleshooting
+
+| Symptom                                                     | Cause                                                                    | Solution                                                                                        |
+| :---------------------------------------------------------- | :----------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------- |
+| Gradients show a grey/brown dead zone in the middle         | Browser interpolated the gradient across legacy `srgb` coordinates       | Replace `linear-gradient(...)` with `linear-gradient(in oklch, ...)`                            |
+| White text on bright yellow or amber badges is hard to read | High-luminance hues (`L >= 0.72`) fail WCAG 3 APCA with light text       | Enforce dark foreground tokens (`oklch(0.205 0 0)`) on luminous backgrounds                     |
+| Runtime theme toggle causes sluggish UI flicker             | Global CSS `* { transition: ... }` animates colours across all DOM nodes | Apply `.disable-transitions` temporarily on theme toggle (`src/components/ui/theme-toggle.tsx`) |
+| Invalid JSON import breaks styling silently                 | Unchecked partial object injected into CSS variables                     | Validate with `themeExportSchema.safeParse(raw)` before mutating `document.documentElement`     |
