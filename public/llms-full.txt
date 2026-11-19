@@ -2,73 +2,467 @@
 
 > An agent-native, human-centric design system standard built for high visual precision, physical intuition, and rigorous software engineering.
 
-## 1. Core Manifesto & Invariants
+## 1. Eighteen Core Directives
 
-1. Physical Yield on pointerdown: Interactive surfaces compress (scale 0.97 to 0.98) on touch or pointer down. Never wait for pointer release.
-2. Zero Layout Shifts: Never change border-width, font-weight, letter-spacing, margin, or padding across any dynamic state. Always declare transparent borders on resting states.
-3. Tabular Numerals: All counters, prices, dates, and metrics declare font-variant-numeric: tabular-nums (tabular-nums).
-4. Accessible Invariants: Every icon-only button possesses an explicit aria-label. Dialogues trap focus and dismiss on Escape.
-5. Quiet Chrome: Avoid bordered cards reflexively. Let typography, spatial rhythm, and baseline alignment carry visual hierarchy. No decorative eyebrow pill badges above titles.
-6. Concentric Corner Radii: Compute inner radius mathematically: R_inner = max(0, R_outer - Padding).
-7. Anti-Crush Responsive Page Architecture: Layout columns guarantee minimum viable widths (>= 340px). Status badges declare shrink-0 and whitespace-nowrap.
-8. Reversible Kinetic Affordances: Icons only animate when possessing a mechanical affordance that glides back to resting origin. No spinning operational icons or vanishing glyphs.
-9. Component Dimension Invariants: Never merge multi-axis utility shorthands (size-full, p-0) after single-axis dimensions (h-9, px-4) in cn().
-10. Component-Unified Kinetic Affinity: Nested icons react synchronously with parent button or card hover/press lifecycle. Icons maintain optical ratios between 40% and 50% of parent container height.
-11. Perceptual OKLCH Gradient Engineering: Linear gradients interpolate in modern perceptual color spaces (in oklch). Text text-contrast achieves WCAG 2.2 AA (>= 4.5:1) and WCAG 3 APCA (|Lc| >= 60).
-12. British English: Prose, comments, documentation, and tooltips strictly use British English spelling. No em dashes in text.
-13. Origin Anonymity: All standards, tokens, and components are presented as self-contained standards of this design system.
-14. Telemetry Indicator Cadence: Pulsing indicators maintain >= 60% resting window between impulses and animate exclusively compositor properties (transform, opacity).
+1. Physical Yield on pointerdown: Interactive controls compress to scale 0.97-0.98 immediately on pointerdown.
+2. Zero Layout Shifts: Never change border-width, font-weight, tracking, padding, or margin on hover/focus/active.
+3. Tabular Numerals: Counters, prices, metrics, and line numbers declare tabular-nums.
+4. Accessible Invariants: Every icon-only button carries an explicit aria-label; modals trap focus and dismiss on Escape.
+5. Quiet Chrome & Anti-Pill: Avoid reflexive bordered card grids and decorative eyebrow pills above headings.
+6. Concentric Corner Radii: Nested corners obey R_inner = max(0, R_outer - Padding).
+7. Anti-Crush Architecture: Declare explicit page archetypes, W_col >= 340px, and shrink-0 whitespace-nowrap pills.
+8. Reversible Kinetic Affordances: Icons animate along mechanical paths that return cleanly to rest on pointer leave.
+9. Component Dimension Invariants: Never override h-*/w-* variants with trailing size-full or size-auto inside cn().
+10. Optical Icon Proportion: Pass explicit numeric size={...} matching 40% to 50% of parent height.
+11. Perceptual OKLCH & Dual Contrast: Gradients interpolate in oklch with WCAG 2.2 AA and WCAG 3 APCA contrast floors.
+12. British English & Clean Prose: Zero AI em dashes, zero banned marketing buzzwords, strict British English spelling.
+13. Origin Anonymity: Present all guidelines, tokens, and components as self-contained standards of this system.
+14. Telemetry Indicator Cadence: Pulse animations rest >= 60% of cycle at opacity 0 and animate compositor properties only.
+15. Brand Truth & Fact Integrity: Never invent synthetic metrics, fake testimonials, or unverified brand hex colours.
+16. Micro-Finish & Baseline Stability: Reserve min-h-[1lh] for form helper/error slots and cap containers at 1440px.
+17. Evidence Before Assertions: Execute empirical verification gates and confirm exit code 0 before reporting done.
+18. Autonomous Rulings: Record minor design-engineering rulings and maintain forward build velocity.
 
-## 2. Token Architecture
+## 2. OKLCH Token & Dual-Engine Contrast Ledger
 
-### Perceptual OKLCH Color Engine
-- Background: `oklch(0.99 0.002 240)` (light) / `oklch(0.14 0.005 260)` (dark)
-- Foreground: `oklch(0.18 0.005 260)` (light) / `oklch(0.98 0.002 240)` (dark)
-- Primary: `oklch(0.20 0.01 260)` (light) / `oklch(0.98 0.005 240)` (dark)
-- Primary Foreground: `oklch(0.99 0.002 240)` (light) / `oklch(0.14 0.01 260)` (dark)
-- Accent: `oklch(0.96 0.005 260)` (light) / `oklch(0.22 0.008 260)` (dark)
-- Border: `oklch(0.88 0.005 260)` (light) / `oklch(0.28 0.008 260)` (dark)
-- Destructive: `oklch(0.55 0.22 25)`
-- Success: `oklch(0.62 0.18 145)`
-- Warning: `oklch(0.75 0.16 75)`
+### Light Mode Pairs
+- Body Text on Canvas (--foreground on --background): oklch(0.145 0 0) on oklch(1 0 0) | WCAG 2.2 19.79:1 | APCA Lc 108.9 | PASS
+- Card Foreground on Card (--card-foreground on --card): oklch(0.145 0 0) on oklch(1 0 0) | WCAG 2.2 19.79:1 | APCA Lc 108.9 | PASS
+- Primary Button Ink (--primary-foreground on --primary): oklch(0.985 0 0) on oklch(0.205 0 0) | WCAG 2.2 17.16:1 | APCA Lc 105.1 | PASS
+- Secondary Button Ink (--secondary-foreground on --secondary): oklch(0.205 0 0) on oklch(0.97 0 0) | WCAG 2.2 16.42:1 | APCA Lc 101.4 | PASS
+- Muted Label on Canvas (--muted-foreground on --background): oklch(0.54 0 0) on oklch(1 0 0) | WCAG 2.2 5.06:1 | APCA Lc 77.8 | PASS
+- Destructive Intent (--destructive-foreground on --destructive): oklch(0.985 0 0) on oklch(0.577 0.245 27.325) | WCAG 2.2 4.56:1 | APCA Lc 75 | PASS
+- Success Intent (--success-foreground on --success): oklch(0.985 0 0) on oklch(0.51 0.16 145) | WCAG 2.2 5.15:1 | APCA Lc 78.5 | PASS
+- Warning Intent (--warning-foreground on --warning): oklch(0.205 0 0) on oklch(0.75 0.16 70) | WCAG 2.2 7.81:1 | APCA Lc 62.1 | PASS
+- Info Intent (--info-foreground on --info): oklch(0.985 0 0) on oklch(0.52 0.18 245) | WCAG 2.2 5.04:1 | APCA Lc 77.9 | PASS
 
-### Fluid Motion Springs
+### Dark Mode Pairs
+- Body Text on Canvas (--foreground on --background): oklch(0.985 0 0) on oklch(0.145 0 0) | WCAG 2.2 18.96:1 | APCA Lc 106.7 | PASS
+- Card Foreground on Card (--card-foreground on --card): oklch(0.985 0 0) on oklch(0.17 0 0) | WCAG 2.2 18.31:1 | APCA Lc 106.1 | PASS
+- Primary Button Ink (--primary-foreground on --primary): oklch(0.205 0 0) on oklch(0.985 0 0) | WCAG 2.2 17.16:1 | APCA Lc 104.2 | PASS
+- Secondary Button Ink (--secondary-foreground on --secondary): oklch(0.985 0 0) on oklch(0.269 0 0) | WCAG 2.2 14.48:1 | APCA Lc 102.2 | PASS
+- Muted Label on Canvas (--muted-foreground on --background): oklch(0.708 0 0) on oklch(0.145 0 0) | WCAG 2.2 7.63:1 | APCA Lc 58.8 | PASS
+- Destructive Intent (--destructive-foreground on --destructive): oklch(0.985 0 0) on oklch(0.396 0.141 25.723) | WCAG 2.2 9.63:1 | APCA Lc 93.9 | PASS
+- Success Intent (--success-foreground on --success): oklch(0.985 0 0) on oklch(0.42 0.14 145) | WCAG 2.2 7.59:1 | APCA Lc 88.6 | PASS
+- Warning Intent (--warning-foreground on --warning): oklch(0.985 0 0) on oklch(0.48 0.14 70) | WCAG 2.2 6.42:1 | APCA Lc 84.5 | PASS
+- Info Intent (--info-foreground on --info): oklch(0.985 0 0) on oklch(0.42 0.14 245) | WCAG 2.2 7.83:1 | APCA Lc 89.3 | PASS
+
+## 3. Fluid Motion Springs
+
 - Tactile: `{ type: "spring", stiffness: 600, damping: 30, mass: 0.8 }`
 - Dialog: `{ type: "spring", stiffness: 350, damping: 35, mass: 1.0 }`
 - Snappy: `{ type: "spring", stiffness: 550, damping: 35, mass: 0.6 }`
 - Micro: `{ type: "spring", stiffness: 700, damping: 40 }`
 - Squishy: `{ type: "spring", stiffness: 420, damping: 24, mass: 0.8 }`
 
-### Liquid Glass Shaders
-- Ultra-Thin: `backdrop-filter: blur(28px)`, 55% alpha
-- Thin: `backdrop-filter: blur(20px)`, 70% alpha
-- Regular: `backdrop-filter: blur(16px)`, 82% alpha
-- Thick: `backdrop-filter: blur(12px)`, 92% alpha
+## 4. Primitive Building-Block Reference (57 Components, 470 Kinetic Icons)
 
-## 3. Component Usage Guide
+### Accordion (`@/components/ui/accordion`)
+- Spec: `public/docs/components/accordion.md`
+- Defining Constraint: Expands and collapses vertical disclosure panels smoothly via CSS height transitions under Base UI ARIA keyboard controls.
+- Use When: FAQs, collapsible inspector subsections, or compact mobile configuration groups. Progressive disclosure blocks allowing multiple peer panels open simultaneously.
+- Anatomy: `<Accordion defaultValue={["item-1"]}> <AccordionItem value="item-1"> <AccordionTrigger>Quiet Chrome</AccordionTrigger> <AccordionContent>Typography and whitespace replace card noise.</AccordionContent> </AccordionItem> </Accordion>`
+- Metadata: Accessible vertical disclosure stack with smooth CSS height reveal.
 
-Import primitives from `@/components/ui`:
-```tsx
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { SparklesIcon } from "@/components/icons";
+### AlertDialog (`@/components/ui/alert-dialog`)
+- Spec: `public/docs/components/alert-dialog.md`
+- Defining Constraint: Forces explicit user acknowledgement via high-friction modal focus trapping that blocks accidental backdrop dismissal.
+- Use When: Irreversible destructive operations such as deleting repositories, revoking production API keys, or discarding unsaved work. High-consequence billing or security actions requiring explicit Cancel vs Confirm choice.
+- Anatomy: `<AlertDialog> <AlertDialogTrigger className={buttonVariants({ variant: "destructive" })}>Revoke Key</AlertDialogTrigger> <AlertDialogContent> <AlertDialogHeader> <AlertDialogTitle>Revoke key?</AlertDialogTitle> <AlertDialogDescription>Traffic using this token stops immediately.</AlertDialogDescription> </AlertDialogHeader> <AlertDialogFooter> <AlertDialogCancel>Cancel</AlertDialogCancel> <AlertDialogAction>Revoke Key</AlertDialogAction> </AlertDialogFooter> </AlertDialogContent> </AlertDialog>`
+- Metadata: High-friction confirmation modal requiring explicit user acknowledgement.
 
-export function ExampleCard() {
-  return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>Autonomous Cluster</CardTitle>
-          <Badge variant="success" dot>Active</Badge>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <Button variant="default" leftIcon={<SparklesIcon size={16} />}>
-          Execute Deployment
-        </Button>
-      </CardContent>
-    </Card>
-  );
-}
-```
+### Avatar (`@/components/ui/avatar`)
+- Spec: `public/docs/components/avatar.md`
+- Defining Constraint: Deterministically computes harmonious OKLCH fallback colours from initials while cleanly supporting presence pips and overlapping AvatarGroup stacks.
+- Use When: Team member identity badges, commit actor nodes, comment headers, and presence bars. Compact collaborator groups with deterministic fallback monograms.
+- Anatomy: `<Avatar size="default"> <AvatarFallback autoColor>WD</AvatarFallback> <AvatarBadge status="online" /> </Avatar>`
+- Metadata: User identity emblem with deterministic OKLCH fallback and status pip. | Sizes: xs, sm, default, lg, xl | Props: autoColor, max, size, spacing, status
+
+### Badge (`@/components/ui/badge`)
+- Spec: `public/docs/components/badge.md`
+- Defining Constraint: Locks shrink-0 whitespace-nowrap operational pills with tabular numerals and optional resting-plateau pulse indicators; banned above titles as decorative eyebrow kickers.
+- Use When: Operational telemetry (`healthy`, `degraded`, version numbers, active counts, or Required form flags). Inline metadata tags pinned cleanly beside card titles or table row states.
+- Anatomy: `<Badge variant="success" dot>Operational</Badge>`
+- Metadata: Shrink-wrapped operational telemetry pill with optional pulse indicator. | Variants: default, secondary, destructive, outline, success, warning | Sizes: default, sm | Props: dot
+
+### Breadcrumb (`@/components/ui/breadcrumb`)
+- Spec: `public/docs/components/breadcrumb.md`
+- Defining Constraint: Clarifies hierarchy levels cleanly without overflowing horizontal bars, marking the final destination with aria-current="page" instead of a link.
+- Use When: Deep nested views, component reference pages, or file hierarchy detail screens. Orienting users two or more levels below top-level navigation.
+- Anatomy: `<Breadcrumb> <BreadcrumbList> <BreadcrumbItem> <BreadcrumbLink href="/">Home</BreadcrumbLink> </BreadcrumbItem> <BreadcrumbSeparator /> <BreadcrumbItem> <BreadcrumbPage>Primitives</BreadcrumbPage> </BreadcrumbItem> </BreadcrumbList> </Breadcrumb>`
+- Metadata: Hierarchical location trail with kinetic directional separators. | Props: asChild, separator
+
+### Button (`@/components/ui/button`)
+- Spec: `public/docs/components/button.md`
+- Defining Constraint: Locks horizontal button footprint with an invisible ghost sizer across idle, loading, success, and error states while compressing immediately on pointerdown.
+- Use When: Triggering immediate actions, form submissions, or asynchronous mutations with Promise lifecycle feedback. Presenting primary, secondary, destructive, outline, ghost, or warning actions with proportional icon affinity.
+- Anatomy: `<Button variant="default" size="default" leftIcon={<SparklesIcon size={16} />}> Publish </Button>`
+- Metadata: Tactile action primitive with 9 visual variants, pointerdown yield, and async promise lifecycle. | Variants: default, secondary, destructive, outline, ghost, link, success, warning, glass | Sizes: xs, sm, default, lg, xl, icon-xs, icon-sm, icon, icon-lg | Props: children, disableTapScale, errorDuration, errorText, fluidMorph, fullWidth, iconTrigger, isLoading
+
+### Calendar (`@/components/ui/calendar`)
+- Spec: `public/docs/components/calendar.md`
+- Defining Constraint: Renders keyboard-navigable month grids with spring horizontal slide transitions and tabular-nums date cells, pairing directly with DatePicker popovers.
+- Use When: Scheduling views, release windows, filter date selection, and inline month calendars. Forms requiring visual day-of-week awareness via Calendar or DatePicker.
+- Anatomy: `<Calendar selected={selectedDate} onSelect={setSelectedDate} />`
+- Metadata: Interactive month calendar grid with spring transition paging. | Props: className, disabled, disabledDates, maxDate, minDate, onSelect, placeholder, selected
+
+### Callout (`@/components/ui/callout`)
+- Spec: `public/docs/components/callout.md`
+- Defining Constraint: Highlights non-negotiable architectural constraints, semantic tips, or operational warnings in OKLCH-tinted blocks without decorative eyebrow pill clutter.
+- Use When: Calling out defining constraints, breaking invariant rules, tips, or caution notices inside guides. Surfacing high-signal validation reminders directly alongside runnable code examples.
+- Anatomy: `<Callout variant="defining-constraint" title="Zero Layout Shift"> Reserve border width on resting states. </Callout>`
+- Metadata: Editorial admonition surface with semantic OKLCH variants including defining constraints. | Variants: note, tip, warning, caution, defining-constraint | Props: children, icon, title
+
+### Card (`@/components/ui/card`)
+- Spec: `public/docs/components/card.md`
+- Defining Constraint: Enforces mathematical concentric corner continuity via CardInner inside Card alongside subtle 1px specular rim lighting; avoid defaulting every layout to 3-card grids.
+- Use When: Bounded workspace modules, detail inspectors, or distinct nested settings panels. Bento showcase items pairing CardHeader chrome with concentric CardInner nesting.
+- Anatomy: `<Card> <CardHeader> <CardTitle>Cluster Node</CardTitle> <CardDescription>Edge configuration status.</CardDescription> </CardHeader> <CardContent> <CardInner>Inner concentric container</CardInner> </CardContent> </Card>`
+- Metadata: Concentric container surface with specular rim lighting and inner card nesting. | Props: specular
+
+### Chart (`@/components/ui/chart`)
+- Spec: `public/docs/components/chart.md`
+- Defining Constraint: Renders zero-dependency perceptual OKLCH SVG Sparklines, AreaCharts, and BarCharts scaled crisply with tabular metric axes.
+- Use When: Latency sparklines, throughput trendlines, contrast bounds, and daily activity bars. Telemetry panels needing lightweight OKLCH SVGs without external chart library overhead.
+- Anatomy: `<AreaChart data={series} height={120} valueFormatter={(v) => `${v} ms`} />`
+- Metadata: Zero-dependency OKLCH vector sparklines, area visualisations, and bar charts. | Props: data, className, color, fill, height, primaryColor, secondaryColor, showGrid
+
+### Checkbox (`@/components/ui/checkbox`)
+- Spec: `public/docs/components/checkbox.md`
+- Defining Constraint: Expands hit area with an invisible 44px touch target around a crisp rounded indicator supporting checked, unchecked, and indeterminate states.
+- Use When: Multi-select option lists, table row selection, or opt-in policy acknowledgements inside forms. Parent-child selection trees requiring an indeterminate mixed state.
+- Anatomy: `<label className="inline-flex items-center gap-2.5"> <Checkbox checked={agreed} onCheckedChange={setAgreed} /> <span>Accept terms</span> </label>`
+- Metadata: Tri-state accessible checkbox with 44px touch hit target expansion. | Props: size
+
+### CodeBlock (`@/components/ui/code-block`)
+- Spec: `public/docs/components/code-block.md`
+- Defining Constraint: Frames concentric code viewports (`rounded-2xl` outer, `rounded-[10px]` inner) with tabular-nums line gutters, focus line highlights, SegmentedControl tabs, and CopyButton.
+- Use When: Presenting verified source snippets, CLI command tabs (Install / Verify), and highlighted config blocks. Side-by-side multi-framework installation tabs powered by SegmentedControl.
+- Anatomy: `<CodeBlock filename="verify.sh" language="bash" highlightLines={[2]} code="npm run docs:build npm run check" />`
+- Metadata: Concentric syntax viewport with tabular line numbers, line highlights, and multi-tab switcher. | Props: caption, code, copyable, defaultTab, filename, highlightLines, language, maxHeight
+
+### Combobox (`@/components/ui/combobox`)
+- Spec: `public/docs/components/combobox.md`
+- Defining Constraint: Pairs a filterable text input with a headless Base UI listbox popup supporting keyboard type-ahead and empty state feedback.
+- Use When: Choosing one or more options from large sets (more than 10 items) where users type to filter. Country pickers, model selectors, or filterable tag selectors.
+- Anatomy: `<Combobox items={frameworks} value={value} onValueChange={setValue}> <ComboboxInput aria-label="Select framework" placeholder="Search..." /> <ComboboxContent> <ComboboxList> <ComboboxItem value="React">React</ComboboxItem> <ComboboxEmpty>No matches found.</ComboboxEmpty> </ComboboxList> </ComboboxContent> </Combobox>`
+- Metadata: Searchable autocomplete selector with keyboard roving navigation. | Props: clearable, icon, portal, sideOffset, size
+
+### Command (`@/components/ui/command`)
+- Spec: `public/docs/components/command.md`
+- Defining Constraint: Indexes searchable keyboard actions inside either an inline panel or a global focus-trapped CommandDialog (⌘K) with tabular keycap hints.
+- Use When: Application-wide ⌘K command palettes, quick navigation jumps, and action search. Filtering structured commands grouped under headings with keyboard arrows.
+- Anatomy: `<Command aria-label="Quick actions"> <CommandInput placeholder="Search commands..." /> <CommandList> <CommandEmpty>No matching commands.</CommandEmpty> <CommandGroup heading="Navigation"> <CommandItem>Open Docs<CommandShortcut>⌘D</CommandShortcut></CommandItem> </CommandGroup> </CommandList> </Command>`
+- Metadata: Global command palette modal with instant filtering and keycap hints. | Props: children, onOpenChange, open
+
+### ComponentPreview (`@/components/ui/component-preview`)
+- Spec: `public/docs/components/component-preview.md`
+- Defining Constraint: Provides a symmetric centred stage (`min-h-[180px]`) with live Preview/Code toggling, `375px`/`768px`/`100%` viewport presets, and stateful component reset.
+- Use When: Documenting interactive primitives with live runnable fixtures backed by verified source code. Verifying component anti-crush responsiveness live across 375px, 768px, and 100% widths.
+- Anatomy: `<ComponentPreview title="Tactile Button" code={snippet}> <ButtonExample /> </ComponentPreview>`
+- Metadata: Symmetric live fixture stage with preview/code switcher, viewport presets, and state reset. | Props: children, code, allowReset, defaultView, description, filename, language, showViewportControls
+
+### ContextMenu (`@/components/ui/context-menu`)
+- Spec: `public/docs/components/context-menu.md`
+- Defining Constraint: Attaches a secondary pointer contextmenu surface with keyboard arrow traversal, checkboxes, radio groups, and submenu support.
+- Use When: Desktop canvas nodes, file trees, or table rows needing contextual right-click power actions. Compact secondary command lists preserving screen space across dense workbenches.
+- Anatomy: `<ContextMenu> <ContextMenuTrigger><div>Inspectable canvas surface</div></ContextMenuTrigger> <ContextMenuContent> <ContextMenuItem>Copy Path</ContextMenuItem> <ContextMenuSeparator /> <ContextMenuItem>Duplicate</ContextMenuItem> </ContextMenuContent> </ContextMenu>`
+- Metadata: Secondary pointer context menu supporting nested groups and radio selections. | Props: alignOffset, inset, sideOffset
+
+### CopyButton (`@/components/ui/copy-button`)
+- Spec: `public/docs/components/copy-button.md`
+- Defining Constraint: Encapsulates clipboard write handling and spring morph transitions between idle copy and temporary confirmation states without shifting adjacent controls.
+- Use When: Copying CLI commands, API keys, token values, or generated code blocks to the clipboard. Inline copy triggers inside tables, headers, and developer toolbars.
+- Anatomy: `<CopyButton value="npm run check" idleText="Copy" copiedText="Copied" variant="outline" size="sm" />`
+- Metadata: Clipboard action control with spring state transition feedback. | Props: copied, copiedText, iconSize, idleText, onCopiedChange, size, timeout, value
+
+### DiagramFrame (`@/components/ui/diagram-frame`)
+- Spec: `public/docs/components/diagram-frame.md`
+- Defining Constraint: Encapsulates accessible SVG diagrams inside semantic `<figure>` and `<figcaption>` landmarks with horizontal scroll safety and a focus-trapped expanded zoom Dialog.
+- Use When: State machines, data-flow pipelines, component hierarchies, and token pipelines drawn as orthogonal SVGs. Architecture explanations needing accessible `<figcaption>` semantics and full-width modal expansion.
+- Anatomy: `<DiagramFrame title="Pipeline Schematic" description="Connects blueprint to verified output."> <svg aria-label="Pipeline schematic">...</svg> </DiagramFrame>`
+- Metadata: Accessible orthogonal SVG schematic container with semantic caption and expanded zoom modal. | Props: children, description, title, allowZoom, caption
+
+### Dialog (`@/components/ui/dialog`)
+- Spec: `public/docs/components/dialog.md`
+- Defining Constraint: Renders a focus-trapped liquid backdrop modal dialogue with Apple spring scaling and reliable Escape/backdrop dismissal.
+- Use When: Focused secondary forms, inspector modals, or expanded media/diagram inspection. Multi-field edits needing temporary focus isolation without navigating away from context.
+- Anatomy: `<Dialog> <DialogTrigger className={buttonVariants({ variant: "outline" })}>Edit Spec</DialogTrigger> <DialogContent> <DialogHeader> <DialogTitle>Edit Token Preset</DialogTitle> <DialogDescription>Adjust base hue and contrast thresholds.</DialogDescription> </DialogHeader> <DialogFooter><DialogClose>Done</DialogClose></DialogFooter> </DialogContent> </Dialog>`
+- Metadata: Focus-trapped modal dialogue with liquid backdrop blur and Escape dismissal. | Props: showCloseButton
+
+### DocLayout (`@/components/ui/doc-layout`)
+- Spec: `public/docs/components/doc-layout.md`
+- Defining Constraint: Enforces a 1440px-capped three-column editorial reading layout with zero-shift sidebar active styling, 72ch article measure, Copy Page as Markdown action, and verification TOC.
+- Use When: Product documentation portals, API reference guides, and internal engineering handbooks. Technical manuals combining navigable group sidebars with copyable Markdown exports.
+- Anatomy: `<DocLayout> <DocSidebar groups={groups} activeId={id} onSelect={setId} /> <DocArticle markdownSource={md}> <section>...</section> </DocArticle> <DocToc headings={headings} verificationChecks={checks} /> </DocLayout>`
+- Metadata: Three-column reference macrostructure with bounded sidebar, 72ch measure, and scroll-spy TOC. | Props: activeId, children, groups, headings, onSelect, header, headerSlot, llmsHref
+
+### Drawer (`@/components/ui/drawer`)
+- Spec: `public/docs/components/drawer.md`
+- Defining Constraint: Provides a swipeable edge drawer with tactile drag handle chrome tailored to thumb-reach compact viewports.
+- Use When: Mobile action sheets, compact filters, or contextual forms originating from the bottom viewport edge. Touch-first pickers where drag-down gesture dismissal feels natural.
+- Anatomy: `<Drawer> <DrawerTrigger className={buttonVariants({ variant: "outline" })}>Open Drawer</DrawerTrigger> <DrawerContent> <DrawerHandle /> <DrawerHeader> <DrawerTitle>Filter Results</DrawerTitle> <DrawerDescription>Narrow dataset by severity.</DrawerDescription> </DrawerHeader> </DrawerContent> </Drawer>`
+- Metadata: Swipeable edge drawer with tactile drag handle for compact viewports. | Props: hideHandle, preventCloseOnClick
+
+### DropdownMenu (`@/components/ui/dropdown-menu`)
+- Spec: `public/docs/components/dropdown-menu.md`
+- Defining Constraint: Preserves zero-jitter anchor alignment by keeping trigger buttons unscaled while presenting liquid glass action, checkbox, and radio menus.
+- Use When: Compact overflow "More" menus, row action buttons, or profile menu actions. Hierarchical action lists supporting toggleable checkboxes and radio view modes.
+- Anatomy: `<DropdownMenu> <DropdownMenuTrigger className={buttonVariants({ variant: "outline" })}>Actions</DropdownMenuTrigger> <DropdownMenuContent> <DropdownMenuLabel>Workspace</DropdownMenuLabel> <DropdownMenuItem>Export JSON</DropdownMenuItem> </DropdownMenuContent> </DropdownMenu>`
+- Metadata: Anchored menu surface with keyboard navigation, checkboxes, and shortcuts. | Props: align, alignOffset, anchor, collisionAvoidance, disableAnchorTracking, inset, portalProps, side
+
+### Field (`@/components/ui/field`)
+- Spec: `public/docs/components/field.md`
+- Defining Constraint: Connects accessible label, input control, helper description, and min-h-[1lh] error slots under shared Base UI invalid state IDs.
+- Use When: Every form control requiring a visible label, validation message, or supporting hint. Preventing vertical page jumps when error states toggle between valid and invalid.
+- Anatomy: `<Field invalid={Boolean(error)}> <FieldLabel requiredIndicator>Workspace Slug</FieldLabel> <Input value={slug} onChange={...} /> <FieldDescription>Lowercase URL identifier.</FieldDescription> <FieldError match={Boolean(error)}>{error}</FieldError> </Field>`
+- Metadata: Compound form field wrapper coordinating labels, hints, and min-h-[1lh] error slots. | Props: optional, requiredIndicator
+
+### FileUpload (`@/components/ui/file-upload`)
+- Spec: `public/docs/components/file-upload.md`
+- Defining Constraint: Validates accepted MIME types and maximum byte size client-side inside an accessible drag-and-drop region backed by a visually hidden file input.
+- Use When: Uploading JSON token themes, CSV datasets, images, or PDF reports with client validation. Accepting dropped assets alongside explicit file dialogue fallback buttons.
+- Anatomy: `<FileUpload title="Drop token preset" description="JSON files up to 5MB" accept=".json" onFilesSelected={handleFiles} />`
+- Metadata: Drag-and-drop asset uploader with client-side validation and progress state. | Props: accept, description, disabled, maxFiles, maxSizeMB, onChange, title, value
+
+### HoverCard (`@/components/ui/hover-card`)
+- Spec: `public/docs/components/hover-card.md`
+- Defining Constraint: Displays passive, non-essential supplementary reference details on pointer hover or link focus with gentle timing hysteresis.
+- Use When: User profile cards, git commit previews, or token definitions hovering over inline anchors. Read-only reference summaries enrichment over navigation links.
+- Anatomy: `<HoverCard> <HoverCardTrigger href="#spec">@design-system</HoverCardTrigger> <HoverCardContent> <p className="text-xs">57 verified primitives in OKLCH.</p> </HoverCardContent> </HoverCard>`
+- Metadata: Rich contextual preview popover triggered on pointer hover or keyboard focus. | Props: align, side, sideOffset
+
+### Image (`@/components/ui/image`)
+- Spec: `public/docs/components/image.md`
+- Defining Constraint: Eliminates cumulative layout shift by locking aspectRatio geometry upfront and cross-fading smoothly once decoded.
+- Use When: Editorial photography, product screenshots, and media thumbnails inside cards or hero banners. Aspect-locked media panels guaranteeing zero layout shift during async image decoding.
+- Anatomy: `<ProgressiveImage src={assetSrc} alt="Verified surface specimen" aspectRatio="16/9" />`
+- Metadata: Zero-CLS progressive media loader with smooth decoding fade. | Props: aspectRatio, containerClassName, placeholderSrc
+
+### Input (`@/components/ui/input`)
+- Spec: `public/docs/components/input.md`
+- Defining Constraint: Maintains a minimum 16px base font size on mobile viewports (<640px) to stop iOS Safari auto-zoom while hugging focus rings cleanly at 1px.
+- Use When: Single-line text, email, search, API key, or numeric form entry. Search fields enhanced with leftIcon, rightIcon, prefixText, or suffixText add-ons.
+- Anatomy: `<Input inputSize="default" leftIcon={<SearchIcon size={16} />} placeholder="Search tokens..." />`
+- Metadata: 16px iOS zoom-safe text field with specular border and prefix/suffix slots. | Props: error, leftIcon, prefixText, rightIcon, suffixText
+
+### InputOTP (`@/components/ui/input-otp`)
+- Spec: `public/docs/components/input-otp.md`
+- Defining Constraint: Renders visual individual PIN character boxes over a single hidden accessible text input supporting one-paste autofill across all slots.
+- Use When: Two-factor authenticator codes, email verification PINs, or SMS 6-digit passcodes. Structured fixed-length token verification flows supporting clipboard auto-fill.
+- Anatomy: `<InputOTP maxLength={6} aria-label="Verification code"> <InputOTPGroup> <InputOTPSlot index={0} /> <InputOTPSlot index={1} /> <InputOTPSlot index={2} /> </InputOTPGroup> <InputOTPSeparator /> <InputOTPGroup> <InputOTPSlot index={3} /> <InputOTPSlot index={4} /> <InputOTPSlot index={5} /> </InputOTPGroup> </InputOTP>`
+- Metadata: Segmented PIN code input with clipboard autofill and digit focus stepping. | Props: index, containerClassName, defaultValue, mask, maxLength, onChange, onComplete, value
+
+### Kbd (`@/components/ui/kbd`)
+- Spec: `public/docs/components/kbd.md`
+- Defining Constraint: Styles tactile hardware keycap hints with uniform baseline height and tabular monospace glyph spacing.
+- Use When: Documenting global keyboard shortcuts (`⌘K`, `⌘D`, `Escape`) inside buttons, menus, and docs. Communicating hotkeys alongside CommandPalette or NavigationBar triggers.
+- Anatomy: `<div className="inline-flex items-center gap-1"><Kbd>⌘</Kbd><Kbd>D</Kbd></div>`
+- Metadata: Tactile keycap micro-primitive styled with tabular monospace proportions. | Props: size, variant
+
+### MarkdownToolbar (`@/components/ui/markdown-toolbar`)
+- Spec: `public/docs/components/markdown-toolbar.md`
+- Defining Constraint: Coordinates rich Markdown insertion, line-prefix toggling, and table scaffolding while sanitising heading levels against existing line structures.
+- Use When: Paired above a Markdown Textarea for technical notes, issue composers, or changelog editors. When writers need keyboard-accessible heading, list, quote, link, and table formatting actions.
+- Anatomy: `<MarkdownToolbar textareaRef={textareaRef} viewMode={viewMode} onViewModeChange={setViewMode} aria-label="Markdown formatting" />`
+- Metadata: Rich Markdown formatting toolbar with 20 actions and list/table generators. | Props: hideHistory, hideInserts, hideViewMode, onAction, onViewModeChange, textareaRef, viewMode
+
+### NavigationBar (`@/components/ui/navigation-bar`)
+- Spec: `public/docs/components/navigation-bar.md`
+- Defining Constraint: Prevents header text truncation and crowding using container queries, minimum 220px submenu columns, explicit popover width bases, and automatic overflow harvesting.
+- Use When: Global top application headers combining branding, mega-menu flyouts, direct route links, and utility actions. Responsive headers transitioning smoothly to a Sheet navigation drawer on narrow mobile screens.
+- Anatomy: `<NavigationBar brand={<span>Design System</span>} items={navItems} maxVisibleItems={4} actions={<ThemeToggle isDark={isDark} onToggleDark={setIsDark} />} />`
+- Metadata: Responsive top navigation rail with mega menus, columns, and bounded overflow harvesting. | Props: id, label, title, actions, align, badge, brand, children
+
+### NumberTicker (`@/components/ui/number-ticker`)
+- Spec: `public/docs/components/number-ticker.md`
+- Defining Constraint: Interpolates numeric changes via calibrated spring deceleration while enforcing font-variant-numeric: tabular-nums so column digits never vibrate.
+- Use When: Live KPI telemetry counters, build pass totals, contrast score indicators, and odometer readouts. Tabular metric cards or Stepper value displays requiring smooth spring transitions.
+- Anatomy: `<NumberTicker value={99.4} decimalPlaces={1} suffix="%" />`
+- Metadata: Tabular numeral spring counter preventing horizontal digit jitter. | Props: value, decimalPlaces, prefix, suffix
+
+### Pagination (`@/components/ui/pagination`)
+- Spec: `public/docs/components/pagination.md`
+- Defining Constraint: Formats numeric page counters with tabular-nums and frames active pages via colour contrast rather than weight shifts so buttons never jitter across pages.
+- Use When: Stepping through server-backed or large client collections split into deterministic pages. Icon galleries, audit log tables, and search result sets.
+- Anatomy: `<Pagination currentPage={page} totalPages={8} onPageChange={setPage} />`
+- Metadata: Paged collection controller with compact numeric and worded triggers. | Props: buttonVariant, children, currentPage, disabled, iconOnly, isActive, label, layoutId
+
+### Popover (`@/components/ui/popover`)
+- Spec: `public/docs/components/popover.md`
+- Defining Constraint: Anchors non-modal interactive overlays with automatic viewport collision avoidance while letting outside clicks dismiss naturally.
+- Use When: Date pickers, inline filter panels, share dialogues, or compact configuration forms. Trigger-anchored interactive mini-panels that keep surrounding context visible.
+- Anatomy: `<Popover> <PopoverTrigger className={buttonVariants({ variant: "outline" })}>Configure</PopoverTrigger> <PopoverContent> <PopoverHeader> <PopoverTitle>Grid Snap</PopoverTitle> <PopoverDescription>Adjust snapping granularity.</PopoverDescription> </PopoverHeader> </PopoverContent> </Popover>`
+- Metadata: Collision-aware floating overlay anchored cleanly to its trigger. | Props: align, alignOffset, anchor, collisionAvoidance, disableAnchorTracking, portalProps, side, sideOffset
+
+### Progress (`@/components/ui/progress`)
+- Spec: `public/docs/components/progress.md`
+- Defining Constraint: Translates percentage progress linearly or radially using compositor transforms rather than width reflows across smooth spring updates.
+- Use When: File uploads, build pipeline stages, and bounded completion indicators (`0` to `100`). Compact radial completion indicators using CircularProgress beside status labels.
+- Anatomy: `<Progress value={72} aria-label="Bundle compilation" />`
+- Metadata: Deterministic linear progress bar and radial gauge with smooth spring interpolation. | Props: showValue, size, strokeWidth, value
+
+### PropTable (`@/components/ui/prop-table`)
+- Spec: `public/docs/components/prop-table.md`
+- Defining Constraint: Renders anti-crush TypeScript prop specifications inside a responsive Table using shrink-0 Required badges and tabular default indicators.
+- Use When: Documenting exported TypeScript *Props interfaces extracted by AST or authored manually. Comparing prop names, union type strings, default values, and Required flags cleanly.
+- Anatomy: `<PropTable title="ButtonProps" props={[{ name: "variant", type: '"default" | "outline"', defaultValue: '"default"', description: "Selects visual button role." }]} />`
+- Metadata: Anti-crush TypeScript API reference table displaying props, types, defaults, and required pills. | Props: props, caption, emptyMessage, title
+
+### RadioGroup (`@/components/ui/radio-group`)
+- Spec: `public/docs/components/radio-group.md`
+- Defining Constraint: Enforces single-choice mutual exclusion across visible options with arrow-key roving focus and a smooth spring indicator dot.
+- Use When: Comparing 2 to 5 mutually exclusive choices where seeing all option descriptions side by side helps. Billing tier selection, export formats, or deployment regions inside forms.
+- Anatomy: `<RadioGroup value={plan} onValueChange={setPlan} aria-label="Plan tier"> <label className="flex items-center gap-2"> <RadioGroupItem value="starter" /> <span>Starter</span> </label> </RadioGroup>`
+- Metadata: WAI-ARIA compliant mutual exclusion selector with animated indicator. | Props: size
+
+### Resizable (`@/components/ui/resizable`)
+- Spec: `public/docs/components/resizable.md`
+- Defining Constraint: Coordinates keyboard-adjustable (Arrow keys) and pointer-draggable split panes with percentage persistence inside zero-scroll layout boundaries.
+- Use When: Side-by-side code and preview editors, log inspectors, and configurable split studios. Desktop engineering workbenches where users adjust panel proportions interactively.
+- Anatomy: `<ResizablePanelGroup direction="horizontal" defaultSizes={[45, 55]}> <ResizablePanel order={0} defaultSize={45}>Controls</ResizablePanel> <ResizableHandle handleIndex={0} withHandle /> <ResizablePanel order={1} defaultSize={55}>Stage</ResizablePanel> </ResizablePanelGroup>`
+- Metadata: Keyboard and drag split-pane layout controller for workbench interfaces. | Props: defaultSize, defaultSizes, direction, handleIndex, minSize, onLayout, order, withHandle
+
+### ScrollArea (`@/components/ui/scroll-area`)
+- Spec: `public/docs/components/scroll-area.md`
+- Defining Constraint: Provides uniform minimal custom scrollbars without disturbing content gutter symmetry across macOS, Windows, and Linux browsers.
+- Use When: Bounded lists, command drawers, preview trees, and sticky sidebar navigation panels. Compact scrollable regions preserving visual scrollbar styling across browsers.
+- Anatomy: `<ScrollArea className="h-36 w-full rounded-xl border p-3"> <div className="space-y-2">...</div> <ScrollBar orientation="vertical" /> </ScrollArea>`
+- Metadata: Cross-browser custom scrollbar viewport preserving layout gutter parity. | Props: viewportClassName, viewportRef
+
+### SegmentedControl (`@/components/ui/segmented-control`)
+- Spec: `public/docs/components/segmented-control.md`
+- Defining Constraint: Animates a single shared spring background pill across mutually exclusive tabs while keeping text weight frozen so labels never twitch horizontally.
+- Use When: Switching immediately between 2 to 5 compact modes such as Preview/Code, Light/Dark, or billing cadence. High-frequency view filters where all options remain visible at once.
+- Anatomy: `<SegmentedControl value={mode} onValueChange={setMode} aria-label="View mode"> <SegmentedControlItem value="preview">Preview</SegmentedControlItem> <SegmentedControlItem value="code">Code</SegmentedControlItem> </SegmentedControl>`
+- Metadata: Sliding pill mode switcher with compositor spring glide and frozen text metrics. | Props: children, onValueChange, value, size
+
+### Select (`@/components/ui/select`)
+- Spec: `public/docs/components/select.md`
+- Defining Constraint: Built on headless Base UI Select primitives with liquid glass overlay elevation and keyboard type-ahead selection without native browser inconsistencies.
+- Use When: Selecting one fixed value from 5 to 15 compact choices inside forms or toolbars. Choosing environment targets, locales, or categorical form fields without text search.
+- Anatomy: `<Select value={region} onValueChange={setRegion}> <SelectTrigger aria-label="Deployment region"> <SelectValue placeholder="Choose region" /> </SelectTrigger> <SelectContent> <SelectItem value="lon">London (eu-west-2)</SelectItem> </SelectContent> </Select>`
+- Metadata: Headless Base UI selector with keyboard navigation and liquid glass popup. | Props: size
+
+### Sheet (`@/components/ui/sheet`)
+- Spec: `public/docs/components/sheet.md`
+- Defining Constraint: Slides an edge-docked panel (top, right, bottom, or left) over the viewport while trapping focus and keeping liquid backdrop blur coherent.
+- Use When: Theme Studios, audit inspectors, notification feeds, or responsive mobile navigation drawers. Detail views requiring full viewport height alongside scrollable bodies and pinned footers.
+- Anatomy: `<Sheet> <SheetTrigger className={buttonVariants({ variant: "outline" })}>Inspect Logs</SheetTrigger> <SheetContent side="right"> <SheetHeader> <SheetTitle>Cluster Telemetry</SheetTitle> <SheetDescription>Live event stream across edge regions.</SheetDescription> </SheetHeader> </SheetContent> </Sheet>`
+- Metadata: Slide-over side panel supporting top, right, bottom, and left edges. | Props: showCloseButton, side
+
+### Skeleton (`@/components/ui/skeleton`)
+- Spec: `public/docs/components/skeleton.md`
+- Defining Constraint: Mirrors the exact target component geometry before hydration or async data resolves to maintain zero Cumulative Layout Shift (CLS).
+- Use When: Initial loading states matching exact card, text row, or avatar proportions. Async route transitions needing zero-CLS placeholders until streamed data arrives.
+- Anatomy: `<div className="flex items-center gap-3"> <Skeleton className="size-10 rounded-full" /> <div className="space-y-2"> <Skeleton className="h-4 w-40" /> <Skeleton className="h-3 w-24" /> </div> </div>`
+- Metadata: Zero-CLS dimensionally stable loading placeholder surface. | Props: shimmer
+
+### Slider (`@/components/ui/slider`)
+- Spec: `public/docs/components/slider.md`
+- Defining Constraint: Locks track height while gliding single or dual thumbs along direct pointer scrub gestures with tabular numeric value readouts.
+- Use When: Adjusting continuous numeric coordinates such as OKLCH lightness, chroma, opacity, or min/max price ranges. Interactive visual inspection controls where live preview feedback responds immediately.
+- Anatomy: `<Slider aria-label="Chroma intensity" value={chroma} onValueChange={setChroma} min={0} max={100} />`
+- Metadata: Direct-manipulation single and dual-thumb range control with value tooltip. | Props: defaultValue, label, showTooltip, showValue, value, valuePrefix, valueSuffix
+
+### Stepper (`@/components/ui/stepper`)
+- Spec: `public/docs/components/stepper.md`
+- Defining Constraint: Combines hold-to-accelerate increment/decrement repeat buttons with a tabular sliding NumberTicker readout so multi-digit transitions never shift layout.
+- Use When: Adjusting discrete counts such as seat count, retry attempts, or replica counts. Spin-button numeric inputs benefiting from hold-to-accelerate progression.
+- Anatomy: `<Stepper value={replicas} onValueChange={setReplicas} min={1} max={16}> <Stepper.Decrement aria-label="Decrease replicas" /> <Stepper.Value /> <Stepper.Increment aria-label="Increase replicas" /> </Stepper>`
+- Metadata: Tactile numeric stepper with hold-to-accelerate progression. | Props: value, children, decimalPlaces, disabled, max, min, onStep, onValueChange
+
+### Switch (`@/components/ui/switch`)
+- Spec: `public/docs/components/switch.md`
+- Defining Constraint: Pairs an instant spring thumb travel inside a 44px accessible touch target with subtle active pill elongation on pointerdown.
+- Use When: Immediate on/off settings toggles that apply live without submitting a form. Preference rows pairing concise labels with binary system feature flags.
+- Anatomy: `<label className="inline-flex items-center gap-3"> <Switch checked={enabled} onCheckedChange={setEnabled} aria-label="Live contrast gate" /> <span>Live Contrast Gate</span> </label>`
+- Metadata: 44px accessible toggle switch with fluid thumb spring easing. | Props: size
+
+### Table (`@/components/ui/table`)
+- Spec: `public/docs/components/table.md`
+- Defining Constraint: Pairs quiet hairline row dividers and subtle sticky headers with numeric={true} right-aligned tabular-nums cells so dense columns align accurately.
+- Use When: Comparable multi-column datasets, token ledgers, telemetry metrics, and API audit trails. Structured rows combining tabular-nums metrics with aligned status badges.
+- Anatomy: `<Table> <TableHeader><TableRow><TableHead>Region</TableHead><TableHead numeric>Latency</TableHead></TableRow></TableHeader> <TableBody><TableRow><TableCell>eu-west-2</TableCell><TableCell numeric>14 ms</TableCell></TableRow></TableBody> </Table>`
+- Metadata: Quiet chrome data table with strict tabular numerals.
+
+### Tabs (`@/components/ui/tabs`)
+- Spec: `public/docs/components/tabs.md`
+- Defining Constraint: Glides a spring-physics layout indicator across full-panel navigation triggers while locking label font weight across inactive and active states.
+- Use When: Switching between distinct multi-control panels (Account, Billing, Telemetry) at the same hierarchy level. Organising complex configuration studios without forcing full page navigation.
+- Anatomy: `<Tabs defaultValue="tokens"> <TabsList> <TabsIndicator /> <TabsTrigger value="tokens">Tokens</TabsTrigger> <TabsTrigger value="motion">Motion</TabsTrigger> </TabsList> <TabsContent value="tokens">...</TabsContent> </Tabs>`
+- Metadata: Fluid navigation tabs with spring underline indicator and zero geometry shift.
+
+### Textarea (`@/components/ui/textarea`)
+- Spec: `public/docs/components/textarea.md`
+- Defining Constraint: Preserves flush 1px border-hugging focus contrast and mobile 16px zoom protection across arbitrary multi-line prose heights.
+- Use When: Comments, system prompts, multi-line release notes, or structured descriptions. Markdown authoring areas paired directly beneath MarkdownToolbar.
+- Anatomy: `<Field> <FieldLabel>Release Summary</FieldLabel> <Textarea rows={4} placeholder="Summarise architectural changes..." /> </Field>`
+- Metadata: Multi-line text input with subtle border-hugging focus contrast. | Props: error
+
+### ThemeToggle (`@/components/ui/theme-toggle`)
+- Spec: `public/docs/components/theme-toggle.md`
+- Defining Constraint: Switches document light and dark colour classes while temporarily disabling CSS transitions so sibling surfaces do not smear across themes.
+- Use When: Top navigation bars, settings headers, or workbench rails offering instant polarity switching. Restoring persistent dark or light class selection synchronised across sessions.
+- Anatomy: `<ThemeToggle isDark={isDark} onToggleDark={setIsDark} />`
+- Metadata: Instant light/dark switcher suppressing cross-theme transition flashes. | Props: isDark, onToggleDark, showLabel
+
+### Timeline (`@/components/ui/timeline`)
+- Spec: `public/docs/components/timeline.md`
+- Defining Constraint: Connects chronological milestones using compositor-pure pulse nodes and continuous vertical connector stems with zero paint-filter repaints.
+- Use When: Deployment pipelines, git commit histories, audit logs, and workflow execution traces. Ordered milestone feeds mixing avatar actors, commit hashes, and live status nodes.
+- Anatomy: `<Timeline> <TimelineItem> <TimelineIndicator status="success" /> <TimelineConnector /> <TimelineContent> <TimelineTitle>Checks Passed</TimelineTitle> <TimelineDescription>61 test suites green.</TimelineDescription> </TimelineContent> </TimelineItem> </Timeline>`
+- Metadata: Chronological event feed with pulse nodes and packet connectors. | Props: fallback, label, activeFlow, badgeIcon, badgeStatus, connectorStatus, connectorVariant, disabled
+
+### Toast (`@/components/ui/toast`)
+- Spec: `public/docs/components/toast.md`
+- Defining Constraint: Delivers non-blocking status feedback anchored outside flow layout with an optional 5-second reversible undo trigger via ToastProvider and useToast.
+- Use When: Confirming background saves, exports, copies, or reversible item removals. Surfacing asynchronous deployment completion without interrupting active typing.
+- Anatomy: `<ToastProvider> <ConsumerUsingUseToast /> </ToastProvider>`
+- Metadata: Non-blocking feedback toast with timed auto-dismiss and undo trigger.
+
+### Toggle (`@/components/ui/toggle`)
+- Spec: `public/docs/components/toggle.md`
+- Defining Constraint: Maintains identical perimeter geometry across pressed and unpressed states using background surface contrast and aria-pressed semantics.
+- Use When: Independent two-state toolbar buttons such as Bold, Italic, Pin, or Mute. Immediate active/inactive mode switches without form submit steps.
+- Anatomy: `<Toggle pressed={muted} onPressedChange={setMuted} variant="outline" aria-label="Mute alerts"> Muted </Toggle>`
+- Metadata: Two-state pressed action button adhering to zero-shift geometry. | Variants: default, outline, surface | Sizes: sm, default, lg
+
+### ToggleGroup (`@/components/ui/toggle-group`)
+- Spec: `public/docs/components/toggle-group.md`
+- Defining Constraint: Distributes shared variant and size context plus roving arrow-key navigation across a related set of Toggle buttons.
+- Use When: Grouping 2 to 5 compact formatting or alignment options (left, centre, right). Allowing either single or multiple simultaneous active toggle flags in a compact bar.
+- Anatomy: `<ToggleGroup value={align} onValueChange={setAlign} variant="surface"> <Toggle value="left" aria-label="Align left" /> <Toggle value="center" aria-label="Align centre" /> </ToggleGroup>`
+- Metadata: Grouped toggle toolbar supporting single and multi-select roving focus.
+
+### Toolbar (`@/components/ui/toolbar`)
+- Spec: `public/docs/components/toolbar.md`
+- Defining Constraint: Unifies multiple button groups, links, and toggle clusters into a single composite ARIA toolbar with single-tab-stop arrow navigation.
+- Use When: Desktop canvas action rails combining standalone action buttons, separators, and inline toggles. Editor headers grouping related formatting and alignment controls.
+- Anatomy: `<Toolbar aria-label="Canvas actions"> <ToolbarGroup> <ToolbarButton aria-label="Inspect">Inspect</ToolbarButton> </ToolbarGroup> <ToolbarSeparator /> <ToolbarToggleGroup> <ToolbarToggleItem value="grid">Grid</ToolbarToggleItem> </ToolbarToggleGroup> </Toolbar>`
+- Metadata: Compound desktop toolbar housing aligned button groups and separators. | Variants: default, floating, outline, surface, ghost | Sizes: sm, default, lg, xs | Props: isActive
+
+### Tooltip (`@/components/ui/tooltip`)
+- Spec: `public/docs/components/tooltip.md`
+- Defining Constraint: Presents micro plain-text clarifications on icon buttons and keyboard shortcuts within a shared TooltipProvider warmup window.
+- Use When: Explaining icon-only controls, displaying keyboard shortcuts (`⌘K`), or clarifying truncated telemetry codes. Lightweight micro-hints on hover or keyboard focus without adding visible chrome.
+- Anatomy: `<TooltipProvider delay={150}> <Tooltip> <TooltipTrigger aria-label="Show help" className={buttonVariants({ size: "icon-sm", variant: "ghost" })}>?</TooltipTrigger> <TooltipContent>Inspect shortcut</TooltipContent> </Tooltip> </TooltipProvider>`
+- Metadata: Compact contextual hint surface with configurable hover delay. | Props: align, portalProps, showArrow, side, sideOffset
+
+### Tree (`@/components/ui/tree`)
+- Spec: `public/docs/components/tree.md`
+- Defining Constraint: Renders recursive hierarchical file and symbol trees with spring branch expansion, explicit ARIA treeitem levels, and full arrow-key navigation.
+- Use When: File explorers, design token hierarchy browsers, and nested symbol directories. Expandable directory structures navigable with keyboard arrow keys.
+- Anatomy: `<Tree data={nodes} defaultExpandedIds={["src"]} onSelectNode={handleSelect} />`
+- Metadata: Hierarchical file and folder tree with spring expand/collapse motion. | Props: data, defaultExpandedIds, onSelect, selectedId
+
+## 5. Workspace Agent Skills (8)
+
+- app-blueprint (skills/app-blueprint/SKILL.md, v1.0.0): Use when building a complete application screen, multi-page product, or documented feature with this design system. Never use for single utility functions or non-UI backend scripts.
+- base-ui-primitives (skills/base-ui-primitives/SKILL.md, v1.0.0): Use when building or auditing accessible headless UI primitives with @base-ui/react, compound slots, keyboard roving navigation, focus traps, and WCAG 2.2 states.
+- craft-philosophy (skills/craft-philosophy/SKILL.md, v1.0.0): Use when designing, building, or reviewing UI components and screens. Enforces human-centric craft, 9-state interactive matrices, and anti-slop geometry.
+- diagram-architecture (skills/diagram-architecture/SKILL.md, v1.0.0): Use when designing, drawing, or auditing technical diagrams, system schematics, flowcharts, and accessible SVGs. Enforces orthogonal routing and node budgets.
+- motion-physics (skills/motion-physics/SKILL.md, v1.0.0): Use when animating UI transitions, gestures, modals, or active states with motion/react. Enforces calibrated spring physics, pointerdown yield, and velocity.
+- production-deployment (skills/production-deployment/SKILL.md, v1.0.0): Use when preparing web interfaces for production deployment. Enforces Speculation Rules, View Transitions, SWR edge caching, safe-area insets, and zero-CLS.
+- semantic-theming (skills/semantic-theming/SKILL.md, v1.0.0): Use when creating, styling, or auditing design tokens and themes. Enforces perceptual OKLCH colour spaces, Tailwind CSS v4 @theme inline, and APCA contrast.
+- technical-documentation (skills/technical-documentation/SKILL.md, v1.0.0): Use when authoring, editing, or auditing technical docs, READMEs, ADRs, changelogs, and API guides. Enforces concept grounding, active prose, and drift gates.

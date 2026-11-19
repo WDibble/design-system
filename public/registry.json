@@ -5,212 +5,1537 @@
   "framework": "react-19",
   "styling": "tailwindcss-v4",
   "primitives": {
-    "button": {
-      "path": "src/components/ui/button.tsx",
-      "dependencies": ["@base-ui/react", "motion"],
-      "variants": ["default", "secondary", "destructive", "outline", "ghost", "link", "pill"],
-      "sizes": ["default", "sm", "lg", "icon", "icon-sm", "icon-lg"]
-    },
-    "toggle": {
-      "path": "src/components/ui/toggle.tsx",
-      "dependencies": ["@base-ui/react", "class-variance-authority"],
-      "variants": ["default", "outline", "surface"]
-    },
-    "toggle-group": {
-      "path": "src/components/ui/toggle-group.tsx",
-      "dependencies": ["@base-ui/react", "class-variance-authority"]
-    },
-    "copy-button": {
-      "path": "src/components/ui/copy-button.tsx",
-      "dependencies": ["motion"]
-    },
-    "theme-toggle": {
-      "path": "src/components/ui/theme-toggle.tsx",
-      "dependencies": ["motion"]
-    },
-    "segmented-control": {
-      "path": "src/components/ui/segmented-control.tsx",
-      "dependencies": ["motion"]
-    },
-    "toolbar": {
-      "path": "src/components/ui/toolbar.tsx",
-      "dependencies": ["@base-ui/react", "class-variance-authority"]
-    },
-    "markdown-toolbar": {
-      "path": "src/components/ui/markdown-toolbar/index.ts",
-      "dependencies": ["@base-ui/react", "lucide-react"]
-    },
-    "input": {
-      "path": "src/components/ui/input.tsx",
-      "dependencies": ["@base-ui/react", "class-variance-authority"]
-    },
-    "textarea": {
-      "path": "src/components/ui/textarea.tsx",
-      "dependencies": []
-    },
-    "checkbox": {
-      "path": "src/components/ui/checkbox.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "switch": {
-      "path": "src/components/ui/switch.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "slider": {
-      "path": "src/components/ui/slider.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "stepper": {
-      "path": "src/components/ui/stepper.tsx",
-      "dependencies": ["motion"]
-    },
-    "input-otp": {
-      "path": "src/components/ui/input-otp.tsx",
-      "dependencies": ["motion"]
-    },
-    "select": {
-      "path": "src/components/ui/select.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "combobox": {
-      "path": "src/components/ui/combobox.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "radio-group": {
-      "path": "src/components/ui/radio-group.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "field": {
-      "path": "src/components/ui/field.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "file-upload": {
-      "path": "src/components/ui/file-upload.tsx",
-      "dependencies": []
-    },
-    "navigation-bar": {
-      "path": "src/components/ui/navigation-bar/index.ts",
-      "dependencies": ["@base-ui/react", "motion"]
-    },
-    "breadcrumb": {
-      "path": "src/components/ui/breadcrumb.tsx",
-      "dependencies": []
-    },
-    "pagination": {
-      "path": "src/components/ui/pagination.tsx",
-      "dependencies": ["motion"]
-    },
-    "tabs": {
-      "path": "src/components/ui/tabs.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "dialog": {
-      "path": "src/components/ui/dialog.tsx",
-      "dependencies": ["@base-ui/react"]
+    "accordion": {
+      "path": "src/components/ui/accordion.tsx",
+      "docPath": "public/docs/components/accordion.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Expands and collapses vertical disclosure panels smoothly via CSS height transitions under Base UI ARIA keyboard controls.",
+      "whenToUse": [
+        "FAQs, collapsible inspector subsections, or compact mobile configuration groups.",
+        "Progressive disclosure blocks allowing multiple peer panels open simultaneously."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "tabs",
+          "reason": "Use Tabs when switching horizontally across parallel content views."
+        }
+      ],
+      "anatomy": "<Accordion defaultValue={[\"item-1\"]}>\n  <AccordionItem value=\"item-1\">\n    <AccordionTrigger>Quiet Chrome</AccordionTrigger>\n    <AccordionContent>Typography and whitespace replace card noise.</AccordionContent>\n  </AccordionItem>\n</Accordion>",
+      "dependencies": ["@base-ui/react", "lucide-react", "react"],
+      "exports": [
+        "Accordion",
+        "AccordionContent",
+        "AccordionHeader",
+        "AccordionItem",
+        "AccordionTrigger"
+      ]
     },
     "alert-dialog": {
       "path": "src/components/ui/alert-dialog.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "sheet": {
-      "path": "src/components/ui/sheet.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "drawer": {
-      "path": "src/components/ui/drawer.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "popover": {
-      "path": "src/components/ui/popover.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "dropdown-menu": {
-      "path": "src/components/ui/dropdown-menu.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "context-menu": {
-      "path": "src/components/ui/context-menu.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "hover-card": {
-      "path": "src/components/ui/hover-card.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "tooltip": {
-      "path": "src/components/ui/tooltip.tsx",
-      "dependencies": ["@base-ui/react"]
-    },
-    "command": {
-      "path": "src/components/ui/command.tsx",
-      "dependencies": ["@base-ui/react", "lucide-react"]
-    },
-    "table": {
-      "path": "src/components/ui/table.tsx",
-      "dependencies": []
-    },
-    "card": {
-      "path": "src/components/ui/card.tsx",
-      "dependencies": []
-    },
-    "badge": {
-      "path": "src/components/ui/badge.tsx",
-      "dependencies": ["class-variance-authority"]
+      "docPath": "public/docs/components/alert-dialog.md",
+      "category": "Overlays & Surfaces",
+      "definingConstraint": "Forces explicit user acknowledgement via high-friction modal focus trapping that blocks accidental backdrop dismissal.",
+      "whenToUse": [
+        "Irreversible destructive operations such as deleting repositories, revoking production API keys, or discarding unsaved work.",
+        "High-consequence billing or security actions requiring explicit Cancel vs Confirm choice."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "dialog",
+          "reason": "Use Dialog for general forms or inspectable modals where outside-click dismissal is safe."
+        },
+        {
+          "primitive": "toast",
+          "reason": "Use Toast with an undo button for recoverable actions."
+        }
+      ],
+      "anatomy": "<AlertDialog>\n  <AlertDialogTrigger className={buttonVariants({ variant: \"destructive\" })}>Revoke Key</AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogHeader>\n      <AlertDialogTitle>Revoke key?</AlertDialogTitle>\n      <AlertDialogDescription>Traffic using this token stops immediately.</AlertDialogDescription>\n    </AlertDialogHeader>\n    <AlertDialogFooter>\n      <AlertDialogCancel>Cancel</AlertDialogCancel>\n      <AlertDialogAction>Revoke Key</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": [
+        "AlertDialog",
+        "AlertDialogAction",
+        "AlertDialogBackdrop",
+        "AlertDialogCancel",
+        "AlertDialogContent",
+        "AlertDialogDescription",
+        "AlertDialogFooter",
+        "AlertDialogHeader",
+        "AlertDialogPortal",
+        "AlertDialogTitle",
+        "AlertDialogTrigger"
+      ]
     },
     "avatar": {
       "path": "src/components/ui/avatar.tsx",
-      "dependencies": ["@base-ui/react", "class-variance-authority"]
+      "docPath": "public/docs/components/avatar.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Deterministically computes harmonious OKLCH fallback colours from initials while cleanly supporting presence pips and overlapping AvatarGroup stacks.",
+      "whenToUse": [
+        "Team member identity badges, commit actor nodes, comment headers, and presence bars.",
+        "Compact collaborator groups with deterministic fallback monograms."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "badge",
+          "reason": "Use Badge for short system status pills rather than user identity."
+        },
+        {
+          "primitive": "image",
+          "reason": "Use ProgressiveImage for rectangular content imagery and hero frames."
+        }
+      ],
+      "anatomy": "<Avatar size=\"default\">\n  <AvatarFallback autoColor>WD</AvatarFallback>\n  <AvatarBadge status=\"online\" />\n</Avatar>",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "react"],
+      "exports": ["Avatar", "AvatarBadge", "AvatarFallback", "AvatarGroup", "AvatarImage"],
+      "sizes": ["xs", "sm", "default", "lg", "xl"]
+    },
+    "badge": {
+      "path": "src/components/ui/badge.tsx",
+      "docPath": "public/docs/components/badge.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Locks shrink-0 whitespace-nowrap operational pills with tabular numerals and optional resting-plateau pulse indicators; banned above titles as decorative eyebrow kickers.",
+      "whenToUse": [
+        "Operational telemetry (`healthy`, `degraded`, version numbers, active counts, or Required form flags).",
+        "Inline metadata tags pinned cleanly beside card titles or table row states."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "callout",
+          "reason": "Use Callout for multi-line rules or section notices rather than oversized pills."
+        },
+        {
+          "primitive": "button",
+          "reason": "Use Button or Toggle when clicking triggers an action."
+        }
+      ],
+      "anatomy": "<Badge variant=\"success\" dot>Operational</Badge>",
+      "dependencies": ["class-variance-authority", "react"],
+      "exports": ["Badge", "badgeVariants"],
+      "variants": ["default", "secondary", "destructive", "outline", "success", "warning"],
+      "sizes": ["default", "sm"]
+    },
+    "breadcrumb": {
+      "path": "src/components/ui/breadcrumb.tsx",
+      "docPath": "public/docs/components/breadcrumb.md",
+      "category": "Navigation & Menus",
+      "definingConstraint": "Clarifies hierarchy levels cleanly without overflowing horizontal bars, marking the final destination with aria-current=\"page\" instead of a link.",
+      "whenToUse": [
+        "Deep nested views, component reference pages, or file hierarchy detail screens.",
+        "Orienting users two or more levels below top-level navigation."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "navigation-bar",
+          "reason": "Use NavigationBar for global site-wide primary route links."
+        },
+        {
+          "primitive": "tabs",
+          "reason": "Use Tabs for switching between peer panels at the same hierarchy level."
+        }
+      ],
+      "anatomy": "<Breadcrumb>\n  <BreadcrumbList>\n    <BreadcrumbItem>\n      <BreadcrumbLink href=\"/\">Home</BreadcrumbLink>\n    </BreadcrumbItem>\n    <BreadcrumbSeparator />\n    <BreadcrumbItem>\n      <BreadcrumbPage>Primitives</BreadcrumbPage>\n    </BreadcrumbItem>\n  </BreadcrumbList>\n</Breadcrumb>",
+      "dependencies": ["react"],
+      "exports": [
+        "Breadcrumb",
+        "BreadcrumbEllipsis",
+        "BreadcrumbItem",
+        "BreadcrumbLink",
+        "BreadcrumbList",
+        "BreadcrumbPage",
+        "BreadcrumbSeparator"
+      ]
+    },
+    "button": {
+      "path": "src/components/ui/button.tsx",
+      "docPath": "public/docs/components/button.md",
+      "category": "Actions & Toggles",
+      "definingConstraint": "Locks horizontal button footprint with an invisible ghost sizer across idle, loading, success, and error states while compressing immediately on pointerdown.",
+      "whenToUse": [
+        "Triggering immediate actions, form submissions, or asynchronous mutations with Promise lifecycle feedback.",
+        "Presenting primary, secondary, destructive, outline, ghost, or warning actions with proportional icon affinity."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "toggle",
+          "reason": "Use Toggle for persistent two-state pressed controls."
+        },
+        {
+          "primitive": "copy-button",
+          "reason": "Use CopyButton for one-click clipboard copy with morphing checkmark timing."
+        },
+        {
+          "primitive": "segmented-control",
+          "reason": "Use SegmentedControl when switching between 2 to 5 mutually exclusive views."
+        }
+      ],
+      "anatomy": "<Button variant=\"default\" size=\"default\" leftIcon={<SparklesIcon size={16} />}>\n  Publish\n</Button>",
+      "dependencies": ["class-variance-authority", "motion", "react"],
+      "exports": ["Button", "buttonVariants"],
+      "variants": [
+        "default",
+        "secondary",
+        "destructive",
+        "outline",
+        "ghost",
+        "link",
+        "success",
+        "warning",
+        "glass"
+      ],
+      "sizes": ["xs", "sm", "default", "lg", "xl", "icon-xs", "icon-sm", "icon", "icon-lg"]
     },
     "calendar": {
       "path": "src/components/ui/calendar.tsx",
-      "dependencies": ["motion"]
+      "docPath": "public/docs/components/calendar.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Renders keyboard-navigable month grids with spring horizontal slide transitions and tabular-nums date cells, pairing directly with DatePicker popovers.",
+      "whenToUse": [
+        "Scheduling views, release windows, filter date selection, and inline month calendars.",
+        "Forms requiring visual day-of-week awareness via Calendar or DatePicker."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "input",
+          "reason": "Use Input for memorable dates like birth years where typing is faster than stepping backward by month."
+        }
+      ],
+      "anatomy": "<Calendar selected={selectedDate} onSelect={setSelectedDate} />",
+      "dependencies": ["lucide-react", "motion", "react"],
+      "exports": ["Calendar", "DatePicker"]
+    },
+    "callout": {
+      "path": "src/components/ui/callout.tsx",
+      "docPath": "public/docs/components/callout.md",
+      "category": "Documentation & Schematics",
+      "definingConstraint": "Highlights non-negotiable architectural constraints, semantic tips, or operational warnings in OKLCH-tinted blocks without decorative eyebrow pill clutter.",
+      "whenToUse": [
+        "Calling out defining constraints, breaking invariant rules, tips, or caution notices inside guides.",
+        "Surfacing high-signal validation reminders directly alongside runnable code examples."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "badge",
+          "reason": "Use Badge for short single-value operational telemetry pills."
+        },
+        {
+          "primitive": "toast",
+          "reason": "Use Toast for transient post-action notifications."
+        }
+      ],
+      "anatomy": "<Callout variant=\"defining-constraint\" title=\"Zero Layout Shift\">\n  Reserve border width on resting states.\n</Callout>",
+      "dependencies": ["class-variance-authority", "react"],
+      "exports": ["Callout", "calloutVariants"],
+      "variants": ["note", "tip", "warning", "caution", "defining-constraint"]
+    },
+    "card": {
+      "path": "src/components/ui/card.tsx",
+      "docPath": "public/docs/components/card.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Enforces mathematical concentric corner continuity via CardInner inside Card alongside subtle 1px specular rim lighting; avoid defaulting every layout to 3-card grids.",
+      "whenToUse": [
+        "Bounded workspace modules, detail inspectors, or distinct nested settings panels.",
+        "Bento showcase items pairing CardHeader chrome with concentric CardInner nesting."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "table",
+          "reason": "Use Table or ruled divide-y lists when presenting repetitive comparable entities."
+        },
+        {
+          "primitive": "callout",
+          "reason": "Use Callout for semantic notices, warnings, and constraints."
+        }
+      ],
+      "anatomy": "<Card>\n  <CardHeader>\n    <CardTitle>Cluster Node</CardTitle>\n    <CardDescription>Edge configuration status.</CardDescription>\n  </CardHeader>\n  <CardContent>\n    <CardInner>Inner concentric container</CardInner>\n  </CardContent>\n</Card>",
+      "dependencies": ["react"],
+      "exports": [
+        "Card",
+        "CardContent",
+        "CardDescription",
+        "CardFooter",
+        "CardHeader",
+        "CardInner",
+        "CardTitle"
+      ]
     },
     "chart": {
       "path": "src/components/ui/chart.tsx",
-      "dependencies": ["motion"]
+      "docPath": "public/docs/components/chart.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Renders zero-dependency perceptual OKLCH SVG Sparklines, AreaCharts, and BarCharts scaled crisply with tabular metric axes.",
+      "whenToUse": [
+        "Latency sparklines, throughput trendlines, contrast bounds, and daily activity bars.",
+        "Telemetry panels needing lightweight OKLCH SVGs without external chart library overhead."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "table",
+          "reason": "Use Table when readers must look up and sort exact raw rows."
+        },
+        {
+          "primitive": "diagram-frame",
+          "reason": "Use DiagramFrame for architecture flowcharts rather than quantitative charts."
+        }
+      ],
+      "anatomy": "<AreaChart data={series} height={120} valueFormatter={(v) => `${v} ms`} />",
+      "dependencies": ["motion", "react"],
+      "exports": ["AreaChart", "BarChart", "Sparkline"]
+    },
+    "checkbox": {
+      "path": "src/components/ui/checkbox.tsx",
+      "docPath": "public/docs/components/checkbox.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Expands hit area with an invisible 44px touch target around a crisp rounded indicator supporting checked, unchecked, and indeterminate states.",
+      "whenToUse": [
+        "Multi-select option lists, table row selection, or opt-in policy acknowledgements inside forms.",
+        "Parent-child selection trees requiring an indeterminate mixed state."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "switch",
+          "reason": "Use Switch for immediate system settings that take effect without a Save button."
+        },
+        {
+          "primitive": "radio-group",
+          "reason": "Use RadioGroup when only one option from a small list can be selected."
+        }
+      ],
+      "anatomy": "<label className=\"inline-flex items-center gap-2.5\">\n  <Checkbox checked={agreed} onCheckedChange={setAgreed} />\n  <span>Accept terms</span>\n</label>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": ["Checkbox"]
+    },
+    "code-block": {
+      "path": "src/components/ui/code-block.tsx",
+      "docPath": "public/docs/components/code-block.md",
+      "category": "Documentation & Schematics",
+      "definingConstraint": "Frames concentric code viewports (`rounded-2xl` outer, `rounded-[10px]` inner) with tabular-nums line gutters, focus line highlights, SegmentedControl tabs, and CopyButton.",
+      "whenToUse": [
+        "Presenting verified source snippets, CLI command tabs (Install / Verify), and highlighted config blocks.",
+        "Side-by-side multi-framework installation tabs powered by SegmentedControl."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "component-preview",
+          "reason": "Use ComponentPreview when pairing runnable interactive output alongside its TSX code."
+        },
+        {
+          "primitive": "kbd",
+          "reason": "Use Kbd for inline physical keycaps."
+        }
+      ],
+      "anatomy": "<CodeBlock filename=\"verify.sh\" language=\"bash\" highlightLines={[2]} code=\"npm run docs:build\nnpm run check\" />",
+      "dependencies": ["react"],
+      "exports": ["CodeBlock"]
+    },
+    "combobox": {
+      "path": "src/components/ui/combobox.tsx",
+      "docPath": "public/docs/components/combobox.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Pairs a filterable text input with a headless Base UI listbox popup supporting keyboard type-ahead and empty state feedback.",
+      "whenToUse": [
+        "Choosing one or more options from large sets (more than 10 items) where users type to filter.",
+        "Country pickers, model selectors, or filterable tag selectors."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "select",
+          "reason": "Use Select when there are 5 to 12 familiar options that do not need text filtering."
+        },
+        {
+          "primitive": "command",
+          "reason": "Use Command for global modal application command palettes (⌘K)."
+        }
+      ],
+      "anatomy": "<Combobox items={frameworks} value={value} onValueChange={setValue}>\n  <ComboboxInput aria-label=\"Select framework\" placeholder=\"Search...\" />\n  <ComboboxContent>\n    <ComboboxList>\n      <ComboboxItem value=\"React\">React</ComboboxItem>\n      <ComboboxEmpty>No matches found.</ComboboxEmpty>\n    </ComboboxList>\n  </ComboboxContent>\n</Combobox>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": [
+        "Combobox",
+        "ComboboxContent",
+        "ComboboxEmpty",
+        "ComboboxGroup",
+        "ComboboxGroupLabel",
+        "ComboboxInput",
+        "ComboboxItem",
+        "ComboboxList",
+        "ComboboxPortal",
+        "ComboboxSeparator"
+      ]
+    },
+    "command": {
+      "path": "src/components/ui/command.tsx",
+      "docPath": "public/docs/components/command.md",
+      "category": "Overlays & Surfaces",
+      "definingConstraint": "Indexes searchable keyboard actions inside either an inline panel or a global focus-trapped CommandDialog (⌘K) with tabular keycap hints.",
+      "whenToUse": [
+        "Application-wide ⌘K command palettes, quick navigation jumps, and action search.",
+        "Filtering structured commands grouped under headings with keyboard arrows."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "combobox",
+          "reason": "Use Combobox when binding a selected option value inside a form field."
+        },
+        {
+          "primitive": "select",
+          "reason": "Use Select for compact fixed option lists without global actions."
+        }
+      ],
+      "anatomy": "<Command aria-label=\"Quick actions\">\n  <CommandInput placeholder=\"Search commands...\" />\n  <CommandList>\n    <CommandEmpty>No matching commands.</CommandEmpty>\n    <CommandGroup heading=\"Navigation\">\n      <CommandItem>Open Docs<CommandShortcut>⌘D</CommandShortcut></CommandItem>\n    </CommandGroup>\n  </CommandList>\n</Command>",
+      "dependencies": ["@base-ui/react", "lucide-react", "react"],
+      "exports": [
+        "Command",
+        "CommandDialog",
+        "CommandEmpty",
+        "CommandGroup",
+        "CommandInput",
+        "CommandItem",
+        "CommandList",
+        "CommandSeparator",
+        "CommandShortcut"
+      ]
+    },
+    "component-preview": {
+      "path": "src/components/ui/component-preview.tsx",
+      "docPath": "public/docs/components/component-preview.md",
+      "category": "Documentation & Schematics",
+      "definingConstraint": "Provides a symmetric centred stage (`min-h-[180px]`) with live Preview/Code toggling, `375px`/`768px`/`100%` viewport presets, and stateful component reset.",
+      "whenToUse": [
+        "Documenting interactive primitives with live runnable fixtures backed by verified source code.",
+        "Verifying component anti-crush responsiveness live across 375px, 768px, and 100% widths."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "code-block",
+          "reason": "Use CodeBlock for pure CLI commands, CSS tokens, or TypeScript configuration snippets."
+        },
+        {
+          "primitive": "diagram-frame",
+          "reason": "Use DiagramFrame for vector SVG architecture schematics."
+        }
+      ],
+      "anatomy": "<ComponentPreview title=\"Tactile Button\" code={snippet}>\n  <ButtonExample />\n</ComponentPreview>",
+      "dependencies": ["react"],
+      "exports": ["ComponentPreview"]
+    },
+    "context-menu": {
+      "path": "src/components/ui/context-menu.tsx",
+      "docPath": "public/docs/components/context-menu.md",
+      "category": "Overlays & Surfaces",
+      "definingConstraint": "Attaches a secondary pointer contextmenu surface with keyboard arrow traversal, checkboxes, radio groups, and submenu support.",
+      "whenToUse": [
+        "Desktop canvas nodes, file trees, or table rows needing contextual right-click power actions.",
+        "Compact secondary command lists preserving screen space across dense workbenches."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "dropdown-menu",
+          "reason": "Use DropdownMenu when actions must also be discoverable via a visible button."
+        },
+        {
+          "primitive": "popover",
+          "reason": "Use Popover for structured forms or rich non-menu widgets."
+        }
+      ],
+      "anatomy": "<ContextMenu>\n  <ContextMenuTrigger><div>Inspectable canvas surface</div></ContextMenuTrigger>\n  <ContextMenuContent>\n    <ContextMenuItem>Copy Path</ContextMenuItem>\n    <ContextMenuSeparator />\n    <ContextMenuItem>Duplicate</ContextMenuItem>\n  </ContextMenuContent>\n</ContextMenu>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": [
+        "ContextMenu",
+        "ContextMenuCheckboxItem",
+        "ContextMenuContent",
+        "ContextMenuGroup",
+        "ContextMenuItem",
+        "ContextMenuPortal",
+        "ContextMenuRadioGroup",
+        "ContextMenuRadioItem",
+        "ContextMenuSeparator",
+        "ContextMenuShortcut",
+        "ContextMenuSub",
+        "ContextMenuSubTrigger",
+        "ContextMenuTrigger"
+      ]
+    },
+    "copy-button": {
+      "path": "src/components/ui/copy-button.tsx",
+      "docPath": "public/docs/components/copy-button.md",
+      "category": "Actions & Toggles",
+      "definingConstraint": "Encapsulates clipboard write handling and spring morph transitions between idle copy and temporary confirmation states without shifting adjacent controls.",
+      "whenToUse": [
+        "Copying CLI commands, API keys, token values, or generated code blocks to the clipboard.",
+        "Inline copy triggers inside tables, headers, and developer toolbars."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "button",
+          "reason": "Use Button for general actions or mutations."
+        },
+        {
+          "primitive": "toggle",
+          "reason": "Use Toggle for persistent boolean state switches."
+        }
+      ],
+      "anatomy": "<CopyButton value=\"npm run check\" idleText=\"Copy\" copiedText=\"Copied\" variant=\"outline\" size=\"sm\" />",
+      "dependencies": ["motion", "react"],
+      "exports": ["CopyButton"]
+    },
+    "diagram-frame": {
+      "path": "src/components/ui/diagram-frame.tsx",
+      "docPath": "public/docs/components/diagram-frame.md",
+      "category": "Documentation & Schematics",
+      "definingConstraint": "Encapsulates accessible SVG diagrams inside semantic `<figure>` and `<figcaption>` landmarks with horizontal scroll safety and a focus-trapped expanded zoom Dialog.",
+      "whenToUse": [
+        "State machines, data-flow pipelines, component hierarchies, and token pipelines drawn as orthogonal SVGs.",
+        "Architecture explanations needing accessible `<figcaption>` semantics and full-width modal expansion."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "image",
+          "reason": "Use ProgressiveImage for photographic raster assets."
+        },
+        {
+          "primitive": "component-preview",
+          "reason": "Use ComponentPreview for interactive UI widgets."
+        }
+      ],
+      "anatomy": "<DiagramFrame title=\"Pipeline Schematic\" description=\"Connects blueprint to verified output.\">\n  <svg aria-label=\"Pipeline schematic\">...</svg>\n</DiagramFrame>",
+      "dependencies": ["react"],
+      "exports": ["DiagramFrame"]
+    },
+    "dialog": {
+      "path": "src/components/ui/dialog.tsx",
+      "docPath": "public/docs/components/dialog.md",
+      "category": "Overlays & Surfaces",
+      "definingConstraint": "Renders a focus-trapped liquid backdrop modal dialogue with Apple spring scaling and reliable Escape/backdrop dismissal.",
+      "whenToUse": [
+        "Focused secondary forms, inspector modals, or expanded media/diagram inspection.",
+        "Multi-field edits needing temporary focus isolation without navigating away from context."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "alert-dialog",
+          "reason": "Use AlertDialog when outside-click dismissal must be blocked for destructive confirmation."
+        },
+        {
+          "primitive": "sheet",
+          "reason": "Use Sheet for wide filter panels, settings drawers, or side-by-side detail editors."
+        },
+        {
+          "primitive": "drawer",
+          "reason": "Use Drawer for swipeable compact mobile bottom sheets."
+        }
+      ],
+      "anatomy": "<Dialog>\n  <DialogTrigger className={buttonVariants({ variant: \"outline\" })}>Edit Spec</DialogTrigger>\n  <DialogContent>\n    <DialogHeader>\n      <DialogTitle>Edit Token Preset</DialogTitle>\n      <DialogDescription>Adjust base hue and contrast thresholds.</DialogDescription>\n    </DialogHeader>\n    <DialogFooter><DialogClose>Done</DialogClose></DialogFooter>\n  </DialogContent>\n</Dialog>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": [
+        "Dialog",
+        "DialogBackdrop",
+        "DialogClose",
+        "DialogContent",
+        "DialogDescription",
+        "DialogFooter",
+        "DialogHeader",
+        "DialogPortal",
+        "DialogTitle",
+        "DialogTrigger"
+      ]
+    },
+    "doc-layout": {
+      "path": "src/components/ui/doc-layout.tsx",
+      "docPath": "public/docs/components/doc-layout.md",
+      "category": "Documentation & Schematics",
+      "definingConstraint": "Enforces a 1440px-capped three-column editorial reading layout with zero-shift sidebar active styling, 72ch article measure, Copy Page as Markdown action, and verification TOC.",
+      "whenToUse": [
+        "Product documentation portals, API reference guides, and internal engineering handbooks.",
+        "Technical manuals combining navigable group sidebars with copyable Markdown exports."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "navigation-bar",
+          "reason": "Use NavigationBar for global top-level application headers above DocLayout."
+        }
+      ],
+      "anatomy": "<DocLayout>\n  <DocSidebar groups={groups} activeId={id} onSelect={setId} />\n  <DocArticle markdownSource={md}>\n    <section>...</section>\n  </DocArticle>\n  <DocToc headings={headings} verificationChecks={checks} />\n</DocLayout>",
+      "dependencies": ["react"],
+      "exports": ["DocArticle", "DocLayout", "DocSidebar", "DocToc"]
+    },
+    "drawer": {
+      "path": "src/components/ui/drawer.tsx",
+      "docPath": "public/docs/components/drawer.md",
+      "category": "Overlays & Surfaces",
+      "definingConstraint": "Provides a swipeable edge drawer with tactile drag handle chrome tailored to thumb-reach compact viewports.",
+      "whenToUse": [
+        "Mobile action sheets, compact filters, or contextual forms originating from the bottom viewport edge.",
+        "Touch-first pickers where drag-down gesture dismissal feels natural."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "sheet",
+          "reason": "Use Sheet for persistent left or right desktop slide-over panels."
+        },
+        {
+          "primitive": "dialog",
+          "reason": "Use Dialog for centred desktop modal tasks."
+        }
+      ],
+      "anatomy": "<Drawer>\n  <DrawerTrigger className={buttonVariants({ variant: \"outline\" })}>Open Drawer</DrawerTrigger>\n  <DrawerContent>\n    <DrawerHandle />\n    <DrawerHeader>\n      <DrawerTitle>Filter Results</DrawerTitle>\n      <DrawerDescription>Narrow dataset by severity.</DrawerDescription>\n    </DrawerHeader>\n  </DrawerContent>\n</Drawer>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": [
+        "Drawer",
+        "DrawerBackdrop",
+        "DrawerClose",
+        "DrawerContent",
+        "DrawerDescription",
+        "DrawerFooter",
+        "DrawerHandle",
+        "DrawerHeader",
+        "DrawerPortal",
+        "DrawerTitle",
+        "DrawerTrigger",
+        "DrawerViewport"
+      ]
+    },
+    "dropdown-menu": {
+      "path": "src/components/ui/dropdown-menu.tsx",
+      "docPath": "public/docs/components/dropdown-menu.md",
+      "category": "Overlays & Surfaces",
+      "definingConstraint": "Preserves zero-jitter anchor alignment by keeping trigger buttons unscaled while presenting liquid glass action, checkbox, and radio menus.",
+      "whenToUse": [
+        "Compact overflow \"More\" menus, row action buttons, or profile menu actions.",
+        "Hierarchical action lists supporting toggleable checkboxes and radio view modes."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "select",
+          "reason": "Use Select when picking a value stored in form state."
+        },
+        {
+          "primitive": "popover",
+          "reason": "Use Popover when rendering interactive inputs, sliders, or custom panels."
+        }
+      ],
+      "anatomy": "<DropdownMenu>\n  <DropdownMenuTrigger className={buttonVariants({ variant: \"outline\" })}>Actions</DropdownMenuTrigger>\n  <DropdownMenuContent>\n    <DropdownMenuLabel>Workspace</DropdownMenuLabel>\n    <DropdownMenuItem>Export JSON</DropdownMenuItem>\n  </DropdownMenuContent>\n</DropdownMenu>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": [
+        "DropdownMenu",
+        "DropdownMenuCheckboxItem",
+        "DropdownMenuContent",
+        "DropdownMenuGroup",
+        "DropdownMenuItem",
+        "DropdownMenuLabel",
+        "DropdownMenuPortal",
+        "DropdownMenuRadioGroup",
+        "DropdownMenuRadioItem",
+        "DropdownMenuSeparator",
+        "DropdownMenuShortcut",
+        "DropdownMenuSub",
+        "DropdownMenuSubContent",
+        "DropdownMenuSubTrigger",
+        "DropdownMenuTrigger"
+      ]
+    },
+    "field": {
+      "path": "src/components/ui/field.tsx",
+      "docPath": "public/docs/components/field.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Connects accessible label, input control, helper description, and min-h-[1lh] error slots under shared Base UI invalid state IDs.",
+      "whenToUse": [
+        "Every form control requiring a visible label, validation message, or supporting hint.",
+        "Preventing vertical page jumps when error states toggle between valid and invalid."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "callout",
+          "reason": "Use Callout for page-level banners rather than per-input validation."
+        }
+      ],
+      "anatomy": "<Field invalid={Boolean(error)}>\n  <FieldLabel requiredIndicator>Workspace Slug</FieldLabel>\n  <Input value={slug} onChange={...} />\n  <FieldDescription>Lowercase URL identifier.</FieldDescription>\n  <FieldError match={Boolean(error)}>{error}</FieldError>\n</Field>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": ["Field", "FieldControl", "FieldDescription", "FieldError", "FieldLabel"]
+    },
+    "file-upload": {
+      "path": "src/components/ui/file-upload.tsx",
+      "docPath": "public/docs/components/file-upload.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Validates accepted MIME types and maximum byte size client-side inside an accessible drag-and-drop region backed by a visually hidden file input.",
+      "whenToUse": [
+        "Uploading JSON token themes, CSV datasets, images, or PDF reports with client validation.",
+        "Accepting dropped assets alongside explicit file dialogue fallback buttons."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "input",
+          "reason": "Use standard Input for short text strings or URLs."
+        }
+      ],
+      "anatomy": "<FileUpload title=\"Drop token preset\" description=\"JSON files up to 5MB\" accept=\".json\" onFilesSelected={handleFiles} />",
+      "dependencies": ["react"],
+      "exports": ["FileUpload", "formatAcceptedTypes", "formatFileSize"]
+    },
+    "hover-card": {
+      "path": "src/components/ui/hover-card.tsx",
+      "docPath": "public/docs/components/hover-card.md",
+      "category": "Overlays & Surfaces",
+      "definingConstraint": "Displays passive, non-essential supplementary reference details on pointer hover or link focus with gentle timing hysteresis.",
+      "whenToUse": [
+        "User profile cards, git commit previews, or token definitions hovering over inline anchors.",
+        "Read-only reference summaries enrichment over navigation links."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "tooltip",
+          "reason": "Use Tooltip for short plain-text key hints or icon button labels."
+        },
+        {
+          "primitive": "popover",
+          "reason": "Use Popover whenever content needs reliable click-open persistence on touch screens."
+        }
+      ],
+      "anatomy": "<HoverCard>\n  <HoverCardTrigger href=\"#spec\">@design-system</HoverCardTrigger>\n  <HoverCardContent>\n    <p className=\"text-xs\">57 verified primitives in OKLCH.</p>\n  </HoverCardContent>\n</HoverCard>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": ["HoverCard", "HoverCardContent", "HoverCardPortal", "HoverCardTrigger"]
     },
     "image": {
       "path": "src/components/ui/image.tsx",
-      "dependencies": ["motion"]
+      "docPath": "public/docs/components/image.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Eliminates cumulative layout shift by locking aspectRatio geometry upfront and cross-fading smoothly once decoded.",
+      "whenToUse": [
+        "Editorial photography, product screenshots, and media thumbnails inside cards or hero banners.",
+        "Aspect-locked media panels guaranteeing zero layout shift during async image decoding."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "avatar",
+          "reason": "Use Avatar for circular user or organisation portraits."
+        },
+        {
+          "primitive": "diagram-frame",
+          "reason": "Use DiagramFrame for interactive vector SVGs."
+        }
+      ],
+      "anatomy": "<ProgressiveImage src={assetSrc} alt=\"Verified surface specimen\" aspectRatio=\"16/9\" />",
+      "dependencies": ["lucide-react", "motion", "react"],
+      "exports": ["ProgressiveImage"]
+    },
+    "input": {
+      "path": "src/components/ui/input.tsx",
+      "docPath": "public/docs/components/input.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Maintains a minimum 16px base font size on mobile viewports (<640px) to stop iOS Safari auto-zoom while hugging focus rings cleanly at 1px.",
+      "whenToUse": [
+        "Single-line text, email, search, API key, or numeric form entry.",
+        "Search fields enhanced with leftIcon, rightIcon, prefixText, or suffixText add-ons."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "textarea",
+          "reason": "Use Textarea for multi-line prose, notes, or JSON payloads."
+        },
+        {
+          "primitive": "input-otp",
+          "reason": "Use InputOTP for fixed-length SMS or authenticator verification codes."
+        },
+        {
+          "primitive": "stepper",
+          "reason": "Use Stepper when users increment small integer counters step by step."
+        }
+      ],
+      "anatomy": "<Input inputSize=\"default\" leftIcon={<SearchIcon size={16} />} placeholder=\"Search tokens...\" />",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "react"],
+      "exports": ["Input", "inputVariants"]
+    },
+    "input-otp": {
+      "path": "src/components/ui/input-otp.tsx",
+      "docPath": "public/docs/components/input-otp.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Renders visual individual PIN character boxes over a single hidden accessible text input supporting one-paste autofill across all slots.",
+      "whenToUse": [
+        "Two-factor authenticator codes, email verification PINs, or SMS 6-digit passcodes.",
+        "Structured fixed-length token verification flows supporting clipboard auto-fill."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "input",
+          "reason": "Use standard Input for freeform passwords, usernames, or promo codes."
+        }
+      ],
+      "anatomy": "<InputOTP maxLength={6} aria-label=\"Verification code\">\n  <InputOTPGroup>\n    <InputOTPSlot index={0} />\n    <InputOTPSlot index={1} />\n    <InputOTPSlot index={2} />\n  </InputOTPGroup>\n  <InputOTPSeparator />\n  <InputOTPGroup>\n    <InputOTPSlot index={3} />\n    <InputOTPSlot index={4} />\n    <InputOTPSlot index={5} />\n  </InputOTPGroup>\n</InputOTP>",
+      "dependencies": ["motion", "react"],
+      "exports": ["InputOTP", "InputOTPGroup", "InputOTPSeparator", "InputOTPSlot"]
     },
     "kbd": {
       "path": "src/components/ui/kbd.tsx",
-      "dependencies": []
+      "docPath": "public/docs/components/kbd.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Styles tactile hardware keycap hints with uniform baseline height and tabular monospace glyph spacing.",
+      "whenToUse": [
+        "Documenting global keyboard shortcuts (`⌘K`, `⌘D`, `Escape`) inside buttons, menus, and docs.",
+        "Communicating hotkeys alongside CommandPalette or NavigationBar triggers."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "badge",
+          "reason": "Use Badge for runtime status pills such as Active or v2.0."
+        },
+        {
+          "primitive": "button",
+          "reason": "Use Button for clickable actions; Kbd is strictly non-interactive notation."
+        }
+      ],
+      "anatomy": "<div className=\"inline-flex items-center gap-1\"><Kbd>⌘</Kbd><Kbd>D</Kbd></div>",
+      "dependencies": ["react"],
+      "exports": ["Kbd"]
     },
-    "timeline": {
-      "path": "src/components/ui/timeline/index.ts",
-      "dependencies": ["motion"]
+    "markdown-toolbar": {
+      "path": "src/components/ui/markdown-toolbar/index.ts",
+      "docPath": "public/docs/components/markdown-toolbar.md",
+      "category": "Actions & Toggles",
+      "definingConstraint": "Coordinates rich Markdown insertion, line-prefix toggling, and table scaffolding while sanitising heading levels against existing line structures.",
+      "whenToUse": [
+        "Paired above a Markdown Textarea for technical notes, issue composers, or changelog editors.",
+        "When writers need keyboard-accessible heading, list, quote, link, and table formatting actions."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "toolbar",
+          "reason": "Use generic Toolbar for non-Markdown canvas tools or custom app button rows."
+        },
+        {
+          "primitive": "toggle-group",
+          "reason": "Use ToggleGroup for a small set of inline formatting flags."
+        }
+      ],
+      "anatomy": "<MarkdownToolbar textareaRef={textareaRef} viewMode={viewMode} onViewModeChange={setViewMode} aria-label=\"Markdown formatting\" />",
+      "dependencies": ["lucide-react", "react"],
+      "exports": [
+        "ActionButton",
+        "MarkdownToolbar",
+        "applyTextMutation",
+        "stripStructuralPrefix",
+        "useMarkdownToolbar"
+      ]
     },
-    "tree": {
-      "path": "src/components/ui/tree.tsx",
-      "dependencies": []
+    "navigation-bar": {
+      "path": "src/components/ui/navigation-bar/index.ts",
+      "docPath": "public/docs/components/navigation-bar.md",
+      "category": "Navigation & Menus",
+      "definingConstraint": "Prevents header text truncation and crowding using container queries, minimum 220px submenu columns, explicit popover width bases, and automatic overflow harvesting.",
+      "whenToUse": [
+        "Global top application headers combining branding, mega-menu flyouts, direct route links, and utility actions.",
+        "Responsive headers transitioning smoothly to a Sheet navigation drawer on narrow mobile screens."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "toolbar",
+          "reason": "Use Toolbar for scoped editor or canvas tool buttons."
+        },
+        {
+          "primitive": "doc-layout",
+          "reason": "Use DocSidebar inside DocLayout for multi-section vertical documentation trees."
+        }
+      ],
+      "anatomy": "<NavigationBar\n  brand={<span>Design System</span>}\n  items={navItems}\n  maxVisibleItems={4}\n  actions={<ThemeToggle isDark={isDark} onToggleDark={setIsDark} />}\n/>",
+      "dependencies": ["motion", "react"],
+      "exports": [
+        "NavActions",
+        "NavBrand",
+        "NavColumnsMenu",
+        "NavItem",
+        "NavItemLink",
+        "NavList",
+        "NavMegaMenu",
+        "NavMenuLink",
+        "NavSimpleMenu",
+        "NavigationBar",
+        "NavigationContext",
+        "useNavigation"
+      ]
     },
     "number-ticker": {
       "path": "src/components/ui/number-ticker.tsx",
-      "dependencies": ["motion"]
+      "docPath": "public/docs/components/number-ticker.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Interpolates numeric changes via calibrated spring deceleration while enforcing font-variant-numeric: tabular-nums so column digits never vibrate.",
+      "whenToUse": [
+        "Live KPI telemetry counters, build pass totals, contrast score indicators, and odometer readouts.",
+        "Tabular metric cards or Stepper value displays requiring smooth spring transitions."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "stepper",
+          "reason": "Use Stepper when users actively increment or decrement a numeric input."
+        },
+        {
+          "primitive": "progress",
+          "reason": "Use Progress when visualising completion towards a 100% bound."
+        }
+      ],
+      "anatomy": "<NumberTicker value={99.4} decimalPlaces={1} suffix=\"%\" />",
+      "dependencies": ["motion", "react"],
+      "exports": ["NumberTicker"]
+    },
+    "pagination": {
+      "path": "src/components/ui/pagination.tsx",
+      "docPath": "public/docs/components/pagination.md",
+      "category": "Navigation & Menus",
+      "definingConstraint": "Formats numeric page counters with tabular-nums and frames active pages via colour contrast rather than weight shifts so buttons never jitter across pages.",
+      "whenToUse": [
+        "Stepping through server-backed or large client collections split into deterministic pages.",
+        "Icon galleries, audit log tables, and search result sets."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "tabs",
+          "reason": "Use Tabs when switching between named categorical views rather than sequential pages."
+        },
+        {
+          "primitive": "stepper",
+          "reason": "Use Stepper for selecting numeric input quantities in forms."
+        }
+      ],
+      "anatomy": "<Pagination currentPage={page} totalPages={8} onPageChange={setPage} />",
+      "dependencies": ["motion", "react"],
+      "exports": [
+        "Pagination",
+        "PaginationContent",
+        "PaginationEllipsis",
+        "PaginationItem",
+        "PaginationLink",
+        "PaginationNext",
+        "PaginationNextIcon",
+        "PaginationPrevious",
+        "PaginationPreviousIcon",
+        "getPaginationItems"
+      ]
+    },
+    "popover": {
+      "path": "src/components/ui/popover.tsx",
+      "docPath": "public/docs/components/popover.md",
+      "category": "Overlays & Surfaces",
+      "definingConstraint": "Anchors non-modal interactive overlays with automatic viewport collision avoidance while letting outside clicks dismiss naturally.",
+      "whenToUse": [
+        "Date pickers, inline filter panels, share dialogues, or compact configuration forms.",
+        "Trigger-anchored interactive mini-panels that keep surrounding context visible."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "tooltip",
+          "reason": "Use Tooltip for static single-line micro-hints without interactive widgets."
+        },
+        {
+          "primitive": "dropdown-menu",
+          "reason": "Use DropdownMenu for uniform lists of commands."
+        },
+        {
+          "primitive": "dialog",
+          "reason": "Use Dialog when background interaction should be blocked modally."
+        }
+      ],
+      "anatomy": "<Popover>\n  <PopoverTrigger className={buttonVariants({ variant: \"outline\" })}>Configure</PopoverTrigger>\n  <PopoverContent>\n    <PopoverHeader>\n      <PopoverTitle>Grid Snap</PopoverTitle>\n      <PopoverDescription>Adjust snapping granularity.</PopoverDescription>\n    </PopoverHeader>\n  </PopoverContent>\n</Popover>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": [
+        "Popover",
+        "PopoverClose",
+        "PopoverContent",
+        "PopoverDescription",
+        "PopoverHeader",
+        "PopoverPortal",
+        "PopoverTitle",
+        "PopoverTrigger"
+      ]
     },
     "progress": {
       "path": "src/components/ui/progress.tsx",
-      "dependencies": ["@base-ui/react", "motion"]
+      "docPath": "public/docs/components/progress.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Translates percentage progress linearly or radially using compositor transforms rather than width reflows across smooth spring updates.",
+      "whenToUse": [
+        "File uploads, build pipeline stages, and bounded completion indicators (`0` to `100`).",
+        "Compact radial completion indicators using CircularProgress beside status labels."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "skeleton",
+          "reason": "Use Skeleton when awaiting unknown layout content instead of tracking percentage progress."
+        },
+        {
+          "primitive": "slider",
+          "reason": "Use Slider for user-controllable value selection."
+        }
+      ],
+      "anatomy": "<Progress value={72} aria-label=\"Bundle compilation\" />",
+      "dependencies": ["@base-ui/react", "motion", "react"],
+      "exports": ["CircularProgress", "Progress"]
     },
-    "skeleton": {
-      "path": "src/components/ui/skeleton.tsx",
-      "dependencies": []
+    "prop-table": {
+      "path": "src/components/ui/prop-table.tsx",
+      "docPath": "public/docs/components/prop-table.md",
+      "category": "Documentation & Schematics",
+      "definingConstraint": "Renders anti-crush TypeScript prop specifications inside a responsive Table using shrink-0 Required badges and tabular default indicators.",
+      "whenToUse": [
+        "Documenting exported TypeScript *Props interfaces extracted by AST or authored manually.",
+        "Comparing prop names, union type strings, default values, and Required flags cleanly."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "table",
+          "reason": "Use Table directly for operational datasets, metrics, or cluster ledgers."
+        }
+      ],
+      "anatomy": "<PropTable title=\"ButtonProps\" props={[{ name: \"variant\", type: '\"default\" | \"outline\"', defaultValue: '\"default\"', description: \"Selects visual button role.\" }]} />",
+      "dependencies": ["react"],
+      "exports": ["PropTable"]
     },
-    "toast": {
-      "path": "src/components/ui/toast.tsx",
-      "dependencies": ["motion"]
-    },
-    "accordion": {
-      "path": "src/components/ui/accordion.tsx",
-      "dependencies": ["@base-ui/react"]
+    "radio-group": {
+      "path": "src/components/ui/radio-group.tsx",
+      "docPath": "public/docs/components/radio-group.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Enforces single-choice mutual exclusion across visible options with arrow-key roving focus and a smooth spring indicator dot.",
+      "whenToUse": [
+        "Comparing 2 to 5 mutually exclusive choices where seeing all option descriptions side by side helps.",
+        "Billing tier selection, export formats, or deployment regions inside forms."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "select",
+          "reason": "Use Select when more than 5 options would clutter the layout."
+        },
+        {
+          "primitive": "segmented-control",
+          "reason": "Use SegmentedControl for immediate UI view switching outside form submission."
+        }
+      ],
+      "anatomy": "<RadioGroup value={plan} onValueChange={setPlan} aria-label=\"Plan tier\">\n  <label className=\"flex items-center gap-2\">\n    <RadioGroupItem value=\"starter\" />\n    <span>Starter</span>\n  </label>\n</RadioGroup>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": ["RadioGroup", "RadioGroupItem"]
     },
     "resizable": {
       "path": "src/components/ui/resizable.tsx",
-      "dependencies": []
+      "docPath": "public/docs/components/resizable.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Coordinates keyboard-adjustable (Arrow keys) and pointer-draggable split panes with percentage persistence inside zero-scroll layout boundaries.",
+      "whenToUse": [
+        "Side-by-side code and preview editors, log inspectors, and configurable split studios.",
+        "Desktop engineering workbenches where users adjust panel proportions interactively."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "doc-layout",
+          "reason": "Use DocLayout for structured fixed-measure reading documentation columns."
+        }
+      ],
+      "anatomy": "<ResizablePanelGroup direction=\"horizontal\" defaultSizes={[45, 55]}>\n  <ResizablePanel order={0} defaultSize={45}>Controls</ResizablePanel>\n  <ResizableHandle handleIndex={0} withHandle />\n  <ResizablePanel order={1} defaultSize={55}>Stage</ResizablePanel>\n</ResizablePanelGroup>",
+      "dependencies": ["react"],
+      "exports": ["ResizableHandle", "ResizablePanel", "ResizablePanelGroup"]
     },
     "scroll-area": {
       "path": "src/components/ui/scroll-area.tsx",
-      "dependencies": ["@base-ui/react"]
+      "docPath": "public/docs/components/scroll-area.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Provides uniform minimal custom scrollbars without disturbing content gutter symmetry across macOS, Windows, and Linux browsers.",
+      "whenToUse": [
+        "Bounded lists, command drawers, preview trees, and sticky sidebar navigation panels.",
+        "Compact scrollable regions preserving visual scrollbar styling across browsers."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "doc-layout",
+          "reason": "Let top-level document prose scroll naturally with the main browser viewport."
+        }
+      ],
+      "anatomy": "<ScrollArea className=\"h-36 w-full rounded-xl border p-3\">\n  <div className=\"space-y-2\">...</div>\n  <ScrollBar orientation=\"vertical\" />\n</ScrollArea>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": ["ScrollArea", "ScrollBar"]
+    },
+    "segmented-control": {
+      "path": "src/components/ui/segmented-control.tsx",
+      "docPath": "public/docs/components/segmented-control.md",
+      "category": "Actions & Toggles",
+      "definingConstraint": "Animates a single shared spring background pill across mutually exclusive tabs while keeping text weight frozen so labels never twitch horizontally.",
+      "whenToUse": [
+        "Switching immediately between 2 to 5 compact modes such as Preview/Code, Light/Dark, or billing cadence.",
+        "High-frequency view filters where all options remain visible at once."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "tabs",
+          "reason": "Use Tabs when switching full content panels with keyboard arrow activation."
+        },
+        {
+          "primitive": "radio-group",
+          "reason": "Use RadioGroup inside forms when choices submit with form data."
+        },
+        {
+          "primitive": "select",
+          "reason": "Use Select when there are more than 5 options."
+        }
+      ],
+      "anatomy": "<SegmentedControl value={mode} onValueChange={setMode} aria-label=\"View mode\">\n  <SegmentedControlItem value=\"preview\">Preview</SegmentedControlItem>\n  <SegmentedControlItem value=\"code\">Code</SegmentedControlItem>\n</SegmentedControl>",
+      "dependencies": ["motion", "react"],
+      "exports": ["SegmentedControl", "SegmentedControlItem"]
+    },
+    "select": {
+      "path": "src/components/ui/select.tsx",
+      "docPath": "public/docs/components/select.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Built on headless Base UI Select primitives with liquid glass overlay elevation and keyboard type-ahead selection without native browser inconsistencies.",
+      "whenToUse": [
+        "Selecting one fixed value from 5 to 15 compact choices inside forms or toolbars.",
+        "Choosing environment targets, locales, or categorical form fields without text search."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "combobox",
+          "reason": "Use Combobox when users need live text filtering over long option lists."
+        },
+        {
+          "primitive": "radio-group",
+          "reason": "Use RadioGroup when 2 to 4 choices benefit from being visible upfront."
+        },
+        {
+          "primitive": "dropdown-menu",
+          "reason": "Use DropdownMenu for triggering commands rather than picking a form value."
+        }
+      ],
+      "anatomy": "<Select value={region} onValueChange={setRegion}>\n  <SelectTrigger aria-label=\"Deployment region\">\n    <SelectValue placeholder=\"Choose region\" />\n  </SelectTrigger>\n  <SelectContent>\n    <SelectItem value=\"lon\">London (eu-west-2)</SelectItem>\n  </SelectContent>\n</Select>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": [
+        "Select",
+        "SelectContent",
+        "SelectGroup",
+        "SelectGroupLabel",
+        "SelectItem",
+        "SelectSeparator",
+        "SelectTrigger",
+        "SelectValue"
+      ]
+    },
+    "sheet": {
+      "path": "src/components/ui/sheet.tsx",
+      "docPath": "public/docs/components/sheet.md",
+      "category": "Overlays & Surfaces",
+      "definingConstraint": "Slides an edge-docked panel (top, right, bottom, or left) over the viewport while trapping focus and keeping liquid backdrop blur coherent.",
+      "whenToUse": [
+        "Theme Studios, audit inspectors, notification feeds, or responsive mobile navigation drawers.",
+        "Detail views requiring full viewport height alongside scrollable bodies and pinned footers."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "dialog",
+          "reason": "Use Dialog for compact centred confirmation or creation forms."
+        },
+        {
+          "primitive": "drawer",
+          "reason": "Use Drawer specifically for swipe-gestured bottom sheets on touch devices."
+        }
+      ],
+      "anatomy": "<Sheet>\n  <SheetTrigger className={buttonVariants({ variant: \"outline\" })}>Inspect Logs</SheetTrigger>\n  <SheetContent side=\"right\">\n    <SheetHeader>\n      <SheetTitle>Cluster Telemetry</SheetTitle>\n      <SheetDescription>Live event stream across edge regions.</SheetDescription>\n    </SheetHeader>\n  </SheetContent>\n</Sheet>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": [
+        "Sheet",
+        "SheetBackdrop",
+        "SheetClose",
+        "SheetContent",
+        "SheetDescription",
+        "SheetFooter",
+        "SheetHeader",
+        "SheetPortal",
+        "SheetTitle",
+        "SheetTrigger"
+      ]
+    },
+    "skeleton": {
+      "path": "src/components/ui/skeleton.tsx",
+      "docPath": "public/docs/components/skeleton.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Mirrors the exact target component geometry before hydration or async data resolves to maintain zero Cumulative Layout Shift (CLS).",
+      "whenToUse": [
+        "Initial loading states matching exact card, text row, or avatar proportions.",
+        "Async route transitions needing zero-CLS placeholders until streamed data arrives."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "progress",
+          "reason": "Use Progress when exact completion percentage of a known operation can be reported."
+        }
+      ],
+      "anatomy": "<div className=\"flex items-center gap-3\">\n  <Skeleton className=\"size-10 rounded-full\" />\n  <div className=\"space-y-2\">\n    <Skeleton className=\"h-4 w-40\" />\n    <Skeleton className=\"h-3 w-24\" />\n  </div>\n</div>",
+      "dependencies": ["react"],
+      "exports": ["Skeleton"]
+    },
+    "slider": {
+      "path": "src/components/ui/slider.tsx",
+      "docPath": "public/docs/components/slider.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Locks track height while gliding single or dual thumbs along direct pointer scrub gestures with tabular numeric value readouts.",
+      "whenToUse": [
+        "Adjusting continuous numeric coordinates such as OKLCH lightness, chroma, opacity, or min/max price ranges.",
+        "Interactive visual inspection controls where live preview feedback responds immediately."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "stepper",
+          "reason": "Use Stepper when users increment discrete integer quantities accurately by +1/-1."
+        },
+        {
+          "primitive": "input",
+          "reason": "Use Input when exact typed digits matter more than visual scrub speed."
+        }
+      ],
+      "anatomy": "<Slider aria-label=\"Chroma intensity\" value={chroma} onValueChange={setChroma} min={0} max={100} />",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": ["Slider"]
+    },
+    "stepper": {
+      "path": "src/components/ui/stepper.tsx",
+      "docPath": "public/docs/components/stepper.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Combines hold-to-accelerate increment/decrement repeat buttons with a tabular sliding NumberTicker readout so multi-digit transitions never shift layout.",
+      "whenToUse": [
+        "Adjusting discrete counts such as seat count, retry attempts, or replica counts.",
+        "Spin-button numeric inputs benefiting from hold-to-accelerate progression."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "slider",
+          "reason": "Use Slider for fast continuous percentage or coordinate tuning."
+        },
+        {
+          "primitive": "input",
+          "reason": "Use Input when users type arbitrary numbers such as ports or prices."
+        }
+      ],
+      "anatomy": "<Stepper value={replicas} onValueChange={setReplicas} min={1} max={16}>\n  <Stepper.Decrement aria-label=\"Decrease replicas\" />\n  <Stepper.Value />\n  <Stepper.Increment aria-label=\"Increase replicas\" />\n</Stepper>",
+      "dependencies": ["react"],
+      "exports": [
+        "Stepper",
+        "StepperControls",
+        "StepperDecrement",
+        "StepperIncrement",
+        "StepperRoot",
+        "StepperValue",
+        "useStepperContext"
+      ]
+    },
+    "switch": {
+      "path": "src/components/ui/switch.tsx",
+      "docPath": "public/docs/components/switch.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Pairs an instant spring thumb travel inside a 44px accessible touch target with subtle active pill elongation on pointerdown.",
+      "whenToUse": [
+        "Immediate on/off settings toggles that apply live without submitting a form.",
+        "Preference rows pairing concise labels with binary system feature flags."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "checkbox",
+          "reason": "Use Checkbox inside forms that commit only on submit or in multi-select lists."
+        },
+        {
+          "primitive": "toggle",
+          "reason": "Use Toggle inside compact icon toolbars."
+        }
+      ],
+      "anatomy": "<label className=\"inline-flex items-center gap-3\">\n  <Switch checked={enabled} onCheckedChange={setEnabled} aria-label=\"Live contrast gate\" />\n  <span>Live Contrast Gate</span>\n</label>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": ["Switch"]
+    },
+    "table": {
+      "path": "src/components/ui/table.tsx",
+      "docPath": "public/docs/components/table.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Pairs quiet hairline row dividers and subtle sticky headers with numeric={true} right-aligned tabular-nums cells so dense columns align accurately.",
+      "whenToUse": [
+        "Comparable multi-column datasets, token ledgers, telemetry metrics, and API audit trails.",
+        "Structured rows combining tabular-nums metrics with aligned status badges."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "prop-table",
+          "reason": "Use PropTable when documenting component TypeScript props specifically."
+        },
+        {
+          "primitive": "timeline",
+          "reason": "Use Timeline for narrative chronological event streams."
+        }
+      ],
+      "anatomy": "<Table>\n  <TableHeader><TableRow><TableHead>Region</TableHead><TableHead numeric>Latency</TableHead></TableRow></TableHeader>\n  <TableBody><TableRow><TableCell>eu-west-2</TableCell><TableCell numeric>14 ms</TableCell></TableRow></TableBody>\n</Table>",
+      "dependencies": ["react"],
+      "exports": [
+        "Table",
+        "TableBody",
+        "TableCaption",
+        "TableCell",
+        "TableFooter",
+        "TableHead",
+        "TableHeader",
+        "TableRow"
+      ]
+    },
+    "tabs": {
+      "path": "src/components/ui/tabs.tsx",
+      "docPath": "public/docs/components/tabs.md",
+      "category": "Navigation & Menus",
+      "definingConstraint": "Glides a spring-physics layout indicator across full-panel navigation triggers while locking label font weight across inactive and active states.",
+      "whenToUse": [
+        "Switching between distinct multi-control panels (Account, Billing, Telemetry) at the same hierarchy level.",
+        "Organising complex configuration studios without forcing full page navigation."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "segmented-control",
+          "reason": "Use SegmentedControl for compact inline pills or viewport/mode toggles."
+        },
+        {
+          "primitive": "accordion",
+          "reason": "Use Accordion when users benefit from expanding multiple vertical sections concurrently."
+        }
+      ],
+      "anatomy": "<Tabs defaultValue=\"tokens\">\n  <TabsList>\n    <TabsIndicator />\n    <TabsTrigger value=\"tokens\">Tokens</TabsTrigger>\n    <TabsTrigger value=\"motion\">Motion</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"tokens\">...</TabsContent>\n</Tabs>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": ["Tabs", "TabsContent", "TabsIndicator", "TabsList", "TabsTrigger"]
+    },
+    "textarea": {
+      "path": "src/components/ui/textarea.tsx",
+      "docPath": "public/docs/components/textarea.md",
+      "category": "Forms & Input",
+      "definingConstraint": "Preserves flush 1px border-hugging focus contrast and mobile 16px zoom protection across arbitrary multi-line prose heights.",
+      "whenToUse": [
+        "Comments, system prompts, multi-line release notes, or structured descriptions.",
+        "Markdown authoring areas paired directly beneath MarkdownToolbar."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "input",
+          "reason": "Use Input for single-line values such as titles or email addresses."
+        }
+      ],
+      "anatomy": "<Field>\n  <FieldLabel>Release Summary</FieldLabel>\n  <Textarea rows={4} placeholder=\"Summarise architectural changes...\" />\n</Field>",
+      "dependencies": ["react"],
+      "exports": ["Textarea"]
+    },
+    "theme-toggle": {
+      "path": "src/components/ui/theme-toggle.tsx",
+      "docPath": "public/docs/components/theme-toggle.md",
+      "category": "Actions & Toggles",
+      "definingConstraint": "Switches document light and dark colour classes while temporarily disabling CSS transitions so sibling surfaces do not smear across themes.",
+      "whenToUse": [
+        "Top navigation bars, settings headers, or workbench rails offering instant polarity switching.",
+        "Restoring persistent dark or light class selection synchronised across sessions."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "switch",
+          "reason": "Use Switch for generic boolean preferences inside forms."
+        },
+        {
+          "primitive": "segmented-control",
+          "reason": "Use SegmentedControl when exposing three modes such as Light, Dark, and System."
+        }
+      ],
+      "anatomy": "<ThemeToggle isDark={isDark} onToggleDark={setIsDark} />",
+      "dependencies": ["react"],
+      "exports": ["ThemeToggle"]
+    },
+    "timeline": {
+      "path": "src/components/ui/timeline/index.ts",
+      "docPath": "public/docs/components/timeline.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Connects chronological milestones using compositor-pure pulse nodes and continuous vertical connector stems with zero paint-filter repaints.",
+      "whenToUse": [
+        "Deployment pipelines, git commit histories, audit logs, and workflow execution traces.",
+        "Ordered milestone feeds mixing avatar actors, commit hashes, and live status nodes."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "table",
+          "reason": "Use Table when comparing flat tabular fields across many uniform records."
+        },
+        {
+          "primitive": "accordion",
+          "reason": "Use Accordion for static Q&A disclosure sections."
+        }
+      ],
+      "anatomy": "<Timeline>\n  <TimelineItem>\n    <TimelineIndicator status=\"success\" />\n    <TimelineConnector />\n    <TimelineContent>\n      <TimelineTitle>Checks Passed</TimelineTitle>\n      <TimelineDescription>61 test suites green.</TimelineDescription>\n    </TimelineContent>\n  </TimelineItem>\n</Timeline>",
+      "dependencies": ["react"],
+      "exports": [
+        "Timeline",
+        "TimelineActionNode",
+        "TimelineAvatarNode",
+        "TimelineBody",
+        "TimelineCommitNode",
+        "TimelineConnector",
+        "TimelineContent",
+        "TimelineContext",
+        "TimelineDescription",
+        "TimelineDotNode",
+        "TimelineFooter",
+        "TimelineHeader",
+        "TimelineHeartbeatNode",
+        "TimelineIconNode",
+        "TimelineIndicator",
+        "TimelineItem",
+        "TimelineNode",
+        "TimelineProgressNode",
+        "TimelinePulseNode",
+        "TimelineStepNode",
+        "TimelineTime",
+        "TimelineTitle",
+        "getConnectorTrackClass",
+        "useTimeline"
+      ]
+    },
+    "toast": {
+      "path": "src/components/ui/toast.tsx",
+      "docPath": "public/docs/components/toast.md",
+      "category": "Overlays & Surfaces",
+      "definingConstraint": "Delivers non-blocking status feedback anchored outside flow layout with an optional 5-second reversible undo trigger via ToastProvider and useToast.",
+      "whenToUse": [
+        "Confirming background saves, exports, copies, or reversible item removals.",
+        "Surfacing asynchronous deployment completion without interrupting active typing."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "alert-dialog",
+          "reason": "Use AlertDialog before irreversible actions rather than apologising in a Toast afterwards."
+        },
+        {
+          "primitive": "callout",
+          "reason": "Use Callout for persistent inline page guidance or validation rules."
+        }
+      ],
+      "anatomy": "<ToastProvider>\n  <ConsumerUsingUseToast />\n</ToastProvider>",
+      "dependencies": ["lucide-react", "motion", "react"],
+      "exports": ["ToastProvider", "useToast"]
+    },
+    "toggle": {
+      "path": "src/components/ui/toggle.tsx",
+      "docPath": "public/docs/components/toggle.md",
+      "category": "Actions & Toggles",
+      "definingConstraint": "Maintains identical perimeter geometry across pressed and unpressed states using background surface contrast and aria-pressed semantics.",
+      "whenToUse": [
+        "Independent two-state toolbar buttons such as Bold, Italic, Pin, or Mute.",
+        "Immediate active/inactive mode switches without form submit steps."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "switch",
+          "reason": "Use Switch when labelling a settings option row with on/off meaning."
+        },
+        {
+          "primitive": "button",
+          "reason": "Use Button for one-shot commands rather than stateful latching controls."
+        }
+      ],
+      "anatomy": "<Toggle pressed={muted} onPressedChange={setMuted} variant=\"outline\" aria-label=\"Mute alerts\">\n  Muted\n</Toggle>",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "react"],
+      "exports": ["Toggle", "toggleVariants"],
+      "variants": ["default", "outline", "surface"],
+      "sizes": ["sm", "default", "lg"]
+    },
+    "toggle-group": {
+      "path": "src/components/ui/toggle-group.tsx",
+      "docPath": "public/docs/components/toggle-group.md",
+      "category": "Actions & Toggles",
+      "definingConstraint": "Distributes shared variant and size context plus roving arrow-key navigation across a related set of Toggle buttons.",
+      "whenToUse": [
+        "Grouping 2 to 5 compact formatting or alignment options (left, centre, right).",
+        "Allowing either single or multiple simultaneous active toggle flags in a compact bar."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "segmented-control",
+          "reason": "Use SegmentedControl for sliding pill single-view switchers."
+        },
+        {
+          "primitive": "radio-group",
+          "reason": "Use RadioGroup inside labelled forms."
+        }
+      ],
+      "anatomy": "<ToggleGroup value={align} onValueChange={setAlign} variant=\"surface\">\n  <Toggle value=\"left\" aria-label=\"Align left\" />\n  <Toggle value=\"center\" aria-label=\"Align centre\" />\n</ToggleGroup>",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "react"],
+      "exports": ["ToggleGroup", "useToggleGroup"]
+    },
+    "toolbar": {
+      "path": "src/components/ui/toolbar.tsx",
+      "docPath": "public/docs/components/toolbar.md",
+      "category": "Actions & Toggles",
+      "definingConstraint": "Unifies multiple button groups, links, and toggle clusters into a single composite ARIA toolbar with single-tab-stop arrow navigation.",
+      "whenToUse": [
+        "Desktop canvas action rails combining standalone action buttons, separators, and inline toggles.",
+        "Editor headers grouping related formatting and alignment controls."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "markdown-toolbar",
+          "reason": "Use MarkdownToolbar specifically when editing Markdown strings."
+        },
+        {
+          "primitive": "navigation-bar",
+          "reason": "Use NavigationBar for global site route headers and flyout menus."
+        }
+      ],
+      "anatomy": "<Toolbar aria-label=\"Canvas actions\">\n  <ToolbarGroup>\n    <ToolbarButton aria-label=\"Inspect\">Inspect</ToolbarButton>\n  </ToolbarGroup>\n  <ToolbarSeparator />\n  <ToolbarToggleGroup>\n    <ToolbarToggleItem value=\"grid\">Grid</ToolbarToggleItem>\n  </ToolbarToggleGroup>\n</Toolbar>",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "react"],
+      "exports": [
+        "Toolbar",
+        "ToolbarButton",
+        "ToolbarGroup",
+        "ToolbarLink",
+        "ToolbarSeparator",
+        "ToolbarToggleGroup",
+        "ToolbarToggleItem",
+        "toolbarButtonVariants",
+        "toolbarVariants",
+        "useToolbar"
+      ],
+      "variants": ["default", "floating", "outline", "surface", "ghost"],
+      "sizes": ["sm", "default", "lg", "xs"]
+    },
+    "tooltip": {
+      "path": "src/components/ui/tooltip.tsx",
+      "docPath": "public/docs/components/tooltip.md",
+      "category": "Overlays & Surfaces",
+      "definingConstraint": "Presents micro plain-text clarifications on icon buttons and keyboard shortcuts within a shared TooltipProvider warmup window.",
+      "whenToUse": [
+        "Explaining icon-only controls, displaying keyboard shortcuts (`⌘K`), or clarifying truncated telemetry codes.",
+        "Lightweight micro-hints on hover or keyboard focus without adding visible chrome."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "popover",
+          "reason": "Use Popover if the overlay contains clickable links, buttons, or controls."
+        },
+        {
+          "primitive": "hover-card",
+          "reason": "Use HoverCard for rich multi-line preview panels anchored to links."
+        }
+      ],
+      "anatomy": "<TooltipProvider delay={150}>\n  <Tooltip>\n    <TooltipTrigger aria-label=\"Show help\" className={buttonVariants({ size: \"icon-sm\", variant: \"ghost\" })}>?</TooltipTrigger>\n    <TooltipContent>Inspect shortcut</TooltipContent>\n  </Tooltip>\n</TooltipProvider>",
+      "dependencies": ["@base-ui/react", "react"],
+      "exports": ["Tooltip", "TooltipContent", "TooltipPortal", "TooltipProvider", "TooltipTrigger"]
+    },
+    "tree": {
+      "path": "src/components/ui/tree.tsx",
+      "docPath": "public/docs/components/tree.md",
+      "category": "Data & Feedback",
+      "definingConstraint": "Renders recursive hierarchical file and symbol trees with spring branch expansion, explicit ARIA treeitem levels, and full arrow-key navigation.",
+      "whenToUse": [
+        "File explorers, design token hierarchy browsers, and nested symbol directories.",
+        "Expandable directory structures navigable with keyboard arrow keys."
+      ],
+      "whenNotToUse": [
+        {
+          "primitive": "accordion",
+          "reason": "Use Accordion for flat one-level disclosure panels."
+        },
+        {
+          "primitive": "breadcrumb",
+          "reason": "Use Breadcrumb for linear active path breadcrumbs."
+        }
+      ],
+      "anatomy": "<Tree data={nodes} defaultExpandedIds={[\"src\"]} onSelectNode={handleSelect} />",
+      "dependencies": ["react"],
+      "exports": ["Tree"]
     }
   }
 }
