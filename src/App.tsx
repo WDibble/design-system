@@ -10,7 +10,9 @@ import {
   ServerIcon,
   PaletteIcon,
   CompassIcon,
+  BookTextIcon,
 } from "@/components/icons";
+import { DocsPortalPage } from "@/pages/docs";
 import { PrinciplesPage } from "@/pages/principles";
 import { WorkbenchPage, getDemoNavItems } from "@/pages/workbench";
 import { Button } from "@/components/ui/button";
@@ -43,6 +45,9 @@ function AppContent() {
     if (path === "/principles" || hash === "#principles" || hash === "#/principles") {
       return "/principles";
     }
+    if (path === "/docs" || hash === "#docs" || hash === "#/docs") {
+      return "/docs";
+    }
     return "/";
   });
 
@@ -63,6 +68,8 @@ function AppContent() {
       const hash = window.location.hash;
       if (path === "/principles" || hash === "#principles" || hash === "#/principles") {
         setCurrentPath("/principles");
+      } else if (path === "/docs" || hash === "#docs" || hash === "#/docs") {
+        setCurrentPath("/docs");
       } else {
         setCurrentPath("/");
       }
@@ -81,6 +88,10 @@ function AppContent() {
       window.history.pushState({}, "", "/principles");
       setCurrentPath("/principles");
       window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (to === "/docs") {
+      window.history.pushState({}, "", "/docs");
+      setCurrentPath("/docs");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       window.history.pushState({}, "", "/");
       setCurrentPath("/");
@@ -88,7 +99,7 @@ function AppContent() {
     }
   }, []);
 
-  // Global keyboard shortcuts (⌘K for command dialog, ⌘P for principles)
+  // Global keyboard shortcuts (⌘K command dialog, ⌘P principles, ⌘D docs portal)
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -97,6 +108,9 @@ function AppContent() {
       } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "p") {
         e.preventDefault();
         navigateTo(currentPath === "/principles" ? "/" : "/principles");
+      } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "d") {
+        e.preventDefault();
+        navigateTo(currentPath === "/docs" ? "/" : "/docs");
       }
     };
 
@@ -221,6 +235,8 @@ function AppContent() {
         <main id="main-content" tabIndex={-1} className="flex flex-col gap-10 outline-none">
           {currentPath === "/principles" ? (
             <PrinciplesPage onBackToWorkbench={() => navigateTo("/")} />
+          ) : currentPath === "/docs" ? (
+            <DocsPortalPage onBackToWorkbench={() => navigateTo("/")} />
           ) : (
             <WorkbenchPage
               isDark={isDark}
@@ -237,6 +253,16 @@ function AppContent() {
           <CommandList>
             <CommandEmpty />
             <CommandGroup heading="Platform Navigation">
+              <CommandItem
+                onSelect={() => {
+                  setCommandOpen(false);
+                  navigateTo("/docs");
+                }}
+              >
+                <BookTextIcon size={14} />
+                <span>Open Documentation Portal</span>
+                <CommandShortcut>⌘D</CommandShortcut>
+              </CommandItem>
               <CommandItem
                 onSelect={() => {
                   setCommandOpen(false);
@@ -289,7 +315,7 @@ function AppContent() {
               >
                 <ZapIcon size={14} />
                 <span>Instant Edge Deploy</span>
-                <CommandShortcut>⌘D</CommandShortcut>
+                <CommandShortcut>⌘E</CommandShortcut>
               </CommandItem>
             </CommandGroup>
             <CommandSeparator />

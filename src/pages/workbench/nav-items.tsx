@@ -30,7 +30,7 @@ export function getDemoNavItems(navigateTo: (path: string) => void): NavItemConf
       links: [
         {
           title: "UI Primitives",
-          description: "37 accessible compound components",
+          description: "57 accessible compound components",
           href: "#primitives",
           icon: <LayersIcon size={16} />,
           badge: "v2.0",
@@ -71,9 +71,13 @@ export function getDemoNavItems(navigateTo: (path: string) => void): NavItemConf
             },
             {
               title: "Compound Patterns",
-              description: "Headless Base UI composition",
-              href: "#docs",
+              description: "Headless Base UI composition and API reference",
+              href: "/docs",
               icon: <CpuIcon size={16} />,
+              onClick: (e) => {
+                e.preventDefault();
+                navigateTo("/docs");
+              },
             },
             {
               title: "Fluid Layouts",
@@ -144,7 +148,11 @@ export function getDemoNavItems(navigateTo: (path: string) => void): NavItemConf
     },
     {
       label: "Docs",
-      href: "#documentation",
+      href: "/docs",
+      onClick: (e) => {
+        e.preventDefault();
+        navigateTo("/docs");
+      },
     },
     {
       label: "Pricing",
